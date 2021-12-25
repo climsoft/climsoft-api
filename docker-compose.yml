@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  climsoft_api:
+    image: climsoft_api:0.1.0
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: climsoft_api
+    ports:
+      - "5080:5000"
+    environment:
+      - CLIMSOFT_SECRET_KEY=*93uuasdjfojalsdf832or;aljfpo2upo
+      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@climsoftdb:3306/climsoft
+    depends_on:
+      - climsoftdb
+    volumes:
+      - .:/code
+    networks:
+      - climsoft_api_dev_network
+    command:
+      [
+        "uvicorn",
+        "climsoft_api.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "5000",
+        "--reload",
+        "--use-colors",
+      ]
+
+  climsoftdb:
+    image: mariadb:10.1
+    container_name: climsoftdb
+    ports:
+      - "23306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=climsoft
+    networks:
+      - climsoft_api_dev_network
+    volumes:
+      - climsoftdb_data:/var/lib/mysql
+
+
+volumes:
+  climsoftdb_data:
+
+networks:
+  climsoft_api_dev_network:

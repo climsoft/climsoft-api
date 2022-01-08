@@ -8,9 +8,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get(
-    "/physical-features", response_model=physicalfeature_schema.PhysicalFeatureResponse
-)
+@router.get("/", response_model=physicalfeature_schema.PhysicalFeatureResponse)
 def get_physical_feature(
     associated_with: str = None,
     begin_date: str = None,
@@ -43,7 +41,7 @@ def get_physical_feature(
 
 
 @router.get(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
+    "/{associated_with}/{begin_date}/{classified_into}/{description}",
     response_model=physicalfeature_schema.PhysicalFeatureWithStationAndPhysicalFeatureClassResponse,
 )
 def get_physical_feature_by_id(
@@ -70,9 +68,7 @@ def get_physical_feature_by_id(
         return get_error_response(message=str(e))
 
 
-@router.post(
-    "/physical-features", response_model=physicalfeature_schema.PhysicalFeatureResponse
-)
+@router.post("/", response_model=physicalfeature_schema.PhysicalFeatureResponse)
 def create_physical_feature(
     data: physicalfeature_schema.CreatePhysicalFeature,
     db_session: Session = Depends(deps.get_session),
@@ -87,7 +83,7 @@ def create_physical_feature(
 
 
 @router.put(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
+    "/{associated_with}/{begin_date}/{classified_into}/{description}",
     response_model=physicalfeature_schema.PhysicalFeatureResponse,
 )
 def update_physical_feature(
@@ -117,7 +113,7 @@ def update_physical_feature(
 
 
 @router.delete(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
+    "/{associated_with}/{begin_date}/{classified_into}/{description}",
     response_model=physicalfeature_schema.PhysicalFeatureResponse,
 )
 def delete_physical_feature(

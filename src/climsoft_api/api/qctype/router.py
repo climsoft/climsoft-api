@@ -8,7 +8,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/qc-types", response_model=qctype_schema.QCTypeResponse)
+@router.get("/", response_model=qctype_schema.QCTypeResponse)
 def get_qc_types(
     code: str = None,
     description: str = None,
@@ -32,7 +32,7 @@ def get_qc_types(
         return get_error_response(message=str(e))
 
 
-@router.get("/qc-types/{code}", response_model=qctype_schema.QCTypeResponse)
+@router.get("/{code}", response_model=qctype_schema.QCTypeResponse)
 def get_qc_type_by_id(code: str, db_session: Session = Depends(deps.get_session)):
     try:
         return get_success_response(
@@ -43,7 +43,7 @@ def get_qc_type_by_id(code: str, db_session: Session = Depends(deps.get_session)
         return get_error_response(message=str(e))
 
 
-@router.post("/qc-types", response_model=qctype_schema.QCTypeResponse)
+@router.post("/", response_model=qctype_schema.QCTypeResponse)
 def create_qc_type(
     data: qctype_schema.CreateQCType, db_session: Session = Depends(deps.get_session)
 ):
@@ -56,7 +56,7 @@ def create_qc_type(
         return get_error_response(message=str(e))
 
 
-@router.put("/qc-types/{code}", response_model=qctype_schema.QCTypeResponse)
+@router.put("/{code}", response_model=qctype_schema.QCTypeResponse)
 def update_qc_type(
     code: str,
     data: qctype_schema.UpdateQCType,
@@ -73,7 +73,7 @@ def update_qc_type(
         return get_error_response(message=str(e))
 
 
-@router.delete("/qc-types/{code}", response_model=qctype_schema.QCTypeResponse)
+@router.delete("/{code}", response_model=qctype_schema.QCTypeResponse)
 def delete_qc_type(code: str, db_session: Session = Depends(deps.get_session)):
     try:
         qctype_service.delete(db_session=db_session, code=code)

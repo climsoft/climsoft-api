@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/station-location-histories",
+    "/",
     response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
 )
 def get_station_location_history(
@@ -57,7 +57,7 @@ def get_station_location_history(
 
 
 @router.get(
-    "/station-location-histories/{belongs_to}/{opening_datetime}",
+    "/{belongs_to}/{opening_datetime}",
     response_model=stationlocationhistory_schema.StationLocationHistoryWithStationResponse,
 )
 def get_station_location_history_by_id(
@@ -81,7 +81,7 @@ def get_station_location_history_by_id(
 
 
 @router.post(
-    "/station-location-histories",
+    "/",
     response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
 )
 def create_station_location_history(
@@ -100,7 +100,7 @@ def create_station_location_history(
 
 
 @router.put(
-    "/station-location-histories/{belongs_to}/{opening_datetime}",
+    "/{belongs_to}/{opening_datetime}",
     response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
 )
 def update_station_location_history(
@@ -126,7 +126,7 @@ def update_station_location_history(
 
 
 @router.delete(
-    "/station-location-histories/{belongs_to}/{opening_datetime}",
+    "/{belongs_to}/{opening_datetime}",
     response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
 )
 def delete_station_location_history(

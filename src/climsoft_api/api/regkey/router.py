@@ -8,7 +8,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/reg-keys", response_model=regkey_schema.RegKeyResponse)
+@router.get("/", response_model=regkey_schema.RegKeyResponse)
 def get_reg_keys(
     key_name: str = None,
     key_value: str = None,
@@ -34,7 +34,7 @@ def get_reg_keys(
         return get_error_response(message=str(e))
 
 
-@router.get("/reg-keys/{key_name}", response_model=regkey_schema.RegKeyResponse)
+@router.get("/{key_name}", response_model=regkey_schema.RegKeyResponse)
 def get_reg_key_by_id(key_name: str, db_session: Session = Depends(deps.get_session)):
     try:
         return get_success_response(
@@ -45,7 +45,7 @@ def get_reg_key_by_id(key_name: str, db_session: Session = Depends(deps.get_sess
         return get_error_response(message=str(e))
 
 
-@router.post("/reg-keys", response_model=regkey_schema.RegKeyResponse)
+@router.post("/", response_model=regkey_schema.RegKeyResponse)
 def create_reg_key(
     data: regkey_schema.CreateRegKey, db_session: Session = Depends(deps.get_session)
 ):
@@ -58,7 +58,7 @@ def create_reg_key(
         return get_error_response(message=str(e))
 
 
-@router.put("/reg-keys/{key_name}", response_model=regkey_schema.RegKeyResponse)
+@router.put("/{key_name}", response_model=regkey_schema.RegKeyResponse)
 def update_reg_key(
     key_name: str,
     data: regkey_schema.UpdateRegKey,
@@ -77,7 +77,7 @@ def update_reg_key(
         return get_error_response(message=str(e))
 
 
-@router.delete("/reg-keys/{key_name}", response_model=regkey_schema.RegKeyResponse)
+@router.delete("/{key_name}", response_model=regkey_schema.RegKeyResponse)
 def delete_reg_key(key_name: str, db_session: Session = Depends(deps.get_session)):
     try:
         regkey_service.delete(db_session=db_session, key_name=key_name)

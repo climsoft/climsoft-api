@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/qc-status-definitions",
+    "/",
     response_model=qcstatusdefinition_schema.QCStatusDefinitionResponse,
 )
 def get_qc_status_definitions(
@@ -37,7 +37,7 @@ def get_qc_status_definitions(
 
 
 @router.get(
-    "/qc-status-definitions/{code}",
+    "/{code}",
     response_model=qcstatusdefinition_schema.QCStatusDefinitionResponse,
 )
 def get_qc_status_definition_by_id(
@@ -53,7 +53,7 @@ def get_qc_status_definition_by_id(
 
 
 @router.post(
-    "/qc-status-definitions",
+    "/",
     response_model=qcstatusdefinition_schema.QCStatusDefinitionResponse,
 )
 def create_qc_status_definition(
@@ -72,7 +72,7 @@ def create_qc_status_definition(
 
 
 @router.put(
-    "/qc-status-definitions/{code}",
+    "/{code}",
     response_model=qcstatusdefinition_schema.QCStatusDefinitionResponse,
 )
 def update_qc_status_definition(
@@ -94,7 +94,7 @@ def update_qc_status_definition(
 
 
 @router.delete(
-    "/qc-status-definitions/{code}",
+    "/{code}",
     response_model=qcstatusdefinition_schema.QCStatusDefinitionResponse,
 )
 def delete_qc_status_definition(

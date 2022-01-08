@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/physical-feature-class",
+    "/",
     response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
 )
 def get_physical_feature_class(
@@ -39,7 +39,7 @@ def get_physical_feature_class(
 
 
 @router.get(
-    "/physical-feature-class/{feature_class}",
+    "/{feature_class}",
     response_model=physicalfeatureclass_schema.PhysicalFeatureClassWithStationResponse,
 )
 def get_physical_feature_class_by_id(
@@ -59,7 +59,7 @@ def get_physical_feature_class_by_id(
 
 
 @router.post(
-    "/physical-feature-class",
+    "/",
     response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
 )
 def create_physical_feature_class(
@@ -78,7 +78,7 @@ def create_physical_feature_class(
 
 
 @router.put(
-    "/physical-feature-class/{feature_class}",
+    "/{feature_class}",
     response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
 )
 def update_physical_feature_class(
@@ -100,7 +100,7 @@ def update_physical_feature_class(
 
 
 @router.delete(
-    "/physical-feature-class/{feature_class}",
+    "/{feature_class}",
     response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
 )
 def delete_physical_feature_class(

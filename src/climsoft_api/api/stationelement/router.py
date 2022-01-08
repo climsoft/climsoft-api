@@ -8,9 +8,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get(
-    "/station-elements", response_model=stationelement_schema.StationElementResponse
-)
+@router.get("/", response_model=stationelement_schema.StationElementResponse)
 def get_station_elements(
     recorded_from: str = None,
     described_by: int = None,
@@ -47,7 +45,7 @@ def get_station_elements(
 
 
 @router.get(
-    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
     response_model=stationelement_schema.StationElementWithChildrenResponse,
 )
 def get_station_element_by_id(
@@ -74,9 +72,7 @@ def get_station_element_by_id(
         return get_error_response(message=str(e))
 
 
-@router.post(
-    "/station-elements", response_model=stationelement_schema.StationElementResponse
-)
+@router.post("/", response_model=stationelement_schema.StationElementResponse)
 def create_station_element(
     data: stationelement_schema.CreateStationElement,
     db_session: Session = Depends(deps.get_session),
@@ -91,7 +87,7 @@ def create_station_element(
 
 
 @router.put(
-    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
     response_model=stationelement_schema.StationElementResponse,
 )
 def update_station_element(
@@ -121,7 +117,7 @@ def update_station_element(
 
 
 @router.delete(
-    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
     response_model=stationelement_schema.StationElementResponse,
 )
 def delete_station_element(

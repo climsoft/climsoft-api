@@ -8,7 +8,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/paper-archives", response_model=paperarchive_schema.PaperArchiveResponse)
+@router.get("/", response_model=paperarchive_schema.PaperArchiveResponse)
 def get_paper_archives(
     belongs_to: str = None,
     form_datetime: str = None,
@@ -37,7 +37,7 @@ def get_paper_archives(
 
 
 @router.get(
-    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}",
+    "/{belongs_to}/{form_datetime}/{classified_into}",
     response_model=paperarchive_schema.PaperArchiveWithStationAndPaperArchiveDefinitionResponse,
 )
 def get_paper_archive_by_id(
@@ -62,7 +62,7 @@ def get_paper_archive_by_id(
         return get_error_response(message=str(e))
 
 
-@router.post("/paper-archives", response_model=paperarchive_schema.PaperArchiveResponse)
+@router.post("/", response_model=paperarchive_schema.PaperArchiveResponse)
 def create_paper_archive(
     data: paperarchive_schema.CreatePaperArchive,
     db_session: Session = Depends(deps.get_session),
@@ -77,7 +77,7 @@ def create_paper_archive(
 
 
 @router.put(
-    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}",
+    "/{belongs_to}/{form_datetime}/{classified_into}",
     response_model=paperarchive_schema.PaperArchiveResponse,
 )
 def update_paper_archive(
@@ -105,7 +105,7 @@ def update_paper_archive(
 
 
 @router.delete(
-    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}",
+    "/{belongs_to}/{form_datetime}/{classified_into}",
     response_model=paperarchive_schema.PaperArchiveResponse,
 )
 def delete_paper_archive(

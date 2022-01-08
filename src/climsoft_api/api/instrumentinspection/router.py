@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/instrument-inspections",
+    "/",
     response_model=instrumentinspection_schema.InstrumentInspectionResponse,
 )
 def get_instrument_inspection(
@@ -45,7 +45,7 @@ def get_instrument_inspection(
 
 
 @router.get(
-    "/instrument-inspections/{performed_on}/{inspection_datetime}",
+    "/{performed_on}/{inspection_datetime}",
     response_model=instrumentinspection_schema.InstrumentInspectionWithStationAndInstrumentResponse,
 )
 def get_instrument_inspection_by_id(
@@ -69,7 +69,7 @@ def get_instrument_inspection_by_id(
 
 
 @router.post(
-    "/instrument-inspections",
+    "/",
     response_model=instrumentinspection_schema.InstrumentInspectionResponse,
 )
 def create_instrument_inspection(
@@ -88,7 +88,7 @@ def create_instrument_inspection(
 
 
 @router.put(
-    "/instrument-inspections/{performed_on}/{inspection_datetime}",
+    "/{performed_on}/{inspection_datetime}",
     response_model=instrumentinspection_schema.InstrumentInspectionResponse,
 )
 def update_instrument_inspection(
@@ -114,7 +114,7 @@ def update_instrument_inspection(
 
 
 @router.delete(
-    "/instrument-inspections/{performed_on}/{inspection_datetime}",
+    "/{performed_on}/{inspection_datetime}",
     response_model=instrumentinspection_schema.InstrumentInspectionResponse,
 )
 def delete_instrument_inspection(

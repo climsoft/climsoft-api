@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/station-qualifiers",
+    "/",
     response_model=stationqualifier_schema.StationQualifierResponse,
 )
 def get_station_qualifier(
@@ -44,7 +44,7 @@ def get_station_qualifier(
 
 
 @router.get(
-    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
     response_model=stationqualifier_schema.StationQualifierWithStationResponse,
 )
 def get_station_qualifier_by_id(
@@ -72,7 +72,7 @@ def get_station_qualifier_by_id(
 
 
 @router.post(
-    "/station-qualifiers",
+    "/",
     response_model=stationqualifier_schema.StationQualifierResponse,
 )
 def create_station_qualifier(
@@ -89,7 +89,7 @@ def create_station_qualifier(
 
 
 @router.put(
-    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
     response_model=stationqualifier_schema.StationQualifierResponse,
 )
 def update_station_qualifier(
@@ -119,7 +119,7 @@ def update_station_qualifier(
 
 
 @router.delete(
-    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
     response_model=stationqualifier_schema.StationQualifierResponse,
 )
 def delete_station_qualifier(

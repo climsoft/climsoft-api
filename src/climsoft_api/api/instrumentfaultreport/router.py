@@ -8,7 +8,9 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/instrument-fault-reports", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse)
+@router.get(
+    "//", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+)
 def get_instrument_fault_report(
     refers_to: str = None,
     report_id: str = None,
@@ -20,7 +22,7 @@ def get_instrument_fault_report(
     reported_from: float = None,
     limit: int = 25,
     offset: int = 0,
-    db_session: Session = Depends(deps.get_session)
+    db_session: Session = Depends(deps.get_session),
 ):
     try:
         instrument_fault_report = instrumentfaultreport_service.query(
@@ -34,62 +36,88 @@ def get_instrument_fault_report(
             received_by=received_by,
             reported_from=reported_from,
             limit=limit,
-            offset=offset
+            offset=offset,
         )
 
-        return get_success_response(result=instrument_fault_report, message="Successfully fetched instrument_fault_report.")
+        return get_success_response(
+            result=instrument_fault_report,
+            message="Successfully fetched instrument_fault_report.",
+        )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReportList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/instrument-fault-reports/{report_id}", response_model=instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse)
-def get_instrument_fault_report_by_id(report_id: int, db_session: Session = Depends(deps.get_session)):
+@router.get(
+    "//{report_id}",
+    response_model=instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse,
+)
+def get_instrument_fault_report_by_id(
+    report_id: int, db_session: Session = Depends(deps.get_session)
+):
     try:
         return get_success_response(
-            result=[instrumentfaultreport_service.get(db_session=db_session, report_id=report_id)],
-            message="Successfully fetched instrument_fault_report."
+            result=[
+                instrumentfaultreport_service.get(
+                    db_session=db_session, report_id=report_id
+                )
+            ],
+            message="Successfully fetched instrument_fault_report.",
         )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReport as e:
-        return get_error_response(
-            message=str(e)
-        )
+        return get_error_response(message=str(e))
 
 
-@router.post("/instrument-fault-reports", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse)
-def create_instrument_fault_report(data: instrumentfaultreport_schema.CreateInstrumentFaultReport, db_session: Session = Depends(deps.get_session)):
+@router.post(
+    "//", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+)
+def create_instrument_fault_report(
+    data: instrumentfaultreport_schema.CreateInstrumentFaultReport,
+    db_session: Session = Depends(deps.get_session),
+):
     try:
         return get_success_response(
-            result=[instrumentfaultreport_service.create(db_session=db_session, data=data)],
-            message="Successfully created instrument_fault_report."
+            result=[
+                instrumentfaultreport_service.create(db_session=db_session, data=data)
+            ],
+            message="Successfully created instrument_fault_report.",
         )
     except instrumentfaultreport_service.FailedCreatingInstrumentFaultReport as e:
-        return get_error_response(
-            message=str(e)
-        )
+        return get_error_response(message=str(e))
 
 
-@router.put("/instrument-fault-reports/{report_id}", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse)
-def update_instrument_fault_report(report_id: int, data: instrumentfaultreport_schema.UpdateInstrumentFaultReport, db_session: Session = Depends(deps.get_session)):
+@router.put(
+    "//{report_id}",
+    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
+)
+def update_instrument_fault_report(
+    report_id: int,
+    data: instrumentfaultreport_schema.UpdateInstrumentFaultReport,
+    db_session: Session = Depends(deps.get_session),
+):
     try:
         return get_success_response(
-            result=[instrumentfaultreport_service.update(db_session=db_session, report_id=report_id, updates=data)],
-            message="Successfully updated instrument_fault_report."
+            result=[
+                instrumentfaultreport_service.update(
+                    db_session=db_session, report_id=report_id, updates=data
+                )
+            ],
+            message="Successfully updated instrument_fault_report.",
         )
     except instrumentfaultreport_service.FailedUpdatingInstrumentFaultReport as e:
-        return get_error_response(
-            message=str(e)
-        )
+        return get_error_response(message=str(e))
 
 
-@router.delete("/instrument-fault-reports/{report_id}", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse)
-def delete_instrument_fault_report(report_id: int, db_session: Session = Depends(deps.get_session)):
+@router.delete(
+    "//{report_id}",
+    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
+)
+def delete_instrument_fault_report(
+    report_id: int, db_session: Session = Depends(deps.get_session)
+):
     try:
         instrumentfaultreport_service.delete(db_session=db_session, report_id=report_id)
         return get_success_response(
-            result=[],
-            message="Successfully deleted instrument_fault_report."
+            result=[], message="Successfully deleted instrument_fault_report."
         )
     except instrumentfaultreport_service.FailedDeletingInstrumentFaultReport as e:
-        return get_error_response(
-            message=str(e)
-        )
+        return get_error_response(message=str(e))

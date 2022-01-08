@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/paper-archive-definitions",
+    "/",
     response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def get_paper_archive_definitions(
@@ -37,7 +37,7 @@ def get_paper_archive_definitions(
 
 
 @router.get(
-    "/paper-archive-definitions/{form_id}",
+    "/{form_id}",
     response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def get_paper_archive_definition_by_id(
@@ -57,7 +57,7 @@ def get_paper_archive_definition_by_id(
 
 
 @router.post(
-    "/paper-archive-definitions",
+    "/",
     response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def create_paper_archive_definition(
@@ -76,7 +76,7 @@ def create_paper_archive_definition(
 
 
 @router.put(
-    "/paper-archive-definitions/{form_id}",
+    "/{form_id}",
     response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def update_paper_archive_definition(
@@ -98,7 +98,7 @@ def update_paper_archive_definition(
 
 
 @router.delete(
-    "/paper-archive-definitions/{form_id}",
+    "/{form_id}",
     response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def delete_paper_archive_definition(

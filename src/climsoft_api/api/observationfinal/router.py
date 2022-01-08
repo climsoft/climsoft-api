@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/observation-finals",
+    "/",
     response_model=observationfinal_schema.ObservationFinalResponse,
 )
 def get_observation_finals(
@@ -69,7 +69,7 @@ def get_observation_finals(
 
 
 @router.get(
-    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}",
+    "/{recorded_from}/{described_by}/{obs_datetime}",
     response_model=observationfinal_schema.ObservationFinalWithChildrenResponse,
 )
 def get_observation_final_by_id(
@@ -95,7 +95,7 @@ def get_observation_final_by_id(
 
 
 @router.post(
-    "/observation-finals",
+    "/",
     response_model=observationfinal_schema.ObservationFinalResponse,
 )
 def create_observation_final(
@@ -112,7 +112,7 @@ def create_observation_final(
 
 
 @router.put(
-    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}",
+    "/{recorded_from}/{described_by}/{obs_datetime}",
     response_model=observationfinal_schema.ObservationFinalResponse,
 )
 def update_observation_final(
@@ -140,7 +140,7 @@ def update_observation_final(
 
 
 @router.delete(
-    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}",
+    "/{recorded_from}/{described_by}/{obs_datetime}",
     response_model=observationfinal_schema.ObservationFinalResponse,
 )
 def delete_observation_final(

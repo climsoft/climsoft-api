@@ -13,11 +13,11 @@ services:
       - .:/code
     environment:
       - CLIMSOFT_SECRET_KEY=test_secret_key
-      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://rooot:password@test_climsoft_db:3306/climsoft
+      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@test_climsoft_db:3306/climsoft
       # - CLIMSOFT_DB_URI=mysql+mysqldb://root:password@host.docker.internal:33308/mariadb_climsoft_test_db_v4 # uncomment this for snapshot test
     depends_on:
       - test_climsoft_db
-    command: ["pytest", "tests/integration", "-s"]
+    command: ["pytest", "tests/integration/controller/test_obsscheduleclass_controller.py", "-s"]
     networks:
       - test_climsoft_api_test_network
 

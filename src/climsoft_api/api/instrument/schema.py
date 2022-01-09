@@ -12,7 +12,7 @@ field_names = {
     "installationDatetime": "installation_datetime",
     "deinstallationDatetime": "uninstallation_datetime",
     "instrumentPicture": "instrument_picture",
-    "installedAt": "installed_at"
+    "installedAt": "installed_at",
 }
 
 
@@ -30,9 +30,6 @@ class CreateInstrument(BaseSchema):
     instrumentPicture: constr(max_length=255)
     installedAt: constr(max_length=255)
 
-    class Config:
-        fields = field_names
-
 
 class UpdateInstrument(BaseSchema):
     instrumentName: constr(max_length=255)
@@ -47,13 +44,9 @@ class UpdateInstrument(BaseSchema):
     instrumentPicture: constr(max_length=255)
     installedAt: constr(max_length=255)
 
-    class Config:
-        fields = field_names
-
 
 class Instrument(CreateInstrument):
     class Config:
-        fields = field_names
         orm_mode = True
         allow_population_by_field_name = True
 
@@ -68,4 +61,3 @@ class InstrumentWithStation(Instrument):
 
 class InstrumentWithStationResponse(Response):
     result: List[InstrumentWithStation]
-

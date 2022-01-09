@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "//", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+    "/", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
 )
 def get_instrument_fault_report(
     refers_to: str = None,
@@ -48,7 +48,7 @@ def get_instrument_fault_report(
 
 
 @router.get(
-    "//{report_id}",
+    "/{report_id}",
     response_model=instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse,
 )
 def get_instrument_fault_report_by_id(
@@ -68,7 +68,7 @@ def get_instrument_fault_report_by_id(
 
 
 @router.post(
-    "//", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+    "/", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
 )
 def create_instrument_fault_report(
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport,
@@ -86,7 +86,7 @@ def create_instrument_fault_report(
 
 
 @router.put(
-    "//{report_id}",
+    "/{report_id}",
     response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
 )
 def update_instrument_fault_report(
@@ -108,7 +108,7 @@ def update_instrument_fault_report(
 
 
 @router.delete(
-    "//{report_id}",
+    "/{report_id}",
     response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
 )
 def delete_instrument_fault_report(

@@ -1,9 +1,8 @@
 import uuid
 import random
 import datetime
-from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import stationqualifier_schema
+from climsoft_api.api.stationqualifier import schema as stationqualifier_schema
 
 
 fake = Faker()
@@ -16,5 +15,5 @@ def get_valid_station_qualifier_input(station_id: str):
         qualifierEndDate=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%SZ"),
         belongsTo=station_id,
         stationTimeZone=random.randint(10, 90),
-        stationNetworkType=uuid.uuid4().hex
+        stationNetworkType=uuid.uuid4().hex,
     )

@@ -6,30 +6,6 @@ import climsoft_api.api.station.schema as station_schema
 import climsoft_api.api.obselement.schema as obselement_schema
 
 
-field_names_no_pk = {
-    "obsLevel": "obs_level",
-    "obsValue": "obs_value",
-    "qcTypeLog": "qc_type_log",
-    "dataForm": "data_form",
-    "capturedBy": "captured_by",
-    "temperatureUnits": "temperature_units",
-    "precipitationUnits": "precipitation_units",
-    "cloudHeightUnits": "cloud_height_units",
-    "visUnits": "vis_units",
-    "dataSourceTimeZone": "data_source_timezone",
-    "qcStatus": "qc_status",
-    "acquisitionType": "acquisition_type",
-}
-
-
-field_names_all = {
-    **field_names_no_pk,
-    "recordedFrom": "recorded_from",
-    "describedBy": "described_by",
-    "obsDatetime": "obs_datetime",
-}
-
-
 class CreateObservationFinal(BaseSchema):
     recordedFrom: constr(max_length=255)
     describedBy: int
@@ -50,9 +26,6 @@ class CreateObservationFinal(BaseSchema):
     visUnits: Optional[constr(max_length=255)]
     dataSourceTimeZone: int
 
-    class Config:
-        fields = field_names_all
-
 
 class UpdateObservationFinal(BaseSchema):
     qcStatus: int
@@ -71,16 +44,12 @@ class UpdateObservationFinal(BaseSchema):
     visUnits: Optional[constr(max_length=255)]
     dataSourceTimeZone: int
 
-    class Config:
-        fields = field_names_no_pk
-
 
 class ObservationFinal(CreateObservationFinal):
     obsDatetime: datetime.datetime
 
     class Config:
         orm_mode = True
-        fields = field_names_all
         allow_population_by_field_name = True
 
 
@@ -94,7 +63,6 @@ class ObservationFinalWithChildren(ObservationFinal):
 
     class Config:
         orm_mode = True
-        fields = {**field_names_all, "obselement": "obs_element"}
         allow_population_by_field_name = True
 
 
@@ -103,5 +71,4 @@ class ObservationFinalWithChildrenResponse(Response):
 
 
 class ObservationFinalInputGen(CreateObservationFinal):
-    class Config:
-        fields = field_names_all
+    pass

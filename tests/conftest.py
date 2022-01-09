@@ -1,15 +1,21 @@
 from fastapi.applications import FastAPI
 import pytest
-from datetime import datetime, timedelta
-from jose import jwt
-from typing import Dict, Generator
 
 from sqlalchemy.orm.session import Session
+from sqlalchemy import MetaData
 from climsoft_api.db import SessionLocal
-from climsoft_api.config import settings
-from passlib.hash import django_pbkdf2_sha256 as handler
 from climsoft_api.main import get_app
 from fastapi.testclient import TestClient
+from opencdms.models.climsoft.v4_1_1_core import Base
+from climsoft_api.db import engine
+
+
+@pytest.fixture(autouse=True)
+def setup_db():
+    metadata: MetaData = Base.metadata
+    metadata.create_all(engine)
+    yield
+    metadata.drop_all(engine)
 
 
 @pytest.fixture

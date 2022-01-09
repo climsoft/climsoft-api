@@ -2,15 +2,6 @@ from typing import List
 from pydantic import constr
 from climsoft_api.api.schema import BaseSchema
 
-field_names = {
-    "elementName": "element_name",
-    "elementScale": "element_scale",
-    "upperLimit": "upper_limit",
-    "lowerLimit": "lower_limit",
-    "elementtype": "element_type",
-    "qcTotalRequired": "qc_total_required"
-}
-
 
 class CreateObsElement(BaseSchema):
     elementId: int
@@ -25,9 +16,6 @@ class CreateObsElement(BaseSchema):
     qcTotalRequired: int
     selected: bool
 
-    class Config:
-        fields = {**field_names, "elementId": "element_id"}
-
 
 class UpdateObsElement(BaseSchema):
     abbreviation: constr(max_length=255)
@@ -41,15 +29,10 @@ class UpdateObsElement(BaseSchema):
     qcTotalRequired: int
     selected: bool
 
-    class Config:
-        fields = field_names
-
 
 class ObsElement(CreateObsElement):
-
     class Config:
         orm_mode = True
-        fields = {**field_names, "elementId": "element_id"}
 
         allow_population_by_field_name = True
 

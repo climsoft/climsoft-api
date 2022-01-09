@@ -8,8 +8,11 @@ from sqlalchemy.orm.session import sessionmaker
 from opencdms.models.climsoft import v4_1_1_core as climsoft_models
 from apps.climsoft.db.engine import db_engine
 from apps.climsoft.schemas import physicalfeature_schema
-from datagen.climsoft import physicalfeature as climsoft_physical_feature, \
-    station as climsoft_station, physicalfeatureclass as climsoft_physical_feature_class
+from tests.datagen import (
+    physicalfeature as climsoft_physical_feature,
+    station as climsoft_station,
+    physicalfeatureclass as climsoft_physical_feature_class,
+)
 from faker import Faker
 from fastapi.testclient import TestClient
 from apps.auth.db.engine import db_engine as auth_db_engine
@@ -22,19 +25,27 @@ fake = Faker()
 def setup_module(module):
     with auth_db_engine.connect().execution_options(autocommit=True) as connection:
         with connection.begin():
-            auth_db_engine.execute(sa_text(f'''
+            auth_db_engine.execute(
+                sa_text(
+                    f"""
                 TRUNCATE TABLE {user_model.AuthUser.__tablename__} RESTART IDENTITY CASCADE
-            ''').execution_options(autocommit=True))
+            """
+                ).execution_options(autocommit=True)
+            )
 
     with db_engine.connect().execution_options(autocommit=True) as connection:
         with connection.begin():
-            db_engine.execute(sa_text(f"""
+            db_engine.execute(
+                sa_text(
+                    f"""
                 SET FOREIGN_KEY_CHECKS = 0;
                 TRUNCATE TABLE {climsoft_models.Physicalfeature.__tablename__};
                 TRUNCATE TABLE {climsoft_models.Station.__tablename__};
                 TRUNCATE TABLE {climsoft_models.Physicalfeatureclas.__tablename__};
                 SET FOREIGN_KEY_CHECKS = 1;
-            """))
+            """
+                )
+            )
 
     Session = sessionmaker(bind=db_engine)
     db_session = Session()
@@ -47,17 +58,21 @@ def setup_module(module):
         db_session.commit()
 
         physical_feature_class = climsoft_models.Physicalfeatureclas(
-            **climsoft_physical_feature_class.get_valid_physical_feature_class_input(station_id=station.stationId).dict()
+            **climsoft_physical_feature_class.get_valid_physical_feature_class_input(
+                station_id=station.stationId
+            ).dict()
         )
         db_session.add(physical_feature_class)
         db_session.commit()
 
-        db_session.add(climsoft_models.Physicalfeature(
-            **climsoft_physical_feature.get_valid_physical_feature_input(
-                station_id=station.stationId,
-                feature_class=physical_feature_class.featureClass
-            ).dict()
-        ))
+        db_session.add(
+            climsoft_models.Physicalfeature(
+                **climsoft_physical_feature.get_valid_physical_feature_input(
+                    station_id=station.stationId,
+                    feature_class=physical_feature_class.featureClass,
+                ).dict()
+            )
+        )
         db_session.commit()
     db_session.close()
 
@@ -68,7 +83,7 @@ def setup_module(module):
         password=handler.hash("password"),
         first_name=fake.first_name(),
         last_name=fake.last_name(),
-        email=fake.email()
+        email=fake.email(),
     )
     auth_session.add(user)
     auth_session.commit()
@@ -78,19 +93,27 @@ def setup_module(module):
 def teardown_module(module):
     with auth_db_engine.connect().execution_options(autocommit=True) as connection:
         with connection.begin():
-            auth_db_engine.execute(sa_text(f'''
+            auth_db_engine.execute(
+                sa_text(
+                    f"""
                 TRUNCATE TABLE {user_model.AuthUser.__tablename__} RESTART IDENTITY CASCADE
-            ''').execution_options(autocommit=True))
+            """
+                ).execution_options(autocommit=True)
+            )
 
     with db_engine.connect().execution_options(autocommit=True) as connection:
         with connection.begin():
-            db_engine.execute(sa_text(f"""
+            db_engine.execute(
+                sa_text(
+                    f"""
                 SET FOREIGN_KEY_CHECKS = 0;
                 TRUNCATE TABLE {climsoft_models.Physicalfeature.__tablename__};
                 TRUNCATE TABLE {climsoft_models.Station.__tablename__};
                 TRUNCATE TABLE {climsoft_models.Physicalfeatureclas.__tablename__};
                 SET FOREIGN_KEY_CHECKS = 1;
-            """))
+            """
+                )
+            )
 
 
 @pytest.fixture
@@ -102,7 +125,9 @@ def get_access_token(user_access_token: str) -> str:
 def get_station():
     Session = sessionmaker(bind=db_engine)
     session = Session()
-    station = climsoft_models.Station(**climsoft_station.get_valid_station_input().dict())
+    station = climsoft_models.Station(
+        **climsoft_station.get_valid_station_input().dict()
+    )
     session.add(station)
     session.commit()
     yield station
@@ -114,7 +139,10 @@ def get_physical_feature_class(get_station: climsoft_models.Station):
     Session = sessionmaker(bind=db_engine)
     session = Session()
     physical_feature_class = climsoft_models.Physicalfeatureclas(
-        **climsoft_physical_feature_class.get_valid_physical_feature_class_input(station_id=get_station.stationId).dict())
+        **climsoft_physical_feature_class.get_valid_physical_feature_class_input(
+            station_id=get_station.stationId
+        ).dict()
+    )
     session.add(physical_feature_class)
     session.commit()
     yield physical_feature_class
@@ -122,13 +150,16 @@ def get_physical_feature_class(get_station: climsoft_models.Station):
 
 
 @pytest.fixture
-def get_physical_feature(get_station: climsoft_models.Station, get_physical_feature_class: climsoft_models.Physicalfeatureclas):
+def get_physical_feature(
+    get_station: climsoft_models.Station,
+    get_physical_feature_class: climsoft_models.Physicalfeatureclas,
+):
     Session = sessionmaker(bind=db_engine)
     session = Session()
     physical_feature = climsoft_models.Physicalfeature(
         **climsoft_physical_feature.get_valid_physical_feature_input(
             station_id=get_station.stationId,
-            feature_class=get_physical_feature_class.featureClass
+            feature_class=get_physical_feature_class.featureClass,
         ).dict()
     )
     session.add(physical_feature)
@@ -137,10 +168,14 @@ def get_physical_feature(get_station: climsoft_models.Station, get_physical_feat
     session.close()
 
 
-def test_should_return_first_five_station_location_histories(client: TestClient, get_access_token: str):
-    response = client.get("/climsoft/v1/physical-features", params={"limit": 5}, headers={
-        "Authorization": f"Bearer {get_access_token}"
-    })
+def test_should_return_first_five_station_location_histories(
+    client: TestClient, get_access_token: str
+):
+    response = client.get(
+        "/climsoft/v1/physical-features",
+        params={"limit": 5},
+        headers={"Authorization": f"Bearer {get_access_token}"},
+    )
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -149,13 +184,11 @@ def test_should_return_first_five_station_location_histories(client: TestClient,
 def test_should_return_single_physical_feature(
     client: TestClient,
     get_physical_feature: climsoft_models.Physicalfeature,
-    get_access_token: str
+    get_access_token: str,
 ):
     response = client.get(
         f"/climsoft/v1/physical-features/{get_physical_feature.associatedWith}/{get_physical_feature.beginDate}/{get_physical_feature.classifiedInto}/{get_physical_feature.description}",
-        headers={
-            "Authorization": f"Bearer {get_access_token}"
-        }
+        headers={"Authorization": f"Bearer {get_access_token}"},
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -163,33 +196,39 @@ def test_should_return_single_physical_feature(
 
 
 def test_should_create_a_physical_feature(
-        client: TestClient, get_station: climsoft_models.Station,
-        get_physical_feature_class: climsoft_models.Physicalfeatureclas,
-        get_access_token: str
+    client: TestClient,
+    get_station: climsoft_models.Station,
+    get_physical_feature_class: climsoft_models.Physicalfeatureclas,
+    get_access_token: str,
 ):
     physical_feature_data = climsoft_physical_feature.get_valid_physical_feature_input(
-        station_id=get_station.stationId, feature_class=get_physical_feature_class.featureClass).dict(by_alias=True)
+        station_id=get_station.stationId,
+        feature_class=get_physical_feature_class.featureClass,
+    ).dict(by_alias=True)
     response = client.post(
         "/climsoft/v1/physical-features",
-        data=json.dumps(physical_feature_data, default=str), headers={
-            "Authorization": f"Bearer {get_access_token}"
-        }
+        data=json.dumps(physical_feature_data, default=str),
+        headers={"Authorization": f"Bearer {get_access_token}"},
     )
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 1
 
 
-def test_should_raise_validation_error(client: TestClient, get_station: climsoft_models.Station,
-                                       get_physical_feature_class: climsoft_models.Physicalfeatureclas, get_access_token: str):
+def test_should_raise_validation_error(
+    client: TestClient,
+    get_station: climsoft_models.Station,
+    get_physical_feature_class: climsoft_models.Physicalfeatureclas,
+    get_access_token: str,
+):
     physical_feature_data = climsoft_physical_feature.get_valid_physical_feature_input(
-        station_id=get_station.stationId, feature_class=get_physical_feature_class.featureClass
+        station_id=get_station.stationId,
+        feature_class=get_physical_feature_class.featureClass,
     ).dict()
     response = client.post(
         "/climsoft/v1/physical-features",
-        data=json.dumps(physical_feature_data, default=str), headers={
-            "Authorization": f"Bearer {get_access_token}"
-        }
+        data=json.dumps(physical_feature_data, default=str),
+        headers={"Authorization": f"Bearer {get_access_token}"},
     )
     assert response.status_code == 422
 
@@ -197,10 +236,11 @@ def test_should_raise_validation_error(client: TestClient, get_station: climsoft
 def test_should_update_physical_feature(
     client: TestClient,
     get_physical_feature: climsoft_models.Physicalfeature,
-    get_access_token: str
+    get_access_token: str,
 ):
     physical_feature_data = physicalfeature_schema.PhysicalFeature.from_orm(
-        get_physical_feature).dict(by_alias=True)
+        get_physical_feature
+    ).dict(by_alias=True)
 
     associated_with = physical_feature_data.pop("associated_with")
     begin_date = physical_feature_data.pop("begin_date")
@@ -211,9 +251,8 @@ def test_should_update_physical_feature(
 
     response = client.put(
         f"/climsoft/v1/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
-        data=json.dumps(updates, default=str), headers={
-            "Authorization": f"Bearer {get_access_token}"
-        }
+        data=json.dumps(updates, default=str),
+        headers={"Authorization": f"Bearer {get_access_token}"},
     )
     response_data = response.json()
 
@@ -222,12 +261,11 @@ def test_should_update_physical_feature(
 
 
 def test_should_delete_physical_feature(
-        client: TestClient,
-        get_physical_feature,
-        get_access_token: str
+    client: TestClient, get_physical_feature, get_access_token: str
 ):
     physical_feature_data = physicalfeature_schema.PhysicalFeature.from_orm(
-        get_physical_feature).dict(by_alias=True)
+        get_physical_feature
+    ).dict(by_alias=True)
 
     associated_with = physical_feature_data.pop("associated_with")
     begin_date = physical_feature_data.pop("begin_date")
@@ -236,14 +274,13 @@ def test_should_delete_physical_feature(
 
     response = client.delete(
         f"/climsoft/v1/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
-        headers={
-            "Authorization": f"Bearer {get_access_token}"
-        }
+        headers={"Authorization": f"Bearer {get_access_token}"},
     )
     assert response.status_code == 200
 
-    response = client.get(f"/climsoft/v1/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}", headers={
-        "Authorization": f"Bearer {get_access_token}"
-    })
+    response = client.get(
+        f"/climsoft/v1/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}",
+        headers={"Authorization": f"Bearer {get_access_token}"},
+    )
 
     assert response.status_code == 404

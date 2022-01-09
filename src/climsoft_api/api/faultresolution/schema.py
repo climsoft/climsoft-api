@@ -12,22 +12,10 @@ class CreateFaultResolution(BaseSchema):
     resolvedBy: constr(max_length=255)
     remarks: constr(max_length=255)
 
-    class Config:
-        fields = {
-            "resolvedDatetime": "resolved_datetime",
-            "resolvedBy": "resolved_by",
-            "associatedWith": "associated_with"
-        }
-
 
 class UpdateFaultResolution(BaseSchema):
     resolvedBy: constr(max_length=255)
     remarks: constr(max_length=255)
-
-    class Config:
-        fields = {
-            "resolvedBy": "resolved_by"
-        }
 
 
 class FaultResolution(CreateFaultResolution):
@@ -36,12 +24,6 @@ class FaultResolution(CreateFaultResolution):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-
-        fields = {
-            "resolvedDatetime": "resolved_datetime",
-            "resolvedBy": "resolved_by",
-            "associatedWith": "associated_with"
-        }
 
 
 class FaultResolutionWithInstrumentFaultReport(FaultResolution):
@@ -54,6 +36,3 @@ class FaultResolutionResponse(Response):
 
 class FaultResolutionWithInstrumentFaultReportResponse(Response):
     result: List[FaultResolutionWithInstrumentFaultReport]
-
-
-

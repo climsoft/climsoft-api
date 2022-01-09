@@ -1,9 +1,8 @@
 import uuid
 import random
 import datetime
-from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import instrument_schema
+from climsoft_api.api.instrument import schema as instrument_schema
 
 
 fake = Faker()
@@ -19,8 +18,10 @@ def get_valid_instrument_input(station_id: str):
         manufacturer=uuid.uuid4().hex,
         instrumentUncertainty=random.random(),
         installationDatetime=datetime.datetime.utcnow().isoformat(),
-        deinstallationDatetime=(datetime.datetime.utcnow()+datetime.timedelta(days=1234)).isoformat(),
+        deinstallationDatetime=(
+            datetime.datetime.utcnow() + datetime.timedelta(days=1234)
+        ).isoformat(),
         height=uuid.uuid4().hex,
         installedAt=station_id,
-        instrumentPicture=uuid.uuid4().hex
+        instrumentPicture=uuid.uuid4().hex,
     )

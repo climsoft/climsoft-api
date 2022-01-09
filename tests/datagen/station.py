@@ -3,7 +3,7 @@ import random
 import datetime
 from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import station_schema
+from climsoft_api.api.station import schema as station_schema
 
 
 fake = Faker()
@@ -23,7 +23,9 @@ def get_valid_station_input():
         geoLocationMethod=uuid.uuid4().hex,
         geoLocationAccuracy=random.random(),
         openingDatetime=datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        closingDatetime=(datetime.datetime.now() + datetime.timedelta(days=999)).strftime("%Y-%m-%d %H:%M:%S"),
+        closingDatetime=(
+            datetime.datetime.now() + datetime.timedelta(days=999)
+        ).strftime("%Y-%m-%d %H:%M:%S"),
         country=location[3],
         authority=uuid.uuid4().hex,
         adminRegion=location[3],
@@ -31,5 +33,5 @@ def get_valid_station_input():
         wacaSelection=True,
         cptSelection=True,
         stationOperational=True,
-        qualifier=uuid.uuid4().hex[:20]
+        qualifier=uuid.uuid4().hex[:20],
     )

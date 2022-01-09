@@ -1,9 +1,10 @@
 import uuid
 import random
 import datetime
-from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import stationlocationhistory_schema
+from climsoft_api.api.stationlocationhistory import (
+    schema as stationlocationhistory_schema,
+)
 
 
 fake = Faker()
@@ -22,5 +23,5 @@ def get_valid_station_location_history_input(station_id: str):
         elevation=random.randint(10, 80),
         authority=uuid.uuid4().hex,
         adminRegion=uuid.uuid4().hex,
-        drainageBasin=uuid.uuid4().hex
+        drainageBasin=uuid.uuid4().hex,
     )

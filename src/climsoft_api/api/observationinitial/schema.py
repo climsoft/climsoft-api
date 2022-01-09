@@ -6,30 +6,6 @@ import climsoft_api.api.station.schema as station_schema
 import climsoft_api.api.obselement.schema as obselement_schema
 
 
-field_names_no_pk = {
-    "obsLevel": "obs_level",
-    "obsValue": "obs_value",
-    "qcTypeLog": "qc_type_log",
-    "dataForm": "data_form",
-    "capturedBy": "captured_by",
-    "temperatureUnits": "temperature_units",
-    "precipitationUnits": "precipitation_units",
-    "cloudHeightUnits": "cloud_height_units",
-    "visUnits": "vis_units",
-    "dataSourceTimeZone": "data_source_timezone"
-}
-
-
-field_names_all = {
-    **field_names_no_pk,
-    "recordedFrom": "recorded_from",
-    "describedBy": "described_by",
-    "obsDatetime": "obs_datetime",
-    "qcStatus": "qc_status",
-    "acquisitionType": "acquisition_type"
-}
-
-
 class CreateObservationInitial(BaseSchema):
     recordedFrom: constr(max_length=255)
     describedBy: int
@@ -50,9 +26,6 @@ class CreateObservationInitial(BaseSchema):
     visUnits: constr(max_length=255)
     dataSourceTimeZone: int
 
-    class Config:
-        fields = field_names_all
-
 
 class UpdateObservationInitial(BaseSchema):
     obsLevel: constr(max_length=255)
@@ -69,16 +42,12 @@ class UpdateObservationInitial(BaseSchema):
     visUnits: constr(max_length=255)
     dataSourceTimeZone: int
 
-    class Config:
-        fields = field_names_no_pk
-
 
 class ObservationInitial(CreateObservationInitial):
     obsDatetime: datetime.datetime
 
     class Config:
         orm_mode = True
-        fields = field_names_all
         allow_population_by_field_name = True
 
 
@@ -92,7 +61,6 @@ class ObservationInitialWithChildren(ObservationInitial):
 
     class Config:
         orm_mode = True
-        fields = {**field_names_all, "obselement": "obs_element"}
         allow_population_by_field_name = True
 
 
@@ -102,5 +70,4 @@ class ObservationInitialWithChildrenResponse(Response):
 
 class ObservationInitialInputGen(CreateObservationInitial):
     class Config:
-        fields = field_names_all
         allow_population_by_field_name = True

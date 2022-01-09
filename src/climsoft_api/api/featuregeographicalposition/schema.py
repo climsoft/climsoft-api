@@ -10,32 +10,17 @@ class CreateFeatureGeographicalPosition(BaseSchema):
     latitude: float
     longitude: float
 
-    class Config:
-        fields = {
-            "belongsTo": "belongs_to",
-            "observedOn": "observed_on"
-        }
-
 
 class UpdateFeatureGeographicalPosition(BaseSchema):
     observedOn: constr(max_length=50)
     latitude: float
     longitude: float
 
-    class Config:
-        fields = {
-            "observedOn": "observed_on"
-        }
-
 
 class FeatureGeographicalPosition(CreateFeatureGeographicalPosition):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-        fields = {
-            "belongsTo": "belongs_to",
-            "observedOn": "observed_on"
-        }
 
 
 class FeatureGeographicalPositionWithSynopFeature(FeatureGeographicalPosition):
@@ -48,4 +33,3 @@ class FeatureGeographicalPositionResponse(Response):
 
 class FeatureGeographicalPositionWithSynopFeatureResponse(Response):
     result: List[FeatureGeographicalPositionWithSynopFeature]
-

@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/obs-schedule-class",
+    "/",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def get_obs_schedule_class(
@@ -39,7 +39,7 @@ def get_obs_schedule_class(
 
 
 @router.get(
-    "/obs-schedule-class/{schedule_class}",
+    "/{schedule_class}",
     response_model=obsscheduleclass_schema.ObsScheduleClassWithStationResponse,
 )
 def get_instrument_by_id(
@@ -59,7 +59,7 @@ def get_instrument_by_id(
 
 
 @router.post(
-    "/obs-schedule-class",
+    "/",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def create_instrument(
@@ -76,7 +76,7 @@ def create_instrument(
 
 
 @router.put(
-    "/obs-schedule-class/{schedule_class}",
+    "/{schedule_class}",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def update_instrument(
@@ -98,7 +98,7 @@ def update_instrument(
 
 
 @router.delete(
-    "/obs-schedule-class/{schedule_class}",
+    "/{schedule_class}",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def delete_instrument(

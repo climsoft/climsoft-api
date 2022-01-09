@@ -1,9 +1,7 @@
 import uuid
 import random
-import datetime
-from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import data_form_schema
+from climsoft_api.api.data_form import schema as data_form_schema
 
 
 fake = Faker()
@@ -20,5 +18,5 @@ def get_valid_data_form_input():
         val_end_position=random.randint(10000, 1000000),
         elem_code_location=uuid.uuid4().hex,
         sequencer=uuid.uuid4().hex,
-        entry_mode=True
+        entry_mode=True,
     )

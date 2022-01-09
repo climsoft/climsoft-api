@@ -1,9 +1,7 @@
 import uuid
 import random
-import datetime
-from typing import Tuple
 from faker import Faker
-from apps.climsoft.schemas import obselement_schema
+from climsoft_api.api.obselement import schema as obselement_schema
 
 
 fake = Faker()
@@ -15,7 +13,7 @@ def get_valid_obselement_input():
         elementName=uuid.uuid4().hex,
         abbreviation=uuid.uuid4().hex,
         description=uuid.uuid4().hex,
-        elementScale=random.random()*100000,
+        elementScale=random.random() * 100000,
         upperLimit=uuid.uuid4().hex,
         lowerLimit=uuid.uuid4().hex,
         units=uuid.uuid4().hex,

@@ -15,26 +15,12 @@ class CreateInstrumentInspection(BaseSchema):
     remarks: constr(max_length=255)
     performedAt: constr(max_length=50)
 
-    class Config:
-        fields = {
-            "performedOn": "performed_on",
-            "inspectionDatetime": "inspection_datetime",
-            "performedBy": "performed_by",
-            "performedAt": "performed_at",
-        }
-
 
 class UpdateInstrumentInspection(BaseSchema):
     performedBy: constr(max_length=255)
     status: constr(max_length=255)
     remarks: constr(max_length=255)
     performedAt: constr(max_length=50)
-
-    class Config:
-        fields = {
-            "performedBy": "performed_by",
-            "performedAt": "performed_at",
-        }
 
 
 class InstrumentInspection(CreateInstrumentInspection):
@@ -43,13 +29,6 @@ class InstrumentInspection(CreateInstrumentInspection):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-
-        fields = {
-            "performedOn": "performed_on",
-            "inspectionDatetime": "inspection_datetime",
-            "performedBy": "performed_by",
-            "performedAt": "performed_at",
-        }
 
 
 class InstrumentInspectionWithStationAndInstrument(InstrumentInspection):
@@ -63,6 +42,3 @@ class InstrumentInspectionResponse(Response):
 
 class InstrumentInspectionWithStationAndInstrumentResponse(Response):
     result: List[InstrumentInspectionWithStationAndInstrument]
-
-
-

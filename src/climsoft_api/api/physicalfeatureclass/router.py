@@ -1,0 +1,117 @@
+from fastapi import APIRouter, Depends
+from climsoft_api.services import physicalfeatureclass_service
+import climsoft_api.api.physicalfeatureclass.schema as physicalfeatureclass_schema
+from climsoft_api.utils.response import get_success_response, get_error_response
+from sqlalchemy.orm.session import Session
+from climsoft_api.api import deps
+
+router = APIRouter()
+
+
+@router.get(
+    "/",
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
+)
+def get_physical_feature_class(
+    feature_class: str = None,
+    description: str = None,
+    refers_to: str = None,
+    limit: int = 25,
+    offset: int = 0,
+    db_session: Session = Depends(deps.get_session),
+):
+    try:
+        physical_feature_class = physicalfeatureclass_service.query(
+            db_session=db_session,
+            feature_class=feature_class,
+            description=description,
+            refers_to=refers_to,
+            limit=limit,
+            offset=offset,
+        )
+
+        return get_success_response(
+            result=physical_feature_class,
+            message="Successfully fetched physical_feature_class.",
+        )
+    except physicalfeatureclass_service.FailedGettingPhysicalFeatureClassList as e:
+        return get_error_response(message=str(e))
+
+
+@router.get(
+    "/{feature_class}",
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassWithStationResponse,
+)
+def get_physical_feature_class_by_id(
+    feature_class: str, db_session: Session = Depends(deps.get_session)
+):
+    try:
+        return get_success_response(
+            result=[
+                physicalfeatureclass_service.get(
+                    db_session=db_session, feature_class=feature_class
+                )
+            ],
+            message="Successfully fetched physical_feature_class.",
+        )
+    except physicalfeatureclass_service.FailedGettingPhysicalFeatureClass as e:
+        return get_error_response(message=str(e))
+
+
+@router.post(
+    "/",
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
+)
+def create_physical_feature_class(
+    data: physicalfeatureclass_schema.CreatePhysicalFeatureClass,
+    db_session: Session = Depends(deps.get_session),
+):
+    try:
+        return get_success_response(
+            result=[
+                physicalfeatureclass_service.create(db_session=db_session, data=data)
+            ],
+            message="Successfully created physical_feature_class.",
+        )
+    except physicalfeatureclass_service.FailedCreatingPhysicalFeatureClass as e:
+        return get_error_response(message=str(e))
+
+
+@router.put(
+    "/{feature_class}",
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
+)
+def update_physical_feature_class(
+    feature_class: str,
+    data: physicalfeatureclass_schema.UpdatePhysicalFeatureClass,
+    db_session: Session = Depends(deps.get_session),
+):
+    try:
+        return get_success_response(
+            result=[
+                physicalfeatureclass_service.update(
+                    db_session=db_session, feature_class=feature_class, updates=data
+                )
+            ],
+            message="Successfully updated physical_feature_class.",
+        )
+    except physicalfeatureclass_service.FailedUpdatingPhysicalFeatureClass as e:
+        return get_error_response(message=str(e))
+
+
+@router.delete(
+    "/{feature_class}",
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassResponse,
+)
+def delete_physical_feature_class(
+    feature_class: str, db_session: Session = Depends(deps.get_session)
+):
+    try:
+        physicalfeatureclass_service.delete(
+            db_session=db_session, feature_class=feature_class
+        )
+        return get_success_response(
+            result=[], message="Successfully deleted physical_feature_class."
+        )
+    except physicalfeatureclass_service.FailedDeletingPhysicalFeatureClass as e:
+        return get_error_response(message=str(e))

@@ -240,9 +240,9 @@ SQLAlchemy = ">=1.4.22"
 
 [package.source]
 type = "git"
-url = "https://github.com/Shaibujnr/pyopencdms.git"
-reference = "remove-other-setups"
-resolved_reference = "f2244b9b2a6f4e59779f9e835a2e37ea45389481"
+url = "https://github.com/opencdms/pyopencdms.git"
+reference = "main"
+resolved_reference = "d250d5dfe0b58b1722766e320b83983e5d7995c2"
 
 [[package]]
 name = "packaging"
@@ -541,7 +541,7 @@ standard = ["httptools (>=0.2.0,<0.4.0)", "watchgod (>=0.6)", "python-dotenv (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "c6919d7a1ed393dcc2cb9655fca8cf6fed59b6f2c2bed439cc98aa7b1420525d"
+content-hash = "0d9ea1e6f185bdea60bb8db40643222b1bfeaf51e2d0bdf891659eee1d690969"
 
 [metadata.files]
 alembic = [

@@ -1,4 +1,3 @@
-import datetime
 from typing import List, Optional
 from pydantic import constr
 from climsoft_api.api.schema import BaseSchema
@@ -25,21 +24,6 @@ class CreateStation(BaseSchema):
     cptSelection: bool
     stationOperational: bool
 
-    class Config:
-        fields = {
-            "stationId": "station_id",
-            "stationName": "station_name",
-            "geoLocationMethod": "geolocation_method",
-            "geoLocationAccuracy": "geolocation_accuracy",
-            "openingDatetime": "opening_datetime",
-            "closingDatetime": "closing_datetime",
-            "adminRegion": "admin_region",
-            "drainageBasin": "drainage_basin",
-            "wacaSelection": "waca_selection",
-            "cptSelection": "cpt_selection",
-            "stationOperational": "station_operational"
-        }
-
 
 class UpdateStation(BaseSchema):
     stationName: constr(max_length=255)
@@ -61,20 +45,6 @@ class UpdateStation(BaseSchema):
     cptSelection: bool
     stationOperational: bool
 
-    class Config:
-        fields = {
-            "stationName": "station_name",
-            "geoLocationMethod": "geolocation_method",
-            "geoLocationAccuracy": "geolocation_accuracy",
-            "openingDatetime": "opening_datetime",
-            "closingDatetime": "closing_datetime",
-            "adminRegion": "admin_region",
-            "drainageBasin": "drainage_basin",
-            "wacaSelection": "waca_selection",
-            "cptSelection": "cpt_selection",
-            "stationOperational": "station_operational"
-        }
-
 
 class Station(CreateStation):
     openingDatetime: Optional[str]
@@ -83,23 +53,9 @@ class Station(CreateStation):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-        fields = {
-            "stationId": "station_id",
-            "stationName": "station_name",
-            "geoLocationMethod": "geolocation_method",
-            "geoLocationAccuracy": "geolocation_accuracy",
-            "openingDatetime": "opening_datetime",
-            "closingDatetime": "closing_datetime",
-            "adminRegion": "admin_region",
-            "drainageBasin": "drainage_basin",
-            "wacaSelection": "waca_selection",
-            "cptSelection": "cpt_selection",
-            "stationOperational": "station_operational"
-        }
 
 
 class StationResponse(BaseSchema):
     result: List[Station]
     message: str
     status: str
-

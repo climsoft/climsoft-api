@@ -101,7 +101,7 @@ def test_should_update_data_form(client: TestClient, get_data_form):
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["tableName"] == updates["table_name"]
+    assert response_data["result"][0]["tableName"] == updates["tableName"]
 
 
 def test_should_delete_data_form(client: TestClient, get_data_form):

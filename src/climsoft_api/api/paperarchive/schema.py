@@ -13,13 +13,6 @@ class CreatePaperArchive(BaseSchema):
     image: constr(max_length=255)
     classifiedInto: constr(max_length=50)
 
-    class Config:
-        fields = {
-            "belongsTo": "belongs_to",
-            "formDatetime": "form_datetime",
-            "classifiedInto": "classified_into",
-        }
-
 
 class UpdatePaperArchive(BaseSchema):
     image: constr(max_length=255)
@@ -31,11 +24,6 @@ class PaperArchive(CreatePaperArchive):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-        fields = {
-            "belongsTo": "belongs_to",
-            "formDatetime": "form_datetime",
-            "classifiedInto": "classified_into",
-        }
 
 
 class PaperArchiveResponse(Response):

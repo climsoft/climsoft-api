@@ -15,21 +15,10 @@ class CreatePhysicalFeature(BaseSchema):
     description: constr(max_length=255)
     classifiedInto: constr(max_length=50)
 
-    class Config:
-        fields = {
-            "associatedWith": "associated_with",
-            "beginDate": "begin_date",
-            "endDate": "end_date",
-            "classifiedInto": "classified_into",
-        }
-
 
 class UpdatePhysicalFeature(BaseSchema):
     endDate: constr(max_length=50)
     image: constr(max_length=255)
-
-    class Config:
-        fields = {"endDate": "end_date"}
 
 
 class PhysicalFeature(CreatePhysicalFeature):
@@ -39,13 +28,6 @@ class PhysicalFeature(CreatePhysicalFeature):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-
-        fields = {
-            "associatedWith": "associated_with",
-            "beginDate": "begin_date",
-            "endDate": "end_date",
-            "classifiedInto": "classified_into",
-        }
 
 
 class PhysicalFeatureWithStationAndPhysicalFeatureClass(PhysicalFeature):

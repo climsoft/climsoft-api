@@ -12,38 +12,16 @@ class CreateStationQualifier(BaseSchema):
     stationTimeZone: int
     stationNetworkType: constr(max_length=255)
 
-    class Config:
-        fields = {
-            "qualifierBeginDate": "qualifier_begin_date",
-            "qualifierEndDate": "qualifier_end_date",
-            "belongsTo": "belongs_to",
-            "stationTimeZone": "station_timezone",
-            "stationNetworkType": "station_network_type",
-        }
-
 
 class UpdateStationQualifier(BaseSchema):
     stationTimeZone: int
     stationNetworkType: constr(max_length=255)
-
-    class Config:
-        fields = {
-            "stationTimeZone": "station_timezone",
-            "stationNetworkType": "station_network_type",
-        }
 
 
 class StationQualifier(CreateStationQualifier):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-        fields = {
-            "qualifierBeginDate": "qualifier_begin_date",
-            "qualifierEndDate": "qualifier_end_date",
-            "belongsTo": "belongs_to",
-            "stationTimeZone": "station_timezone",
-            "stationNetworkType": "station_network_type",
-        }
 
 
 class StationQualifierResponse(Response):

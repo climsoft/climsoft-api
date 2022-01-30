@@ -1,0 +1,7 @@
+fastapi
+python-jose
+SQLAlchemy
+inflection
+git+https://github.com/opencdms/pyopencdms.git@main
+passlib
+uvicorn

@@ -1,8 +1,5 @@
 FROM python:3.9.7-slim-bullseye
 
-# https://docs.python.org/3/using/cmdline.html#envvar
-# https://pip.pypa.io/en/stable/user_guide/#environment-variables
-# https://python-poetry.org/docs/configuration/
 ENV PYTHONFAULTHANDLER=1 \
     PYTHONHASHSEED=random \
     PYTHONUNBUFFERED=1 \
@@ -15,25 +12,19 @@ ENV PYTHONFAULTHANDLER=1 \
 
 RUN apt-get update --fix-missing
 RUN apt-get install -y g++ libgdal-dev libpq-dev libgeos-dev libproj-dev openjdk-17-jre vim wait-for-it
-RUN apt-get install -y curl git && pip install --upgrade pip "poetry==${POETRY_VERSION}"
+RUN apt-get install -y curl git && pip install --upgrade pip
 
-WORKDIR /code
+WORKDIR /app
 
+COPY ./requirements.txt ./requirements.txt
 
-# Install Python dependencies.
-COPY pyproject.toml poetry.lock ./
+RUN pip install -r requirements.txt
 
+COPY ./src ./
+COPY ./entrypoint.sh ./entrypoint.sh
+COPY ./initdb.py ./initdb.py
 
-RUN poetry install -v
-
-
-COPY . .
-
-
-RUN poetry install
-
-RUN useradd -m climsoft_api_user && chown -R climsoft_api_user /code
-
+RUN useradd -m climsoft_api_user && chown -R climsoft_api_user /app
 
 USER climsoft_api_user
 

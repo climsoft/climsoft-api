@@ -1,5 +1,5 @@
 from distutils.core import setup
-import setuptools
+from setuptools import find_packages
 
 with open("requirements.txt", "r") as requirements_file:
     requirements = [r.strip("\n") for r in requirements_file.readlines()]
@@ -14,6 +14,9 @@ setup(
     package_dir={
         "": "src"
     },
-    packages=["climsoft_api"],
+    packages=find_packages(
+        where='src',
+        include=['climsoft_api*']
+    ),
     install_requires=requirements
 )

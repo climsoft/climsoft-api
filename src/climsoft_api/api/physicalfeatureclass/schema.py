@@ -9,6 +9,9 @@ class CreatePhysicalFeatureClass(BaseSchema):
     description: constr(max_length=255)
     refersTo: constr(max_length=255)
 
+    class Config:
+        fields = {"featureClass": "feature_class", "refersTo": "refers_to"}
+
 
 class UpdatePhysicalFeatureClass(BaseSchema):
     description: constr(max_length=255)
@@ -17,6 +20,7 @@ class UpdatePhysicalFeatureClass(BaseSchema):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {"refersTo": "refers_to"}
 
 
 class PhysicalFeatureClass(BaseSchema):
@@ -27,6 +31,7 @@ class PhysicalFeatureClass(BaseSchema):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {"featureClass": "feature_class", "refersTo": "refers_to"}
 
 
 class PhysicalFeatureClassWithStation(PhysicalFeatureClass):

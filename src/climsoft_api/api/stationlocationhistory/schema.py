@@ -20,6 +20,17 @@ class CreateStationLocationHistory(BaseSchema):
     adminRegion: constr(max_length=255)
     drainageBasin: constr(max_length=255)
 
+    class Config:
+        fields = {
+            "belongsTo": "belongs_to",
+            "stationType": "station_type",
+            "geolocation_method": "geolocationMethod",
+            "openingDatetime": "opening_datetime",
+            "closingDatetime": "closing_datetime",
+            "adminRegion": "admin_region",
+            "drainageBasin": "drainage_basin",
+        }
+
 
 class UpdateStationLocationHistory(BaseSchema):
     stationType: constr(max_length=255)
@@ -32,6 +43,15 @@ class UpdateStationLocationHistory(BaseSchema):
     authority: constr(max_length=255)
     adminRegion: constr(max_length=255)
     drainageBasin: constr(max_length=255)
+
+    class Config:
+        fields = {
+            "stationType": "station_type",
+            "geolocation_method": "geolocationMethod",
+            "closingDatetime": "closing_datetime",
+            "adminRegion": "admin_region",
+            "drainageBasin": "drainage_basin",
+        }
 
 
 class StationLocationHistory(BaseSchema):
@@ -51,6 +71,15 @@ class StationLocationHistory(BaseSchema):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "belongsTo": "belongs_to",
+            "stationType": "station_type",
+            "geolocation_method": "geolocationMethod",
+            "openingDatetime": "opening_datetime",
+            "closingDatetime": "closing_datetime",
+            "adminRegion": "admin_region",
+            "drainageBasin": "drainage_basin",
+        }
 
 
 class StationLocationHistoryWithStation(StationLocationHistory):

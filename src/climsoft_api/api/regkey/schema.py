@@ -8,16 +8,34 @@ class CreateRegKey(BaseSchema):
     keyValue: constr(max_length=255)
     keyDescription: constr(max_length=255)
 
+    class Config:
+        fields = {
+            "keyName": "key_name",
+            "keyValue": "key_value",
+            "keyDescription": "key_description",
+        }
+
 
 class UpdateRegKey(BaseSchema):
     keyValue: constr(max_length=255)
     keyDescription: constr(max_length=255)
+
+    class Config:
+        fields = {
+            "keyValue": "key_value",
+            "keyDescription": "key_description",
+        }
 
 
 class RegKey(CreateRegKey):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "keyName": "key_name",
+            "keyValue": "key_value",
+            "keyDescription": "key_description",
+        }
 
 
 class RegKeyResponse(Response):

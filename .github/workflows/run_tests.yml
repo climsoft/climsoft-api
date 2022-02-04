@@ -31,6 +31,6 @@ jobs:
           pip install .
       - name: Run tests
         run: |
-          export CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@127.0.0.1/climsoft
+          export CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@mariadb/climsoft
           pytest tests/integration
           

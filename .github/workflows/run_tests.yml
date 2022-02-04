@@ -12,8 +12,8 @@ jobs:
       mariadb:
         image: mariadb:10.1
         env:
-          - MYSQL_ROOT_PASSWORD=password
-          - MYSQL_DATABASE=climsoft
+          MYSQL_ROOT_PASSWORD=password
+          MYSQL_DATABASE=climsoft
         ports:
           - "3306:3306"
         options: >-

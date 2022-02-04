@@ -16,6 +16,17 @@ class CreateObsElement(BaseSchema):
     qcTotalRequired: int
     selected: bool
 
+    class Config:
+        fields = {
+            "elementId": "element_id",
+            "elementName": "element_name",
+            "elementScale": "element_scale",
+            "upperLimit": "upper_limit",
+            "lowerLimit": "lower_limit",
+            "elementtype": "element_type",
+            "qcTotalRequired": "qc_total_required"
+        }
+
 
 class UpdateObsElement(BaseSchema):
     abbreviation: constr(max_length=255)
@@ -29,12 +40,31 @@ class UpdateObsElement(BaseSchema):
     qcTotalRequired: int
     selected: bool
 
+    class Config:
+        fields = {
+            "elementId": "element_id",
+            "elementName": "element_name",
+            "elementScale": "element_scale",
+            "upperLimit": "upper_limit",
+            "lowerLimit": "lower_limit",
+            "elementtype": "element_type",
+            "qcTotalRequired": "qc_total_required"
+        }
+
 
 class ObsElement(CreateObsElement):
     class Config:
         orm_mode = True
-
         allow_population_by_field_name = True
+        fields = {
+            "elementId": "element_id",
+            "elementName": "element_name",
+            "elementScale": "element_scale",
+            "upperLimit": "upper_limit",
+            "lowerLimit": "lower_limit",
+            "elementtype": "element_type",
+            "qcTotalRequired": "qc_total_required"
+        }
 
 
 class ObsElementResponse(BaseSchema):

@@ -17,6 +17,18 @@ class CreateInstrumentFaultReport(BaseSchema):
     receivedBy: constr(max_length=255)
     reportedFrom: constr(max_length=255)
 
+    class Config:
+        fields = {
+            "refersTo": "refers_to",
+            "reportId": "report_id",
+            "reportDatetime": "report_datetime",
+            "faultDescription": "fault_description",
+            "reportedBy": "reported_by",
+            "receivedDatetime": "received_datetime",
+            "receivedBy": "received_by",
+            "reportedFrom": "reported_from"
+        }
+
 
 class UpdateInstrumentFaultReport(BaseSchema):
     refersTo: constr(max_length=255)
@@ -27,6 +39,18 @@ class UpdateInstrumentFaultReport(BaseSchema):
     receivedBy: constr(max_length=255)
     reportedFrom: constr(max_length=255)
 
+    class Config:
+        fields = {
+            "refersTo": "refers_to",
+            "reportId": "report_id",
+            "reportDatetime": "report_datetime",
+            "faultDescription": "fault_description",
+            "reportedBy": "reported_by",
+            "receivedDatetime": "received_datetime",
+            "receivedBy": "received_by",
+            "reportedFrom": "reported_from"
+        }
+
 
 class InstrumentFaultReport(CreateInstrumentFaultReport):
     reportDatetime: datetime.datetime
@@ -35,6 +59,16 @@ class InstrumentFaultReport(CreateInstrumentFaultReport):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "refersTo": "refers_to",
+            "reportId": "report_id",
+            "reportDatetime": "report_datetime",
+            "faultDescription": "fault_description",
+            "reportedBy": "reported_by",
+            "receivedDatetime": "received_datetime",
+            "receivedBy": "received_by",
+            "reportedFrom": "reported_from"
+        }
 
 
 class InstrumentFaultReportWithStationAndInstrument(InstrumentFaultReport):

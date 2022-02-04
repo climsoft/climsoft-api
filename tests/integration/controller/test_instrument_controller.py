@@ -76,7 +76,7 @@ def test_should_raise_validation_error(
 ):
     response = client.post(
         "/v1/instruments/",
-        data=json.dumps({"instrumen_name": "some name"}, default=str),
+        data=json.dumps({"instrument_name": "some name"}, default=str),
         headers={},
     )
     assert response.status_code == 422
@@ -88,8 +88,8 @@ def test_should_update_instrument(
     instrument_data = instrument_schema.Instrument.from_orm(get_instrument).dict(
         by_alias=True
     )
-    instrument_id = instrument_data.pop("instrumentId")
-    updates = {**instrument_data, "instrumentName": "updated name"}
+    instrument_id = instrument_data.pop("instrument_id")
+    updates = {**instrument_data, "instrument_name": "updated name"}
 
     response = client.put(
         f"/v1/instruments/{instrument_id}",
@@ -99,14 +99,14 @@ def test_should_update_instrument(
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["instrumentName"] == updates["instrumentName"]
+    assert response_data["result"][0]["instrument_name"] == updates["instrument_name"]
 
 
 def test_should_delete_instrument(client: TestClient, get_instrument):
     instrument_data = instrument_schema.Instrument.from_orm(get_instrument).dict(
         by_alias=True
     )
-    instrument_id = instrument_data.pop("instrumentId")
+    instrument_id = instrument_data.pop("instrument_id")
 
     response = client.delete(f"/v1/instruments/{instrument_id}", headers={})
     assert response.status_code == 200

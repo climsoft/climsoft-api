@@ -82,8 +82,8 @@ def test_should_update_obselement(client: TestClient, get_obselement):
     obselement_data = obselement_schema.ObsElement.from_orm(get_obselement).dict(
         by_alias=True
     )
-    element_id = obselement_data.pop("elementId")
-    updates = {**obselement_data, "elementName": "updated name"}
+    element_id = obselement_data.pop("element_id")
+    updates = {**obselement_data, "element_name": "updated name"}
     response = client.put(
         f"/v1/obselements/{element_id}",
         data=json.dumps(updates, default=str),
@@ -91,14 +91,14 @@ def test_should_update_obselement(client: TestClient, get_obselement):
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["elementName"] == updates["elementName"]
+    assert response_data["result"][0]["element_name"] == updates["element_name"]
 
 
 def test_should_delete_obselement(client: TestClient, get_obselement):
     obselement_data = obselement_schema.ObsElement.from_orm(get_obselement).dict(
         by_alias=True
     )
-    element_id = obselement_data.pop("elementId")
+    element_id = obselement_data.pop("element_id")
 
     response = client.delete(
         f"/v1/obselements/{element_id}",

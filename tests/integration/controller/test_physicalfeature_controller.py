@@ -145,9 +145,9 @@ def test_should_update_physical_feature(
         get_physical_feature
     ).dict(by_alias=True)
 
-    associated_with = physical_feature_data.pop("associatedWith")
-    begin_date = physical_feature_data.pop("beginDate")
-    classified_into = physical_feature_data.pop("classifiedInto")
+    associated_with = physical_feature_data.pop("associated_with")
+    begin_date = physical_feature_data.pop("begin_date")
+    classified_into = physical_feature_data.pop("classified_into")
     description = physical_feature_data.pop("description")
 
     updates = {**physical_feature_data, "image": uuid.uuid4().hex}
@@ -167,9 +167,9 @@ def test_should_delete_physical_feature(client: TestClient, get_physical_feature
         get_physical_feature
     ).dict(by_alias=True)
 
-    associated_with = physical_feature_data.pop("associatedWith")
-    begin_date = physical_feature_data.pop("beginDate")
-    classified_into = physical_feature_data.pop("classifiedInto")
+    associated_with = physical_feature_data.pop("associated_with")
+    begin_date = physical_feature_data.pop("begin_date")
+    classified_into = physical_feature_data.pop("classified_into")
     description = physical_feature_data.pop("description")
 
     response = client.delete(

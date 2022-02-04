@@ -113,7 +113,7 @@ def test_should_update_physical_feature_class(
             get_physical_feature_class
         ).dict(by_alias=True)
     )
-    feature_class = physical_feature_class_data.pop("featureClass")
+    feature_class = physical_feature_class_data.pop("feature_class")
     updates = {**physical_feature_class_data, "description": "updated description"}
 
     response = client.put(
@@ -134,7 +134,7 @@ def test_should_delete_physical_feature_class(
             get_physical_feature_class
         ).dict(by_alias=True)
     )
-    feature_class = physical_feature_class_data.pop("featureClass")
+    feature_class = physical_feature_class_data.pop("feature_class")
 
     response = client.delete(
         f"/v1/physical-feature-class/{feature_class}",

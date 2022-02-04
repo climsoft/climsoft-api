@@ -63,7 +63,7 @@ def test_should_raise_validation_error(client: TestClient):
 
 def test_should_update_flag(client: TestClient, get_flag):
     flag_data = flag_schema.Flag.from_orm(get_flag).dict(by_alias=True)
-    character_symbol = flag_data.pop("characterSymbol")
+    character_symbol = flag_data.pop("character_symbol")
     updates = {**flag_data, "description": "updated name"}
 
     response = client.put(
@@ -78,7 +78,7 @@ def test_should_update_flag(client: TestClient, get_flag):
 
 def test_should_delete_flag(client: TestClient, get_flag):
     flag_data = flag_schema.Flag.from_orm(get_flag).dict(by_alias=True)
-    character_symbol = flag_data.pop("characterSymbol")
+    character_symbol = flag_data.pop("character_symbol")
 
     response = client.delete(
         f"/v1/flags/{character_symbol}",

@@ -8,7 +8,7 @@ fake = Faker()
 
 
 def get_valid_instrument_inspection_input(station_id: str, instrument_id: str):
-    return instrumentinspection_schema.InstrumentInspection(
+    return instrumentinspection_schema.CreateInstrumentInspection(
         performedOn=instrument_id,
         inspectionDatetime=datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S%f"),
         performedBy=uuid.uuid4().hex,

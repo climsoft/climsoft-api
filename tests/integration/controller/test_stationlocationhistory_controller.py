@@ -119,8 +119,8 @@ def test_should_update_station_location_history(
             get_station_location_history
         ).dict(by_alias=True)
     )
-    belongs_to = station_location_history_data.pop("belongsTo")
-    opening_datetime = station_location_history_data.pop("openingDatetime")
+    belongs_to = station_location_history_data.pop("belongs_to")
+    opening_datetime = station_location_history_data.pop("opening_datetime")
     updates = {**station_location_history_data, "authority": uuid.uuid4().hex}
 
     response = client.put(
@@ -141,8 +141,8 @@ def test_should_delete_station_location_history(
             get_station_location_history
         ).dict(by_alias=True)
     )
-    belongs_to = station_location_history_data.pop("belongsTo")
-    opening_datetime = station_location_history_data.pop("openingDatetime")
+    belongs_to = station_location_history_data.pop("belongs_to")
+    opening_datetime = station_location_history_data.pop("opening_datetime")
 
     response = client.delete(
         f"/v1/station-location-histories/{belongs_to}/{opening_datetime}",

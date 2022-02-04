@@ -114,10 +114,10 @@ def test_should_update_feature_geographical_position(
             get_feature_geographical_position
         ).dict(by_alias=True)
     )
-    belongs_to = feature_geographical_position_data.pop("belongsTo")
+    belongs_to = feature_geographical_position_data.pop("belongs_to")
     updates = {
         **feature_geographical_position_data,
-        "observedOn": datetime.datetime.utcnow().isoformat(),
+        "observed_on": datetime.datetime.utcnow().isoformat(),
     }
 
     response = client.put(
@@ -127,7 +127,7 @@ def test_should_update_feature_geographical_position(
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["observedOn"] == updates["observedOn"]
+    assert response_data["result"][0]["observed_on"] == updates["observed_on"]
 
 
 def test_should_delete_feature_geographical_position(
@@ -138,7 +138,7 @@ def test_should_delete_feature_geographical_position(
             get_feature_geographical_position
         ).dict(by_alias=True)
     )
-    belongs_to = feature_geographical_position_data.pop("belongsTo")
+    belongs_to = feature_geographical_position_data.pop("belongs_to")
 
     response = client.delete(
         f"/v1/feature-geographical-positions/{belongs_to}",

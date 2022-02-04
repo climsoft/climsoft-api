@@ -115,7 +115,7 @@ def test_should_update_obs_schedule_class(
     obs_schedule_class_data = obsscheduleclass_schema.ObsScheduleClass.from_orm(
         get_obs_schedule_class
     ).dict(by_alias=True)
-    obs_schedule_class_id = obs_schedule_class_data.pop("scheduleClass")
+    obs_schedule_class_id = obs_schedule_class_data.pop("schedule_class")
     updates = {**obs_schedule_class_data, "description": "updated description"}
     response = client.put(
         f"/v1/obs-schedule-class/{obs_schedule_class_id}",
@@ -131,7 +131,7 @@ def test_should_delete_obs_schedule_class(client: TestClient, get_obs_schedule_c
     obs_schedule_class_data = obsscheduleclass_schema.ObsScheduleClass.from_orm(
         get_obs_schedule_class
     ).dict(by_alias=True)
-    obs_schedule_class_id = obs_schedule_class_data.pop("scheduleClass")
+    obs_schedule_class_id = obs_schedule_class_data.pop("schedule_class")
 
     response = client.delete(
         f"/v1/obs-schedule-class/{obs_schedule_class_id}",

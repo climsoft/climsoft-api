@@ -30,6 +30,9 @@ class CreateInstrument(BaseSchema):
     instrumentPicture: constr(max_length=255)
     installedAt: constr(max_length=255)
 
+    class Config:
+        fields = field_names
+
 
 class UpdateInstrument(BaseSchema):
     instrumentName: constr(max_length=255)
@@ -44,11 +47,15 @@ class UpdateInstrument(BaseSchema):
     instrumentPicture: constr(max_length=255)
     installedAt: constr(max_length=255)
 
+    class Config:
+        fields = field_names
+
 
 class Instrument(CreateInstrument):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = field_names
 
 
 class InstrumentResponse(Response):

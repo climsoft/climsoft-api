@@ -26,6 +26,24 @@ class CreateObservationInitial(BaseSchema):
     visUnits: constr(max_length=255)
     dataSourceTimeZone: int
 
+    class Config:
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
+
 
 class UpdateObservationInitial(BaseSchema):
     obsLevel: constr(max_length=255)
@@ -41,6 +59,24 @@ class UpdateObservationInitial(BaseSchema):
     cloudHeightUnits: constr(max_length=255)
     visUnits: constr(max_length=255)
     dataSourceTimeZone: int
+
+    class Config:
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
 
 
 class ObservationInitial(CreateObservationInitial):
@@ -62,6 +98,22 @@ class ObservationInitialWithChildren(ObservationInitial):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
 
 
 class ObservationInitialWithChildrenResponse(Response):

@@ -9,16 +9,31 @@ class CreateObsScheduleClass(BaseSchema):
     description: constr(max_length=255)
     refersTo: constr(max_length=255)
 
+    class Config:
+        fields = {
+            "scheduleClass": "schedule_class",
+            "refersTo": "refers_to"
+        }
+
 
 class UpdateObsScheduleClass(BaseSchema):
     description: constr(max_length=255)
     refersTo: constr(max_length=255)
+
+    class Config:
+        fields = {
+            "refersTo": "refers_to"
+        }
 
 
 class ObsScheduleClass(CreateObsScheduleClass):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "scheduleClass": "schedule_class",
+            "refersTo": "refers_to"
+        }
 
 
 class ObsScheduleClassResponse(Response):

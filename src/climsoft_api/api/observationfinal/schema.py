@@ -26,6 +26,25 @@ class CreateObservationFinal(BaseSchema):
     visUnits: Optional[constr(max_length=255)]
     dataSourceTimeZone: int
 
+    class Config:
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "obsValue": "obs_value",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
+
 
 class UpdateObservationFinal(BaseSchema):
     qcStatus: int
@@ -44,6 +63,25 @@ class UpdateObservationFinal(BaseSchema):
     visUnits: Optional[constr(max_length=255)]
     dataSourceTimeZone: int
 
+    class Config:
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "obsValue": "obs_value",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
+
 
 class ObservationFinal(CreateObservationFinal):
     obsDatetime: datetime.datetime
@@ -51,6 +89,23 @@ class ObservationFinal(CreateObservationFinal):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
+        fields = {
+            "recordedFrom": "recorded_from",
+            "describedBy": "described_by",
+            "obsDatetime": "obs_datetime",
+            "qcStatus": "qc_status",
+            "acquisitionType": "acquisition_type",
+            "obsLevel": "obs_level",
+            "obsValue": "obs_value",
+            "qcTypeLog": "qc_type_log",
+            "dataForm": "data_form",
+            "capturedBy": "captured_by",
+            "temperatureUnits": "temperature_units",
+            "precipitationUnits": "precipitation_units",
+            "cloudHeightUnits": "cloud_height_units",
+            "visUnits": "vis_units",
+            "dataSourceTimeZone": "data_source_timezone"
+        }
 
 
 class ObservationFinalResponse(Response):

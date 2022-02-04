@@ -28,6 +28,7 @@ jobs:
         run: |
           pip install -r requirements.txt
           pip install -r requirements_dev.txt
+          pip install .
       - name: Run tests
         run: |
           export CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@127.0.0.1/climsoft

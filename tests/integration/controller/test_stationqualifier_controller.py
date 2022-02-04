@@ -112,11 +112,11 @@ def test_should_update_station_qualifier(
     station_qualifier_data = stationqualifier_schema.StationQualifier.from_orm(
         get_station_qualifier
     ).dict(by_alias=True)
-    belongs_to = station_qualifier_data.pop("belongsTo")
-    qualifier_begin_date = station_qualifier_data.pop("qualifierBeginDate")
-    qualifier_end_date = station_qualifier_data.pop("qualifierEndDate")
+    belongs_to = station_qualifier_data.pop("belongs_to")
+    qualifier_begin_date = station_qualifier_data.pop("qualifier_begin_date")
+    qualifier_end_date = station_qualifier_data.pop("qualifier_end_date")
     qualifier = station_qualifier_data.pop("qualifier")
-    updates = {**station_qualifier_data, "stationTimeZone": 1}
+    updates = {**station_qualifier_data, "station_timezone": 1}
 
     response = client.put(
         f"/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
@@ -125,7 +125,7 @@ def test_should_update_station_qualifier(
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["stationTimeZone"] == updates["stationTimeZone"]
+    assert response_data["result"][0]["station_timezone"] == updates["station_timezone"]
 
 
 def test_should_delete_station_qualifier(
@@ -135,9 +135,9 @@ def test_should_delete_station_qualifier(
     station_qualifier_data = stationqualifier_schema.StationQualifier.from_orm(
         get_station_qualifier
     ).dict(by_alias=True)
-    belongs_to = station_qualifier_data.pop("belongsTo")
-    qualifier_begin_date = station_qualifier_data.pop("qualifierBeginDate")
-    qualifier_end_date = station_qualifier_data.pop("qualifierEndDate")
+    belongs_to = station_qualifier_data.pop("belongs_to")
+    qualifier_begin_date = station_qualifier_data.pop("qualifier_begin_date")
+    qualifier_end_date = station_qualifier_data.pop("qualifier_end_date")
     qualifier = station_qualifier_data.pop("qualifier")
     response = client.delete(
         f"/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",

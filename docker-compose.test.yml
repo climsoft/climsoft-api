@@ -5,16 +5,16 @@ services:
     image: climsoft_api:0.1.0
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: test_climsoft_api
     expose:
       - "5000"
     volumes:
-      - .:/code
+      - ./src:/code/src
+      - ./tests:/code/tests
     environment:
       - CLIMSOFT_SECRET_KEY=test_secret_key
       - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@test_climsoft_db:3306/climsoft
-      # - CLIMSOFT_DB_URI=mysql+mysqldb://root:password@host.docker.internal:33308/mariadb_climsoft_test_db_v4 # uncomment this for snapshot test
     depends_on:
       - test_climsoft_db
     command: ["pytest", "tests/integration", "-s"]
@@ -23,9 +23,14 @@ services:
 
   test_climsoft_db:
     image: mariadb:10.1
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
     container_name: test_climsoft_db
     expose:
       - "3306"
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=climsoft

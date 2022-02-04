@@ -8,7 +8,7 @@ fake = Faker()
 
 
 def get_valid_obselement_input():
-    return obselement_schema.ObsElement(
+    return obselement_schema.CreateObsElement(
         elementId=random.randint(10000000, 10000000000),
         elementName=uuid.uuid4().hex,
         abbreviation=uuid.uuid4().hex,

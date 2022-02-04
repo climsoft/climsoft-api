@@ -72,8 +72,8 @@ def test_should_raise_validation_error(client: TestClient):
 
 def test_should_update_station(client: TestClient, get_station):
     station_data = station_schema.Station.from_orm(get_station).dict(by_alias=True)
-    station_id = station_data.pop("stationId")
-    updates = {**station_data, "stationName": "updated name"}
+    station_id = station_data.pop("station_id")
+    updates = {**station_data, "station_name": "updated name"}
 
     response = client.put(
         f"/v1/stations/{station_id}",
@@ -82,12 +82,12 @@ def test_should_update_station(client: TestClient, get_station):
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["stationName"] == updates["stationName"]
+    assert response_data["result"][0]["station_name"] == updates["station_name"]
 
 
 def test_should_delete_station(client: TestClient, get_station):
     station_data = station_schema.Station.from_orm(get_station).dict(by_alias=True)
-    station_id = station_data.pop("stationId")
+    station_id = station_data.pop("station_id")
 
     response = client.delete(
         f"/v1/stations/{station_id}",

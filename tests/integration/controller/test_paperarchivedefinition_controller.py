@@ -87,7 +87,7 @@ def test_should_update_paper_archive_definition(
             get_paper_archive_definition
         ).dict(by_alias=True)
     )
-    form_id = paper_archive_definition_data.pop("formId")
+    form_id = paper_archive_definition_data.pop("form_id")
     updates = {**paper_archive_definition_data, "description": "updated name"}
 
     response = client.put(
@@ -108,7 +108,7 @@ def test_should_delete_paper_archive_definition(
             get_paper_archive_definition
         ).dict(by_alias=True)
     )
-    form_id = paper_archive_definition_data.pop("formId")
+    form_id = paper_archive_definition_data.pop("form_id")
 
     response = client.delete(
         f"/v1/paper-archive-definitions/{form_id}",

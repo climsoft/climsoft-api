@@ -9,7 +9,7 @@ fake = Faker()
 
 
 def get_valid_instrument_input(station_id: str):
-    return instrument_schema.Instrument(
+    return instrument_schema.CreateInstrument(
         instrumentId=uuid.uuid4().hex,
         instrumentName=uuid.uuid4().hex,
         abbreviation=uuid.uuid4().hex,

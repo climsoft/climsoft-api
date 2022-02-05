@@ -216,10 +216,6 @@ def test_should_update_station_element(
     )
     response_data = response.json()
 
-    print("\n\n\n\n")
-    print(response_data)
-    print("\n\n\n\n")
-
     assert response.status_code == 200
     assert response_data["result"][0]["height"] == updates["height"]
 

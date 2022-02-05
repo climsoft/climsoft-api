@@ -68,8 +68,8 @@ def test_should_raise_validation_error(client: TestClient):
 
 def test_should_update_reg_key(client: TestClient, get_reg_key):
     reg_key_data = regkey_schema.RegKey.from_orm(get_reg_key).dict(by_alias=True)
-    key_name = reg_key_data.pop("keyName")
-    updates = {**reg_key_data, "keyDescription": "updated name"}
+    key_name = reg_key_data.pop("key_name")
+    updates = {**reg_key_data, "key_description": "updated name"}
 
     response = client.put(
         f"/v1/reg-keys/{key_name}",
@@ -78,12 +78,12 @@ def test_should_update_reg_key(client: TestClient, get_reg_key):
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["keyDescription"] == updates["keyDescription"]
+    assert response_data["result"][0]["key_description"] == updates["key_description"]
 
 
 def test_should_delete_reg_key(client: TestClient, get_reg_key):
     reg_key_data = regkey_schema.RegKey.from_orm(get_reg_key).dict(by_alias=True)
-    key_name = reg_key_data.pop("keyName")
+    key_name = reg_key_data.pop("key_name")
 
     response = client.delete(
         f"/v1/reg-keys/{key_name}",

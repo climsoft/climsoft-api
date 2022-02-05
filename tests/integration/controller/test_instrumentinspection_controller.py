@@ -133,8 +133,8 @@ def test_should_update_instrument_inspection(
         ).dict(by_alias=True)
     )
 
-    performed_on = instrument_inspection_data.pop("performedOn")
-    inspection_datetime = instrument_inspection_data.pop("inspectionDatetime")
+    performed_on = instrument_inspection_data.pop("performed_on")
+    inspection_datetime = instrument_inspection_data.pop("inspection_datetime")
 
     updates = {**instrument_inspection_data, "status": uuid.uuid4().hex}
 
@@ -157,8 +157,8 @@ def test_should_delete_instrument_inspection(
         ).dict(by_alias=True)
     )
 
-    performed_on = instrument_inspection_data.pop("performedOn")
-    inspection_datetime = instrument_inspection_data.pop("inspectionDatetime")
+    performed_on = instrument_inspection_data.pop("performed_on")
+    inspection_datetime = instrument_inspection_data.pop("inspection_datetime")
 
     response = client.delete(
         f"/v1/instrument-inspections/{performed_on}/{inspection_datetime}",

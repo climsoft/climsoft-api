@@ -5,7 +5,7 @@ services:
     image: climsoft_api:0.1.0
     build:
       context: .
-      dockerfile: dockerfile
+      dockerfile: Dockerfile
     container_name: climsoft_api
     ports:
       - "5080:5000"

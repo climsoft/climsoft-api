@@ -8,7 +8,7 @@ fake = Faker()
 
 
 def get_valid_flag_input():
-    return flag_schema.Flag(
+    return flag_schema.CreateFlag(
         characterSymbol=uuid.uuid4().hex,
         numSymbol=random.randint(1000000, 10000000),
         description=" ".join(fake.sentences()),

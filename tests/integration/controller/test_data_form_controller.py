@@ -88,11 +88,9 @@ def test_should_raise_validation_error(client: TestClient):
 
 
 def test_should_update_data_form(client: TestClient, get_data_form):
-    data_form_data = data_form_schema.DataForm.from_orm(get_data_form).dict(
-        by_alias=True
-    )
-    form_name = data_form_data.pop("formName")
-    updates = {**data_form_data, "tableName": "updated name"}
+    data_form_data = data_form_schema.DataForm.from_orm(get_data_form).dict()
+    form_name = data_form_data.pop("form_name")
+    updates = {**data_form_data, "table_name": "updated name"}
 
     response = client.put(
         f"/v1/data-forms/{form_name}",
@@ -100,15 +98,15 @@ def test_should_update_data_form(client: TestClient, get_data_form):
     )
     response_data = response.json()
 
+    print(response_data)
+
     assert response.status_code == 200
-    assert response_data["result"][0]["tableName"] == updates["tableName"]
+    assert response_data["result"][0]["table_name"] == updates["table_name"]
 
 
 def test_should_delete_data_form(client: TestClient, get_data_form):
-    data_form_data = data_form_schema.DataForm.from_orm(get_data_form).dict(
-        by_alias=True
-    )
-    form_name = data_form_data.pop("formName")
+    data_form_data = data_form_schema.DataForm.from_orm(get_data_form).dict()
+    form_name = data_form_data.pop("form_name")
 
     response = client.delete(
         f"/v1/data-forms/{form_name}",

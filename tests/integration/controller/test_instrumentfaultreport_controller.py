@@ -134,9 +134,9 @@ def test_should_update_instrument_fault_report(
             get_instrument_fault_report
         ).dict(by_alias=True)
     )
-    report_id = instrument_fault_report_data.pop("reportId")
+    report_id = instrument_fault_report_data.pop("report_id")
 
-    updates = {**instrument_fault_report_data, "reportedBy": uuid.uuid4().hex}
+    updates = {**instrument_fault_report_data, "reported_by": uuid.uuid4().hex}
 
     response = client.put(
         f"/v1/instrument-fault-reports/{report_id}",
@@ -145,7 +145,7 @@ def test_should_update_instrument_fault_report(
     response_data = response.json()
 
     assert response.status_code == 200
-    assert response_data["result"][0]["reportedBy"] == updates["reportedBy"]
+    assert response_data["result"][0]["reported_by"] == updates["reported_by"]
 
 
 def test_should_delete_instrument_fault_report(
@@ -156,7 +156,7 @@ def test_should_delete_instrument_fault_report(
             get_instrument_fault_report
         ).dict(by_alias=True)
     )
-    report_id = instrument_fault_report_data.pop("reportId")
+    report_id = instrument_fault_report_data.pop("report_id")
 
     response = client.delete(
         f"/v1/instrument-fault-reports/{report_id}",

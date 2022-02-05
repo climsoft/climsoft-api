@@ -141,8 +141,8 @@ def test_should_update_fault_resolution(
         get_fault_resolution
     ).dict(by_alias=True)
 
-    resolved_datetime = fault_resolution_data.pop("resolvedDatetime")
-    associated_with = fault_resolution_data.pop("associatedWith")
+    resolved_datetime = fault_resolution_data.pop("resolved_datetime")
+    associated_with = fault_resolution_data.pop("associated_with")
 
     updates = {**fault_resolution_data, "remarks": uuid.uuid4().hex}
 
@@ -161,8 +161,8 @@ def test_should_delete_fault_resolution(client: TestClient, get_fault_resolution
         get_fault_resolution
     ).dict(by_alias=True)
 
-    resolved_datetime = fault_resolution_data.pop("resolvedDatetime")
-    associated_with = fault_resolution_data.pop("associatedWith")
+    resolved_datetime = fault_resolution_data.pop("resolved_datetime")
+    associated_with = fault_resolution_data.pop("associated_with")
 
     response = client.delete(
         f"/v1/fault-resolutions/{resolved_datetime}/{associated_with}",

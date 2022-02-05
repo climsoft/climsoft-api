@@ -9,7 +9,7 @@ fake = Faker()
 
 
 def get_valid_feature_geographical_position_input(synop_feature_abbreviation: str):
-    return featuregeographicalposition_schema.FeatureGeographicalPosition(
+    return featuregeographicalposition_schema.CreateFeatureGeographicalPosition(
         belongsTo=synop_feature_abbreviation,
         observedOn=datetime.datetime.utcnow().isoformat(),
         latitude=fake.latitude(),

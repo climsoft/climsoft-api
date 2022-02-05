@@ -2,7 +2,6 @@ import json
 import pytest
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as climsoft_models
-
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from tests.datagen import acquisitiontype as climsoft_acquisition_type
 from fastapi.testclient import TestClient

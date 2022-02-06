@@ -12,6 +12,8 @@ services:
     environment:
       - CLIMSOFT_SECRET_KEY=*93uuasdjfojalsdf832or;aljfpo2upo
       - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@climsoftdb:3306/climsoft
+    env_file:
+      - .env
     depends_on:
       - climsoftdb
     volumes:

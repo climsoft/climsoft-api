@@ -1,5 +1,8 @@
 import uuid
 from pathlib import Path
+from climsoft_api.utils.s3 import get_s3_client
+from climsoft_api.config import settings
+import io
 
 
 def save_file(storage, file, file_type):
@@ -13,7 +16,13 @@ def save_file(storage, file, file_type):
 
 
 def save_file_to_s3(file, file_name):
-    pass
+    s3_client = get_s3_client()
+    s3_client.upload_fileobj(
+        io.BytesIO(file),
+        settings.S3_BUCKET,
+        file_name
+    )
+    return f"https://s3-{settings.AWS_REGION}.amazonaws.com/{settings.S3_BUCKET}/{file_name}"
 
 
 def save_file_to_disk(file, file_name):

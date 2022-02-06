@@ -1,11 +1,8 @@
 import logging
-from fastapi import APIRouter, Depends, UploadFile, File, Request
+from fastapi import APIRouter, UploadFile, File, Request
 from climsoft_api.utils.response import get_success_response, get_error_response
-from sqlalchemy.orm.session import Session
-from climsoft_api.api import deps
 from climsoft_api.services import file_upload_service
 from climsoft_api.config import settings
-from urllib.parse import urljoin
 
 router = APIRouter()
 
@@ -14,7 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.post("/image")
-async def upload_image(request: Request, file: UploadFile = File(...)):
+async def upload_image(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         file_type = file.content_type

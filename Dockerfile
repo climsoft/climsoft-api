@@ -24,8 +24,4 @@ COPY ./src ./
 COPY ./entrypoint.sh ./entrypoint.sh
 COPY ./initdb.py ./initdb.py
 
-RUN useradd -m climsoft_api_user && chown -R climsoft_api_user /app
-
-USER climsoft_api_user
-
 ENTRYPOINT [ "/bin/sh", "entrypoint.sh" ]

@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from climsoft_api.api.acquisition_type.router import router as acquisition_type_router
 from climsoft_api.api.data_form.router import router as data_form_router
 from climsoft_api.api.faultresolution.router import router as faultresolution_router
@@ -39,12 +40,14 @@ from climsoft_api.api.stationlocationhistory.router import (
 from climsoft_api.api.stationelement.router import router as stationelement_router
 from climsoft_api.api.stationqualifier.router import router as stationqualifier_router
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
-
+from climsoft_api.api.upload.router import router as file_upload_router
+from pathlib import Path
 # load controllers
 
 
 def get_app():
     app = FastAPI()
+    app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
     app.include_router(
         acquisition_type_router,
         prefix="/v1/acquisition-types",
@@ -138,4 +141,6 @@ def get_app():
     return app
 
 
+Path("/uploads").mkdir(parents=True, exist_ok=True)
 app = get_app()
+app.mount("/uploads", StaticFiles(directory="/uploads"), name="uploads")

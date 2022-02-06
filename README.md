@@ -21,6 +21,9 @@ CLIMSOFT_AWS_REGION
 CLIMSOFT_AWS_ACCESS_KEY_ID
 CLIMSOFT_AWS_SECRET_ACCESS_KEY
 ```
+There is also an `.env.example` file. You can copy/rename this to `.env` and put correct
+values. This will automatically be loaded when you run `docker-compose up -d --build`
+
 
 Then go to http://localhost:5080/docs for swagger doc
 

@@ -17,7 +17,8 @@ services:
     depends_on:
       - climsoftdb
     volumes:
-      - .:/code
+      - ./src/climsoft_api:/app/climsoft_api
+      - ./climsoft_uploads:/climsoft_uploads
     networks:
       - climsoft_api_dev_network
     command:

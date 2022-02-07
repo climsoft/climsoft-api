@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+climsoft_uploads/
+
 # Distribution / packaging
 .Python
 build/

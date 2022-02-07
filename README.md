@@ -20,6 +20,8 @@ CLIMSOFT_S3_BUCKET
 CLIMSOFT_AWS_REGION
 CLIMSOFT_AWS_ACCESS_KEY_ID
 CLIMSOFT_AWS_SECRET_ACCESS_KEY
+CLIMSOFT_UPLOAD_DIR
+CLIMSOFT_S3_SIGNED_URL_VALIDITY [in hours as integer]
 ```
 There is also an `.env.example` file. You can copy/rename this to `.env` and put correct
 values. This will automatically be loaded when you run `docker-compose up -d --build`

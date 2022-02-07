@@ -41,6 +41,7 @@ from climsoft_api.api.stationelement.router import router as stationelement_rout
 from climsoft_api.api.stationqualifier.router import router as stationqualifier_router
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
+from climsoft_api.api.s3_files.router import router as s3_files_router
 from pathlib import Path
 from climsoft_api.config import settings
 # load controllers
@@ -49,6 +50,7 @@ from climsoft_api.config import settings
 def get_app():
     app = FastAPI()
     app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
+    app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
     app.include_router(
         acquisition_type_router,
         prefix="/v1/acquisition-types",

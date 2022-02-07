@@ -24,12 +24,7 @@ def save_file_to_s3(file, file_name):
     )
     return {
         "storage": "s3",
-        "object_key": file_name,
-        "presigned_url": create_presigned_url(
-            settings.S3_BUCKET,
-            file_name,
-            3600*settings.S3_SIGNED_URL_VALIDITY
-        )
+        "object_key": file_name
     }
 
 

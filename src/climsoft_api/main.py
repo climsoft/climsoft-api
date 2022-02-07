@@ -42,6 +42,7 @@ from climsoft_api.api.stationqualifier.router import router as stationqualifier_
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
 from pathlib import Path
+from climsoft_api.config import settings
 # load controllers
 
 
@@ -141,6 +142,6 @@ def get_app():
     return app
 
 
-Path("/uploads").mkdir(parents=True, exist_ok=True)
+Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 app = get_app()
-app.mount("/uploads", StaticFiles(directory="/uploads"), name="uploads")
+app.mount(settings.UPLOAD_DIR, StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")

@@ -1,6 +1,6 @@
 import uuid
 from pathlib import Path
-from climsoft_api.utils.s3 import get_s3_client
+from climsoft_api.utils.s3 import get_s3_client, create_presigned_url
 from climsoft_api.config import settings
 import io
 
@@ -22,13 +22,24 @@ def save_file_to_s3(file, file_name):
         settings.S3_BUCKET,
         file_name
     )
-    return f"https://s3-{settings.AWS_REGION}.amazonaws.com/{settings.S3_BUCKET}/{file_name}"
+    return {
+        "storage": "s3",
+        "object_key": file_name,
+        "presigned_url": create_presigned_url(
+            settings.S3_BUCKET,
+            file_name,
+            3600*settings.S3_SIGNED_URL_VALIDITY
+        )
+    }
 
 
 def save_file_to_disk(file, file_name):
-    target_file_path = Path("/uploads").joinpath(file_name)
+    target_file_path = Path(settings.UPLOAD_DIR).joinpath(file_name)
     with open(target_file_path, "wb") as target_file:
         target_file.write(file)
 
-    return target_file_path
+    return {
+        "storage": "disk",
+        "filepath": target_file_path
+    }
 

@@ -48,7 +48,7 @@ from climsoft_api.config import settings
 
 
 def get_app():
-    app = FastAPI()
+    app = FastAPI(docs_url="/")
     app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
     app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
     app.include_router(

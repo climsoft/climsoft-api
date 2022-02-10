@@ -17,9 +17,11 @@ RUN apt-get install -y curl git && pip install --upgrade pip
 WORKDIR /app
 
 COPY ./requirements.txt ./requirements.txt
+COPY ./requirements_dev.txt ./requirements_dev.txt
 
 RUN pip install -r requirements.txt
-
+RUN pip install -r requirements_dev.txt
+COPY ./tests ./tests
 COPY ./src ./
 COPY ./entrypoint.sh ./entrypoint.sh
 COPY ./initdb.py ./initdb.py

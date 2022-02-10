@@ -98,8 +98,6 @@ def test_should_update_data_form(client: TestClient, get_data_form):
     )
     response_data = response.json()
 
-    print(response_data)
-
     assert response.status_code == 200
     assert response_data["result"][0]["table_name"] == updates["table_name"]
 

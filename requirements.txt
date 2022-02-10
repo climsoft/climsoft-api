@@ -2,7 +2,7 @@ fastapi[all]
 python-jose
 SQLAlchemy~=1.4.31
 inflection~=0.5.1
-opencdms @ git+https://github.com/opencdms/pyopencdms.git@climsoftusers-model
+opencdms @ git+https://github.com/opencdms/pyopencdms.git@main
 passlib~=1.7.4
 pydantic~=1.9.0
 opencdms~=0.1.0

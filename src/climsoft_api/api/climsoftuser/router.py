@@ -61,7 +61,7 @@ def create_climsoft_user(
 
 
 @router.put("/{username}/update-role/{role}", response_model=climsoft_user_schema.ClimsoftUserResponse)
-def update(
+def update_climsoft_user(
     username: str,
     role: str,
     db_session: Session = Depends(deps.get_session),

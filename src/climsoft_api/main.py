@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from climsoft_api.api.acquisition_type.router import router as acquisition_type_router
@@ -42,8 +44,11 @@ from climsoft_api.api.stationqualifier.router import router as stationqualifier_
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
 from climsoft_api.api.s3_files.router import router as s3_files_router
+from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
 from pathlib import Path
 from climsoft_api.config import settings
+
+
 # load controllers
 
 
@@ -51,6 +56,7 @@ def get_app():
     app = FastAPI(docs_url="/")
     app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
     app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
+    app.include_router(climsoft_user_router, prefix="/v1/climsoft-users", tags=["Climsoft Users"])
     app.include_router(
         acquisition_type_router,
         prefix="/v1/acquisition-types",
@@ -144,6 +150,10 @@ def get_app():
     return app
 
 
-Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
 app = get_app()
-app.mount(settings.UPLOAD_DIR, StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+
+try:
+    Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
+    app.mount(settings.UPLOAD_DIR, StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
+except PermissionError as e:
+    logging.getLogger(__file__).error(e)

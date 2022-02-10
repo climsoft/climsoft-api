@@ -97,7 +97,6 @@ def test_should_return_single_observation_initial(
     )
     assert response.status_code == 200
     response_data = response.json()
-    print(response_data)
     assert len(response_data["result"]) == 1
     for s in response_data["result"]:
         isinstance(s, observationinitial_schema.ObservationInitial)
@@ -121,7 +120,7 @@ def test_should_create_a_observation_initial(
     )
     assert response.status_code == 200
     response_data = response.json()
-    print(response_data)
+
     assert len(response_data["result"]) == 1
     for s in response_data["result"]:
         isinstance(s, observationinitial_schema.ObservationInitial)

@@ -168,7 +168,7 @@ def test_should_delete_paper_archive(
     response = client.delete(
         f"/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
     )
-    print(response.json())
+
     assert response.status_code == 200
 
     response = client.get(

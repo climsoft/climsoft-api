@@ -121,7 +121,6 @@ def test_should_create_a_observation_final(
     )
     assert response.status_code == 200
     response_data = response.json()
-    print(response_data)
     assert len(response_data["result"]) == 1
     for s in response_data["result"]:
         isinstance(s, observationfinal_schema.ObservationFinal)

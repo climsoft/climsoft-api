@@ -1,7 +1,9 @@
+import math
+
 from fastapi import APIRouter, Depends
 from climsoft_api.services import acquisitiontype_service
 import climsoft_api.api.acquisition_type.schema as acquisitiontype_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api.deps import get_session
 
@@ -9,7 +11,7 @@ from climsoft_api.api.deps import get_session
 router = APIRouter()
 
 
-@router.get("/", response_model=acquisitiontype_schema.AcquisitionTypeResponse)
+@router.get("/", response_model=acquisitiontype_schema.AcquisitionTypeQueryResponse)
 def get_acquisition_types(
     code: str = None,
     description: str = None,
@@ -18,7 +20,7 @@ def get_acquisition_types(
     db_session: Session = Depends(get_session),
 ):
     try:
-        stations = acquisitiontype_service.query(
+        total, stations = acquisitiontype_service.query(
             db_session=db_session,
             code=code,
             description=description,
@@ -26,8 +28,12 @@ def get_acquisition_types(
             offset=offset,
         )
 
-        return get_success_response(
-            result=stations, message="Successfully fetched stations."
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=stations,
+            message="Successfully fetched stations."
         )
     except acquisitiontype_service.FailedGettingAcquisitionTypeList as e:
         return get_error_response(message=str(e))

@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
@@ -7,6 +7,7 @@ from climsoft_api.api.stationlocationhistory import (
     schema as stationlocationhistory_schema,
 )
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
@@ -99,7 +100,7 @@ def query(
     drainage_basin: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[stationlocationhistory_schema.StationLocationHistory]:
+) -> Tuple[int, List[stationlocationhistory_schema.StationLocationHistory]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `station_location_history` row skipping
     `offset` number of rows
@@ -143,10 +144,13 @@ def query(
         if drainage_basin is not None:
             q = q.filter_by(drainageBasin=drainage_basin)
 
-        return [
-            stationlocationhistory_schema.StationLocationHistory.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                stationlocationhistory_schema.StationLocationHistory.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistoryList(

@@ -40,3 +40,12 @@ class RegKey(CreateRegKey):
 
 class RegKeyResponse(Response):
     result: List[RegKey]
+
+
+class RegKeyQueryResponse(RegKeyResponse):
+    limit: int
+    page: int
+    pages: int
+
+
+

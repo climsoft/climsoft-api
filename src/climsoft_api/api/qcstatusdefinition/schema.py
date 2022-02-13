@@ -20,3 +20,10 @@ class QCStatusDefinition(CreateQCStatusDefinition):
 
 class QCStatusDefinitionResponse(Response):
     result: List[QCStatusDefinition]
+
+
+class QCStatusDefinitionQueryResponse(QCStatusDefinitionResponse):
+    limit: int
+    page: int
+    pages: int
+

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import instrumentinspection_service
 import climsoft_api.api.instrumentinspection.schema as instrumentinspection_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=instrumentinspection_schema.InstrumentInspectionResponse,
+    response_model=instrumentinspection_schema.InstrumentInspectionQueryResponse,
 )
 def get_instrument_inspection(
     performed_on: str = None,
@@ -24,7 +24,7 @@ def get_instrument_inspection(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        instrument_inspection = instrumentinspection_service.query(
+        total, instrument_inspection = instrumentinspection_service.query(
             db_session=db_session,
             performed_on=performed_on,
             inspection_datetime=inspection_datetime,
@@ -36,7 +36,10 @@ def get_instrument_inspection(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=instrument_inspection,
             message="Successfully fetched instrument_inspection.",
         )

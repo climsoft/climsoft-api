@@ -20,3 +20,12 @@ class QCType(CreateQCType):
 
 class QCTypeResponse(Response):
     result: List[QCType]
+
+
+class QCTypeQueryResponse(QCTypeResponse):
+    limit: int
+    page: int
+    pages: int
+
+
+

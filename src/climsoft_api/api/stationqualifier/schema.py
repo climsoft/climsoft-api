@@ -56,3 +56,11 @@ class StationQualifierWithStation(StationQualifier):
 
 class StationQualifierWithStationResponse(Response):
     result: List[StationQualifierWithStation]
+
+
+class StationQualifierQueryResponse(StationQualifierResponse):
+    limit: int
+    page: int
+    pages: int
+
+

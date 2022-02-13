@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.physicalfeatureclass import schema as physicalfeatureclass_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftPhysicalFeatureClassService")
 logging.basicConfig(level=logging.INFO)
@@ -87,7 +88,7 @@ def query(
     refers_to: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[physicalfeatureclass_schema.PhysicalFeatureClass]:
+) -> Tuple[int, List[physicalfeatureclass_schema.PhysicalFeatureClass]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `physical_feature_class` row skipping
     `offset` number of rows
@@ -106,10 +107,13 @@ def query(
         if refers_to is not None:
             q = q.filter_by(refers_to=refers_to)
 
-        return [
-            physicalfeatureclass_schema.PhysicalFeatureClass.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                physicalfeatureclass_schema.PhysicalFeatureClass.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureClassList(

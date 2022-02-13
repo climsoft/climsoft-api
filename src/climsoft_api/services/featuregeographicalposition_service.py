@@ -1,8 +1,9 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
+from climsoft_api.utils.query import get_count
 
 from climsoft_api.api.featuregeographicalposition import (
     schema as featuregeographicalposition_schema,
@@ -94,7 +95,7 @@ def query(
     longitude: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[featuregeographicalposition_schema.FeatureGeographicalPosition]:
+) -> Tuple[int, List[featuregeographicalposition_schema.FeatureGeographicalPosition]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `feature_geographical_position` row skipping
     `offset` number of rows
@@ -114,10 +115,13 @@ def query(
         if longitude is not None:
             q = q.filter_by(longitude=longitude)
 
-        return [
-            featuregeographicalposition_schema.FeatureGeographicalPosition.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                featuregeographicalposition_schema.FeatureGeographicalPosition.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFeatureGeographicalPositionList(

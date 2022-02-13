@@ -20,3 +20,11 @@ class SynopFeature(CreateSynopFeature):
 
 class SynopFeatureResponse(Response):
     result: List[SynopFeature]
+
+
+class SynopFeatureQueryResponse(SynopFeatureResponse):
+    limit: int
+    page: int
+    pages: int
+
+

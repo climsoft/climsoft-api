@@ -68,3 +68,9 @@ class InstrumentWithStation(Instrument):
 
 class InstrumentWithStationResponse(Response):
     result: List[InstrumentWithStation]
+
+
+class InstrumentQueryResponse(InstrumentResponse):
+    limit: int
+    page: int
+    pages: int

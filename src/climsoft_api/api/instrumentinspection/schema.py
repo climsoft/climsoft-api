@@ -62,3 +62,9 @@ class InstrumentInspectionResponse(Response):
 
 class InstrumentInspectionWithStationAndInstrumentResponse(Response):
     result: List[InstrumentInspectionWithStationAndInstrument]
+
+
+class InstrumentInspectionQueryResponse(InstrumentInspectionResponse):
+    limit: int
+    page: int
+    pages: int

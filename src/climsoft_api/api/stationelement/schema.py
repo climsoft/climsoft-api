@@ -70,3 +70,10 @@ class StationElementWithChildren(StationElement):
 
 class StationElementWithChildrenResponse(Response):
     result: List[StationElementWithChildren]
+
+
+class StationElementQueryResponse(StationElementResponse):
+    limit: int
+    page: int
+    pages: int
+

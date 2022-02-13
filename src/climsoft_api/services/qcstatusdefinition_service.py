@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.qcstatusdefinition import schema as qcstatusdefinition_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -76,7 +77,7 @@ def query(
     description: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[qcstatusdefinition_schema.QCStatusDefinition]:
+) -> Tuple[int, List[qcstatusdefinition_schema.QCStatusDefinition]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `qc_status_definitions` row skipping
     `offset` number of rows
@@ -93,10 +94,13 @@ def query(
                 models.Qcstatusdefinition.description.ilike(f"%{description}%")
             )
 
-        return [
-            qcstatusdefinition_schema.QCStatusDefinition.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                qcstatusdefinition_schema.QCStatusDefinition.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCStatusDefinitionList("Failed getting data form list.")

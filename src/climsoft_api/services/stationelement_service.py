@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.stationelement import schema as stationelement_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftStationElementService")
 logging.basicConfig(level=logging.INFO)
@@ -98,7 +99,7 @@ def query(
     end_date: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[stationelement_schema.StationElement]:
+) -> Tuple[int, List[stationelement_schema.StationElement]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `stationelement` row skipping
     `offset` number of rows
@@ -142,10 +143,13 @@ def query(
         if end_date is not None:
             q = q.filter(models.Stationelement.endDate <= end_date)
 
-        return [
-            stationelement_schema.StationElement.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                stationelement_schema.StationElement.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationElementList("Failed getting station_element list.")

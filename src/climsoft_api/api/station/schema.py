@@ -102,3 +102,9 @@ class StationResponse(BaseSchema):
     result: List[Station]
     message: str
     status: str
+
+
+class StationQueryResponse(StationResponse):
+    limit: int
+    page: int
+    pages: int

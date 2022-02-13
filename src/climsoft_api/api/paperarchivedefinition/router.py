@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import paperarchivedefinition_service
 import climsoft_api.api.paperarchivedefinition.schema as paperarchivedefinition_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
+    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionQueryResponse,
 )
 def get_paper_archive_definitions(
     form_id: str = None,
@@ -20,7 +20,7 @@ def get_paper_archive_definitions(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        paper_archive_definitions = paperarchivedefinition_service.query(
+        total, paper_archive_definitions = paperarchivedefinition_service.query(
             db_session=db_session,
             form_id=form_id,
             description=description,
@@ -28,7 +28,10 @@ def get_paper_archive_definitions(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=paper_archive_definitions,
             message="Successfully fetched paper_archive_definitions.",
         )

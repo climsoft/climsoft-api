@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import climsoftuser_service
 import climsoft_api.api.climsoftuser.schema as climsoft_user_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -9,7 +9,7 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=climsoft_user_schema.ClimsoftUserResponse)
+@router.get("/", response_model=climsoft_user_schema.ClimsoftUserQueryResponse)
 def get_climsoft_users(
     username: str = None,
     role: str = None,
@@ -18,7 +18,7 @@ def get_climsoft_users(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        climsoft_users = climsoftuser_service.query(
+        total, climsoft_users = climsoftuser_service.query(
             db_session=db_session,
             username=username,
             role=role,
@@ -26,7 +26,10 @@ def get_climsoft_users(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=climsoft_users, message="Successfully fetched climsoft_users."
         )
     except climsoftuser_service.FailedGettingClimsoftUserList as e:

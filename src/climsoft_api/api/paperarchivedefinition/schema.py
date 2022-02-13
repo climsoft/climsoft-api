@@ -24,3 +24,12 @@ class PaperArchiveDefinition(CreatePaperArchiveDefinition):
 
 class PaperArchiveDefinitionResponse(Response):
     result: List[PaperArchiveDefinition]
+
+
+class PaperArchiveDefinitionQueryResponse(PaperArchiveDefinitionResponse):
+    limit: int
+    page: int
+    pages: int
+
+
+

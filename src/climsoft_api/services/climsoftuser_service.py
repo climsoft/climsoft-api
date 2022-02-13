@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.climsoftuser import schema as climsoftuser_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
@@ -72,7 +73,7 @@ def query(
     role: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[climsoftuser_schema.ClimsoftUser]:
+) -> Tuple[int, List[climsoftuser_schema.ClimsoftUser]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
     `offset` number of rows
@@ -92,10 +93,13 @@ def query(
         if role is not None:
             q = q.filter(models.ClimsoftUser.userRole.ilike(f"%{role}%"))
 
-        return [
-            climsoftuser_schema.ClimsoftUser.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                climsoftuser_schema.ClimsoftUser.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingClimsoftUserList("Failed getting climsoft_user list.")

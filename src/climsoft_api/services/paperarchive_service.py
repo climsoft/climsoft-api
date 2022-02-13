@@ -4,6 +4,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.session import Session
 from climsoft_api.api.paperarchive import schema as paperarchive_schema
 from opencdms.models.climsoft import v4_1_1_core as models
+from climsoft_api.utils.query import get_count
 
 
 logger = logging.getLogger("ClimsoftPaperArchiveService")
@@ -58,10 +59,13 @@ def query(
         if classified_into is not None:
             q = q.filter_by(classifiedInto=classified_into)
 
-        return [
-            paperarchive_schema.PaperArchive.from_orm(paper_archive)
-            for paper_archive in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                paperarchive_schema.PaperArchive.from_orm(paper_archive)
+                for paper_archive in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedFetchingPaperArchives("Failed fetching paper archive.")

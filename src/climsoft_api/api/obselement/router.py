@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import obselement_service
 import climsoft_api.api.obselement.schema as obselement_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
 router = APIRouter()
 
 
-@router.get("/", response_model=obselement_schema.ObsElementResponse)
+@router.get("/", response_model=obselement_schema.ObsElementQueryResponse)
 def get_obselements(
     element_id: str = None,
     element_name: str = None,
@@ -26,7 +26,7 @@ def get_obselements(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        obselements = obselement_service.query(
+        total, obselements = obselement_service.query(
             db_session=db_session,
             element_id=element_id,
             element_name=element_name,
@@ -43,7 +43,10 @@ def get_obselements(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=obselements, message="Successfully fetched obselements."
         )
     except obselement_service.FailedGettingObsElementList as e:

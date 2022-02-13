@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.regkey import schema as regkey_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftRegKeyService")
 logging.basicConfig(level=logging.INFO)
@@ -69,7 +70,7 @@ def query(
     key_description: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[regkey_schema.RegKey]:
+) -> Tuple[int, List[regkey_schema.RegKey]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `reg_keys` row skipping
     `offset` number of rows
@@ -87,10 +88,13 @@ def query(
         if key_description is not None:
             q = q.filter(models.Regkey.keyDescription.ilike(f"%{key_description}%"))
 
-        return [
-            regkey_schema.RegKey.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                regkey_schema.RegKey.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingRegKeyList("Failed getting reg key list.")

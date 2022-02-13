@@ -123,3 +123,9 @@ class ObservationInitialWithChildrenResponse(Response):
 class ObservationInitialInputGen(CreateObservationInitial):
     class Config:
         allow_population_by_field_name = True
+
+
+class ObservationInitialQueryResponse(ObservationInitialResponse):
+    limit: int
+    page: int
+    pages: int

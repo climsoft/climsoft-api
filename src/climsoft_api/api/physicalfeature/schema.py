@@ -59,3 +59,14 @@ class PhysicalFeatureResponse(Response):
 
 class PhysicalFeatureWithStationAndPhysicalFeatureClassResponse(Response):
     result: List[PhysicalFeatureWithStationAndPhysicalFeatureClass]
+
+
+class PhysicalFeatureQueryResponse(PhysicalFeatureResponse):
+    limit: int
+    page: int
+    pages: int
+
+
+
+
+

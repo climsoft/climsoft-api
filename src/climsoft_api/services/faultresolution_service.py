@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.faultresolution import schema as faultresolution_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftFaultResolutionService")
 logging.basicConfig(level=logging.INFO)
@@ -84,7 +85,7 @@ def query(
     resolved_by: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[faultresolution_schema.FaultResolution]:
+) -> Tuple[int, List[faultresolution_schema.FaultResolution]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `fault_resolution` row skipping
     `offset` number of rows
@@ -104,10 +105,13 @@ def query(
         if remarks is not None:
             q = q.filter_by(remarks=remarks)
 
-        return [
-            faultresolution_schema.FaultResolution.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                faultresolution_schema.FaultResolution.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFaultResolutionList("Failed getting fault_resolution list.")

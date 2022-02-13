@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import regkey_service
 import climsoft_api.api.regkey.schema as regkey_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
 router = APIRouter()
 
 
-@router.get("/", response_model=regkey_schema.RegKeyResponse)
+@router.get("/", response_model=regkey_schema.RegKeyQueryResponse)
 def get_reg_keys(
     key_name: str = None,
     key_value: str = None,
@@ -18,7 +18,7 @@ def get_reg_keys(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        reg_keys = regkey_service.query(
+        total, reg_keys = regkey_service.query(
             db_session=db_session,
             key_name=key_name,
             key_value=key_value,
@@ -27,7 +27,10 @@ def get_reg_keys(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=reg_keys, message="Successfully fetched reg_keys."
         )
     except regkey_service.FailedGettingRegKeyList as e:

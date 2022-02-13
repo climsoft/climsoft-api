@@ -42,3 +42,9 @@ class ClimsoftUser(BaseSchema):
 
 class ClimsoftUserResponse(Response):
     result: List[ClimsoftUser]
+
+
+class ClimsoftUserQueryResponse(ClimsoftUserResponse):
+    limit: int
+    page: int
+    pages: int

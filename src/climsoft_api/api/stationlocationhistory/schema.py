@@ -92,3 +92,10 @@ class StationLocationHistoryResponse(Response):
 
 class StationLocationHistoryWithStationResponse(Response):
     result: List[StationLocationHistoryWithStation]
+
+
+class StationLocationHistoryQueryResponse(StationLocationHistoryResponse):
+    limit: int
+    page: int
+    pages: int
+

@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.instrument import schema as instrument_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
@@ -83,7 +84,7 @@ def query(
     station_id: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[instrument_schema.Instrument]:
+) -> Tuple[int, List[instrument_schema.Instrument]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `instrument` row skipping
     `offset` number of rows
@@ -146,10 +147,13 @@ def query(
         if station_id is not None:
             q = q.filter_by(installedAt=station_id)
 
-        return [
-            instrument_schema.Instrument.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                instrument_schema.Instrument.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentList("Failed getting instrument list.")

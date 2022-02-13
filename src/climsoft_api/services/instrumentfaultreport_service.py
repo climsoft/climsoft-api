@@ -1,5 +1,5 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
@@ -7,6 +7,7 @@ from climsoft_api.api.instrumentfaultreport import (
     schema as instrumentfaultreport_schema,
 )
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
@@ -94,7 +95,7 @@ def query(
     reported_from: float = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[instrumentfaultreport_schema.InstrumentFaultReport]:
+) -> Tuple[int, List[instrumentfaultreport_schema.InstrumentFaultReport]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `instrument_fault_report` row skipping
     `offset` number of rows
@@ -126,10 +127,13 @@ def query(
         if reported_from is not None:
             q = q.filter_by(reportedFrom=reported_from)
 
-        return [
-            instrumentfaultreport_schema.InstrumentFaultReport.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                instrumentfaultreport_schema.InstrumentFaultReport.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReportList(

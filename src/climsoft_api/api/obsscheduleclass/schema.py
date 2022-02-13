@@ -46,3 +46,9 @@ class ObsScheduleClassWithStation(ObsScheduleClass):
 
 class ObsScheduleClassWithStationResponse(Response):
     result: List[ObsScheduleClassWithStation]
+
+
+class ObsScheduleClassQueryResponse(ObsScheduleClassResponse):
+    limit: int
+    page: int
+    pages: int

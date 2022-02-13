@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import paperarchive_service
 import climsoft_api.api.paperarchive.schema as paperarchive_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
 router = APIRouter()
 
 
-@router.get("/", response_model=paperarchive_schema.PaperArchiveResponse)
+@router.get("/", response_model=paperarchive_schema.PaperArchiveQueryResponse)
 def get_paper_archives(
     belongs_to: str = None,
     form_datetime: str = None,
@@ -19,7 +19,7 @@ def get_paper_archives(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        paper_archives = paperarchive_service.query(
+        total, paper_archives = paperarchive_service.query(
             db_session=db_session,
             belongs_to=belongs_to,
             form_datetime=form_datetime,
@@ -29,7 +29,10 @@ def get_paper_archives(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=paper_archives, message="Successfully fetched paper_archives."
         )
     except paperarchive_service.FailedGettingPaperArchiveList as e:

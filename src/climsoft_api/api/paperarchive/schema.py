@@ -49,3 +49,12 @@ class PaperArchiveWithStationAndPaperArchiveDefinition(PaperArchive):
 
 class PaperArchiveWithStationAndPaperArchiveDefinitionResponse(Response):
     result: List[PaperArchiveWithStationAndPaperArchiveDefinition]
+
+
+class PaperArchiveQueryResponse(PaperArchiveResponse):
+    limit: int
+    page: int
+    pages: int
+
+
+

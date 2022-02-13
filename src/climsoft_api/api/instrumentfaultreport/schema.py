@@ -82,3 +82,10 @@ class InstrumentFaultReportResponse(Response):
 
 class InstrumentFaultReportWithStationAndInstrumentResponse(Response):
     result: List[InstrumentFaultReportWithStationAndInstrument]
+
+
+class InstrumentFaultReportQueryResponse(InstrumentFaultReportResponse):
+    limit: int
+    page: int
+    pages: int
+

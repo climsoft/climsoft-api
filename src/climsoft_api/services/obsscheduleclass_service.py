@@ -1,10 +1,11 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.obsscheduleclass import schema as obsscheduleclass_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
@@ -81,7 +82,7 @@ def query(
     refers_to: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[obsscheduleclass_schema.ObsScheduleClass]:
+) -> Tuple[int, List[obsscheduleclass_schema.ObsScheduleClass]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `obs_schedule_class` row skipping
     `offset` number of rows
@@ -105,10 +106,13 @@ def query(
         if refers_to is not None:
             q = q.filter_by(refersTo=refers_to)
 
-        return [
-            obsscheduleclass_schema.ObsScheduleClass.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                obsscheduleclass_schema.ObsScheduleClass.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsScheduleClassList(

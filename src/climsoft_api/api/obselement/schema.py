@@ -71,3 +71,10 @@ class ObsElementResponse(BaseSchema):
     message: str
     status: str
     result: List[ObsElement]
+
+
+class ObsElementQueryResponse(ObsElementResponse):
+    limit: int
+    page: int
+    pages: int
+

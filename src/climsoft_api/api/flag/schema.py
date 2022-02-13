@@ -37,3 +37,9 @@ class Flag(CreateFlag):
 
 class FlagResponse(Response):
     result: List[Flag]
+
+
+class FlagQueryResponse(FlagResponse):
+    limit: int
+    page: int
+    pages: int

@@ -38,3 +38,7 @@ class DataFormResponse(Response):
     result: List[DataForm]
 
 
+class DataFormQueryResponse(DataFormResponse):
+    limit: int
+    page: int
+    pages: int

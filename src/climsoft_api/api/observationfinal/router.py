@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import observationfinal_service
 import climsoft_api.api.observationfinal.schema as observationfinal_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=observationfinal_schema.ObservationFinalResponse,
+    response_model=observationfinal_schema.ObservationFinalQueryResponse,
 )
 def get_observation_finals(
     recorded_from: str = None,
@@ -36,7 +36,7 @@ def get_observation_finals(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        observation_finals = observationfinal_service.query(
+        total, observation_finals = observationfinal_service.query(
             db_session=db_session,
             recorded_from=recorded_from,
             obs_datetime=obs_datetime,
@@ -60,7 +60,10 @@ def get_observation_finals(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=observation_finals,
             message="Successfully fetched observation_finals.",
         )

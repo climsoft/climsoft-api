@@ -53,3 +53,9 @@ class FaultResolutionResponse(Response):
 
 class FaultResolutionWithInstrumentFaultReportResponse(Response):
     result: List[FaultResolutionWithInstrumentFaultReport]
+
+
+class FaultResolutionQueryResponse(FaultResolutionResponse):
+    limit: int
+    page: int
+    pages: int

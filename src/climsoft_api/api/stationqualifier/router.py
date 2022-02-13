@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import stationqualifier_service
 import climsoft_api.api.stationqualifier.schema as stationqualifier_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=stationqualifier_schema.StationQualifierResponse,
+    response_model=stationqualifier_schema.StationQualifierQueryResponse,
 )
 def get_station_qualifier(
     qualifier: str = None,
@@ -24,7 +24,7 @@ def get_station_qualifier(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        station_qualifier = stationqualifier_service.query(
+        total, station_qualifier = stationqualifier_service.query(
             db_session=db_session,
             belongs_to=belongs_to,
             qualifier=qualifier,
@@ -36,7 +36,10 @@ def get_station_qualifier(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=station_qualifier, message="Successfully fetched station_qualifier."
         )
     except stationqualifier_service.FailedGettingStationQualifierList as e:

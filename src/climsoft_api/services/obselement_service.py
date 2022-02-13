@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.obselement import schema as obselement_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
@@ -79,7 +80,7 @@ def query(
     selected: bool = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[obselement_schema.ObsElement]:
+) -> Tuple[int, List[obselement_schema.ObsElement]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
     `offset` number of rows
@@ -136,10 +137,13 @@ def query(
         if selected is not None:
             q = q.filter_by(selected=selected)
 
-        return [
-            obselement_schema.ObsElement.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                obselement_schema.ObsElement.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsElementList("Failed getting obs_element list.")

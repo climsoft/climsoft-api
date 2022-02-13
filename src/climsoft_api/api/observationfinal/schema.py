@@ -127,3 +127,10 @@ class ObservationFinalWithChildrenResponse(Response):
 
 class ObservationFinalInputGen(CreateObservationFinal):
     pass
+
+
+class ObservationFinalQueryResponse(ObservationFinalResponse):
+    limit: int
+    page: int
+    pages: int
+

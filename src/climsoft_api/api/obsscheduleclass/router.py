@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from climsoft_api.services import obsscheduleclass_service
 import climsoft_api.api.obsscheduleclass.schema as obsscheduleclass_schema
-from climsoft_api.utils.response import get_success_response, get_error_response
+from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
+    response_model=obsscheduleclass_schema.ObsScheduleClassQueryResponse,
 )
 def get_obs_schedule_class(
     schedule_class: str = None,
@@ -21,7 +21,7 @@ def get_obs_schedule_class(
     db_session: Session = Depends(deps.get_session),
 ):
     try:
-        obs_schedule_class = obsscheduleclass_service.query(
+        total, obs_schedule_class = obsscheduleclass_service.query(
             db_session=db_session,
             schedule_class=schedule_class,
             description=description,
@@ -30,7 +30,10 @@ def get_obs_schedule_class(
             offset=offset,
         )
 
-        return get_success_response(
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
             result=obs_schedule_class,
             message="Successfully fetched obs_schedule_class.",
         )

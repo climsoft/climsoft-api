@@ -48,3 +48,9 @@ class FeatureGeographicalPositionResponse(Response):
 
 class FeatureGeographicalPositionWithSynopFeatureResponse(Response):
     result: List[FeatureGeographicalPositionWithSynopFeature]
+
+
+class FeatureGeographicalPositionQueryResponse(FeatureGeographicalPositionResponse):
+    limit: int
+    page: int
+    pages: int

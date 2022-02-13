@@ -21,3 +21,8 @@ class AcquisitionTypeResponse(Response):
     result: List[AcquisitionType]
 
 
+class AcquisitionTypeQueryResponse(AcquisitionTypeResponse):
+    limit: int
+    page: int
+    pages: int
+

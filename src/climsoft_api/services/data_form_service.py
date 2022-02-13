@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.data_form import schema as data_form_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
@@ -78,7 +79,7 @@ def query(
     entry_mode: bool = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[data_form_schema.DataForm]:
+) -> Tuple[int, List[data_form_schema.DataForm]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `data_forms` row skipping
     `offset` number of rows
@@ -117,10 +118,13 @@ def query(
         if entry_mode is not None:
             q = q.filter(models.DataForm.entry_mode.ilike(f"%{entry_mode}%"))
 
-        return [
-            data_form_schema.DataForm.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                data_form_schema.DataForm.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingDataFormList("Failed getting data form list.")

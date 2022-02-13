@@ -1,11 +1,12 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.paperarchivedefinition import (
     schema as paperarchivedefinition_schema,
 )
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftPaperArchiveDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -87,7 +88,7 @@ def query(
     description: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[paperarchivedefinition_schema.PaperArchiveDefinition]:
+) -> Tuple[int, List[paperarchivedefinition_schema.PaperArchiveDefinition]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `paper_archive_definitions` row skipping
     `offset` number of rows
@@ -104,10 +105,13 @@ def query(
                 models.Paperarchivedefinition.description.ilike(f"%{description}%")
             )
 
-        return [
-            paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(s)
-            for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+                paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinitionList("Failed getting data form list.")

@@ -1,9 +1,10 @@
 import logging
-from typing import List
+from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.flag import schema as flag_schema
 from fastapi.exceptions import HTTPException
+from climsoft_api.utils.query import get_count
 
 logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
@@ -71,7 +72,7 @@ def query(
     description: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> List[flag_schema.Flag]:
+) -> Tuple[int, List[flag_schema.Flag]]:
     """
     This function builds a query based on the given parameter and returns `limit` numbers of `flags` row skipping
     `offset` number of rows
@@ -89,9 +90,12 @@ def query(
         if description is not None:
             q = q.filter(models.Flag.description.ilike(f"%{description}%"))
 
-        return [
-            flag_schema.Flag.from_orm(s) for s in q.offset(offset).limit(limit).all()
-        ]
+        return (
+            get_count(q),
+            [
+               flag_schema.Flag.from_orm(s) for s in q.offset(offset).limit(limit).all()
+            ]
+        )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFlagList("Failed getting data form list.")

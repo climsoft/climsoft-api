@@ -11,7 +11,7 @@ services:
       - "5080:5000"
     environment:
       - CLIMSOFT_SECRET_KEY=*93uuasdjfojalsdf832or;aljfpo2upo
-      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@climsoftdb:3306/climsoft
+      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@climsoftdb:3306/mariadb_climsoft_test_db_v4
     env_file:
       - .env
     depends_on:

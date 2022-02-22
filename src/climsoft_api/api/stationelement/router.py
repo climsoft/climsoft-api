@@ -8,7 +8,10 @@ from climsoft_api.api import deps
 router = APIRouter()
 
 
-@router.get("/", response_model=stationelement_schema.StationElementQueryResponse)
+@router.get(
+    "/",
+    response_model=stationelement_schema.StationElementQueryResponse
+)
 def get_station_elements(
     recorded_from: str = None,
     described_by: int = None,
@@ -36,12 +39,12 @@ def get_station_elements(
             limit=limit,
             offset=offset,
         )
-
         return get_success_response_for_query(
             limit=limit,
             total=total,
             offset=offset,
-            result=station_elements, message="Successfully fetched station_elements."
+            result=station_elements,
+            message="Successfully fetched station_elements."
         )
     except stationelement_service.FailedGettingStationElementList as e:
         return get_error_response(message=str(e))

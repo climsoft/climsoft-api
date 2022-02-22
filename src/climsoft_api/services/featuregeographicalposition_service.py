@@ -4,6 +4,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 from climsoft_api.api.featuregeographicalposition import (
     schema as featuregeographicalposition_schema,
@@ -48,14 +49,15 @@ def create(
         )
         db_session.add(feature_geographical_position)
         db_session.commit()
-        return featuregeographicalposition_schema.FeatureGeographicalPosition.from_orm(
-            feature_geographical_position
-        )
+        return featuregeographicalposition_schema.FeatureGeographicalPosition \
+            .from_orm(
+                feature_geographical_position
+            )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingFeatureGeographicalPosition(
-            "Failed creating feature_geographical_position."
+            _("Failed creating feature geographical position.")
         )
 
 
@@ -65,25 +67,27 @@ def get(
     try:
         feature_geographical_position = (
             db_session.query(models.Featuregeographicalposition)
-            .filter_by(belongsTo=belongs_to)
-            .options(joinedload("synopfeature"))
-            .first()
+                .filter_by(belongsTo=belongs_to)
+                .options(joinedload("synopfeature"))
+                .first()
         )
 
         if not feature_geographical_position:
             raise HTTPException(
-                status_code=404, detail="FeatureGeographicalPosition does not exist."
+                status_code=404,
+                detail="Feature geographical position does not exist."
             )
 
-        return featuregeographicalposition_schema.FeatureGeographicalPositionWithSynopFeature.from_orm(
-            feature_geographical_position
-        )
+        return featuregeographicalposition_schema \
+            .FeatureGeographicalPositionWithSynopFeature.from_orm(
+                feature_geographical_position
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFeatureGeographicalPosition(
-            "Failed getting feature_geographical_position."
+            _("Failed getting feature geographical position.")
         )
 
 
@@ -95,9 +99,13 @@ def query(
     longitude: str = None,
     limit: int = 25,
     offset: int = 0,
-) -> Tuple[int, List[featuregeographicalposition_schema.FeatureGeographicalPosition]]:
+) -> Tuple[
+    int,
+    List[featuregeographicalposition_schema.FeatureGeographicalPosition]
+]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `feature_geographical_position` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `feature_geographical_position` row skipping
     `offset` number of rows
     """
     try:
@@ -118,21 +126,23 @@ def query(
         return (
             get_count(q),
             [
-                featuregeographicalposition_schema.FeatureGeographicalPosition.from_orm(s)
+                featuregeographicalposition_schema.FeatureGeographicalPosition
+                .from_orm(s)
                 for s in q.offset(offset).limit(limit).all()
             ]
         )
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFeatureGeographicalPositionList(
-            "Failed getting feature_geographical_position list."
+            _("Failed getting list of feature geographical positions.")
         )
 
 
 def update(
     db_session: Session,
     belongs_to: str,
-    updates: featuregeographicalposition_schema.UpdateFeatureGeographicalPosition,
+    updates: featuregeographicalposition_schema
+        .UpdateFeatureGeographicalPosition,
 ) -> featuregeographicalposition_schema.FeatureGeographicalPosition:
     try:
         db_session.query(models.Featuregeographicalposition).filter_by(
@@ -141,17 +151,18 @@ def update(
         db_session.commit()
         updated_feature_geographical_position = (
             db_session.query(models.Featuregeographicalposition)
-            .filter_by(belongsTo=belongs_to)
-            .first()
+                .filter_by(belongsTo=belongs_to)
+                .first()
         )
-        return featuregeographicalposition_schema.FeatureGeographicalPosition.from_orm(
-            updated_feature_geographical_position
-        )
+        return featuregeographicalposition_schema.FeatureGeographicalPosition\
+            .from_orm(
+                updated_feature_geographical_position
+            )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingFeatureGeographicalPosition(
-            "Failed updating feature_geographical_position"
+            _("Failed updating feature geographical position.")
         )
 
 
@@ -166,5 +177,5 @@ def delete(db_session: Session, belongs_to: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingFeatureGeographicalPosition(
-            "Failed deleting feature_geographical_position."
+            _("Failed deleting feature geographical position.")
         )

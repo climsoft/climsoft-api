@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftAcquisitionTypeService")
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingAcquisitionType("Failed creating acquisition_type.")
+        raise FailedCreatingAcquisitionType(
+            _("Failed creating acquisition type.")
+        )
 
 
 def get(db_session: Session, code: str) -> acquisitiontype_schema.AcquisitionType:
@@ -56,7 +59,8 @@ def get(db_session: Session, code: str) -> acquisitiontype_schema.AcquisitionTyp
 
         if not acquisition_type:
             raise HTTPException(
-                status_code=404, detail="AcquisitionType does not exist."
+                status_code=404,
+                detail=_("Acquisition type does not exist.")
             )
 
         return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
@@ -64,7 +68,9 @@ def get(db_session: Session, code: str) -> acquisitiontype_schema.AcquisitionTyp
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingAcquisitionType("Failed getting acquisition_type.")
+        raise FailedGettingAcquisitionType(
+            _("Failed getting acquisition type.")
+        )
 
 
 def query(
@@ -75,7 +81,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[acquisitiontype_schema.AcquisitionType]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `obselement` row skipping
     `offset` number of rows
     :param db_session:
     :param code:
@@ -91,7 +98,9 @@ def query(
             q = q.filter_by(code=code)
 
         if description is not None:
-            q = q.filter(models.Acquisitiontype.description.ilike(f"%{description}%"))
+            q = q.filter(models.Acquisitiontype.description.ilike(
+                f"%{description}%")
+            )
 
         return (
             get_count(q),
@@ -102,7 +111,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingAcquisitionTypeList("Failed getting acquisition_type list.")
+        raise FailedGettingAcquisitionTypeList(
+            _("Failed getting list of acquisition types.")
+        )
 
 
 def update(
@@ -116,13 +127,19 @@ def update(
         )
         db_session.commit()
         updated_acquisition_type = (
-            db_session.query(models.Acquisitiontype).filter_by(code=code).first()
+            db_session.query(
+                models.Acquisitiontype
+            ).filter_by(code=code).first()
         )
-        return acquisitiontype_schema.AcquisitionType.from_orm(updated_acquisition_type)
+        return acquisitiontype_schema.AcquisitionType.from_orm(
+            updated_acquisition_type
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingAcquisitionType("Failed updating acquisition_type")
+        raise FailedUpdatingAcquisitionType(
+            _("Failed updating acquisition type.")
+        )
 
 
 def delete(db_session: Session, code: str) -> bool:
@@ -133,4 +150,6 @@ def delete(db_session: Session, code: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingAcquisitionType("Failed deleting acquisition_type.")
+        raise FailedDeletingAcquisitionType(
+            _("Failed deleting acquisition type.")
+        )

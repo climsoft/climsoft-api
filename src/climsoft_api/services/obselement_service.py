@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.obselement import schema as obselement_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
@@ -45,24 +46,33 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingObsElement("Failed creating obs_element.")
+        raise FailedCreatingObsElement(
+            _("Failed creating obs_element.")
+        )
 
 
 def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
     try:
         obs_element = (
-            db_session.query(models.Obselement).filter_by(elementId=element_id).first()
+            db_session.query(
+                models.Obselement
+            ).filter_by(elementId=element_id).first()
         )
 
         if not obs_element:
-            raise HTTPException(status_code=404, detail="ObsElement does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Obs element does not exist.")
+            )
 
         return obselement_schema.ObsElement.from_orm(obs_element)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingObsElement("Failed getting obs_element.")
+        raise FailedGettingObsElement(
+            _("Failed getting obs element.")
+        )
 
 
 def query(
@@ -82,7 +92,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[obselement_schema.ObsElement]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `obselement` row skipping
     `offset` number of rows
 
     :param db_session: sqlalchemy database session
@@ -129,7 +140,9 @@ def query(
             q = q.filter(models.Obselement.units.ilike(f"%{units}%"))
 
         if element_type is not None:
-            q = q.filter(models.Obselement.elementtype.ilike(f"%{element_type}%"))
+            q = q.filter(
+                models.Obselement.elementtype.ilike(f"%{element_type}%")
+            )
 
         if qc_total_required is not None:
             q = q.filter(models.Obselement.qcTotalRequired >= qc_total_required)
@@ -146,11 +159,15 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingObsElementList("Failed getting obs_element list.")
+        raise FailedGettingObsElementList(
+            _("Failed getting list of obs elements.")
+        )
 
 
 def update(
-    db_session: Session, element_id: str, updates: obselement_schema.UpdateObsElement
+    db_session: Session,
+    element_id: str,
+    updates: obselement_schema.UpdateObsElement
 ) -> obselement_schema.ObsElement:
     try:
         db_session.query(models.Obselement).filter_by(elementId=element_id).update(
@@ -164,15 +181,17 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingObsElement("Failed updating obs_element")
+        raise FailedUpdatingObsElement(_("Failed updating obs element."))
 
 
 def delete(db_session: Session, element_id: str) -> bool:
     try:
-        db_session.query(models.Obselement).filter_by(elementId=element_id).delete()
+        db_session.query(models.Obselement).filter_by(
+            elementId=element_id
+        ).delete()
         db_session.commit()
         return True
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingObsElement("Failed deleting obs_element.")
+        raise FailedDeletingObsElement(_("Failed deleting obs element."))

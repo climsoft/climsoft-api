@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.physicalfeature import schema as physicalfeature_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftPhysicalFeatureService")
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingPhysicalFeature("Failed creating physical_feature.")
+        raise FailedCreatingPhysicalFeature(
+            _("Failed creating physical_feature.")
+        )
 
 
 def get(
@@ -71,17 +74,21 @@ def get(
 
         if not physical_feature:
             raise HTTPException(
-                status_code=404, detail="PhysicalFeature does not exist."
+                status_code=404,
+                detail=_("PhysicalFeature does not exist.")
             )
 
-        return physicalfeature_schema.PhysicalFeatureWithStationAndPhysicalFeatureClass.from_orm(
-            physical_feature
-        )
+        return physicalfeature_schema\
+            .PhysicalFeatureWithStationAndPhysicalFeatureClass.from_orm(
+                physical_feature
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingPhysicalFeature("Failed getting physical_feature.")
+        raise FailedGettingPhysicalFeature(
+            _("Failed getting physical_feature.")
+        )
 
 
 def query(
@@ -96,7 +103,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[physicalfeature_schema.PhysicalFeature]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `physical_feature` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `physical_feature` row skipping
     `offset` number of rows
     """
     try:
@@ -129,7 +137,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingPhysicalFeatureList("Failed getting physical_feature list.")
+        raise FailedGettingPhysicalFeatureList(
+            _("Failed getting physical_feature list.")
+        )
 
 
 def update(
@@ -158,11 +168,15 @@ def update(
             )
             .first()
         )
-        return physicalfeature_schema.PhysicalFeature.from_orm(updated_physical_feature)
+        return physicalfeature_schema.PhysicalFeature.from_orm(
+            updated_physical_feature
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingPhysicalFeature("Failed updating physical_feature")
+        raise FailedUpdatingPhysicalFeature(
+            _("Failed updating physical_feature")
+        )
 
 
 def delete(
@@ -184,4 +198,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingPhysicalFeature("Failed deleting physical_feature.")
+        raise FailedDeletingPhysicalFeature(
+            _("Failed deleting physical_feature.")
+        )

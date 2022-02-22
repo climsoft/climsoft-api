@@ -7,6 +7,7 @@ from climsoft_api.api.paperarchivedefinition import (
 )
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftPaperArchiveDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -51,7 +52,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPaperArchiveDefinition(
-            "Failed creating paper_archive_definition."
+            _("Failed creating paper_archive_definition.")
         )
 
 
@@ -67,7 +68,8 @@ def get(
 
         if not paper_archive_definition:
             raise HTTPException(
-                status_code=404, detail="PaperArchiveDefinition does not exist."
+                status_code=404,
+                detail=_("PaperArchiveDefinition does not exist.")
             )
 
         return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
@@ -78,7 +80,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinition(
-            "Failed getting paper_archive_definition."
+            _("Failed getting paper_archive_definition.")
         )
 
 
@@ -90,7 +92,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[paperarchivedefinition_schema.PaperArchiveDefinition]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `paper_archive_definitions` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `paper_archive_definitions` row skipping
     `offset` number of rows
 
     """
@@ -114,7 +117,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingPaperArchiveDefinitionList("Failed getting data form list.")
+        raise FailedGettingPaperArchiveDefinitionList(
+            _("Failed getting data form list.")
+        )
 
 
 def update(
@@ -138,7 +143,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingPaperArchiveDefinition("Failed updating data form")
+        raise FailedUpdatingPaperArchiveDefinition(
+            _("Failed updating data form")
+        )
 
 
 def delete(db_session: Session, form_id: str) -> bool:
@@ -151,4 +158,6 @@ def delete(db_session: Session, form_id: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingPaperArchiveDefinition("Failed deleting data form.")
+        raise FailedDeletingPaperArchiveDefinition(
+            _("Failed deleting data form.")
+        )

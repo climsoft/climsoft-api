@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.qctype import schema as qctype_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingQCType("Failed creating qc_type.")
+        raise FailedCreatingQCType(
+            _("Failed creating qc type.")
+        )
 
 
 def get(db_session: Session, code: str) -> qctype_schema.QCType:
@@ -53,14 +56,19 @@ def get(db_session: Session, code: str) -> qctype_schema.QCType:
         qc_type = db_session.query(models.Qctype).filter_by(code=code).first()
 
         if not qc_type:
-            raise HTTPException(status_code=404, detail="QCType does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("QC type does not exist.")
+            )
 
         return qctype_schema.QCType.from_orm(qc_type)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingQCType("Failed getting qc_type.")
+        raise FailedGettingQCType(
+            _("Failed getting qc type.")
+        )
 
 
 def query(
@@ -71,7 +79,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[qctype_schema.QCType]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `qc_types` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `qc_types` row skipping
     `offset` number of rows
 
     """
@@ -93,7 +102,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingQCTypeList("Failed getting data form list.")
+        raise FailedGettingQCTypeList(
+            _("Failed getting list of qc types.")
+        )
 
 
 def update(
@@ -107,7 +118,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingQCType("Failed updating data form")
+        raise FailedUpdatingQCType(
+            _("Failed updating qc type.")
+        )
 
 
 def delete(db_session: Session, code: str) -> bool:
@@ -118,4 +131,6 @@ def delete(db_session: Session, code: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingQCType("Failed deleting data form.")
+        raise FailedDeletingQCType(
+            _("Failed deleting qc type.")
+        )

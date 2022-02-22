@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.observationfinal import schema as observationfinal_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
@@ -42,16 +43,20 @@ def create(
         observation_final = models.Observationfinal(**data.dict())
         db_session.add(observation_final)
         db_session.commit()
-        print(observation_final.obsDatetime)
         return observationfinal_schema.ObservationFinal.from_orm(observation_final)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingObservationFinal("Failed creating observation_final.")
+        raise FailedCreatingObservationFinal(
+            _("Failed creating observation final.")
+        )
 
 
 def get(
-    db_session: Session, recorded_from: str, described_by: int, obs_datetime: str
+    db_session: Session,
+    recorded_from: str,
+    described_by: int,
+    obs_datetime: str
 ) -> observationfinal_schema.ObservationFinalWithChildren:
     try:
         observation_final = (
@@ -65,7 +70,8 @@ def get(
 
         if not observation_final:
             raise HTTPException(
-                status_code=404, detail="ObservationFinal does not exist."
+                status_code=404,
+                detail=_("Observation final does not exist.")
             )
 
         return observationfinal_schema.ObservationFinalWithChildren.from_orm(
@@ -75,7 +81,9 @@ def get(
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingObservationFinal("Failed getting observation_final.")
+        raise FailedGettingObservationFinal(
+            _("Failed getting observation final.")
+        )
 
 
 def query(
@@ -102,7 +110,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[observationfinal_schema.ObservationFinal]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `observationfinal` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `observationfinal` row skipping
     `offset` number of rows
     :param db_session: db session
     :param recorded_from:
@@ -158,10 +167,14 @@ def query(
             q = q.filter(models.Observationfinal.period >= period)
 
         if qc_type_log is not None:
-            q = q.filter(models.Observationfinal.qcTypeLog.ilike(f"%{qc_type_log}%"))
+            q = q.filter(
+                models.Observationfinal.qcTypeLog.ilike(f"%{qc_type_log}%")
+            )
 
         if data_form is not None:
-            q = q.filter(models.Observationfinal.dataForm.ilike(f"%{data_form}%"))
+            q = q.filter(
+                models.Observationfinal.dataForm.ilike(f"%{data_form}%")
+            )
 
         if captured_by is not None:
             q = q.filter_by(capturedBy=captured_by)
@@ -171,7 +184,9 @@ def query(
 
         if temperature_units is not None:
             q = q.filter(
-                models.Observationfinal.temperatureUnits.ilike(f"%{temperature_units}%")
+                models.Observationfinal.temperatureUnits.ilike(
+                    f"%{temperature_units}%"
+                )
             )
 
         if precipitation_units is not None:
@@ -189,7 +204,9 @@ def query(
             )
 
         if vis_units is not None:
-            q = q.filter_by(models.Observationfinal.visUnits.ilike(f"%{vis_units}%"))
+            q = q.filter_by(
+                models.Observationfinal.visUnits.ilike(f"%{vis_units}%")
+            )
 
         if data_source_timezone is not None:
             q = q.filter_by(dataSourceTimezone=data_source_timezone)
@@ -204,7 +221,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationFinalList(
-            "Failed getting observation_final list."
+            _("Failed getting observation final list.")
         )
 
 
@@ -231,11 +248,15 @@ def update(
             .filter_by(obsDatetime=obs_datetime)
             .first()
         )
-        return observationfinal_schema.ObservationFinal.from_orm(updated_instrument)
+        return observationfinal_schema.ObservationFinal.from_orm(
+            updated_instrument
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingObservationFinal("Failed updating observation_final")
+        raise FailedUpdatingObservationFinal(
+            _("Failed updating observation final.")
+        )
 
 
 def delete(
@@ -252,4 +273,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingObservationFinal("Failed deleting observation_final.")
+        raise FailedDeletingObservationFinal(
+            _("Failed deleting observation final.")
+        )

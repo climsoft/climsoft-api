@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 from climsoft_api.api.paperarchive import schema as paperarchive_schema
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.utils.query import get_count
-
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftPaperArchiveService")
 logging.basicConfig(level=logging.INFO)
@@ -68,10 +68,17 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedFetchingPaperArchives("Failed fetching paper archive.")
+        raise FailedFetchingPaperArchives(
+            _("Failed fetching paper archive.")
+        )
 
 
-def get(db_session: Session, belongs_to: str, form_datetime: str, classified_into: str):
+def get(
+    db_session: Session,
+    belongs_to: str,
+    form_datetime: str,
+    classified_into: str
+):
     try:
         response = (
             db_session.query(models.Paperarchive)
@@ -80,20 +87,29 @@ def get(db_session: Session, belongs_to: str, form_datetime: str, classified_int
                 formDatetime=form_datetime,
                 classifiedInto=classified_into,
             )
-            .options(joinedload("station"), joinedload("paperarchivedefinition"))
+            .options(
+                joinedload("station"),
+                joinedload("paperarchivedefinition")
+            )
             .first()
         )
         if not response:
-            raise HTTPException(status_code=404, detail="Paper archive not found.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Paper archive not found.")
+            )
 
-        return paperarchive_schema.PaperArchiveWithStationAndPaperArchiveDefinition.from_orm(
-            response
-        )
+        return paperarchive_schema\
+            .PaperArchiveWithStationAndPaperArchiveDefinition.from_orm(
+                response
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingPaperArchive("Failed getting paper archive.")
+        raise FailedGettingPaperArchive(
+            _("Failed getting paper archive.")
+        )
 
 
 def create(db_session: Session, data: paperarchive_schema.CreatePaperArchive):
@@ -105,7 +121,9 @@ def create(db_session: Session, data: paperarchive_schema.CreatePaperArchive):
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingPaperArchive("Failed creating paper archive.")
+        raise FailedCreatingPaperArchive(
+            _("Failed creating paper archive.")
+        )
 
 
 def update(
@@ -135,7 +153,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingPaperArchive("Failed updating paper archive.")
+        raise FailedUpdatingPaperArchive(
+            _("Failed updating paper archive.")
+        )
 
 
 def delete(
@@ -152,4 +172,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingPaperArchive("Failed deleting paper archive.")
+        raise FailedDeletingPaperArchive(
+            _("Failed deleting paper archive.")
+        )

@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.stationelement import schema as stationelement_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftStationElementService")
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingStationElement("Failed creating station_element.")
+        raise FailedCreatingStationElement(
+            _("Failed creating station_element.")
+        )
 
 
 def get(

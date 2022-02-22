@@ -46,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingStationQualifier("Failed creating station_qualifier.")
+        raise FailedCreatingStationQualifier(
+            _("Failed creating station_qualifier.")
+        )
 
 
 def get(
@@ -71,10 +73,9 @@ def get(
 
         if not station_qualifier:
             raise HTTPException(
-                status_code=404, detail="StationQualifier does not exist."
+                status_code=404,
+                detail=_("Station qualifier does not exist.")
             )
-
-        print(stationqualifier_schema.StationQualifierWithStation.schema(by_alias=True))
 
         return stationqualifier_schema.StationQualifierWithStation.from_orm(
             station_qualifier
@@ -83,7 +84,9 @@ def get(
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingStationQualifier("Failed getting station_qualifier.")
+        raise FailedGettingStationQualifier(
+            _("Failed getting station qualifier.")
+        )
 
 
 def query(
@@ -98,7 +101,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[stationqualifier_schema.StationQualifier]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `station_qualifier` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `station_qualifier` row skipping
     `offset` number of rows
     """
     try:
@@ -132,7 +136,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationQualifierList(
-            "Failed getting station_qualifier list."
+            _("Failed getting list of station qualifiers.")
         )
 
 
@@ -168,7 +172,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingStationQualifier("Failed updating station_qualifier")
+        raise FailedUpdatingStationQualifier(
+            _("Failed updating station qualifier")
+        )
 
 
 def delete(
@@ -190,4 +196,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingStationQualifier("Failed deleting station_qualifier.")
+        raise FailedDeletingStationQualifier(
+            "Failed deleting station qualifier."
+        )

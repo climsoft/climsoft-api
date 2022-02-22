@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.regkey import schema as regkey_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftRegKeyService")
 logging.basicConfig(level=logging.INFO)
@@ -45,22 +46,31 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingRegKey("Failed creating reg_key.")
+        raise FailedCreatingRegKey(
+            _("Failed creating reg key.")
+        )
 
 
 def get(db_session: Session, key_name: str) -> regkey_schema.RegKey:
     try:
-        reg_key = db_session.query(models.Regkey).filter_by(keyName=key_name).first()
+        reg_key = db_session.query(models.Regkey).filter_by(
+            keyName=key_name
+        ).first()
 
         if not reg_key:
-            raise HTTPException(status_code=404, detail="RegKey does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Reg key does not exist.")
+            )
 
         return regkey_schema.RegKey.from_orm(reg_key)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingRegKey("Failed getting reg_key.")
+        raise FailedGettingRegKey(
+            _("Failed getting reg key.")
+        )
 
 
 def query(
@@ -72,7 +82,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[regkey_schema.RegKey]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `reg_keys` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `reg_keys` row skipping
     `offset` number of rows
 
     """
@@ -97,7 +108,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingRegKeyList("Failed getting reg key list.")
+        raise FailedGettingRegKeyList(
+            _("Failed getting reg key list.")
+        )
 
 
 def update(
@@ -115,7 +128,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingRegKey("Failed updating reg key")
+        raise FailedUpdatingRegKey(
+            _("Failed updating reg key")
+        )
 
 
 def delete(db_session: Session, key_name: str) -> bool:
@@ -126,4 +141,6 @@ def delete(db_session: Session, key_name: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingRegKey("Failed deleting reg key.")
+        raise FailedDeletingRegKey(
+            _("Failed deleting reg key.")
+        )

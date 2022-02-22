@@ -68,7 +68,7 @@ def get(
 
         if not fault_resolution:
             raise HTTPException(
-                status_code=404, detail=_("FaultResolution does not exist.")
+                status_code=404, detail=_("Fault resolution does not exist.")
             )
 
         return faultresolution_schema.FaultResolutionWithInstrumentFaultReport\

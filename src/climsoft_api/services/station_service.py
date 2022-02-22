@@ -198,7 +198,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationList(
-            _("Failed getting station list.")
+            _("Failed getting list of stations.")
         )
 
 
@@ -213,13 +213,15 @@ def update(
         )
         db_session.commit()
         updated_station = (
-            db_session.query(models.Station).filter_by(stationId=station_id).first()
+            db_session.query(models.Station).filter_by(
+                stationId=station_id
+            ).first()
         )
         return station_schema.Station.from_orm(updated_station)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingStation(_("Failed updating station"))
+        raise FailedUpdatingStation(_("Failed updating station."))
 
 
 def delete(db_session: Session, station_id: str) -> bool:

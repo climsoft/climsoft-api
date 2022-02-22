@@ -44,7 +44,7 @@ def create(
         observation_initial = models.Observationinitial(**data.dict())
         db_session.add(observation_initial)
         db_session.commit()
-        print(observation_initial.obsDatetime)
+
         return observationinitial_schema.ObservationInitial.from_orm(
             observation_initial
         )
@@ -91,7 +91,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationInitial(
-            _("Failed getting observation_initial.")
+            _("Failed getting observation initial.")
         )
 
 
@@ -230,7 +230,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationInitialList(
-            _("Failed getting list of observation initial.")
+            _("Failed getting list of observation initials.")
         )
 
 

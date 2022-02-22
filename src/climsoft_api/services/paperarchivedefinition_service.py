@@ -52,7 +52,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPaperArchiveDefinition(
-            _("Failed creating paper_archive_definition.")
+            _("Failed creating pape archive definition.")
         )
 
 
@@ -69,7 +69,7 @@ def get(
         if not paper_archive_definition:
             raise HTTPException(
                 status_code=404,
-                detail=_("PaperArchiveDefinition does not exist.")
+                detail=_("Paper archive definition does not exist.")
             )
 
         return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
@@ -80,7 +80,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinition(
-            _("Failed getting paper_archive_definition.")
+            _("Failed getting paper archive definition.")
         )
 
 
@@ -105,7 +105,9 @@ def query(
 
         if description is not None:
             q = q.filter(
-                models.Paperarchivedefinition.description.ilike(f"%{description}%")
+                models.Paperarchivedefinition.description.ilike(
+                    f"%{description}%"
+                )
             )
 
         return (
@@ -118,7 +120,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinitionList(
-            _("Failed getting data form list.")
+            _("Failed getting list of paper archive definitions.")
         )
 
 
@@ -144,7 +146,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPaperArchiveDefinition(
-            _("Failed updating data form")
+            _("Failed updating paper archive definition.")
         )
 
 
@@ -159,5 +161,5 @@ def delete(db_session: Session, form_id: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPaperArchiveDefinition(
-            _("Failed deleting data form.")
+            _("Failed deleting paper archive definition.")
         )

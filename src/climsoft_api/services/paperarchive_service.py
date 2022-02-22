@@ -69,7 +69,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedFetchingPaperArchives(
-            _("Failed fetching paper archive.")
+            _("Failed fetching list of paper archives.")
         )
 
 

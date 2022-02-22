@@ -221,7 +221,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationFinalList(
-            _("Failed getting observation final list.")
+            _("Failed getting list of observation finals.")
         )
 
 

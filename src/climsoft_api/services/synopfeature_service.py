@@ -109,7 +109,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingSynopFeatureList(
-            _("Failed getting synop feature list.")
+            _("Failed getting list of synop features.")
         )
 
 
@@ -133,7 +133,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingSynopFeature(
-            _("Failed updating synop feature")
+            _("Failed updating synop feature.")
         )
 
 

@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingObsElement(
-            _("Failed creating obs_element.")
+            _("Failed creating obs element.")
         )
 
 
@@ -125,7 +125,9 @@ def query(
             q = q.filter_by(abbreviation=abbreviation)
 
         if description is not None:
-            q = q.filter(models.Obselement.description.ilike(f"%{description}%"))
+            q = q.filter(models.Obselement.description.ilike(
+                f"%{description}%")
+            )
 
         if element_scale is not None:
             q = q.filter(models.Obselement.elementScale >= element_scale)

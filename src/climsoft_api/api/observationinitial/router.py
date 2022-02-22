@@ -4,6 +4,7 @@ import climsoft_api.api.observationinitial.schema as observationinitial_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -62,7 +63,7 @@ def get_observation_initials(
             total=total,
             offset=offset,
             result=observation_initials,
-            message="Successfully fetched observation_initials.",
+            message=_("Successfully fetched observation initials."),
         )
     except observationinitial_service.FailedGettingObservationInitialList as e:
         return get_error_response(message=str(e))
@@ -92,13 +93,16 @@ def get_observation_initial_by_id(
                     acquisition_type=acquisition_type,
                 )
             ],
-            message="Successfully fetched observation_initial.",
+            message=_("Successfully fetched observation initial."),
         )
     except observationinitial_service.FailedGettingObservationInitial as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=observationinitial_schema.ObservationInitialResponse)
+@router.post(
+    "/",
+    response_model=observationinitial_schema.ObservationInitialResponse
+)
 def create_observation_initial(
     data: observationinitial_schema.CreateObservationInitial,
     db_session: Session = Depends(deps.get_session),
@@ -106,9 +110,12 @@ def create_observation_initial(
     try:
         return get_success_response(
             result=[
-                observationinitial_service.create(db_session=db_session, data=data)
+                observationinitial_service.create(
+                    db_session=db_session,
+                    data=data
+                )
             ],
-            message="Successfully created observation_initial.",
+            message=_("Successfully created observation initial."),
         )
     except observationinitial_service.FailedCreatingObservationInitial as e:
         return get_error_response(message=str(e))
@@ -140,7 +147,7 @@ def update_observation_initial(
                     updates=data,
                 )
             ],
-            message="Successfully updated observation_initial.",
+            message=_("Successfully updated observation initial."),
         )
     except observationinitial_service.FailedUpdatingObservationInitial as e:
         return get_error_response(message=str(e))
@@ -168,7 +175,8 @@ def delete_observation_initial(
             acquisition_type=acquisition_type,
         )
         return get_success_response(
-            result=[], message="Successfully deleted observation_initial."
+            result=[],
+            message=_("Successfully deleted observation initial.")
         )
     except observationinitial_service.FailedDeletingObservationInitial as e:
         return get_error_response(message=str(e))

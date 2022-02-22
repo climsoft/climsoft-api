@@ -4,6 +4,7 @@ import climsoft_api.api.instrumentinspection.schema as instrumentinspection_sche
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -41,7 +42,7 @@ def get_instrument_inspection(
             total=total,
             offset=offset,
             result=instrument_inspection,
-            message="Successfully fetched instrument_inspection.",
+            message=_("Successfully fetched instrument inspection."),
         )
     except instrumentinspection_service.FailedGettingInstrumentInspectionList as e:
         return get_error_response(message=str(e))
@@ -65,7 +66,7 @@ def get_instrument_inspection_by_id(
                     inspection_datetime=inspection_datetime,
                 )
             ],
-            message="Successfully fetched instrument_inspection.",
+            message=_("Successfully fetched instrument inspection."),
         )
     except instrumentinspection_service.FailedGettingInstrumentInspection as e:
         return get_error_response(message=str(e))
@@ -84,7 +85,7 @@ def create_instrument_inspection(
             result=[
                 instrumentinspection_service.create(db_session=db_session, data=data)
             ],
-            message="Successfully created instrument_inspection.",
+            message=_("Successfully created instrument inspection."),
         )
     except instrumentinspection_service.FailedCreatingInstrumentInspection as e:
         return get_error_response(message=str(e))
@@ -110,7 +111,7 @@ def update_instrument_inspection(
                     updates=data,
                 )
             ],
-            message="Successfully updated instrument_inspection.",
+            message=_("Successfully updated instrument inspection."),
         )
     except instrumentinspection_service.FailedUpdatingInstrumentInspection as e:
         return get_error_response(message=str(e))
@@ -132,7 +133,8 @@ def delete_instrument_inspection(
             inspection_datetime=inspection_datetime,
         )
         return get_success_response(
-            result=[], message="Successfully deleted instrument_inspection."
+            result=[],
+            message=_("Successfully deleted instrument inspection.")
         )
     except instrumentinspection_service.FailedDeletingInstrumentInspection as e:
         return get_error_response(message=str(e))

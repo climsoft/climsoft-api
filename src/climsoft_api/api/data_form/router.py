@@ -4,12 +4,16 @@ import climsoft_api.api.data_form.schema as data_form_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 
 router = APIRouter()
 
 
-@router.get("/", response_model=data_form_schema.DataFormQueryResponse)
+@router.get(
+    "/",
+    response_model=data_form_schema.DataFormQueryResponse
+)
 def get_data_forms(
     order_num: int = None,
     table_name: str = None,
@@ -46,26 +50,37 @@ def get_data_forms(
             limit=limit,
             total=total,
             offset=offset,
-            result=data_forms, message="Successfully fetched data_forms."
+            result=data_forms,
+            message=_("Successfully fetched data forms.")
         )
     except data_form_service.FailedGettingDataFormList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/{form_name}", response_model=data_form_schema.DataFormResponse)
+@router.get(
+    "/{form_name}",
+    response_model=data_form_schema.DataFormResponse
+)
 def get_data_form_by_id(
-    form_name: str, db_session: Session = Depends(deps.get_session)
+    form_name: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
-            result=[data_form_service.get(db_session=db_session, form_name=form_name)],
-            message="Successfully fetched data_form.",
+            result=[data_form_service.get(
+                db_session=db_session,
+                form_name=form_name
+            )],
+            message=_("Successfully fetched data form."),
         )
     except data_form_service.FailedGettingDataForm as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=data_form_schema.DataFormResponse)
+@router.post(
+    "/",
+    response_model=data_form_schema.DataFormResponse
+)
 def create_data_form(
     data: data_form_schema.CreateDataForm,
     db_session: Session = Depends(deps.get_session),
@@ -73,7 +88,7 @@ def create_data_form(
     try:
         return get_success_response(
             result=[data_form_service.create(db_session=db_session, data=data)],
-            message="Successfully created data_form.",
+            message=_("Successfully created data form."),
         )
     except data_form_service.FailedCreatingDataForm as e:
         return get_error_response(message=str(e))
@@ -89,21 +104,30 @@ def update_data_form(
         return get_success_response(
             result=[
                 data_form_service.update(
-                    db_session=db_session, form_name=form_name, updates=data
+                    db_session=db_session,
+                    form_name=form_name,
+                    updates=data
                 )
             ],
-            message="Successfully updated data_form.",
+            message=_("Successfully updated data form."),
         )
     except data_form_service.FailedUpdatingDataForm as e:
         return get_error_response(message=str(e))
 
 
-@router.delete("/{form_name}", response_model=data_form_schema.DataFormResponse)
-def delete_data_form(form_name: str, db_session: Session = Depends(deps.get_session)):
+@router.delete(
+    "/{form_name}",
+    response_model=data_form_schema.DataFormResponse
+)
+def delete_data_form(
+    form_name: str,
+    db_session: Session = Depends(deps.get_session)
+):
     try:
         data_form_service.delete(db_session=db_session, form_name=form_name)
         return get_success_response(
-            result=[], message="Successfully deleted data_form."
+            result=[],
+            message=_("Successfully deleted data form.")
         )
     except data_form_service.FailedDeletingDataForm as e:
         return get_error_response(message=str(e))

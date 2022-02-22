@@ -4,6 +4,7 @@ import climsoft_api.api.observationfinal.schema as observationfinal_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -65,7 +66,7 @@ def get_observation_finals(
             total=total,
             offset=offset,
             result=observation_finals,
-            message="Successfully fetched observation_finals.",
+            message=_("Successfully fetched observation finals."),
         )
     except observationfinal_service.FailedGettingObservationFinalList as e:
         return get_error_response(message=str(e))
@@ -91,7 +92,7 @@ def get_observation_final_by_id(
                     obs_datetime=obs_datetime,
                 )
             ],
-            message="Successfully fetched observation_final.",
+            message=_("Successfully fetched observation final."),
         )
     except observationfinal_service.FailedGettingObservationFinal as e:
         return get_error_response(message=str(e))
@@ -107,8 +108,11 @@ def create_observation_final(
 ):
     try:
         return get_success_response(
-            result=[observationfinal_service.create(db_session=db_session, data=data)],
-            message="Successfully created observation_final.",
+            result=[observationfinal_service.create(
+                db_session=db_session,
+                data=data
+            )],
+            message=_("Successfully created observation final."),
         )
     except observationfinal_service.FailedCreatingObservationFinal as e:
         return get_error_response(message=str(e))
@@ -136,7 +140,7 @@ def update_observation_final(
                     updates=data,
                 )
             ],
-            message="Successfully updated observation_final.",
+            message=_("Successfully updated observation final."),
         )
     except observationfinal_service.FailedUpdatingObservationFinal as e:
         return get_error_response(message=str(e))
@@ -160,7 +164,8 @@ def delete_observation_final(
             obs_datetime=obs_datetime,
         )
         return get_success_response(
-            result=[], message="Successfully deleted observation_final."
+            result=[],
+            message=_("Successfully deleted observation final.")
         )
     except observationfinal_service.FailedDeletingObservationFinal as e:
         return get_error_response(message=str(e))

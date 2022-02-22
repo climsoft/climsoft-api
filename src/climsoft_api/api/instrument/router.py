@@ -4,6 +4,7 @@ import climsoft_api.api.instrument.schema as instrument_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 
 router = APIRouter()
@@ -48,17 +49,20 @@ def get_instruments(
             limit=limit,
             total=total,
             offset=offset,
-            result=instruments, message="Successfully fetched instruments."
+            result=instruments,
+            message=_("Successfully fetched instruments.")
         )
     except instrument_service.FailedGettingInstrumentList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{instrument_id}", response_model=instrument_schema.InstrumentWithStationResponse
+    "/{instrument_id}",
+    response_model=instrument_schema.InstrumentWithStationResponse
 )
 def get_instrument_by_id(
-    instrument_id: str, db_session: Session = Depends(deps.get_session)
+    instrument_id: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -67,7 +71,7 @@ def get_instrument_by_id(
                     db_session=db_session, instrument_id=instrument_id
                 )
             ],
-            message="Successfully fetched instrument.",
+            message=_("Successfully fetched instrument."),
         )
     except instrument_service.FailedGettingInstrument as e:
         return get_error_response(message=str(e))
@@ -80,14 +84,20 @@ def create_instrument(
 ):
     try:
         return get_success_response(
-            result=[instrument_service.create(db_session=db_session, data=data)],
-            message="Successfully created instrument.",
+            result=[instrument_service.create(
+                db_session=db_session,
+                data=data
+            )],
+            message=_("Successfully created instrument."),
         )
     except instrument_service.FailedCreatingInstrument as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{instrument_id}", response_model=instrument_schema.InstrumentResponse)
+@router.put(
+    "/{instrument_id}",
+    response_model=instrument_schema.InstrumentResponse
+)
 def update_instrument(
     instrument_id: str,
     data: instrument_schema.UpdateInstrument,
@@ -97,23 +107,32 @@ def update_instrument(
         return get_success_response(
             result=[
                 instrument_service.update(
-                    db_session=db_session, instrument_id=instrument_id, updates=data
+                    db_session=db_session,
+                    instrument_id=instrument_id,
+                    updates=data
                 )
             ],
-            message="Successfully updated instrument.",
+            message=_("Successfully updated instrument."),
         )
     except instrument_service.FailedUpdatingInstrument as e:
         return get_error_response(message=str(e))
 
 
-@router.delete("/{instrument_id}", response_model=instrument_schema.InstrumentResponse)
+@router.delete(
+    "/{instrument_id}",
+    response_model=instrument_schema.InstrumentResponse
+)
 def delete_instrument(
     instrument_id: str, db_session: Session = Depends(deps.get_session)
 ):
     try:
-        instrument_service.delete(db_session=db_session, instrument_id=instrument_id)
+        instrument_service.delete(
+            db_session=db_session,
+            instrument_id=instrument_id
+        )
         return get_success_response(
-            result=[], message="Successfully deleted instrument."
+            result=[],
+            message=_("Successfully deleted instrument.")
         )
     except instrument_service.FailedDeletingInstrument as e:
         return get_error_response(message=str(e))

@@ -4,6 +4,7 @@ import climsoft_api.api.paperarchivedefinition.schema as paperarchivedefinition_
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -33,7 +34,7 @@ def get_paper_archive_definitions(
             total=total,
             offset=offset,
             result=paper_archive_definitions,
-            message="Successfully fetched paper_archive_definitions.",
+            message=_("Successfully fetched paper archive definitions."),
         )
     except paperarchivedefinition_service.FailedGettingPaperArchiveDefinitionList as e:
         return get_error_response(message=str(e))
@@ -53,7 +54,7 @@ def get_paper_archive_definition_by_id(
                     db_session=db_session, form_id=form_id
                 )
             ],
-            message="Successfully fetched paper_archive_definition.",
+            message=_("Successfully fetched paper archive definition."),
         )
     except paperarchivedefinition_service.FailedGettingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))
@@ -70,9 +71,12 @@ def create_paper_archive_definition(
     try:
         return get_success_response(
             result=[
-                paperarchivedefinition_service.create(db_session=db_session, data=data)
+                paperarchivedefinition_service.create(
+                    db_session=db_session,
+                    data=data
+                )
             ],
-            message="Successfully created paper_archive_definition.",
+            message=_("Successfully created paper archive definition."),
         )
     except paperarchivedefinition_service.FailedCreatingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))

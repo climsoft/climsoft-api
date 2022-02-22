@@ -4,6 +4,7 @@ import climsoft_api.api.paperarchive.schema as paperarchive_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -33,7 +34,8 @@ def get_paper_archives(
             limit=limit,
             total=total,
             offset=offset,
-            result=paper_archives, message="Successfully fetched paper_archives."
+            result=paper_archives,
+            message=_("Successfully fetched paper archives.")
         )
     except paperarchive_service.FailedGettingPaperArchiveList as e:
         return get_error_response(message=str(e))
@@ -59,7 +61,7 @@ def get_paper_archive_by_id(
                     classified_into=classified_into,
                 )
             ],
-            message="Successfully fetched paper_archive.",
+            message=_("Successfully fetched paper archive."),
         )
     except paperarchive_service.FailedGettingPaperArchive as e:
         return get_error_response(message=str(e))
@@ -73,7 +75,7 @@ def create_paper_archive(
     try:
         return get_success_response(
             result=[paperarchive_service.create(db_session=db_session, data=data)],
-            message="Successfully created paper_archive.",
+            message=_("Successfully created paper archive."),
         )
     except paperarchive_service.FailedCreatingPaperArchive as e:
         return get_error_response(message=str(e))
@@ -101,7 +103,7 @@ def update_paper_archive(
                     data=data,
                 )
             ],
-            message="Successfully updated paper_archive.",
+            message=_("Successfully updated paper archive."),
         )
     except paperarchive_service.FailedUpdatingPaperArchive as e:
         return get_error_response(message=str(e))
@@ -125,7 +127,8 @@ def delete_paper_archive(
             classified_into=classified_into,
         )
         return get_success_response(
-            result=[], message="Successfully deleted paper_archive."
+            result=[],
+            message=_("Successfully deleted paper archive.")
         )
     except paperarchive_service.FailedDeletingPaperArchive as e:
         return get_error_response(message=str(e))

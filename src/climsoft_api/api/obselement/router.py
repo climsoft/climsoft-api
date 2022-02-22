@@ -4,6 +4,7 @@ import climsoft_api.api.obselement.schema as obselement_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -47,22 +48,30 @@ def get_obselements(
             limit=limit,
             total=total,
             offset=offset,
-            result=obselements, message="Successfully fetched obselements."
+            result=obselements,
+            message=_("Successfully fetched obs elements.")
         )
     except obselement_service.FailedGettingObsElementList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/{element_id}", response_model=obselement_schema.ObsElementResponse)
+@router.get(
+    "/{element_id}",
+    response_model=obselement_schema.ObsElementResponse
+)
 def get_obs_element_by_id(
-    element_id: str, db_session: Session = Depends(deps.get_session)
+    element_id: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
             result=[
-                obselement_service.get(db_session=db_session, element_id=element_id)
+                obselement_service.get(
+                    db_session=db_session,
+                    element_id=element_id
+                )
             ],
-            message="Successfully fetched obs_element.",
+            message=_("Successfully fetched obs element."),
         )
     except obselement_service.FailedGettingObsElement as e:
         return get_error_response(message=str(e))
@@ -75,14 +84,20 @@ def create_obs_element(
 ):
     try:
         return get_success_response(
-            result=[obselement_service.create(db_session=db_session, data=data)],
-            message="Successfully created obs_element.",
+            result=[obselement_service.create(
+                db_session=db_session,
+                data=data
+            )],
+            message=_("Successfully created obs element."),
         )
     except obselement_service.FailedCreatingObsElement as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{element_id}", response_model=obselement_schema.ObsElementResponse)
+@router.put(
+    "/{element_id}",
+    response_model=obselement_schema.ObsElementResponse
+)
 def update_obs_element(
     element_id: str,
     data: obselement_schema.UpdateObsElement,
@@ -92,23 +107,33 @@ def update_obs_element(
         return get_success_response(
             result=[
                 obselement_service.update(
-                    db_session=db_session, element_id=element_id, updates=data
+                    db_session=db_session,
+                    element_id=element_id,
+                    updates=data
                 )
             ],
-            message="Successfully updated obs_element.",
+            message=_("Successfully updated obs element."),
         )
     except obselement_service.FailedUpdatingObsElement as e:
         return get_error_response(message=str(e))
 
 
-@router.delete("/{element_id}", response_model=obselement_schema.ObsElementResponse)
+@router.delete(
+    "/{element_id}",
+    response_model=obselement_schema.ObsElementResponse
+)
 def delete_obs_element(
-    element_id: str, db_session: Session = Depends(deps.get_session)
+    element_id: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
-        obselement_service.delete(db_session=db_session, element_id=element_id)
+        obselement_service.delete(
+            db_session=db_session,
+            element_id=element_id
+        )
         return get_success_response(
-            result=[], message="Successfully deleted obs_element."
+            result=[],
+            message=_("Successfully deleted obs element.")
         )
     except obselement_service.FailedDeletingObsElement as e:
         return get_error_response(message=str(e))

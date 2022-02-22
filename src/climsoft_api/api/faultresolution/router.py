@@ -4,12 +4,16 @@ import climsoft_api.api.faultresolution.schema as faultresolution_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 
 router = APIRouter()
 
 
-@router.get("/", response_model=faultresolution_schema.FaultResolutionQueryResponse)
+@router.get(
+    "/",
+    response_model=faultresolution_schema.FaultResolutionQueryResponse
+)
 def get_instrument_inspection(
     resolved_datetime: str = None,
     associated_with: str = None,
@@ -35,7 +39,7 @@ def get_instrument_inspection(
             total=total,
             offset=offset,
             result=instrument_inspection,
-            message="Successfully fetched instrument_inspection.",
+            message=_("Successfully fetched instrument inspection."),
         )
     except faultresolution_service.FailedGettingFaultResolutionList as e:
         return get_error_response(message=str(e))
@@ -59,21 +63,27 @@ def get_instrument_inspection_by_id(
                     associated_with=associated_with,
                 )
             ],
-            message="Successfully fetched instrument_inspection.",
+            message=_("Successfully fetched instrument inspection."),
         )
     except faultresolution_service.FailedGettingFaultResolution as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=faultresolution_schema.FaultResolutionResponse)
+@router.post(
+    "/",
+    response_model=faultresolution_schema.FaultResolutionResponse
+)
 def create_instrument_inspection(
     data: faultresolution_schema.CreateFaultResolution,
     db_session: Session = Depends(deps.get_session),
 ):
     try:
         return get_success_response(
-            result=[faultresolution_service.create(db_session=db_session, data=data)],
-            message="Successfully created instrument_inspection.",
+            result=[faultresolution_service.create(
+                db_session=db_session,
+                data=data
+            )],
+            message=_("Successfully created instrument inspection."),
         )
     except faultresolution_service.FailedCreatingFaultResolution as e:
         return get_error_response(message=str(e))
@@ -99,7 +109,7 @@ def update_instrument_inspection(
                     updates=data,
                 )
             ],
-            message="Successfully updated instrument_inspection.",
+            message=_("Successfully updated instrument inspection."),
         )
     except faultresolution_service.FailedUpdatingFaultResolution as e:
         return get_error_response(message=str(e))
@@ -121,7 +131,8 @@ def delete_instrument_inspection(
             associated_with=associated_with,
         )
         return get_success_response(
-            result=[], message="Successfully deleted instrument_inspection."
+            result=[],
+            message=_("Successfully deleted instrument inspection.")
         )
     except faultresolution_service.FailedDeletingFaultResolution as e:
         return get_error_response(message=str(e))

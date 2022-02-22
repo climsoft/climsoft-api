@@ -4,11 +4,15 @@ import climsoft_api.api.physicalfeature.schema as physicalfeature_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
 
-@router.get("/", response_model=physicalfeature_schema.PhysicalFeatureQueryResponse)
+@router.get(
+    "/",
+    response_model=physicalfeature_schema.PhysicalFeatureQueryResponse
+)
 def get_physical_feature(
     associated_with: str = None,
     begin_date: str = None,

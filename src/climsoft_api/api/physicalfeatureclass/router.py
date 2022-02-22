@@ -4,13 +4,14 @@ import climsoft_api.api.physicalfeatureclass.schema as physicalfeatureclass_sche
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
 
 @router.get(
     "/",
-    response_model=physicalfeatureclass_schema.PhysicalFeatureClassQueryResponse,
+    response_model=physicalfeatureclass_schema.PhysicalFeatureClassQueryResponse
 )
 def get_physical_feature_class(
     feature_class: str = None,

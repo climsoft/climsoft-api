@@ -4,6 +4,7 @@ import climsoft_api.api.flag.schema as flag_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -31,7 +32,9 @@ def get_flags(
             limit=limit,
             total=total,
             offset=offset,
-            result=flags, message="Successfully fetched flags.")
+            result=flags,
+            message=_("Successfully fetched flags.")
+        )
     except flag_service.FailedGettingFlagList as e:
         return get_error_response(message=str(e))
 
@@ -44,10 +47,11 @@ def get_flag_by_id(
         return get_success_response(
             result=[
                 flag_service.get(
-                    db_session=db_session, character_symbol=character_symbol
+                    db_session=db_session,
+                    character_symbol=character_symbol
                 )
             ],
-            message="Successfully fetched flag.",
+            message=_("Successfully fetched flag."),
         )
     except flag_service.FailedGettingFlag as e:
         return get_error_response(message=str(e))
@@ -60,7 +64,7 @@ def create_flag(
     try:
         return get_success_response(
             result=[flag_service.create(db_session=db_session, data=data)],
-            message="Successfully created flag.",
+            message=_("Successfully created flag."),
         )
     except flag_service.FailedCreatingFlag as e:
         return get_error_response(message=str(e))
@@ -81,16 +85,25 @@ def update_flag(
                     updates=data,
                 )
             ],
-            message="Successfully updated flag.",
+            message=_("Successfully updated flag."),
         )
     except flag_service.FailedUpdatingFlag as e:
         return get_error_response(message=str(e))
 
 
 @router.delete("/{character_symbol}", response_model=flag_schema.FlagResponse)
-def delete_flag(character_symbol: str, db_session: Session = Depends(deps.get_session)):
+def delete_flag(
+    character_symbol: str,
+    db_session: Session = Depends(deps.get_session)
+):
     try:
-        flag_service.delete(db_session=db_session, character_symbol=character_symbol)
-        return get_success_response(result=[], message="Successfully deleted flag.")
+        flag_service.delete(
+            db_session=db_session,
+            character_symbol=character_symbol
+        )
+        return get_success_response(
+            result=[],
+            message=_("Successfully deleted flag.")
+        )
     except flag_service.FailedDeletingFlag as e:
         return get_error_response(message=str(e))

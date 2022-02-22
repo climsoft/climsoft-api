@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.data_form import schema as data_form_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
@@ -45,24 +46,33 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingDataForm("Failed creating data_form.")
+        raise FailedCreatingDataForm(
+            _("Failed creating data form.")
+        )
 
 
 def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
     try:
         data_form = (
-            db_session.query(models.DataForm).filter_by(form_name=form_name).first()
+            db_session.query(models.DataForm).filter_by(
+                form_name=form_name
+            ).first()
         )
 
         if not data_form:
-            raise HTTPException(status_code=404, detail="DataForm does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Data form does not exist.")
+            )
 
         return data_form_schema.DataForm.from_orm(data_form)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingDataForm("Failed getting data_form.")
+        raise FailedGettingDataForm(
+            _("Failed getting data form.")
+        )
 
 
 def query(
@@ -81,7 +91,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[data_form_schema.DataForm]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `data_forms` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `data_forms` row skipping
     `offset` number of rows
 
     """
@@ -127,11 +138,15 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingDataFormList("Failed getting data form list.")
+        raise FailedGettingDataFormList(
+            _("Failed getting list of data forms.")
+        )
 
 
 def update(
-    db_session: Session, form_name: str, updates: data_form_schema.UpdateDataForm
+    db_session: Session,
+    form_name: str,
+    updates: data_form_schema.UpdateDataForm
 ) -> data_form_schema.DataForm:
     try:
         db_session.query(models.DataForm).filter_by(form_name=form_name).update(
@@ -139,21 +154,29 @@ def update(
         )
         db_session.commit()
         updated_data_form = (
-            db_session.query(models.DataForm).filter_by(form_name=form_name).first()
+            db_session.query(models.DataForm).filter_by(
+                form_name=form_name
+            ).first()
         )
         return data_form_schema.DataForm.from_orm(updated_data_form)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingDataForm("Failed updating data form")
+        raise FailedUpdatingDataForm(
+            _("Failed updating data form.")
+        )
 
 
 def delete(db_session: Session, form_name: str) -> bool:
     try:
-        db_session.query(models.DataForm).filter_by(form_name=form_name).delete()
+        db_session.query(models.DataForm).filter_by(
+            form_name=form_name
+        ).delete()
         db_session.commit()
         return True
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingDataForm("Failed deleting data form.")
+        raise FailedDeletingDataForm(
+            _("Failed deleting data form.")
+        )

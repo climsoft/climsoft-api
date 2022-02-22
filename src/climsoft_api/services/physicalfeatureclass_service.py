@@ -3,9 +3,12 @@ from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.api.physicalfeatureclass import schema as physicalfeatureclass_schema
+from climsoft_api.api.physicalfeatureclass import (
+    schema as physicalfeatureclass_schema
+)
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftPhysicalFeatureClassService")
 logging.basicConfig(level=logging.INFO)
@@ -49,7 +52,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPhysicalFeatureClass(
-            "Failed creating physical_feature_class."
+            _("Failed creating physical_feature_class.")
         )
 
 
@@ -66,7 +69,8 @@ def get(
 
         if not physical_feature_class:
             raise HTTPException(
-                status_code=404, detail="PhysicalFeatureClass does not exist."
+                status_code=404,
+                detail=_("PhysicalFeatureClass does not exist.")
             )
 
         return physicalfeatureclass_schema.PhysicalFeatureClassWithStation.from_orm(
@@ -77,7 +81,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureClass(
-            "Failed getting physical_feature_class."
+            _("Failed getting physical_feature_class.")
         )
 
 
@@ -90,7 +94,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[physicalfeatureclass_schema.PhysicalFeatureClass]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `physical_feature_class` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `physical_feature_class` row skipping
     `offset` number of rows
     """
     try:
@@ -117,7 +122,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureClassList(
-            "Failed getting physical_feature_class list."
+            _("Failed getting list of physical feature classes.")
         )
 
 
@@ -143,7 +148,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPhysicalFeatureClass(
-            "Failed updating physical_feature_class"
+            _("Failed updating physical feature class.")
         )
 
 
@@ -158,5 +163,5 @@ def delete(db_session: Session, feature_class: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPhysicalFeatureClass(
-            "Failed deleting physical_feature_class."
+            _("Failed deleting physical feature class.")
         )

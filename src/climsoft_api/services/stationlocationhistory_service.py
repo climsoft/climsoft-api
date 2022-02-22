@@ -8,6 +8,7 @@ from climsoft_api.api.stationlocationhistory import (
 )
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
@@ -52,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStationLocationHistory(
-            "Failed creating station_location_history."
+            _("Failed creating station location history.")
         )
 
 
@@ -69,18 +70,20 @@ def get(
 
         if not station_location_history:
             raise HTTPException(
-                status_code=404, detail="StationLocationHistory does not exist."
+                status_code=404,
+                detail=_("Station location history does not exist.")
             )
 
-        return stationlocationhistory_schema.StationLocationHistoryWithStation.from_orm(
-            station_location_history
-        )
+        return stationlocationhistory_schema.StationLocationHistoryWithStation\
+            .from_orm(
+                station_location_history
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistory(
-            "Failed getting station_location_history."
+            _("Failed getting station location history.")
         )
 
 
@@ -102,7 +105,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[stationlocationhistory_schema.StationLocationHistory]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `station_location_history` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `station_location_history` row skipping
     `offset` number of rows
     """
     try:
@@ -154,7 +158,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistoryList(
-            "Failed getting station_location_history list."
+            _("Failed getting station location history list.")
         )
 
 
@@ -181,7 +185,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingStationLocationHistory(
-            "Failed updating station_location_history"
+            _("Failed updating station_location_history")
         )
 
 
@@ -196,5 +200,5 @@ def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationLocationHistory(
-            "Failed deleting station_location_history."
+            _("Failed deleting station_location_history.")
         )

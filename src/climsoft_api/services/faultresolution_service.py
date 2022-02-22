@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.faultresolution import schema as faultresolution_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftFaultResolutionService")
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingFaultResolution("Failed creating fault_resolution.")
+        raise FailedCreatingFaultResolution(
+            _("Failed creating fault resolution.")
+        )
 
 
 def get(
@@ -56,7 +59,8 @@ def get(
         fault_resolution = (
             db_session.query(models.Faultresolution)
             .filter_by(
-                resolvedDatetime=resolved_datetime, associatedWith=associated_with
+                resolvedDatetime=resolved_datetime,
+                associatedWith=associated_with
             )
             .options(joinedload("instrumentfaultreport"))
             .first()
@@ -64,17 +68,20 @@ def get(
 
         if not fault_resolution:
             raise HTTPException(
-                status_code=404, detail="FaultResolution does not exist."
+                status_code=404, detail=_("FaultResolution does not exist.")
             )
 
-        return faultresolution_schema.FaultResolutionWithInstrumentFaultReport.from_orm(
-            fault_resolution
-        )
+        return faultresolution_schema.FaultResolutionWithInstrumentFaultReport\
+            .from_orm(
+                fault_resolution
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingFaultResolution("Failed getting fault_resolution.")
+        raise FailedGettingFaultResolution(
+            _("Failed getting fault resolution.")
+        )
 
 
 def query(
@@ -87,7 +94,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[faultresolution_schema.FaultResolution]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `fault_resolution` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `fault_resolution` row skipping
     `offset` number of rows
     """
     try:
@@ -114,7 +122,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingFaultResolutionList("Failed getting fault_resolution list.")
+        raise FailedGettingFaultResolutionList(
+            _("Failed getting list of fault resolutions.")
+        )
 
 
 def update(
@@ -125,31 +135,40 @@ def update(
 ) -> faultresolution_schema.FaultResolution:
     try:
         db_session.query(models.Faultresolution).filter_by(
-            resolvedDatetime=resolved_datetime, associatedWith=associated_with
+            resolvedDatetime=resolved_datetime,
+            associatedWith=associated_with
         ).update(updates.dict())
         db_session.commit()
         updated_fault_resolution = (
             db_session.query(models.Faultresolution)
             .filter_by(
-                resolvedDatetime=resolved_datetime, associatedWith=associated_with
+                resolvedDatetime=resolved_datetime,
+                associatedWith=associated_with
             )
             .first()
         )
-        return faultresolution_schema.FaultResolution.from_orm(updated_fault_resolution)
+        return faultresolution_schema.FaultResolution.from_orm(
+            updated_fault_resolution
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingFaultResolution("Failed updating fault_resolution")
+        raise FailedUpdatingFaultResolution(
+            _("Failed updating fault resolution.")
+        )
 
 
 def delete(db_session: Session, resolved_datetime: str, associated_with: str) -> bool:
     try:
         db_session.query(models.Faultresolution).filter_by(
-            resolvedDatetime=resolved_datetime, associatedWith=associated_with
+            resolvedDatetime=resolved_datetime,
+            associatedWith=associated_with
         ).delete()
         db_session.commit()
         return True
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingFaultResolution("Failed deleting fault_resolution.")
+        raise FailedDeletingFaultResolution(
+            _("Failed deleting fault resolution.")
+        )

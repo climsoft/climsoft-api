@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.flag import schema as flag_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
@@ -43,7 +44,9 @@ def create(db_session: Session, data: flag_schema.CreateFlag) -> flag_schema.Fla
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingFlag("Failed creating flag.")
+        raise FailedCreatingFlag(
+            _("Failed creating flag.")
+        )
 
 
 def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
@@ -55,14 +58,19 @@ def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
         )
 
         if not flag:
-            raise HTTPException(status_code=404, detail="Flag does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Flag does not exist.")
+            )
 
         return flag_schema.Flag.from_orm(flag)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingFlag("Failed getting flag.")
+        raise FailedGettingFlag(
+            _("Failed getting flag.")
+        )
 
 
 def query(
@@ -74,7 +82,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[flag_schema.Flag]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `flags` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `flags` row skipping
     `offset` number of rows
 
     """
@@ -93,16 +102,22 @@ def query(
         return (
             get_count(q),
             [
-               flag_schema.Flag.from_orm(s) for s in q.offset(offset).limit(limit).all()
+               flag_schema.Flag.from_orm(s) for s in q.offset(
+                    offset
+                ).limit(limit).all()
             ]
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingFlagList("Failed getting data form list.")
+        raise FailedGettingFlagList(
+            _("Failed getting list of flags.")
+        )
 
 
 def update(
-    db_session: Session, character_symbol: str, updates: flag_schema.UpdateFlag
+    db_session: Session,
+    character_symbol: str,
+    updates: flag_schema.UpdateFlag
 ) -> flag_schema.Flag:
     try:
         db_session.query(models.Flag).filter_by(
@@ -118,7 +133,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingFlag("Failed updating data form")
+        raise FailedUpdatingFlag(
+            _("Failed updating flag.")
+        )
 
 
 def delete(db_session: Session, character_symbol: str) -> bool:
@@ -131,4 +148,6 @@ def delete(db_session: Session, character_symbol: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingFlag("Failed deleting data form.")
+        raise FailedDeletingFlag(
+            _("Failed deleting data form.")
+        )

@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.obsscheduleclass import schema as obsscheduleclass_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingObsScheduleClass("Failed creating obs_schedule_class.")
+        raise FailedCreatingObsScheduleClass(
+            _("Failed creating obs schedule class.")
+        )
 
 
 def get(
@@ -62,7 +65,8 @@ def get(
 
         if not obs_schedule_class:
             raise HTTPException(
-                status_code=404, detail="ObsScheduleClass does not exist."
+                status_code=404,
+                detail=_("Obs schedule class does not exist.")
             )
 
         return obsscheduleclass_schema.ObsScheduleClassWithStation.from_orm(
@@ -72,7 +76,9 @@ def get(
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingObsScheduleClass("Failed getting obs_schedule_class.")
+        raise FailedGettingObsScheduleClass(
+            _("Failed getting obs schedule class.")
+        )
 
 
 def query(
@@ -84,7 +90,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[obsscheduleclass_schema.ObsScheduleClass]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `obs_schedule_class` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `obs_schedule_class` row skipping
     `offset` number of rows
     :param db_session: database session
     :param schedule_class: filter by primary key
@@ -101,7 +108,9 @@ def query(
             q = q.filter_by(scheduleClass=schedule_class)
 
         if description is not None:
-            q = q.filter(models.Obsscheduleclas.description.ilike(f"%{description}%"))
+            q = q.filter(models.Obsscheduleclas.description.ilike(
+                f"%{description}%"
+            ))
 
         if refers_to is not None:
             q = q.filter_by(refersTo=refers_to)
@@ -116,7 +125,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsScheduleClassList(
-            "Failed getting obs_schedule_class list."
+            _("Failed getting list of obs schedule classes.")
         )
 
 
@@ -141,7 +150,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingObsScheduleClass("Failed updating obs_schedule_class")
+        raise FailedUpdatingObsScheduleClass(
+            _("Failed updating obs schedule class.")
+        )
 
 
 def delete(db_session: Session, schedule_class: str) -> bool:
@@ -154,4 +165,6 @@ def delete(db_session: Session, schedule_class: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingObsScheduleClass("Failed deleting obs_schedule_class.")
+        raise FailedDeletingObsScheduleClass(
+            _("Failed deleting obs schedule class.")
+        )

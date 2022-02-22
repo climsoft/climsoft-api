@@ -3,9 +3,12 @@ from typing import List, Tuple
 from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.api.instrumentinspection import schema as instrumentinspection_schema
+from climsoft_api.api.instrumentinspection import (
+    schema as instrumentinspection_schema
+)
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftInstrumentInspectionService")
 logging.basicConfig(level=logging.INFO)
@@ -36,7 +39,8 @@ class InstrumentInspectionDoesNotExist(Exception):
 
 
 def create(
-    db_session: Session, data: instrumentinspection_schema.CreateInstrumentInspection
+    db_session: Session,
+    data: instrumentinspection_schema.CreateInstrumentInspection
 ) -> instrumentinspection_schema.InstrumentInspection:
     try:
         instrument_inspection = models.Instrumentinspection(**data.dict())
@@ -49,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingInstrumentInspection(
-            "Failed creating instrument_inspection."
+            _("Failed creating instrument inspection.")
         )
 
 
@@ -59,24 +63,31 @@ def get(
     try:
         instrument_inspection = (
             db_session.query(models.Instrumentinspection)
-            .filter_by(performedOn=performed_on, inspectionDatetime=inspection_datetime)
+            .filter_by(
+                performedOn=performed_on, 
+                inspectionDatetime=inspection_datetime
+            )
             .options(joinedload("station"))
             .first()
         )
 
         if not instrument_inspection:
             raise HTTPException(
-                status_code=404, detail="InstrumentInspection does not exist."
+                status_code=404, 
+                detail=_("Instrument inspection does not exist.")
             )
 
-        return instrumentinspection_schema.InstrumentInspectionWithStationAndInstrument.from_orm(
-            instrument_inspection
-        )
+        return instrumentinspection_schema\
+            .InstrumentInspectionWithStationAndInstrument.from_orm(
+                instrument_inspection
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingInstrumentInspection("Failed getting instrument_inspection.")
+        raise FailedGettingInstrumentInspection(
+            _("Failed getting instrument inspection.")
+        )
 
 
 def query(
@@ -91,7 +102,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[instrumentinspection_schema.InstrumentInspection]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `instrument_inspection` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `instrument_inspection` row skipping
     `offset` number of rows
     """
     try:
@@ -125,7 +137,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentInspectionList(
-            "Failed getting instrument_inspection list."
+            _("Failed getting list of instrument inspections.")
         )
 
 
@@ -142,7 +154,10 @@ def update(
         db_session.commit()
         updated_instrument_inspection = (
             db_session.query(models.Instrumentinspection)
-            .filter_by(performedOn=performed_on, inspectionDatetime=inspection_datetime)
+            .filter_by(
+                performedOn=performed_on,
+                inspectionDatetime=inspection_datetime
+            )
             .first()
         )
         return instrumentinspection_schema.InstrumentInspection.from_orm(
@@ -152,7 +167,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingInstrumentInspection(
-            "Failed updating instrument_inspection"
+            _("Failed updating instrument inspection.")
         )
 
 
@@ -167,5 +182,5 @@ def delete(db_session: Session, performed_on: str, inspection_datetime: str) -> 
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingInstrumentInspection(
-            "Failed deleting instrument_inspection."
+            _("Failed deleting instrument inspection.")
         )

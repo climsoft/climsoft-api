@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from pydantic import constr
 from climsoft_api.api.schema import BaseSchema, Response
 import climsoft_api.api.station.schema as station_schema
@@ -19,23 +19,23 @@ field_names = {
 
 class CreateStationElement(BaseSchema):
     recordedFrom: constr(max_length=255)
-    describedBy: int
-    recordedWith: constr(max_length=255)
-    instrumentcode: constr(max_length=6)
-    scheduledFor: constr(max_length=255)
-    height: float
-    beginDate: constr(max_length=50)
-    endDate: constr(max_length=255)
+    describedBy: Optional[int]
+    recordedWith: Optional[constr(max_length=255)]
+    instrumentcode: Optional[constr(max_length=6)]
+    scheduledFor: Optional[constr(max_length=255)]
+    height: Optional[float]
+    beginDate: Optional[constr(max_length=50)]
+    endDate: Optional[constr(max_length=255)]
 
     class Config:
         fields = field_names
 
 
 class UpdateStationElement(BaseSchema):
-    instrumentcode: constr(max_length=6)
-    scheduledFor: constr(max_length=255)
-    height: float
-    endDate: constr(max_length=255)
+    instrumentcode: Optional[constr(max_length=6)]
+    scheduledFor: Optional[constr(max_length=255)]
+    height: Optional[float]
+    endDate: Optional[constr(max_length=255)]
 
     class Config:
         fields = field_names
@@ -53,10 +53,10 @@ class StationElementResponse(Response):
 
 
 class StationElementWithChildren(StationElement):
-    obselement: obselement_schema.ObsElement
-    station: station_schema.Station
-    instrument: instrument_schema.Instrument
-    obsscheduleclas: obsscheduleclass_schema.ObsScheduleClass
+    obselement: Optional[obselement_schema.ObsElement]
+    station: Optional[station_schema.Station]
+    instrument: Optional[instrument_schema.Instrument]
+    obsscheduleclas: Optional[obsscheduleclass_schema.ObsScheduleClass]
 
     class Config:
         orm_mode = True

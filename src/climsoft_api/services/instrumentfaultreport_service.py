@@ -8,6 +8,7 @@ from climsoft_api.api.instrumentfaultreport import (
 )
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
@@ -38,7 +39,8 @@ class InstrumentFaultReportDoesNotExist(Exception):
 
 
 def create(
-    db_session: Session, data: instrumentfaultreport_schema.CreateInstrumentFaultReport
+    db_session: Session,
+    data: instrumentfaultreport_schema.CreateInstrumentFaultReport
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
     try:
         instrument_fault_report = models.Instrumentfaultreport(**data.dict())
@@ -51,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingInstrumentFaultReport(
-            "Failed creating instrument_fault_report."
+            _("Failed creating instrument fault report.")
         )
 
 
@@ -68,18 +70,20 @@ def get(
 
         if not instrument_fault_report:
             raise HTTPException(
-                status_code=404, detail="InstrumentFaultReport does not exist."
+                status_code=404, 
+                detail=_("Instrument fault report does not exist.")
             )
 
-        return instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrument.from_orm(
-            instrument_fault_report
-        )
+        return instrumentfaultreport_schema\
+            .InstrumentFaultReportWithStationAndInstrument.from_orm(
+                instrument_fault_report
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReport(
-            "Failed getting instrument_fault_report."
+            _("Failed getting instrument fault report.")
         )
 
 
@@ -97,7 +101,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[instrumentfaultreport_schema.InstrumentFaultReport]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `instrument_fault_report` row skipping
+    This function builds a query based on the given parameter and returns 
+    `limit` numbers of `instrument_fault_report` row skipping
     `offset` number of rows
     """
     try:
@@ -137,7 +142,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReportList(
-            "Failed getting instrument_fault_report list."
+            _("Failed getting list of  instrument fault reports.")
         )
 
 
@@ -163,7 +168,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingInstrumentFaultReport(
-            "Failed updating instrument_fault_report"
+            _("Failed updating instrument fault report.")
         )
 
 
@@ -178,5 +183,5 @@ def delete(db_session: Session, report_id: int) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingInstrumentFaultReport(
-            "Failed deleting instrument_fault_report."
+            _("Failed deleting instrument fault report.")
         )

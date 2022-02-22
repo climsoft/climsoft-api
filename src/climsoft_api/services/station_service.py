@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.station import schema as station_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftStationService")
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingStation("Failed creating station.")
+        raise FailedCreatingStation(
+            _("Failed creating station.")
+        )
 
 
 def get(db_session: Session, station_id: str) -> station_schema.Station:
@@ -55,14 +58,19 @@ def get(db_session: Session, station_id: str) -> station_schema.Station:
         )
 
         if not station:
-            raise HTTPException(status_code=404, detail="Station does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Station does not exist.")
+            )
 
         return station_schema.Station.from_orm(station)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingStation("Failed getting station.")
+        raise FailedGettingStation(
+            _("Failed getting station.")
+        )
 
 
 def query(
@@ -90,7 +98,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[station_schema.Station]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `obselement` row skipping
     `offset` number of rows
 
     :param db_session: sqlalchemy database session
@@ -188,11 +197,15 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingStationList("Failed getting station list.")
+        raise FailedGettingStationList(
+            _("Failed getting station list.")
+        )
 
 
 def update(
-    db_session: Session, station_id: str, updates: station_schema.UpdateStation
+    db_session: Session,
+    station_id: str,
+    updates: station_schema.UpdateStation
 ) -> station_schema.Station:
     try:
         db_session.query(models.Station).filter_by(stationId=station_id).update(
@@ -206,7 +219,7 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingStation("Failed updating station")
+        raise FailedUpdatingStation(_("Failed updating station"))
 
 
 def delete(db_session: Session, station_id: str) -> bool:
@@ -217,4 +230,6 @@ def delete(db_session: Session, station_id: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingStation("Failed deleting station.")
+        raise FailedDeletingStation(
+            _("Failed deleting station.")
+        )

@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.climsoftuser import schema as climsoftuser_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingClimsoftUser("Failed creating climsoft_user.")
+        raise FailedCreatingClimsoftUser(
+            _("Failed creating climsoft user.")
+        )
 
 
 def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
@@ -56,7 +59,7 @@ def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
 
         if not climsoft_user:
             raise HTTPException(
-                status_code=404, detail="ClimsoftUser does not exist."
+                status_code=404, detail=_("Climsoft user does not exist.")
             )
 
         return climsoftuser_schema.ClimsoftUser.from_orm(climsoft_user)
@@ -64,7 +67,9 @@ def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingClimsoftUser("Failed getting climsoft_user.")
+        raise FailedGettingClimsoftUser(
+            _("Failed getting climsoft user.")
+        )
 
 
 def query(
@@ -75,7 +80,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[climsoftuser_schema.ClimsoftUser]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `obselement` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `obselement` row skipping
     `offset` number of rows
     :param db_session:
     :param username:
@@ -102,7 +108,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingClimsoftUserList("Failed getting climsoft_user list.")
+        raise FailedGettingClimsoftUserList(
+            "Failed getting list of climsoft users."
+        )
 
 
 def update(
@@ -111,28 +119,38 @@ def update(
     role: str,
 ) -> climsoftuser_schema.ClimsoftUser:
     try:
-        db_session.query(models.ClimsoftUser).filter_by(userName=username).update(
+        db_session.query(
+            models.ClimsoftUser
+        ).filter_by(userName=username).update(
             {
                 "userRole": role
             }
         )
         db_session.commit()
         updated_climsoft_user = (
-            db_session.query(models.ClimsoftUser).filter_by(userName=username).first()
+            db_session.query(models.ClimsoftUser).filter_by(
+                userName=username
+            ).first()
         )
         return climsoftuser_schema.ClimsoftUser.from_orm(updated_climsoft_user)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingClimsoftUser("Failed updating climsoft_user")
+        raise FailedUpdatingClimsoftUser(
+            _("Failed updating climsoft user.")
+        )
 
 
 def delete(db_session: Session, username: str) -> bool:
     try:
-        db_session.query(models.ClimsoftUser).filter_by(userName=username).delete()
+        db_session.query(models.ClimsoftUser).filter_by(
+            userName=username
+        ).delete()
         db_session.commit()
         return True
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingClimsoftUser("Failed deleting climsoft_user.")
+        raise FailedDeletingClimsoftUser(
+            _("Failed deleting climsoft user.")
+        )

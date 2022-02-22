@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.observationinitial import schema as observationinitial_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftObservationInitialService")
 logging.basicConfig(level=logging.INFO)
@@ -36,7 +37,8 @@ class ObservationInitialDoesNotExist(Exception):
 
 
 def create(
-    db_session: Session, data: observationinitial_schema.CreateObservationInitial
+    db_session: Session,
+    data: observationinitial_schema.CreateObservationInitial
 ) -> observationinitial_schema.ObservationInitial:
     try:
         observation_initial = models.Observationinitial(**data.dict())
@@ -49,7 +51,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingObservationInitial("Failed creating observation_initial.")
+        raise FailedCreatingObservationInitial(
+            _("Failed creating observation initial.")
+        )
 
 
 def get(
@@ -74,17 +78,21 @@ def get(
 
         if not observation_initial:
             raise HTTPException(
-                status_code=404, detail="ObservationInitial does not exist."
+                status_code=404,
+                detail=_("Observation initial does not exist.")
             )
 
-        return observationinitial_schema.ObservationInitialWithChildren.from_orm(
-            observation_initial
-        )
+        return observationinitial_schema.ObservationInitialWithChildren\
+            .from_orm(
+                observation_initial
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingObservationInitial("Failed getting observation_initial.")
+        raise FailedGettingObservationInitial(
+            _("Failed getting observation_initial.")
+        )
 
 
 def query(
@@ -111,7 +119,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[observationinitial_schema.ObservationInitial]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `observationinitial` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `observationinitial` row skipping
     `offset` number of rows
     :param db_session: db session
     :param recorded_from:
@@ -167,10 +176,14 @@ def query(
             q = q.filter(models.Observationinitial.period >= period)
 
         if qc_type_log is not None:
-            q = q.filter(models.Observationinitial.qcTypeLog.ilike(f"%{qc_type_log}%"))
+            q = q.filter(
+                models.Observationinitial.qcTypeLog.ilike(f"%{qc_type_log}%")
+            )
 
         if data_form is not None:
-            q = q.filter(models.Observationinitial.dataForm.ilike(f"%{data_form}%"))
+            q = q.filter(
+                models.Observationinitial.dataForm.ilike(f"%{data_form}%")
+            )
 
         if captured_by is not None:
             q = q.filter_by(capturedBy=captured_by)
@@ -200,7 +213,9 @@ def query(
             )
 
         if vis_units is not None:
-            q = q.filter_by(models.Observationinitial.visUnits.ilike(f"%{vis_units}%"))
+            q = q.filter_by(
+                models.Observationinitial.visUnits.ilike(f"%{vis_units}%")
+            )
 
         if data_source_timezone is not None:
             q = q.filter_by(dataSourceTimezone=data_source_timezone)
@@ -215,7 +230,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationInitialList(
-            "Failed getting observation_initial list."
+            _("Failed getting list of observation initial.")
         )
 
 
@@ -250,11 +265,15 @@ def update(
             .filter_by(acquisitionType=acquisition_type)
             .first()
         )
-        return observationinitial_schema.ObservationInitial.from_orm(updated_instrument)
+        return observationinitial_schema.ObservationInitial.from_orm(
+            updated_instrument
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingObservationInitial("Failed updating observation_initial")
+        raise FailedUpdatingObservationInitial(
+            _("Failed updating observation initial.")
+        )
 
 
 def delete(
@@ -280,4 +299,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingObservationInitial("Failed deleting observation_initial.")
+        raise FailedDeletingObservationInitial(
+            _("Failed deleting observation initial.")
+        )

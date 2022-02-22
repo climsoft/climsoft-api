@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.qcstatusdefinition import schema as qcstatusdefinition_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -47,18 +48,26 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingQCStatusDefinition("Failed creating qc_status_definition.")
+        raise FailedCreatingQCStatusDefinition(
+            _("Failed creating qc status definition.")
+        )
 
 
-def get(db_session: Session, code: str) -> qcstatusdefinition_schema.QCStatusDefinition:
+def get(
+    db_session: Session,
+    code: str
+) -> qcstatusdefinition_schema.QCStatusDefinition:
     try:
         qc_status_definition = (
-            db_session.query(models.Qcstatusdefinition).filter_by(code=code).first()
+            db_session.query(models.Qcstatusdefinition).filter_by(
+                code=code
+            ).first()
         )
 
         if not qc_status_definition:
             raise HTTPException(
-                status_code=404, detail="QCStatusDefinition does not exist."
+                status_code=404,
+                detail=_("QC status definition does not exist.")
             )
 
         return qcstatusdefinition_schema.QCStatusDefinition.from_orm(
@@ -68,7 +77,9 @@ def get(db_session: Session, code: str) -> qcstatusdefinition_schema.QCStatusDef
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingQCStatusDefinition("Failed getting qc_status_definition.")
+        raise FailedGettingQCStatusDefinition(
+            _("Failed getting qc status definition.")
+        )
 
 
 def query(
@@ -79,7 +90,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[qcstatusdefinition_schema.QCStatusDefinition]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `qc_status_definitions` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `qc_status_definitions` row skipping
     `offset` number of rows
 
     """
@@ -103,7 +115,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingQCStatusDefinitionList("Failed getting data form list.")
+        raise FailedGettingQCStatusDefinitionList(
+            _("Failed getting data form list.")
+        )
 
 
 def update(
@@ -125,7 +139,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingQCStatusDefinition("Failed updating data form")
+        raise FailedUpdatingQCStatusDefinition(
+            _("Failed updating data form")
+        )
 
 
 def delete(db_session: Session, code: str) -> bool:
@@ -136,4 +152,6 @@ def delete(db_session: Session, code: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingQCStatusDefinition("Failed deleting data form.")
+        raise FailedDeletingQCStatusDefinition(
+            _("Failed deleting data form.")
+        )

@@ -5,6 +5,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.synopfeature import schema as synopfeature_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
@@ -45,7 +46,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingSynopFeature("Failed creating synop_feature.")
+        raise FailedCreatingSynopFeature(
+            _("Failed creating synop feature.")
+        )
 
 
 def get(db_session: Session, abbreviation: str) -> synopfeature_schema.SynopFeature:
@@ -57,14 +60,19 @@ def get(db_session: Session, abbreviation: str) -> synopfeature_schema.SynopFeat
         )
 
         if not synop_feature:
-            raise HTTPException(status_code=404, detail="SynopFeature does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Synop feature does not exist.")
+            )
 
         return synopfeature_schema.SynopFeature.from_orm(synop_feature)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingSynopFeature("Failed getting synop_feature.")
+        raise FailedGettingSynopFeature(
+            _("Failed getting synop feature.")
+        )
 
 
 def query(
@@ -75,7 +83,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[synopfeature_schema.SynopFeature]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `synop_features` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `synop_features` row skipping
     `offset` number of rows
 
     """
@@ -86,7 +95,9 @@ def query(
             q = q.filter_by(abbreviation=abbreviation)
 
         if description is not None:
-            q = q.filter(models.Synopfeature.description.ilike(f"%{description}%"))
+            q = q.filter(
+                models.Synopfeature.description.ilike(f"%{description}%")
+            )
 
         return (
             get_count(q),
@@ -97,7 +108,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingSynopFeatureList("Failed getting synop feature list.")
+        raise FailedGettingSynopFeatureList(
+            _("Failed getting synop feature list.")
+        )
 
 
 def update(
@@ -119,7 +132,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingSynopFeature("Failed updating synop feature")
+        raise FailedUpdatingSynopFeature(
+            _("Failed updating synop feature")
+        )
 
 
 def delete(db_session: Session, abbreviation: str) -> bool:
@@ -132,4 +147,6 @@ def delete(db_session: Session, abbreviation: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingSynopFeature("Failed deleting synop feature.")
+        raise FailedDeletingSynopFeature(
+            _("Failed deleting synop feature.")
+        )

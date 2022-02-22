@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.instrument import schema as instrument_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
@@ -46,7 +47,9 @@ def create(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedCreatingInstrument("Failed creating instrument.")
+        raise FailedCreatingInstrument(
+            _("Failed creating instrument.")
+        )
 
 
 def get(db_session: Session, instrument_id: str) -> instrument_schema.Instrument:
@@ -59,14 +62,19 @@ def get(db_session: Session, instrument_id: str) -> instrument_schema.Instrument
         )
 
         if not instrument:
-            raise HTTPException(status_code=404, detail="Instrument does not exist.")
+            raise HTTPException(
+                status_code=404,
+                detail=_("Instrument does not exist.")
+            )
 
         return instrument_schema.InstrumentWithStation.from_orm(instrument)
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingInstrument("Failed getting instrument.")
+        raise FailedGettingInstrument(
+            _("Failed getting instrument.")
+        )
 
 
 def query(
@@ -86,19 +94,25 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[instrument_schema.Instrument]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `instrument` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `instrument` row skipping
     `offset` number of rows
 
     :param db_session: database session
     :param instrument_id: compares with `instrumentId` column for exact match
-    :param instrument_name: compares with `instrumentName` column for exact match
+    :param instrument_name: compares with `instrumentName` column for
+                            exact match
     :param serial_number: compares with `serialNumber` column for exact match
     :param abbreviation: compares with `abbreviation` column for exact match
     :param model: checks if the model column contains given input
     :param manufacturer: checks if the manufacturer column contains given input
-    :param instrument_uncertainty: returns items with lower or equal instrumentUncertainty
-    :param installation_datetime: returns items with installationDatetime greater that given input
-    :param uninstallation_datetime: returns items with deinstallationDatetime smaller that given input
+    :param instrument_uncertainty: returns items with lower or equal
+                                    instrumentUncertainty
+    :param installation_datetime: returns items with installationDatetime
+                                    greater that given input
+    :param uninstallation_datetime: returns items with
+                                    deinstallationDatetime
+                                    smaller than given input
     :param height: returns items with height greater that given input
     :param station_id: compares with installedAt column for exact match
     :param limit: takes first `limit` number of rows
@@ -156,11 +170,15 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingInstrumentList("Failed getting instrument list.")
+        raise FailedGettingInstrumentList(
+            _("Failed getting list of instruments.")
+        )
 
 
 def update(
-    db_session: Session, instrument_id: str, updates: instrument_schema.UpdateInstrument
+    db_session: Session,
+    instrument_id: str,
+    updates: instrument_schema.UpdateInstrument
 ) -> instrument_schema.Instrument:
     try:
         db_session.query(models.Instrument).filter_by(
@@ -176,7 +194,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingInstrument("Failed updating instrument")
+        raise FailedUpdatingInstrument(
+            _("Failed updating instrument.")
+        )
 
 
 def delete(db_session: Session, instrument_id: str) -> bool:
@@ -189,4 +209,6 @@ def delete(db_session: Session, instrument_id: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingInstrument("Failed deleting instrument.")
+        raise FailedDeletingInstrument(
+            _("Failed deleting instrument.")
+        )

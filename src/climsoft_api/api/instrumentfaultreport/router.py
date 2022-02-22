@@ -4,12 +4,14 @@ import climsoft_api.api.instrumentfaultreport.schema as instrumentfaultreport_sc
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
 
 @router.get(
-    "/", response_model=instrumentfaultreport_schema.InstrumentFaultReportQueryResponse
+    "/",
+    response_model=instrumentfaultreport_schema.InstrumentFaultReportQueryResponse
 )
 def get_instrument_fault_report(
     refers_to: str = None,
@@ -44,7 +46,7 @@ def get_instrument_fault_report(
             total=total,
             offset=offset,
             result=instrument_fault_report,
-            message="Successfully fetched instrument_fault_report.",
+            message=_("Successfully fetched instrument fault report."),
         )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReportList as e:
         return get_error_response(message=str(e))
@@ -55,16 +57,18 @@ def get_instrument_fault_report(
     response_model=instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse,
 )
 def get_instrument_fault_report_by_id(
-    report_id: int, db_session: Session = Depends(deps.get_session)
+    report_id: int,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
             result=[
                 instrumentfaultreport_service.get(
-                    db_session=db_session, report_id=report_id
+                    db_session=db_session,
+                    report_id=report_id
                 )
             ],
-            message="Successfully fetched instrument_fault_report.",
+            message=_("Successfully fetched instrument fault report."),
         )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
@@ -80,9 +84,12 @@ def create_instrument_fault_report(
     try:
         return get_success_response(
             result=[
-                instrumentfaultreport_service.create(db_session=db_session, data=data)
+                instrumentfaultreport_service.create(
+                    db_session=db_session,
+                    data=data
+                )
             ],
-            message="Successfully created instrument_fault_report.",
+            message=_("Successfully created instrument fault report."),
         )
     except instrumentfaultreport_service.FailedCreatingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
@@ -101,10 +108,12 @@ def update_instrument_fault_report(
         return get_success_response(
             result=[
                 instrumentfaultreport_service.update(
-                    db_session=db_session, report_id=report_id, updates=data
+                    db_session=db_session,
+                    report_id=report_id,
+                    updates=data
                 )
             ],
-            message="Successfully updated instrument_fault_report.",
+            message=_("Successfully updated instrument fault report."),
         )
     except instrumentfaultreport_service.FailedUpdatingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
@@ -120,7 +129,8 @@ def delete_instrument_fault_report(
     try:
         instrumentfaultreport_service.delete(db_session=db_session, report_id=report_id)
         return get_success_response(
-            result=[], message="Successfully deleted instrument_fault_report."
+            result=[],
+            message=_("Successfully deleted instrument fault report.")
         )
     except instrumentfaultreport_service.FailedDeletingInstrumentFaultReport as e:
         return get_error_response(message=str(e))

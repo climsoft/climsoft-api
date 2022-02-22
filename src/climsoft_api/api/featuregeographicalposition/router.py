@@ -4,6 +4,7 @@ import climsoft_api.api.featuregeographicalposition.schema as featuregeographica
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 
 router = APIRouter()
@@ -38,9 +39,10 @@ def get_feature_geographical_positions(
             total=total,
             offset=offset,
             result=feature_geographical_positions,
-            message="Successfully fetched feature_geographical_positions.",
+            message=_("Successfully fetched feature geographical positions."),
         )
-    except featuregeographicalposition_service.FailedGettingFeatureGeographicalPositionList as e:
+    except featuregeographicalposition_service\
+            .FailedGettingFeatureGeographicalPositionList as e:
         return get_error_response(message=str(e))
 
 
@@ -49,7 +51,8 @@ def get_feature_geographical_positions(
     response_model=featuregeographicalposition_schema.FeatureGeographicalPositionWithSynopFeatureResponse,
 )
 def get_feature_geographical_position_by_id(
-    belongs_to: str, db_session: Session = Depends(deps.get_session)
+    belongs_to: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -58,7 +61,7 @@ def get_feature_geographical_position_by_id(
                     db_session=db_session, belongs_to=belongs_to
                 )
             ],
-            message="Successfully fetched feature_geographical_position.",
+            message=_("Successfully fetched feature geographical position."),
         )
     except featuregeographicalposition_service.FailedGettingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
@@ -79,7 +82,7 @@ def create_feature_geographical_position(
                     db_session=db_session, data=data
                 )
             ],
-            message="Successfully created feature_geographical_position.",
+            message=_("Successfully created feature geographical position."),
         )
     except featuregeographicalposition_service.FailedCreatingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
@@ -98,10 +101,12 @@ def update_feature_geographical_position(
         return get_success_response(
             result=[
                 featuregeographicalposition_service.update(
-                    db_session=db_session, belongs_to=belongs_to, updates=data
+                    db_session=db_session,
+                    belongs_to=belongs_to,
+                    updates=data
                 )
             ],
-            message="Successfully updated feature_geographical_position.",
+            message=_("Successfully updated feature geographical position."),
         )
     except featuregeographicalposition_service.FailedUpdatingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
@@ -116,10 +121,12 @@ def delete_feature_geographical_position(
 ):
     try:
         featuregeographicalposition_service.delete(
-            db_session=db_session, belongs_to=belongs_to
+            db_session=db_session,
+            belongs_to=belongs_to
         )
         return get_success_response(
-            result=[], message="Successfully deleted feature_geographical_position."
+            result=[],
+            message=_("Successfully deleted feature geographical position.")
         )
     except featuregeographicalposition_service.FailedDeletingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))

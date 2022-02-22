@@ -4,6 +4,7 @@ import climsoft_api.api.obsscheduleclass.schema as obsscheduleclass_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -35,7 +36,7 @@ def get_obs_schedule_class(
             total=total,
             offset=offset,
             result=obs_schedule_class,
-            message="Successfully fetched obs_schedule_class.",
+            message=_("Successfully fetched obs schedule class."),
         )
     except obsscheduleclass_service.FailedGettingObsScheduleClassList as e:
         return get_error_response(message=str(e))
@@ -46,7 +47,8 @@ def get_obs_schedule_class(
     response_model=obsscheduleclass_schema.ObsScheduleClassWithStationResponse,
 )
 def get_instrument_by_id(
-    schedule_class: str, db_session: Session = Depends(deps.get_session)
+    schedule_class: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -55,7 +57,7 @@ def get_instrument_by_id(
                     db_session=db_session, schedule_class=schedule_class
                 )
             ],
-            message="Successfully fetched instrument.",
+            message=_("Successfully fetched instrument."),
         )
     except obsscheduleclass_service.FailedGettingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -71,8 +73,11 @@ def create_instrument(
 ):
     try:
         return get_success_response(
-            result=[obsscheduleclass_service.create(db_session=db_session, data=data)],
-            message="Successfully created instrument.",
+            result=[obsscheduleclass_service.create(
+                db_session=db_session,
+                data=data
+            )],
+            message=_("Successfully created instrument."),
         )
     except obsscheduleclass_service.FailedCreatingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -94,7 +99,7 @@ def update_instrument(
                     db_session=db_session, schedule_class=schedule_class, updates=data
                 )
             ],
-            message="Successfully updated instrument.",
+            message=_("Successfully updated instrument."),
         )
     except obsscheduleclass_service.FailedUpdatingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -112,7 +117,8 @@ def delete_instrument(
             db_session=db_session, schedule_class=schedule_class
         )
         return get_success_response(
-            result=[], message="Successfully deleted instrument."
+            result=[],
+            message=_("Successfully deleted instrument.")
         )
     except obsscheduleclass_service.FailedDeletingObsScheduleClass as e:
         return get_error_response(message=str(e))

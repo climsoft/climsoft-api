@@ -116,7 +116,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCStatusDefinitionList(
-            _("Failed getting data form list.")
+            _("Failed getting list of qc status definitions.")
         )
 
 
@@ -131,7 +131,9 @@ def update(
         )
         db_session.commit()
         updated_qc_status_definition = (
-            db_session.query(models.Qcstatusdefinition).filter_by(code=code).first()
+            db_session.query(models.Qcstatusdefinition).filter_by(
+                code=code
+            ).first()
         )
         return qcstatusdefinition_schema.QCStatusDefinition.from_orm(
             updated_qc_status_definition
@@ -140,18 +142,20 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingQCStatusDefinition(
-            _("Failed updating data form")
+            _("Failed updating qc status definition.")
         )
 
 
 def delete(db_session: Session, code: str) -> bool:
     try:
-        db_session.query(models.Qcstatusdefinition).filter_by(code=code).delete()
+        db_session.query(models.Qcstatusdefinition).filter_by(
+            code=code
+        ).delete()
         db_session.commit()
         return True
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingQCStatusDefinition(
-            _("Failed deleting data form.")
+            _("Failed deleting qc status definition.")
         )

@@ -48,7 +48,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStationElement(
-            _("Failed creating station_element.")
+            _("Failed creating station element.")
         )
 
 
@@ -77,7 +77,8 @@ def get(
 
         if not station_element:
             raise HTTPException(
-                status_code=404, detail="StationElement does not exist."
+                status_code=404,
+                detail=_("Station element does not exist.")
             )
 
         return stationelement_schema.StationElementWithChildren.from_orm(
@@ -87,7 +88,9 @@ def get(
         raise
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingStationElement("Failed getting station_element.")
+        raise FailedGettingStationElement(
+            _("Failed getting station element.")
+        )
 
 
 def query(
@@ -104,7 +107,8 @@ def query(
     offset: int = 0,
 ) -> Tuple[int, List[stationelement_schema.StationElement]]:
     """
-    This function builds a query based on the given parameter and returns `limit` numbers of `stationelement` row skipping
+    This function builds a query based on the given parameter and returns
+    `limit` numbers of `stationelement` row skipping
     `offset` number of rows
     :param db_session: database session
     :param recorded_from: filter by station
@@ -155,7 +159,9 @@ def query(
         )
     except Exception as e:
         logger.exception(e)
-        raise FailedGettingStationElementList("Failed getting station_element list.")
+        raise FailedGettingStationElementList(
+            _("Failed getting list of station elements.")
+        )
 
 
 def update(
@@ -189,7 +195,9 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingStationElement("Failed updating station_element")
+        raise FailedUpdatingStationElement(
+            _("Failed updating station element.")
+        )
 
 
 def delete(
@@ -212,4 +220,6 @@ def delete(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingStationElement("Failed deleting station_element.")
+        raise FailedDeletingStationElement(
+            _("Failed deleting station element.")
+        )

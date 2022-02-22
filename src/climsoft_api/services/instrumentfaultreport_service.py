@@ -142,7 +142,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReportList(
-            _("Failed getting list of  instrument fault reports.")
+            _("Failed getting list of instrument fault reports.")
         )
 
 

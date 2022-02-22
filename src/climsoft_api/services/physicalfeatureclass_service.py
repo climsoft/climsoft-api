@@ -39,7 +39,8 @@ class PhysicalFeatureClassDoesNotExist(Exception):
 
 
 def create(
-    db_session: Session, data: physicalfeatureclass_schema.CreatePhysicalFeatureClass
+    db_session: Session,
+    data: physicalfeatureclass_schema.CreatePhysicalFeatureClass
 ) -> physicalfeatureclass_schema.PhysicalFeatureClass:
     try:
         physical_feature_class = models.Physicalfeatureclas(**data.dict())
@@ -52,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPhysicalFeatureClass(
-            _("Failed creating physical_feature_class.")
+            _("Failed creating physical feature class.")
         )
 
 
@@ -70,18 +71,19 @@ def get(
         if not physical_feature_class:
             raise HTTPException(
                 status_code=404,
-                detail=_("PhysicalFeatureClass does not exist.")
+                detail=_("Physical feature class does not exist.")
             )
 
-        return physicalfeatureclass_schema.PhysicalFeatureClassWithStation.from_orm(
-            physical_feature_class
-        )
+        return physicalfeatureclass_schema.PhysicalFeatureClassWithStation\
+            .from_orm(
+                physical_feature_class
+            )
     except HTTPException:
         raise
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureClass(
-            _("Failed getting physical_feature_class.")
+            _("Failed getting physical feature class.")
         )
 
 

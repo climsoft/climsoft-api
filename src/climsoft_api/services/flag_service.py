@@ -149,5 +149,5 @@ def delete(db_session: Session, character_symbol: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingFlag(
-            _("Failed deleting data form.")
+            _("Failed deleting flag.")
         )

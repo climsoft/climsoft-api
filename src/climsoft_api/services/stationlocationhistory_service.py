@@ -158,7 +158,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistoryList(
-            _("Failed getting station location history list.")
+            _("Failed getting list of station location histories.")
         )
 
 
@@ -170,12 +170,16 @@ def update(
 ) -> stationlocationhistory_schema.StationLocationHistory:
     try:
         db_session.query(models.Stationlocationhistory).filter_by(
-            belongsTo=belongs_to, openingDatetime=opening_datetime
+            belongsTo=belongs_to,
+            openingDatetime=opening_datetime
         ).update(updates.dict())
         db_session.commit()
         updated_station_location_history = (
             db_session.query(models.Stationlocationhistory)
-            .filter_by(belongsTo=belongs_to, openingDatetime=opening_datetime)
+            .filter_by(
+                belongsTo=belongs_to,
+                openingDatetime=opening_datetime
+            )
             .first()
         )
         return stationlocationhistory_schema.StationLocationHistory.from_orm(
@@ -185,14 +189,15 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingStationLocationHistory(
-            _("Failed updating station_location_history")
+            _("Failed updating station location history")
         )
 
 
 def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
     try:
         db_session.query(models.Stationlocationhistory).filter_by(
-            belongsTo=belongs_to, openingDatetime=opening_datetime
+            belongsTo=belongs_to,
+            openingDatetime=opening_datetime
         ).delete()
         db_session.commit()
         return True
@@ -200,5 +205,5 @@ def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationLocationHistory(
-            _("Failed deleting station_location_history.")
+            _("Failed deleting station location history.")
         )

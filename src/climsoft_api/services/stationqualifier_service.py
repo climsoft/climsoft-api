@@ -197,5 +197,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationQualifier(
-            "Failed deleting station qualifier."
+            _("Failed deleting station qualifier.")
         )

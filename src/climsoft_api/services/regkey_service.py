@@ -97,7 +97,9 @@ def query(
             q = q.filter_by(keyValue=key_value)
 
         if key_description is not None:
-            q = q.filter(models.Regkey.keyDescription.ilike(f"%{key_description}%"))
+            q = q.filter(
+                models.Regkey.keyDescription.ilike(f"%{key_description}%")
+            )
 
         return (
             get_count(q),
@@ -109,7 +111,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingRegKeyList(
-            _("Failed getting reg key list.")
+            _("Failed getting list of reg keys.")
         )
 
 

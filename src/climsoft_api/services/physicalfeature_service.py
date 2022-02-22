@@ -48,7 +48,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPhysicalFeature(
-            _("Failed creating physical_feature.")
+            _("Failed creating physical feature.")
         )
 
 
@@ -75,7 +75,7 @@ def get(
         if not physical_feature:
             raise HTTPException(
                 status_code=404,
-                detail=_("PhysicalFeature does not exist.")
+                detail=_("Physical feature does not exist.")
             )
 
         return physicalfeature_schema\
@@ -87,7 +87,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeature(
-            _("Failed getting physical_feature.")
+            _("Failed getting physical feature.")
         )
 
 
@@ -138,7 +138,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureList(
-            _("Failed getting physical_feature list.")
+            _("Failed getting list of physical features.")
         )
 
 
@@ -175,7 +175,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPhysicalFeature(
-            _("Failed updating physical_feature")
+            _("Failed updating physical feature")
         )
 
 
@@ -199,5 +199,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPhysicalFeature(
-            _("Failed deleting physical_feature.")
+            _("Failed deleting physical feature.")
         )

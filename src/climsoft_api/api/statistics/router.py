@@ -46,7 +46,7 @@ class ClimsoftTables(str, enum.Enum):
 
 
 @router.get(
-    "/statistics/{table}",
+    "/statistics",
 )
 # async def get_statistics_for_all_climsoft_tables(table: ClimsoftTables):
 async def get_statistics_for_all_climsoft_tables():

@@ -64,7 +64,7 @@ def get_stations(
             limit=limit,
             total=total,
             offset=offset,
-            result=stations, message="Successfully fetched stations."
+            result=stations, message=_("Successfully fetched stations.")
         )
     except station_service.FailedGettingStationList as e:
         return get_error_response(message=str(e))
@@ -75,7 +75,7 @@ def get_station_by_id(station_id: str, db_session: Session = Depends(deps.get_se
     try:
         return get_success_response(
             result=[station_service.get(db_session=db_session, station_id=station_id)],
-            message="Successfully fetched station.",
+            message=_("Successfully fetched station."),
         )
     except station_service.FailedGettingStation as e:
         return get_error_response(message=str(e))
@@ -88,7 +88,7 @@ def create_station(
     try:
         return get_success_response(
             result=[station_service.create(db_session=db_session, data=data)],
-            message="Successfully created station.",
+            message=_("Successfully created station."),
         )
     except station_service.FailedCreatingStation as e:
         return get_error_response(message=str(e))
@@ -107,7 +107,7 @@ def update_station(
                     db_session=db_session, station_id=station_id, updates=data
                 )
             ],
-            message="Successfully updated station.",
+            message=_("Successfully updated station."),
         )
     except station_service.FailedUpdatingStation as e:
         return get_error_response(message=str(e))
@@ -117,6 +117,6 @@ def update_station(
 def delete_station(station_id: str, db_session: Session = Depends(deps.get_session)):
     try:
         station_service.delete(db_session=db_session, station_id=station_id)
-        return get_success_response(result=[], message="Successfully deleted station.")
+        return get_success_response(result=[], message=_("Successfully deleted station."))
     except station_service.FailedDeletingStation as e:
         return get_error_response(message=str(e))

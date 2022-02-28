@@ -54,7 +54,7 @@ def get_station_location_history(
             total=total,
             offset=offset,
             result=station_location_history,
-            message="Successfully fetched station_location_history.",
+            message=_("Successfully fetched station location history."),
         )
     except stationlocationhistory_service.FailedGettingStationLocationHistoryList as e:
         return get_error_response(message=str(e))
@@ -78,7 +78,7 @@ def get_station_location_history_by_id(
                     opening_datetime=opening_datetime,
                 )
             ],
-            message="Successfully fetched station_location_history.",
+            message=_("Successfully fetched station location history."),
         )
     except stationlocationhistory_service.FailedGettingStationLocationHistory as e:
         return get_error_response(message=str(e))
@@ -97,7 +97,7 @@ def create_station_location_history(
             result=[
                 stationlocationhistory_service.create(db_session=db_session, data=data)
             ],
-            message="Successfully created station_location_history.",
+            message=_("Successfully created station location history."),
         )
     except stationlocationhistory_service.FailedCreatingStationLocationHistory as e:
         return get_error_response(message=str(e))
@@ -123,7 +123,7 @@ def update_station_location_history(
                     updates=data,
                 )
             ],
-            message="Successfully updated station_location_history.",
+            message=_("Successfully updated station location history."),
         )
     except stationlocationhistory_service.FailedUpdatingStationLocationHistory as e:
         return get_error_response(message=str(e))
@@ -145,7 +145,8 @@ def delete_station_location_history(
             opening_datetime=opening_datetime,
         )
         return get_success_response(
-            result=[], message="Successfully deleted station_location_history."
+            result=[],
+            message=_("Successfully deleted station location history.")
         )
     except stationlocationhistory_service.FailedDeletingStationLocationHistory as e:
         return get_error_response(message=str(e))

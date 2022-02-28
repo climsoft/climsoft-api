@@ -36,7 +36,7 @@ def get_physical_feature_class(
             total=total,
             offset=offset,
             result=physical_feature_class,
-            message="Successfully fetched physical_feature_class.",
+            message=_("Successfully fetched physical feature class."),
         )
     except physicalfeatureclass_service.FailedGettingPhysicalFeatureClassList as e:
         return get_error_response(message=str(e))
@@ -56,7 +56,7 @@ def get_physical_feature_class_by_id(
                     db_session=db_session, feature_class=feature_class
                 )
             ],
-            message="Successfully fetched physical_feature_class.",
+            message=_("Successfully fetched physical feature class."),
         )
     except physicalfeatureclass_service.FailedGettingPhysicalFeatureClass as e:
         return get_error_response(message=str(e))
@@ -73,9 +73,12 @@ def create_physical_feature_class(
     try:
         return get_success_response(
             result=[
-                physicalfeatureclass_service.create(db_session=db_session, data=data)
+                physicalfeatureclass_service.create(
+                    db_session=db_session,
+                    data=data
+                )
             ],
-            message="Successfully created physical_feature_class.",
+            message=_("Successfully created physical feature class."),
         )
     except physicalfeatureclass_service.FailedCreatingPhysicalFeatureClass as e:
         return get_error_response(message=str(e))
@@ -94,10 +97,12 @@ def update_physical_feature_class(
         return get_success_response(
             result=[
                 physicalfeatureclass_service.update(
-                    db_session=db_session, feature_class=feature_class, updates=data
+                    db_session=db_session,
+                    feature_class=feature_class,
+                    updates=data
                 )
             ],
-            message="Successfully updated physical_feature_class.",
+            message=_("Successfully updated physical feature class."),
         )
     except physicalfeatureclass_service.FailedUpdatingPhysicalFeatureClass as e:
         return get_error_response(message=str(e))
@@ -115,7 +120,8 @@ def delete_physical_feature_class(
             db_session=db_session, feature_class=feature_class
         )
         return get_success_response(
-            result=[], message="Successfully deleted physical_feature_class."
+            result=[],
+            message=_("Successfully deleted physical feature class.")
         )
     except physicalfeatureclass_service.FailedDeletingPhysicalFeatureClass as e:
         return get_error_response(message=str(e))

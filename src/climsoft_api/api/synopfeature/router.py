@@ -30,7 +30,7 @@ def get_qc_types(
             limit=limit,
             total=total,
             offset=offset,
-            result=qc_types, message="Successfully fetched qc_types."
+            result=qc_types, message=_("Successfully fetched synop features.")
         )
     except synopfeature_service.FailedGettingSynopFeatureList as e:
         return get_error_response(message=str(e))
@@ -47,7 +47,7 @@ def get_qc_type_by_id(
                     db_session=db_session, abbreviation=abbreviation
                 )
             ],
-            message="Successfully fetched qc_type.",
+            message=_("Successfully fetched synop feature."),
         )
     except synopfeature_service.FailedGettingSynopFeature as e:
         return get_error_response(message=str(e))
@@ -61,7 +61,7 @@ def create_qc_type(
     try:
         return get_success_response(
             result=[synopfeature_service.create(db_session=db_session, data=data)],
-            message="Successfully created qc_type.",
+            message=_("Successfully created synop feature."),
         )
     except synopfeature_service.FailedCreatingSynopFeature as e:
         return get_error_response(message=str(e))
@@ -77,10 +77,12 @@ def update_qc_type(
         return get_success_response(
             result=[
                 synopfeature_service.update(
-                    db_session=db_session, abbreviation=abbreviation, updates=data
+                    db_session=db_session,
+                    abbreviation=abbreviation,
+                    updates=data
                 )
             ],
-            message="Successfully updated qc_type.",
+            message=_("Successfully updated synop feature."),
         )
     except synopfeature_service.FailedUpdatingSynopFeature as e:
         return get_error_response(message=str(e))
@@ -91,7 +93,13 @@ def update_qc_type(
 )
 def delete_qc_type(abbreviation: str, db_session: Session = Depends(deps.get_session)):
     try:
-        synopfeature_service.delete(db_session=db_session, abbreviation=abbreviation)
-        return get_success_response(result=[], message="Successfully deleted qc_type.")
+        synopfeature_service.delete(
+            db_session=db_session,
+            abbreviation=abbreviation
+        )
+        return get_success_response(
+            result=[],
+            message=_("Successfully deleted synop feature.")
+        )
     except synopfeature_service.FailedDeletingSynopFeature as e:
         return get_error_response(message=str(e))

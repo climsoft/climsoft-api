@@ -45,6 +45,7 @@ from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
 from climsoft_api.api.s3_files.router import router as s3_files_router
 from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
+from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from pathlib import Path
 from climsoft_api.config import settings
 
@@ -54,6 +55,7 @@ from climsoft_api.config import settings
 
 def get_app():
     app = FastAPI(docs_url="/")
+    app.include_router(climsoft_stat_router, prefix="/v1", tags=["Table Stats"])
     app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
     app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
     app.include_router(climsoft_user_router, prefix="/v1/climsoft-users", tags=["Climsoft Users"])

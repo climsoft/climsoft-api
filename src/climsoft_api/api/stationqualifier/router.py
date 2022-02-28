@@ -41,7 +41,8 @@ def get_station_qualifier(
             limit=limit,
             total=total,
             offset=offset,
-            result=station_qualifier, message="Successfully fetched station_qualifier."
+            result=station_qualifier,
+            message=_("Successfully fetched station qualifier.")
         )
     except stationqualifier_service.FailedGettingStationQualifierList as e:
         return get_error_response(message=str(e))
@@ -69,7 +70,7 @@ def get_station_qualifier_by_id(
                     belongs_to=belongs_to,
                 )
             ],
-            message="Successfully fetched station_qualifier.",
+            message=_("Successfully fetched station qualifier."),
         )
     except stationqualifier_service.FailedGettingStationQualifier as e:
         return get_error_response(message=str(e))
@@ -86,7 +87,7 @@ def create_station_qualifier(
     try:
         return get_success_response(
             result=[stationqualifier_service.create(db_session=db_session, data=data)],
-            message="Successfully created station_qualifier.",
+            message=_("Successfully created station qualifier."),
         )
     except stationqualifier_service.FailedCreatingStationQualifier as e:
         return get_error_response(message=str(e))
@@ -116,7 +117,7 @@ def update_station_qualifier(
                     updates=data,
                 )
             ],
-            message="Successfully updated station_qualifier.",
+            message=_("Successfully updated station qualifier."),
         )
     except stationqualifier_service.FailedUpdatingStationQualifier as e:
         return get_error_response(message=str(e))
@@ -142,7 +143,7 @@ def delete_station_qualifier(
             belongs_to=belongs_to,
         )
         return get_success_response(
-            result=[], message="Successfully deleted station_qualifier."
+            result=[], message=_("Successfully deleted station qualifier.")
         )
     except stationqualifier_service.FailedDeletingStationQualifier as e:
         return get_error_response(message=str(e))

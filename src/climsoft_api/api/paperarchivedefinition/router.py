@@ -98,7 +98,7 @@ def update_paper_archive_definition(
                     db_session=db_session, form_id=form_id, updates=data
                 )
             ],
-            message="Successfully updated paper_archive_definition.",
+            message=_("Successfully updated paper archive definition."),
         )
     except paperarchivedefinition_service.FailedUpdatingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))
@@ -114,7 +114,8 @@ def delete_paper_archive_definition(
     try:
         paperarchivedefinition_service.delete(db_session=db_session, form_id=form_id)
         return get_success_response(
-            result=[], message="Successfully deleted paper_archive_definition."
+            result=[], 
+            message=_("Successfully deleted paper archive definition.")
         )
     except paperarchivedefinition_service.FailedDeletingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))

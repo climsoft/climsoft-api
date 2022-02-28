@@ -1,4 +1,6 @@
 import json
+import uuid
+
 import pytest
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as climsoft_models
@@ -20,7 +22,7 @@ def get_acquisition_type(session: Session):
 @pytest.fixture
 def get_acquisition_types(session: Session):
     for i in range(10):
-        at = climsoft_models.Acquisitiontype(code=i, description=f"description{i}")
+        at = climsoft_models.Acquisitiontype(code=i, description=uuid.uuid4().hex)
         session.add(at)
     session.commit()
     yield

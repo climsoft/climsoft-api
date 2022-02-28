@@ -32,7 +32,8 @@ def get_reg_keys(
             limit=limit,
             total=total,
             offset=offset,
-            result=reg_keys, message="Successfully fetched reg_keys."
+            result=reg_keys, 
+            message=_("Successfully fetched reg keys.")
         )
     except regkey_service.FailedGettingRegKeyList as e:
         return get_error_response(message=str(e))
@@ -43,7 +44,7 @@ def get_reg_key_by_id(key_name: str, db_session: Session = Depends(deps.get_sess
     try:
         return get_success_response(
             result=[regkey_service.get(db_session=db_session, key_name=key_name)],
-            message="Successfully fetched reg_key.",
+            message=_("Successfully fetched reg key."),
         )
     except regkey_service.FailedGettingRegKey as e:
         return get_error_response(message=str(e))
@@ -56,7 +57,7 @@ def create_reg_key(
     try:
         return get_success_response(
             result=[regkey_service.create(db_session=db_session, data=data)],
-            message="Successfully created reg_key.",
+            message=_("Successfully created reg key."),
         )
     except regkey_service.FailedCreatingRegKey as e:
         return get_error_response(message=str(e))
@@ -75,7 +76,7 @@ def update_reg_key(
                     db_session=db_session, key_name=key_name, updates=data
                 )
             ],
-            message="Successfully updated reg_key.",
+            message=_("Successfully updated reg key."),
         )
     except regkey_service.FailedUpdatingRegKey as e:
         return get_error_response(message=str(e))
@@ -85,6 +86,6 @@ def update_reg_key(
 def delete_reg_key(key_name: str, db_session: Session = Depends(deps.get_session)):
     try:
         regkey_service.delete(db_session=db_session, key_name=key_name)
-        return get_success_response(result=[], message="Successfully deleted reg_key.")
+        return get_success_response(result=[], message=_("Successfully deleted reg key."))
     except regkey_service.FailedDeletingRegKey as e:
         return get_error_response(message=str(e))

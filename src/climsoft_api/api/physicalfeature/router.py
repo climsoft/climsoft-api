@@ -41,7 +41,8 @@ def get_physical_feature(
             limit=limit,
             total=total,
             offset=offset,
-            result=physical_feature, message="Successfully fetched physical_feature."
+            result=physical_feature,
+            message=_("Successfully fetched physical feature.")
         )
     except physicalfeature_service.FailedGettingPhysicalFeatureList as e:
         return get_error_response(message=str(e))
@@ -69,7 +70,7 @@ def get_physical_feature_by_id(
                     description=description,
                 )
             ],
-            message="Successfully fetched physical_feature.",
+            message=_("Successfully fetched physical feature."),
         )
     except physicalfeature_service.FailedGettingPhysicalFeature as e:
         return get_error_response(message=str(e))
@@ -83,7 +84,7 @@ def create_physical_feature(
     try:
         return get_success_response(
             result=[physicalfeature_service.create(db_session=db_session, data=data)],
-            message="Successfully created physical_feature.",
+            message=_("Successfully created physical feature."),
         )
     except physicalfeature_service.FailedCreatingPhysicalFeature as e:
         return get_error_response(message=str(e))
@@ -113,7 +114,7 @@ def update_physical_feature(
                     updates=data,
                 )
             ],
-            message="Successfully updated physical_feature.",
+            message=_("Successfully updated physical feature."),
         )
     except physicalfeature_service.FailedUpdatingPhysicalFeature as e:
         return get_error_response(message=str(e))
@@ -139,7 +140,7 @@ def delete_physical_feature(
             description=description,
         )
         return get_success_response(
-            result=[], message="Successfully deleted physical_feature."
+            result=[], message=_("Successfully deleted physical feature.")
         )
     except physicalfeature_service.FailedDeletingPhysicalFeature as e:
         return get_error_response(message=str(e))

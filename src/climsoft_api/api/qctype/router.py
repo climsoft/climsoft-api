@@ -30,7 +30,7 @@ def get_qc_types(
             limit=limit,
             total=total,
             offset=offset,
-            result=qc_types, message="Successfully fetched qc_types."
+            result=qc_types, message=_("Successfully fetched qc types.")
         )
     except qctype_service.FailedGettingQCTypeList as e:
         return get_error_response(message=str(e))
@@ -41,7 +41,7 @@ def get_qc_type_by_id(code: str, db_session: Session = Depends(deps.get_session)
     try:
         return get_success_response(
             result=[qctype_service.get(db_session=db_session, code=code)],
-            message="Successfully fetched qc_type.",
+            message=_("Successfully fetched qc type."),
         )
     except qctype_service.FailedGettingQCType as e:
         return get_error_response(message=str(e))
@@ -54,7 +54,7 @@ def create_qc_type(
     try:
         return get_success_response(
             result=[qctype_service.create(db_session=db_session, data=data)],
-            message="Successfully created qc_type.",
+            message=_("Successfully created qc type."),
         )
     except qctype_service.FailedCreatingQCType as e:
         return get_error_response(message=str(e))
@@ -71,7 +71,7 @@ def update_qc_type(
             result=[
                 qctype_service.update(db_session=db_session, code=code, updates=data)
             ],
-            message="Successfully updated qc_type.",
+            message=_("Successfully updated qc type."),
         )
     except qctype_service.FailedUpdatingQCType as e:
         return get_error_response(message=str(e))
@@ -81,6 +81,9 @@ def update_qc_type(
 def delete_qc_type(code: str, db_session: Session = Depends(deps.get_session)):
     try:
         qctype_service.delete(db_session=db_session, code=code)
-        return get_success_response(result=[], message="Successfully deleted qc_type.")
+        return get_success_response(
+            result=[],
+            message=_("Successfully deleted qc type.")
+        )
     except qctype_service.FailedDeletingQCType as e:
         return get_error_response(message=str(e))

@@ -45,7 +45,7 @@ def get_station_elements(
             total=total,
             offset=offset,
             result=station_elements,
-            message="Successfully fetched station_elements."
+            message=_("Successfully fetched station elements.")
         )
     except stationelement_service.FailedGettingStationElementList as e:
         return get_error_response(message=str(e))
@@ -73,7 +73,7 @@ def get_station_element_by_id(
                     begin_date=begin_date,
                 )
             ],
-            message="Successfully fetched station_element.",
+            message=_("Successfully fetched station element."),
         )
     except stationelement_service.FailedGettingStationElement as e:
         return get_error_response(message=str(e))
@@ -87,7 +87,7 @@ def create_station_element(
     try:
         return get_success_response(
             result=[stationelement_service.create(db_session=db_session, data=data)],
-            message="Successfully created station_element.",
+            message=_("Successfully created station element."),
         )
     except stationelement_service.FailedCreatingStationElement as e:
         return get_error_response(message=str(e))
@@ -117,7 +117,7 @@ def update_station_element(
                     updates=data,
                 )
             ],
-            message="Successfully updated station_element.",
+            message=_("Successfully updated station element."),
         )
     except stationelement_service.FailedUpdatingStationElement as e:
         return get_error_response(message=str(e))
@@ -143,7 +143,7 @@ def delete_station_element(
             begin_date=begin_date,
         )
         return get_success_response(
-            result=[], message="Successfully deleted station_element."
+            result=[], message=_("Successfully deleted station element.")
         )
     except stationelement_service.FailedDeletingStationElement as e:
         return get_error_response(message=str(e))

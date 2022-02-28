@@ -34,7 +34,7 @@ def get_qc_status_definitions(
             total=total,
             offset=offset,
             result=qc_status_definitions,
-            message="Successfully fetched qc_status_definitions.",
+            message=_("Successfully fetched qc_status_definitions."),
         )
     except qcstatusdefinition_service.FailedGettingQCStatusDefinitionList as e:
         return get_error_response(message=str(e))
@@ -50,7 +50,7 @@ def get_qc_status_definition_by_id(
     try:
         return get_success_response(
             result=[qcstatusdefinition_service.get(db_session=db_session, code=code)],
-            message="Successfully fetched qc_status_definition.",
+            message=_("Successfully fetched qc status definition."),
         )
     except qcstatusdefinition_service.FailedGettingQCStatusDefinition as e:
         return get_error_response(message=str(e))
@@ -69,7 +69,7 @@ def create_qc_status_definition(
             result=[
                 qcstatusdefinition_service.create(db_session=db_session, data=data)
             ],
-            message="Successfully created qc_status_definition.",
+            message=_("Successfully created qc status definition."),
         )
     except qcstatusdefinition_service.FailedCreatingQCStatusDefinition as e:
         return get_error_response(message=str(e))
@@ -91,7 +91,7 @@ def update_qc_status_definition(
                     db_session=db_session, code=code, updates=data
                 )
             ],
-            message="Successfully updated qc_status_definition.",
+            message=_("Successfully updated qc status definition."),
         )
     except qcstatusdefinition_service.FailedUpdatingQCStatusDefinition as e:
         return get_error_response(message=str(e))
@@ -107,7 +107,7 @@ def delete_qc_status_definition(
     try:
         qcstatusdefinition_service.delete(db_session=db_session, code=code)
         return get_success_response(
-            result=[], message="Successfully deleted qc_status_definition."
+            result=[], message=_("Successfully deleted qc status definition.")
         )
     except qcstatusdefinition_service.FailedDeletingQCStatusDefinition as e:
         return get_error_response(message=str(e))

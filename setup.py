@@ -39,6 +39,7 @@ setup(
     package_data={
         "": [
             "src/climsoft_api/locale/*/LC_MESSAGES/*.po",
+            "src/climsoft_api/locale/*/LC_MESSAGES/*.mo",
         ]
     },
     cmdclass={

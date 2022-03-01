@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from climsoft_api.services import station_service
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
@@ -10,6 +10,7 @@ router = APIRouter()
 
 @router.get("/", response_model=station_schema.StationQueryResponse)
 def get_stations(
+    request: Request,
     station_id: str = None,
     station_name: str = None,
     wmoid: str = None,
@@ -33,6 +34,7 @@ def get_stations(
     offset: int = 0,
     db_session: Session = Depends(deps.get_session),
 ):
+    _ = request.state.gettext
     try:
         total, stations = station_service.query(
             db_session=db_session,
@@ -63,10 +65,11 @@ def get_stations(
             limit=limit,
             total=total,
             offset=offset,
-            result=stations, message=_("Successfully fetched stations.")
+            result=stations,
+            message=_("Successfully fetched stations.")
         )
     except station_service.FailedGettingStationList as e:
-        return get_error_response(message=str(e))
+        return get_error_response(message=_(str(e)))
 
 
 @router.get("/{station_id}", response_model=station_schema.StationResponse)

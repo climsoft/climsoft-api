@@ -1,4 +1,4 @@
-fastapi[all]
+fastapi[all]~=0.73.0
 python-jose
 SQLAlchemy~=1.4.31
 inflection~=0.5.1
@@ -8,4 +8,6 @@ pydantic~=1.9.0
 opencdms~=0.1.0
 starlette~=0.17.1
 setuptools~=57.0.0
-boto3
+boto3~=1.20.49
+Faker~=12.0.0
+pytest~=6.2.5

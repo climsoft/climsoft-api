@@ -4,7 +4,6 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm import joinedload
 from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.utils.query import get_count
-from gettext import gettext as _
 
 from climsoft_api.api.featuregeographicalposition import (
     schema as featuregeographicalposition_schema,

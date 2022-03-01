@@ -5,7 +5,6 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.qctype import schema as qctype_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-from gettext import gettext as _
 
 logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)

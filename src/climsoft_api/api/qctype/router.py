@@ -4,7 +4,6 @@ import climsoft_api.api.qctype.schema as qctype_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-from gettext import gettext as _
 
 router = APIRouter()
 

@@ -1,2 +1,2 @@
-global-include src/climsoft_api/locale/*/LC_MESSAGES/*.po
-global-include src/climsoft_api/locale/*/LC_MESSAGES/*.mo
+include src/climsoft_api/locale/*/LC_MESSAGES/*.po
+include src/climsoft_api/locale/*/LC_MESSAGES/*.mo

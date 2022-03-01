@@ -23,11 +23,14 @@ async def upload_image(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         file_type = file.content_type
-
         if not file_type.startswith("image"):
             raise TypeError(_("Only image files are supported."))
 
-        filepath = file_upload_service.save_file(settings.FILE_STORAGE, contents, file_type)
+        filepath = file_upload_service.save_file(
+            settings.FILE_STORAGE,
+            contents,
+            file_type
+        )
 
         return get_success_response(
             result=[{"uploaded_to": filepath}],

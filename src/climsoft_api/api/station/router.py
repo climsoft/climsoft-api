@@ -34,7 +34,7 @@ def get_stations(
     offset: int = 0,
     db_session: Session = Depends(deps.get_session),
 ):
-    _ = request.state.gettext
+    # _ = request.state.gettext
     try:
         total, stations = station_service.query(
             db_session=db_session,

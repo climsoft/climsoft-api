@@ -13,12 +13,7 @@ class InstallWithCompile(install):
         compiler = compile_catalog()
         compiler.use_fuzzy = True
         compiler.domain = ["climsoft_messages"]
-        compiler.directory = os.path.join(
-            os.path.dirname(
-                os.path.abspath(__file__)
-            ),
-            "src/climsoft_api/locale/"
-        )
+        compiler.directory = "src/climsoft_api/locale/"
         compiler.run()
         super().run()
 

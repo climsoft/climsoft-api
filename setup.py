@@ -10,10 +10,11 @@ with open("requirements.txt", "r") as requirements_file:
 class InstallWithCompile(install):
     def run(self):
         from babel.messages.frontend import compile_catalog
-        compiler = compile_catalog()
+        compiler = compile_catalog(self.distribution)
+        option_dict = self.distribution.get_option_dict('compile_catalog')
         compiler.use_fuzzy = True
-        compiler.domain = ["climsoft_messages"]
-        compiler.directory = "src/climsoft_api/locale/"
+        compiler.domain = [option_dict['domain'][1]]
+        compiler.directory = option_dict['directory'][1]
         compiler.run()
         super().run()
 

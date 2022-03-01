@@ -1,10 +1,6 @@
 import logging
 from fastapi import APIRouter
-from climsoft_api.utils.response import get_success_response, get_error_response
-from climsoft_api.services import file_upload_service
-from climsoft_api.config import settings
-from typing import Union
-from gettext import gettext as _
+from climsoft_api.utils.response import get_error_response
 from opencdms.models.climsoft.v4_1_1_core import TARGET_TABLES
 from climsoft_api.db import engine
 from sqlalchemy import text

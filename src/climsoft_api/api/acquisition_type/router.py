@@ -5,7 +5,6 @@ import climsoft_api.api.acquisition_type.schema as acquisitiontype_schema
 from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
 from sqlalchemy.orm.session import Session
 from climsoft_api.api.deps import get_session
-from gettext import gettext as _
 
 
 router = APIRouter()
@@ -36,7 +35,7 @@ def get_acquisition_types(
             total=total,
             offset=offset,
             result=stations,
-            message=_("Successfully fetched stations.")
+            message=_("Successfully fetched acquisition types.")
         )
     except acquisitiontype_service.FailedGettingAcquisitionTypeList as e:
         return get_error_response(message=str(e))
@@ -56,7 +55,7 @@ def get_acquisition_type_by_id(
                 db_session=db_session,
                 code=code
             )],
-            message=_("Successfully fetched station."),
+            message=_("Successfully fetched acquisition type."),
         )
     except acquisitiontype_service.FailedGettingAcquisitionType as e:
         return get_error_response(message=str(e))
@@ -76,7 +75,7 @@ def create_acquisition_type(
                 db_session=db_session,
                 data=data
             )],
-            message=_("Successfully created station."),
+            message=_("Successfully created acquisition type."),
         )
     except acquisitiontype_service.FailedCreatingAcquisitionType as e:
         return get_error_response(message=str(e))
@@ -98,7 +97,7 @@ def update_acquisition_type(
                     db_session=db_session, code=code, updates=data
                 )
             ],
-            message=_("Successfully updated station."),
+            message=_("Successfully updated acquisition type."),
         )
     except acquisitiontype_service.FailedUpdatingAcquisitionType as e:
         return get_error_response(message=str(e))
@@ -116,7 +115,7 @@ def delete_acquisition_type(
         acquisitiontype_service.delete(db_session=db_session, code=code)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted station.")
+            message=_("Successfully deleted acquisition type.")
         )
     except acquisitiontype_service.FailedDeletingAcquisitionType as e:
         return get_error_response(message=str(e))

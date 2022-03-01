@@ -5,7 +5,6 @@ from climsoft_api.services import file_upload_service
 from climsoft_api.config import settings
 from typing import Union
 from climsoft_api.api.upload.schema import FileUploadedToDiskResponse, FileUploadedToS3Response
-from gettext import gettext as _
 
 router = APIRouter()
 

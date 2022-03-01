@@ -1,0 +1,789 @@
+# Translations template for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-03-01 11:18+0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+msgid "Successfully fetched stations."
+msgstr ""
+
+msgid "Successfully fetched station."
+msgstr ""
+
+msgid "Successfully created station."
+msgstr ""
+
+msgid "Successfully updated station."
+msgstr ""
+
+msgid "Successfully deleted station."
+msgstr ""
+
+msgid "Successfully fetched climsoft users."
+msgstr ""
+
+msgid "Successfully fetched climsoft user."
+msgstr ""
+
+msgid "Successfully created climsoft user."
+msgstr ""
+
+msgid "Successfully updated climsoft user."
+msgstr ""
+
+msgid "Successfully deleted climsoft user."
+msgstr ""
+
+msgid "Successfully fetched data forms."
+msgstr ""
+
+msgid "Successfully fetched data form."
+msgstr ""
+
+msgid "Successfully created data form."
+msgstr ""
+
+msgid "Successfully updated data form."
+msgstr ""
+
+msgid "Successfully deleted data form."
+msgstr ""
+
+msgid "Successfully fetched instrument inspection."
+msgstr ""
+
+msgid "Successfully created instrument inspection."
+msgstr ""
+
+msgid "Successfully updated instrument inspection."
+msgstr ""
+
+msgid "Successfully deleted instrument inspection."
+msgstr ""
+
+msgid "Successfully fetched feature geographical positions."
+msgstr ""
+
+msgid "Successfully fetched feature geographical position."
+msgstr ""
+
+msgid "Successfully created feature geographical position."
+msgstr ""
+
+msgid "Successfully updated feature geographical position."
+msgstr ""
+
+msgid "Successfully deleted feature geographical position."
+msgstr ""
+
+msgid "Successfully fetched flags."
+msgstr ""
+
+msgid "Successfully fetched flag."
+msgstr ""
+
+msgid "Successfully created flag."
+msgstr ""
+
+msgid "Successfully updated flag."
+msgstr ""
+
+msgid "Successfully deleted flag."
+msgstr ""
+
+msgid "Successfully fetched instruments."
+msgstr ""
+
+msgid "Successfully fetched instrument."
+msgstr ""
+
+msgid "Successfully created instrument."
+msgstr ""
+
+msgid "Successfully updated instrument."
+msgstr ""
+
+msgid "Successfully deleted instrument."
+msgstr ""
+
+msgid "Successfully fetched instrument fault report."
+msgstr ""
+
+msgid "Successfully created instrument fault report."
+msgstr ""
+
+msgid "Successfully updated instrument fault report."
+msgstr ""
+
+msgid "Successfully deleted instrument fault report."
+msgstr ""
+
+msgid "Successfully fetched obs elements."
+msgstr ""
+
+msgid "Successfully fetched obs element."
+msgstr ""
+
+msgid "Successfully created obs element."
+msgstr ""
+
+msgid "Successfully updated obs element."
+msgstr ""
+
+msgid "Successfully deleted obs element."
+msgstr ""
+
+msgid "Successfully fetched observation finals."
+msgstr ""
+
+msgid "Successfully fetched observation final."
+msgstr ""
+
+msgid "Successfully created observation final."
+msgstr ""
+
+msgid "Successfully updated observation final."
+msgstr ""
+
+msgid "Successfully deleted observation final."
+msgstr ""
+
+msgid "Successfully fetched observation initials."
+msgstr ""
+
+msgid "Successfully fetched observation initial."
+msgstr ""
+
+msgid "Successfully created observation initial."
+msgstr ""
+
+msgid "Successfully updated observation initial."
+msgstr ""
+
+msgid "Successfully deleted observation initial."
+msgstr ""
+
+msgid "Successfully fetched obs schedule class."
+msgstr ""
+
+msgid "Successfully fetched paper archives."
+msgstr ""
+
+msgid "Successfully fetched paper archive."
+msgstr ""
+
+msgid "Successfully created paper archive."
+msgstr ""
+
+msgid "Successfully updated paper archive."
+msgstr ""
+
+msgid "Successfully deleted paper archive."
+msgstr ""
+
+msgid "Successfully fetched paper archive definitions."
+msgstr ""
+
+msgid "Successfully fetched paper archive definition."
+msgstr ""
+
+msgid "Successfully created paper archive definition."
+msgstr ""
+
+msgid "Successfully updated paper archive definition."
+msgstr ""
+
+msgid "Successfully deleted paper archive definition."
+msgstr ""
+
+msgid "Successfully fetched physical feature."
+msgstr ""
+
+msgid "Successfully created physical feature."
+msgstr ""
+
+msgid "Successfully updated physical feature."
+msgstr ""
+
+msgid "Successfully deleted physical feature."
+msgstr ""
+
+msgid "Successfully fetched physical feature class."
+msgstr ""
+
+msgid "Successfully created physical feature class."
+msgstr ""
+
+msgid "Successfully updated physical feature class."
+msgstr ""
+
+msgid "Successfully deleted physical feature class."
+msgstr ""
+
+msgid "Successfully fetched qc_status_definitions."
+msgstr ""
+
+msgid "Successfully fetched qc status definition."
+msgstr ""
+
+msgid "Successfully created qc status definition."
+msgstr ""
+
+msgid "Successfully updated qc status definition."
+msgstr ""
+
+msgid "Successfully deleted qc status definition."
+msgstr ""
+
+msgid "Successfully fetched qc types."
+msgstr ""
+
+msgid "Successfully fetched qc type."
+msgstr ""
+
+msgid "Successfully created qc type."
+msgstr ""
+
+msgid "Successfully updated qc type."
+msgstr ""
+
+msgid "Successfully deleted qc type."
+msgstr ""
+
+msgid "Successfully fetched reg keys."
+msgstr ""
+
+msgid "Successfully fetched reg key."
+msgstr ""
+
+msgid "Successfully created reg key."
+msgstr ""
+
+msgid "Successfully updated reg key."
+msgstr ""
+
+msgid "Successfully deleted reg key."
+msgstr ""
+
+msgid "Successfully fetched station elements."
+msgstr ""
+
+msgid "Successfully fetched station element."
+msgstr ""
+
+msgid "Successfully created station element."
+msgstr ""
+
+msgid "Successfully updated station element."
+msgstr ""
+
+msgid "Successfully deleted station element."
+msgstr ""
+
+msgid "Successfully fetched station location history."
+msgstr ""
+
+msgid "Successfully created station location history."
+msgstr ""
+
+msgid "Successfully updated station location history."
+msgstr ""
+
+msgid "Successfully deleted station location history."
+msgstr ""
+
+msgid "Successfully fetched station qualifier."
+msgstr ""
+
+msgid "Successfully created station qualifier."
+msgstr ""
+
+msgid "Successfully updated station qualifier."
+msgstr ""
+
+msgid "Successfully deleted station qualifier."
+msgstr ""
+
+msgid "Failed getting statistics for climsoft tables."
+msgstr ""
+
+msgid "Successfully fetched synop features."
+msgstr ""
+
+msgid "Successfully fetched synop feature."
+msgstr ""
+
+msgid "Successfully created synop feature."
+msgstr ""
+
+msgid "Successfully updated synop feature."
+msgstr ""
+
+msgid "Successfully deleted synop feature."
+msgstr ""
+
+msgid "Only image files are supported."
+msgstr ""
+
+msgid "Image uploaded successfully!"
+msgstr ""
+
+msgid "Failed uploading image!"
+msgstr ""
+
+msgid "Failed creating acquisition type."
+msgstr ""
+
+msgid "Acquisition type does not exist."
+msgstr ""
+
+msgid "Failed getting acquisition type."
+msgstr ""
+
+msgid "Failed getting list of acquisition types."
+msgstr ""
+
+msgid "Failed updating acquisition type."
+msgstr ""
+
+msgid "Failed deleting acquisition type."
+msgstr ""
+
+msgid "Failed creating climsoft user."
+msgstr ""
+
+msgid "Climsoft user does not exist."
+msgstr ""
+
+msgid "Failed getting climsoft user."
+msgstr ""
+
+msgid "Failed updating climsoft user."
+msgstr ""
+
+msgid "Failed deleting climsoft user."
+msgstr ""
+
+msgid "Failed creating data form."
+msgstr ""
+
+msgid "Data form does not exist."
+msgstr ""
+
+msgid "Failed getting data form."
+msgstr ""
+
+msgid "Failed getting list of data forms."
+msgstr ""
+
+msgid "Failed updating data form."
+msgstr ""
+
+msgid "Failed deleting data form."
+msgstr ""
+
+msgid "Failed creating fault resolution."
+msgstr ""
+
+msgid "Fault resolution does not exist."
+msgstr ""
+
+msgid "Failed getting fault resolution."
+msgstr ""
+
+msgid "Failed getting list of fault resolutions."
+msgstr ""
+
+msgid "Failed updating fault resolution."
+msgstr ""
+
+msgid "Failed deleting fault resolution."
+msgstr ""
+
+msgid "Failed creating feature geographical position."
+msgstr ""
+
+msgid "Failed getting feature geographical position."
+msgstr ""
+
+msgid "Failed getting list of feature geographical positions."
+msgstr ""
+
+msgid "Failed updating feature geographical position."
+msgstr ""
+
+msgid "Failed deleting feature geographical position."
+msgstr ""
+
+msgid "Failed creating flag."
+msgstr ""
+
+msgid "Flag does not exist."
+msgstr ""
+
+msgid "Failed getting flag."
+msgstr ""
+
+msgid "Failed getting list of flags."
+msgstr ""
+
+msgid "Failed updating flag."
+msgstr ""
+
+msgid "Failed deleting flag."
+msgstr ""
+
+msgid "Failed creating instrument."
+msgstr ""
+
+msgid "Instrument does not exist."
+msgstr ""
+
+msgid "Failed getting instrument."
+msgstr ""
+
+msgid "Failed getting list of instruments."
+msgstr ""
+
+msgid "Failed updating instrument."
+msgstr ""
+
+msgid "Failed deleting instrument."
+msgstr ""
+
+msgid "Failed creating instrument fault report."
+msgstr ""
+
+msgid "Instrument fault report does not exist."
+msgstr ""
+
+msgid "Failed getting instrument fault report."
+msgstr ""
+
+msgid "Failed getting list of instrument fault reports."
+msgstr ""
+
+msgid "Failed updating instrument fault report."
+msgstr ""
+
+msgid "Failed deleting instrument fault report."
+msgstr ""
+
+msgid "Failed creating instrument inspection."
+msgstr ""
+
+msgid "Instrument inspection does not exist."
+msgstr ""
+
+msgid "Failed getting instrument inspection."
+msgstr ""
+
+msgid "Failed getting list of instrument inspections."
+msgstr ""
+
+msgid "Failed updating instrument inspection."
+msgstr ""
+
+msgid "Failed deleting instrument inspection."
+msgstr ""
+
+msgid "Failed creating obs element."
+msgstr ""
+
+msgid "Obs element does not exist."
+msgstr ""
+
+msgid "Failed getting obs element."
+msgstr ""
+
+msgid "Failed getting list of obs elements."
+msgstr ""
+
+msgid "Failed updating obs element."
+msgstr ""
+
+msgid "Failed deleting obs element."
+msgstr ""
+
+msgid "Failed creating observation final."
+msgstr ""
+
+msgid "Observation final does not exist."
+msgstr ""
+
+msgid "Failed getting observation final."
+msgstr ""
+
+msgid "Failed getting list of observation finals."
+msgstr ""
+
+msgid "Failed updating observation final."
+msgstr ""
+
+msgid "Failed deleting observation final."
+msgstr ""
+
+msgid "Failed creating observation initial."
+msgstr ""
+
+msgid "Observation initial does not exist."
+msgstr ""
+
+msgid "Failed getting observation initial."
+msgstr ""
+
+msgid "Failed getting list of observation initials."
+msgstr ""
+
+msgid "Failed updating observation initial."
+msgstr ""
+
+msgid "Failed deleting observation initial."
+msgstr ""
+
+msgid "Failed creating obs schedule class."
+msgstr ""
+
+msgid "Obs schedule class does not exist."
+msgstr ""
+
+msgid "Failed getting obs schedule class."
+msgstr ""
+
+msgid "Failed getting list of obs schedule classes."
+msgstr ""
+
+msgid "Failed updating obs schedule class."
+msgstr ""
+
+msgid "Failed deleting obs schedule class."
+msgstr ""
+
+msgid "Failed fetching list of paper archives."
+msgstr ""
+
+msgid "Paper archive not found."
+msgstr ""
+
+msgid "Failed getting paper archive."
+msgstr ""
+
+msgid "Failed creating paper archive."
+msgstr ""
+
+msgid "Failed updating paper archive."
+msgstr ""
+
+msgid "Failed deleting paper archive."
+msgstr ""
+
+msgid "Failed creating pape archive definition."
+msgstr ""
+
+msgid "Paper archive definition does not exist."
+msgstr ""
+
+msgid "Failed getting paper archive definition."
+msgstr ""
+
+msgid "Failed getting list of paper archive definitions."
+msgstr ""
+
+msgid "Failed updating paper archive definition."
+msgstr ""
+
+msgid "Failed deleting paper archive definition."
+msgstr ""
+
+msgid "Failed creating physical feature."
+msgstr ""
+
+msgid "Physical feature does not exist."
+msgstr ""
+
+msgid "Failed getting physical feature."
+msgstr ""
+
+msgid "Failed getting list of physical features."
+msgstr ""
+
+msgid "Failed updating physical feature"
+msgstr ""
+
+msgid "Failed deleting physical feature."
+msgstr ""
+
+msgid "Failed creating physical feature class."
+msgstr ""
+
+msgid "Physical feature class does not exist."
+msgstr ""
+
+msgid "Failed getting physical feature class."
+msgstr ""
+
+msgid "Failed getting list of physical feature classes."
+msgstr ""
+
+msgid "Failed updating physical feature class."
+msgstr ""
+
+msgid "Failed deleting physical feature class."
+msgstr ""
+
+msgid "Failed creating qc status definition."
+msgstr ""
+
+msgid "QC status definition does not exist."
+msgstr ""
+
+msgid "Failed getting qc status definition."
+msgstr ""
+
+msgid "Failed getting list of qc status definitions."
+msgstr ""
+
+msgid "Failed updating qc status definition."
+msgstr ""
+
+msgid "Failed deleting qc status definition."
+msgstr ""
+
+msgid "Failed creating qc type."
+msgstr ""
+
+msgid "QC type does not exist."
+msgstr ""
+
+msgid "Failed getting qc type."
+msgstr ""
+
+msgid "Failed getting list of qc types."
+msgstr ""
+
+msgid "Failed updating qc type."
+msgstr ""
+
+msgid "Failed deleting qc type."
+msgstr ""
+
+msgid "Failed creating reg key."
+msgstr ""
+
+msgid "Reg key does not exist."
+msgstr ""
+
+msgid "Failed getting reg key."
+msgstr ""
+
+msgid "Failed getting list of reg keys."
+msgstr ""
+
+msgid "Failed updating reg key"
+msgstr ""
+
+msgid "Failed deleting reg key."
+msgstr ""
+
+msgid "Failed creating station."
+msgstr ""
+
+msgid "Station does not exist."
+msgstr ""
+
+msgid "Failed getting station."
+msgstr ""
+
+msgid "Failed getting list of stations."
+msgstr ""
+
+msgid "Failed updating station."
+msgstr ""
+
+msgid "Failed deleting station."
+msgstr ""
+
+msgid "Failed creating station element."
+msgstr ""
+
+msgid "Station element does not exist."
+msgstr ""
+
+msgid "Failed getting station element."
+msgstr ""
+
+msgid "Failed getting list of station elements."
+msgstr ""
+
+msgid "Failed updating station element."
+msgstr ""
+
+msgid "Failed deleting station element."
+msgstr ""
+
+msgid "Failed creating station location history."
+msgstr ""
+
+msgid "Station location history does not exist."
+msgstr ""
+
+msgid "Failed getting station location history."
+msgstr ""
+
+msgid "Failed getting list of station location histories."
+msgstr ""
+
+msgid "Failed updating station location history"
+msgstr ""
+
+msgid "Failed deleting station location history."
+msgstr ""
+
+msgid "Failed creating station_qualifier."
+msgstr ""
+
+msgid "Station qualifier does not exist."
+msgstr ""
+
+msgid "Failed getting station qualifier."
+msgstr ""
+
+msgid "Failed getting list of station qualifiers."
+msgstr ""
+
+msgid "Failed updating station qualifier"
+msgstr ""
+
+msgid "Failed deleting station qualifier."
+msgstr ""
+
+msgid "Failed creating synop feature."
+msgstr ""
+
+msgid "Synop feature does not exist."
+msgstr ""
+
+msgid "Failed getting synop feature."
+msgstr ""
+
+msgid "Failed getting list of synop features."
+msgstr ""
+
+msgid "Failed updating synop feature."
+msgstr ""
+
+msgid "Failed deleting synop feature."
+msgstr ""
+

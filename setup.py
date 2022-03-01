@@ -1,22 +1,15 @@
-import os.path
-
 from setuptools import find_packages, setup
 from setuptools.command.install import install
+from babel.messages.frontend import compile_catalog
 
 with open("requirements.txt", "r") as requirements_file:
     requirements = [r.strip("\n") for r in requirements_file.readlines()]
 
 
-class InstallWithCompile(install):
+class InstallCommand(install):
     def run(self):
-        from babel.messages.frontend import compile_catalog
-        compiler = compile_catalog(self.distribution)
-        option_dict = self.distribution.get_option_dict('compile_catalog')
-        compiler.use_fuzzy = True
-        compiler.domain = [option_dict['domain'][1]]
-        compiler.directory = option_dict['directory'][1]
-        compiler.run()
-        super().run()
+        self.run_command('compile_mo_files')
+        install.run(self)
 
 
 setup(
@@ -39,9 +32,20 @@ setup(
         ]
     },
     cmdclass={
-        'install': InstallWithCompile
+        'compile_mo_files': compile_catalog,
+        'install': InstallCommand
     },
     setup_requires=[
         'Babel'
+    ],
+    data_files=[
+        (
+            'climsoft_api/locale/en/LC_MESSAGES',
+            ['src/climsoft_api/locale/en/LC_MESSAGES/climsoft_messages.mo']
+        ),
+        (
+            'climsoft_api/locale/fr/LC_MESSAGES',
+            ['src/climsoft_api/locale/fr/LC_MESSAGES/climsoft_messages.mo']
+        )
     ]
 )

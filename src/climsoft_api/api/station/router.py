@@ -143,7 +143,7 @@ def delete_station(
 
 
 @router.get(
-    "/{station_id}/elements",
+    "/{station_id}/stationelements",
     response_model=Union[
         Any,
         station_with_children_schema.StationWithElementsResponse

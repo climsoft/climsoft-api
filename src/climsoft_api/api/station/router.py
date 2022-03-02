@@ -163,7 +163,9 @@ def get_station_with_elements(
             raise HTTPException(status_code=404)
         total, elements = stationelement_service.query(
             db_session=db_session,
-            recorded_from=station_id
+            recorded_from=station_id,
+            limit=limit,
+            offset=offset
         )
         station_with_elements = station_with_children_schema\
             .StationWithElements.from_orm(station)

@@ -10,6 +10,9 @@ from climsoft_api.api.featuregeographicalposition import (
 )
 from fastapi.exceptions import HTTPException
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftFeatureGeographicalPositionService")
 logging.basicConfig(level=logging.INFO)
 

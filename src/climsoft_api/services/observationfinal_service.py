@@ -7,6 +7,9 @@ from climsoft_api.api.observationfinal import schema as observationfinal_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
 

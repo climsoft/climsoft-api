@@ -6,6 +6,9 @@ from climsoft_api.config import settings
 from typing import Union
 from climsoft_api.api.upload.schema import FileUploadedToDiskResponse, FileUploadedToS3Response
 
+
+from gettext import gettext as _
+
 router = APIRouter()
 
 logger = logging.getLogger(__file__)

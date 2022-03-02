@@ -6,6 +6,7 @@ from climsoft_api.utils.response import get_success_response, get_error_response
 from sqlalchemy.orm.session import Session
 from climsoft_api.api.deps import get_session
 
+from gettext import gettext as _
 
 router = APIRouter()
 

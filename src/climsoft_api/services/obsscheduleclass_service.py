@@ -7,6 +7,9 @@ from climsoft_api.api.obsscheduleclass import schema as obsscheduleclass_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
 

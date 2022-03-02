@@ -6,6 +6,9 @@ from climsoft_api.db import engine
 from sqlalchemy import text
 import enum
 
+
+from gettext import gettext as _
+
 router = APIRouter()
 
 logger = logging.getLogger(__file__)

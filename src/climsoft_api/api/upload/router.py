@@ -3,7 +3,7 @@ from fastapi import APIRouter, UploadFile, File, Request
 from climsoft_api.utils.response import get_success_response, get_error_response
 from climsoft_api.services import file_upload_service
 from climsoft_api.config import settings
-from typing import Union
+from typing import Union, Any
 from climsoft_api.api.upload.schema import FileUploadedToDiskResponse, FileUploadedToS3Response
 
 
@@ -36,7 +36,7 @@ async def upload_image(file: UploadFile = File(...)):
         )
 
         return get_success_response(
-            result=[{"uploaded_to": filepath}],
+            result=[filepath],
             message=_("Image uploaded successfully!")
         )
     except TypeError:

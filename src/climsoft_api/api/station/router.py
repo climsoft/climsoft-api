@@ -176,7 +176,7 @@ def get_station_with_elements(
             offset
         )
 
-        return station_with_elements.StationWithElementsResponse(
+        return station_with_children_schema.StationWithElementsResponse(
             message=_("Successfully fetched station elements."),
             result=station_with_elements,
             page=current_page,

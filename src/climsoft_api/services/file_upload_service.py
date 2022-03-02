@@ -35,6 +35,6 @@ def save_file_to_disk(file, file_name):
 
     return {
         "storage": "disk",
-        "filepath": target_file_path
+        "filepath": str(target_file_path)
     }
 

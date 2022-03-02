@@ -48,8 +48,8 @@ from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
 from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from pathlib import Path
 from climsoft_api.config import settings
-from starlette.middleware.base import BaseHTTPMiddleware
-from climsoft_api.middlewares.localization import LocalizationMiddleware
+# from starlette.middleware.base import BaseHTTPMiddleware
+# from climsoft_api.middlewares.localization import LocalizationMiddleware
 
 
 # load controllers
@@ -57,7 +57,7 @@ from climsoft_api.middlewares.localization import LocalizationMiddleware
 
 def get_app():
     app = FastAPI(docs_url="/")
-    app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
+    # app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
     app.include_router(climsoft_stat_router, prefix="/v1", tags=["Table Stats"])
     app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
     app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])

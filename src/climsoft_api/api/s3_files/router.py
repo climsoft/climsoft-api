@@ -3,6 +3,9 @@ from climsoft_api.utils.s3 import get_s3_client
 from climsoft_api.config import settings
 from fastapi.responses import Response
 
+
+from gettext import gettext as _
+
 router = APIRouter()
 
 

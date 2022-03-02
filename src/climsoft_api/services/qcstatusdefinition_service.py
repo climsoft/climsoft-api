@@ -6,6 +6,9 @@ from climsoft_api.api.qcstatusdefinition import schema as qcstatusdefinition_sch
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
 

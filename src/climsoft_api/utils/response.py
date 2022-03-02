@@ -2,6 +2,10 @@ import math
 from typing import List, Any
 
 
+def get_current_and_total_pages(limit: int, total: int, offset: int):
+    return math.floor(offset/limit)+1, math.ceil(total/limit)
+
+
 def get_success_response(result: List[Any], message: str):
     return {"status": "success", "message": message, "result": result}
 

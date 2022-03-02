@@ -9,6 +9,9 @@ from climsoft_api.api.instrumentfaultreport import (
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
 

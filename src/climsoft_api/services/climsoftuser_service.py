@@ -6,6 +6,9 @@ from climsoft_api.api.climsoftuser import schema as climsoftuser_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
 

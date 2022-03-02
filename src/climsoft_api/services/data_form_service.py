@@ -6,6 +6,9 @@ from climsoft_api.api.data_form import schema as data_form_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
 
+
+from gettext import gettext as _
+
 logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
 

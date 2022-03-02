@@ -1,9 +1,21 @@
-from fastapi import APIRouter, Depends, Request
-from climsoft_api.services import station_service
-import climsoft_api.api.station.schema as station_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends, Request, HTTPException
+from climsoft_api.services import station_service, stationelement_service
+from climsoft_api.api.station import (
+    schema as station_schema,
+    schema_with_children as station_with_children_schema
+)
+from climsoft_api.utils.response import (
+    get_success_response,
+    get_error_response,
+    get_success_response_for_query,
+    get_current_and_total_pages
+)
+from typing import Union, Any
 from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
+
+
+from gettext import gettext as _
 
 router = APIRouter()
 
@@ -73,7 +85,10 @@ def get_stations(
 
 
 @router.get("/{station_id}", response_model=station_schema.StationResponse)
-def get_station_by_id(station_id: str, db_session: Session = Depends(deps.get_session)):
+def get_station_by_id(
+    station_id: str,
+    db_session: Session = Depends(deps.get_session)
+):
     try:
         return get_success_response(
             result=[station_service.get(db_session=db_session, station_id=station_id)],
@@ -116,9 +131,59 @@ def update_station(
 
 
 @router.delete("/{station_id}", response_model=station_schema.StationResponse)
-def delete_station(station_id: str, db_session: Session = Depends(deps.get_session)):
+def delete_station(
+    station_id: str,
+    db_session: Session = Depends(deps.get_session)
+):
     try:
         station_service.delete(db_session=db_session, station_id=station_id)
         return get_success_response(result=[], message=_("Successfully deleted station."))
     except station_service.FailedDeletingStation as e:
+        return get_error_response(message=str(e))
+
+
+@router.get(
+    "/{station_id}/elements",
+    response_model=Union[
+        Any,
+        station_with_children_schema.StationWithElementsResponse
+    ]
+)
+def get_station_with_elements(
+    station_id: str,
+    limit: int = 25,
+    offset: int = 0,
+    db_session: Session = Depends(deps.get_session)
+):
+    try:
+        station = station_service.get(
+            db_session=db_session, station_id=station_id
+        )
+        if not station:
+            raise HTTPException(status_code=404)
+        total, elements = stationelement_service.query(
+            db_session=db_session,
+            recorded_from=station_id
+        )
+        station_with_elements = station_with_children_schema\
+            .StationWithElements.from_orm(station)
+
+        station_with_elements.elements = elements
+
+        current_page, total_pages = get_current_and_total_pages(
+            limit,
+            total,
+            offset
+        )
+
+        return station_schema.StationWithElementsResponse(
+            message=_("Successfully fetched station elements."),
+            result=station_with_elements,
+            page=current_page,
+            pages=total_pages,
+            limit=limit
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
         return get_error_response(message=str(e))

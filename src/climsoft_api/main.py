@@ -157,8 +157,14 @@ def get_app():
 
 app = get_app()
 
-try:
-    Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
-    app.mount(settings.UPLOAD_DIR, StaticFiles(directory=settings.UPLOAD_DIR), name="uploads")
-except PermissionError as e:
-    logging.getLogger(__file__).error(e)
+
+if settings.MOUNT_STATIC:
+    try:
+        Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
+        app.mount(
+            settings.UPLOAD_DIR,
+            StaticFiles(directory=settings.UPLOAD_DIR),
+            name="uploads"
+        )
+    except PermissionError as e:
+        logging.getLogger(__file__).error(e)

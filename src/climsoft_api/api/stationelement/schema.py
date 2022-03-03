@@ -68,8 +68,38 @@ class StationElementWithChildren(StationElement):
         allow_population_by_field_name = True
 
 
+class StationElementWithStation(BaseSchema):
+    describedBy: Optional[int]
+    recordedWith: Optional[constr(max_length=255)]
+    instrumentcode: Optional[constr(max_length=6)]
+    scheduledFor: Optional[constr(max_length=255)]
+    height: Optional[float]
+    beginDate: Optional[constr(max_length=50)]
+    endDate: Optional[constr(max_length=255)]
+
+    station: Optional[station_schema.Station]
+
+    class Config:
+        orm_mode = True
+        fields = {
+            **field_names,
+            "obselement": "obs_element",
+            "obsscheduleclas": "obs_schedule_class",
+            "station": "recorded_from"
+        }
+        allow_population_by_field_name = True
+
+
 class StationElementWithChildrenResponse(Response):
     result: List[StationElementWithChildren]
+
+
+class StationElementWithStationQueryResponse(Response):
+    status: str = "success"
+    result: List[StationElementWithStation]
+    limit: int
+    page: int
+    pages: int
 
 
 class StationElementQueryResponse(StationElementResponse):

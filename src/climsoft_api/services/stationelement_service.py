@@ -225,3 +225,27 @@ def delete(
         raise FailedDeletingStationElement(
             _("Failed deleting station element.")
         )
+
+
+def get_station_elements_with_station(
+    db_session: Session,
+    recorded_from: str,
+    limit: int = 25,
+    offset: int = 0
+):
+    q = db_session.query(models.Stationelement).filter_by(
+        recordedFrom=recorded_from
+    ).options(
+        joinedload("station")
+    )
+
+    total = get_count(q)
+
+    station_elements = q.limit(limit).offset(offset).all()
+
+    return total, [
+        stationelement_schema.StationElementWithStation.from_orm(se)
+        for se in station_elements
+    ]
+
+

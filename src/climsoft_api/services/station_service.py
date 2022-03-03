@@ -228,7 +228,9 @@ def update(
 
 def delete(db_session: Session, station_id: str) -> bool:
     try:
-        db_session.query(models.Station).filter_by(stationId=station_id).delete()
+        db_session.query(
+            models.Station
+        ).filter_by(stationId=station_id).delete()
         db_session.commit()
         return True
     except Exception as e:

@@ -111,7 +111,9 @@ def get_app():
         tags=["Obs Schedule Class"],
     )
     app.include_router(
-        paperarchive_router, prefix="/v1/paper-archives", tags=["Paper Archives"]
+        paperarchive_router,
+        prefix="/v1/paper-archives",
+        tags=["Paper Archives"]
     )
     app.include_router(
         paperarchivedefinition_router,
@@ -137,7 +139,9 @@ def get_app():
     app.include_router(regkey_router, prefix="/v1/reg-keys", tags=["Reg Keys"])
     app.include_router(station_router, prefix="/v1/stations", tags=["Stations"])
     app.include_router(
-        stationelement_router, prefix="/v1/station-elements", tags=["Station Elements"]
+        stationelement_router,
+        prefix="/v1/station-elements",
+        tags=["Station Elements"]
     )
     app.include_router(
         stationlocationhistory_router,
@@ -150,21 +154,25 @@ def get_app():
         tags=["Station Qualifiers"],
     )
     app.include_router(
-        synopfeature_router, prefix="/v1/synop-features", tags=["Synop Features"]
+        synopfeature_router,
+        prefix="/v1/synop-features",
+        tags=["Synop Features"]
     )
+
+    if settings.MOUNT_STATIC:
+        try:
+            Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
+            app.mount(
+                settings.UPLOAD_DIR,
+                StaticFiles(directory=settings.UPLOAD_DIR),
+                name="uploads"
+            )
+        except PermissionError as e:
+            logging.getLogger(__file__).error(e)
+
     return app
 
 
 app = get_app()
 
 
-if settings.MOUNT_STATIC:
-    try:
-        Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
-        app.mount(
-            settings.UPLOAD_DIR,
-            StaticFiles(directory=settings.UPLOAD_DIR),
-            name="uploads"
-        )
-    except PermissionError as e:
-        logging.getLogger(__file__).error(e)

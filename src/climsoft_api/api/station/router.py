@@ -1,8 +1,12 @@
+import logging
+
 from fastapi import APIRouter, Depends, Request, HTTPException
 from climsoft_api.services import station_service, stationelement_service
 from climsoft_api.api.station import (
     schema as station_schema,
-    schema_with_children as station_with_children_schema
+)
+from climsoft_api.api.stationelement import (
+    schema as station_element_schema
 )
 from climsoft_api.utils.response import (
     get_success_response,
@@ -146,7 +150,7 @@ def delete_station(
     "/{station_id}/station-elements",
     response_model=Union[
         Any,
-        station_with_children_schema.StationWithElementsResponse
+        station_element_schema.StationElementWithStationQueryResponse
     ]
 )
 def get_station_with_elements(
@@ -156,21 +160,13 @@ def get_station_with_elements(
     db_session: Session = Depends(deps.get_session)
 ):
     try:
-        station = station_service.get(
-            db_session=db_session, station_id=station_id
-        )
-        if not station:
-            raise HTTPException(status_code=404)
-        total, elements = stationelement_service.query(
-            db_session=db_session,
-            recorded_from=station_id,
-            limit=limit,
-            offset=offset
-        )
-        station_with_elements = station_with_children_schema\
-            .StationWithElements.from_orm(station)
-
-        station_with_elements.elements = elements
+        total, elements = stationelement_service\
+            .get_station_elements_with_station(
+                db_session=db_session,
+                recorded_from=station_id,
+                limit=limit,
+                offset=offset
+            )
 
         current_page, total_pages = get_current_and_total_pages(
             limit,
@@ -178,9 +174,9 @@ def get_station_with_elements(
             offset
         )
 
-        return station_with_children_schema.StationWithElementsResponse(
+        return station_element_schema.StationElementWithStationQueryResponse(
             message=_("Successfully fetched station elements."),
-            result=station_with_elements,
+            result=elements,
             page=current_page,
             pages=total_pages,
             limit=limit
@@ -188,4 +184,5 @@ def get_station_with_elements(
     except HTTPException:
         raise
     except Exception as e:
+        logging.getLogger(__file__).exception(e)
         return get_error_response(message=str(e))

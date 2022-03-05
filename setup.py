@@ -2,7 +2,7 @@ import logging
 import os.path
 
 from setuptools import find_packages, setup
-from setuptools.command.install import install
+from distutils.command.build import build
 from babel.messages.frontend import compile_catalog
 
 with open("requirements.txt", "r") as requirements_file:
@@ -15,21 +15,10 @@ BASE_PATH = os.path.dirname(
 )
 
 
-class InstallCommand(install):
+class BuildCommand(build):
     def run(self):
-        logger.info("Logger in setup.py")
-        self.run_command('compile_mo_files')
-        if os.path.exists(
-            os.path.join(
-                BASE_PATH,
-                "src/climsoft_api/locale/fr/LC_MESSAGES/climsoft_messages.mo"
-            )
-        ):
-            raise FileExistsError(os.path.join(
-                BASE_PATH,
-                "src/climsoft_api/locale/fr/LC_MESSAGES/climsoft_messages.mo"
-            ))
-        install.run(self)
+        self.run_command('compile_po_files')
+        build.run(self)
 
 
 setup(
@@ -52,8 +41,8 @@ setup(
         ]
     },
     cmdclass={
-        'compile_mo_files': compile_catalog,
-        'install': InstallCommand
+        'compile_po_files': compile_catalog,
+        'build': BuildCommand
     },
     setup_requires=[
         'Babel'

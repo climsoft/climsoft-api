@@ -1,5 +1,6 @@
 import enum
 from typing import List
+from pydantic import Field
 
 from climsoft_api.api.schema import Response, BaseSchema
 
@@ -17,8 +18,8 @@ class ClimsoftUserRole(str, enum.Enum):
 
 
 class CreateClimsoftUser(BaseSchema):
-    userName: str
-    userRole: str
+    userName: str = Field(title=_("Username"))
+    userRole: ClimsoftUserRole = Field(title=_("Role"))
 
     class Config:
         fields = {
@@ -28,8 +29,8 @@ class CreateClimsoftUser(BaseSchema):
 
 
 class ClimsoftUser(BaseSchema):
-    userName: str
-    userRole: ClimsoftUserRole
+    userName: str = Field(title=_("Username"))
+    userRole: ClimsoftUserRole = Field(title=_("Role"))
 
     class Config:
         fields = {
@@ -41,10 +42,10 @@ class ClimsoftUser(BaseSchema):
 
 
 class ClimsoftUserResponse(Response):
-    result: List[ClimsoftUser]
+    result: List[ClimsoftUser] = Field(title=_("Result"))
 
 
 class ClimsoftUserQueryResponse(ClimsoftUserResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

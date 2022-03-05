@@ -2,7 +2,7 @@ from typing import List
 
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 field_names = {
     "instrumentName": "instrument_name",
@@ -59,7 +59,7 @@ class Instrument(CreateInstrument):
 
 
 class InstrumentResponse(Response):
-    result: List[Instrument]
+    result: List[Instrument] = Field(title=_("Result"))
 
 
 class InstrumentWithStation(Instrument):
@@ -67,10 +67,10 @@ class InstrumentWithStation(Instrument):
 
 
 class InstrumentWithStationResponse(Response):
-    result: List[InstrumentWithStation]
+    result: List[InstrumentWithStation] = Field(title=_("Result"))
 
 
 class InstrumentQueryResponse(InstrumentResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreatePaperArchiveDefinition(BaseSchema):
@@ -28,6 +28,6 @@ class PaperArchiveDefinitionResponse(Response):
 
 
 class PaperArchiveDefinitionQueryResponse(PaperArchiveDefinitionResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from climsoft_api.api.schema import BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateStation(BaseSchema):
@@ -100,12 +100,12 @@ class Station(CreateStation):
 
 
 class StationResponse(BaseSchema):
-    result: List[Station]
+    result: List[Station] = Field(title=_("Result"))
     message: str
     status: str
 
 
 class StationQueryResponse(StationResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

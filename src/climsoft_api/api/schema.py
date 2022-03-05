@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class BaseSchema(BaseModel):
@@ -7,5 +7,5 @@ class BaseSchema(BaseModel):
 
 
 class Response(BaseSchema):
-    message: str
-    status: str
+    message: str = Field(title=_("Message"))
+    status: str = Field(title=_("Status"))

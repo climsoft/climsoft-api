@@ -4,7 +4,7 @@ from typing import List
 import climsoft_api.api.obselement.schema as obselement_schema
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateObservationInitial(BaseSchema):
@@ -118,7 +118,7 @@ class ObservationInitialWithChildren(ObservationInitial):
 
 
 class ObservationInitialWithChildrenResponse(Response):
-    result: List[ObservationInitialWithChildren]
+    result: List[ObservationInitialWithChildren] = Field(title=_("Result"))
 
 
 class ObservationInitialInputGen(CreateObservationInitial):
@@ -127,6 +127,6 @@ class ObservationInitialInputGen(CreateObservationInitial):
 
 
 class ObservationInitialQueryResponse(ObservationInitialResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

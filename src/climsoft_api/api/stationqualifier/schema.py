@@ -48,7 +48,7 @@ class StationQualifier(CreateStationQualifier):
 
 
 class StationQualifierResponse(Response):
-    result: List[StationQualifier]
+    result: List[StationQualifier] = Field(title=_("Result"))
 
 
 class StationQualifierWithStation(StationQualifier):
@@ -56,10 +56,10 @@ class StationQualifierWithStation(StationQualifier):
 
 
 class StationQualifierWithStationResponse(Response):
-    result: List[StationQualifierWithStation]
+    result: List[StationQualifierWithStation] = Field(title=_("Result"))
 
 
 class StationQualifierQueryResponse(StationQualifierResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

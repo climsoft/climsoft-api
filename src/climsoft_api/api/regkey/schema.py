@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateRegKey(BaseSchema):
@@ -40,10 +40,10 @@ class RegKey(CreateRegKey):
 
 
 class RegKeyResponse(Response):
-    result: List[RegKey]
+    result: List[RegKey] = Field(title=_("Result"))
 
 
 class RegKeyQueryResponse(RegKeyResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

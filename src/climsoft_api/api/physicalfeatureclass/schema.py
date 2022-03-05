@@ -2,7 +2,7 @@ from typing import List
 
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreatePhysicalFeatureClass(BaseSchema):
@@ -40,14 +40,14 @@ class PhysicalFeatureClassWithStation(PhysicalFeatureClass):
 
 
 class PhysicalFeatureClassResponse(Response):
-    result: List[PhysicalFeatureClass]
+    result: List[PhysicalFeatureClass] = Field(title=_("Result"))
 
 
 class PhysicalFeatureClassWithStationResponse(Response):
-    result: List[PhysicalFeatureClassWithStation]
+    result: List[PhysicalFeatureClassWithStation] = Field(title=_("Result"))
 
 
 class PhysicalFeatureClassQueryResponse(PhysicalFeatureClassResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

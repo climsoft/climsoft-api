@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateDataForm(BaseSchema):
@@ -35,10 +35,10 @@ class DataForm(CreateDataForm):
 
 
 class DataFormResponse(Response):
-    result: List[DataForm]
+    result: List[DataForm] = Field(title=_("Result"))
 
 
 class DataFormQueryResponse(DataFormResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

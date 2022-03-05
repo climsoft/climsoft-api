@@ -1,15 +1,15 @@
 from typing import List
-
+from pydantic import Field
 from climsoft_api.api.schema import Response, BaseSchema
 
 
 class CreateAcquisitionType(BaseSchema):
-    code: int
-    description: str
+    code: int = Field(title=_("Code"))
+    description: str = Field(title=_("Description"))
 
 
 class UpdateAcquisitionType(BaseSchema):
-    description: str
+    description: str = Field(title=_("Description"))
 
 
 class AcquisitionType(CreateAcquisitionType):
@@ -18,10 +18,10 @@ class AcquisitionType(CreateAcquisitionType):
 
 
 class AcquisitionTypeResponse(Response):
-    result: List[AcquisitionType]
+    result: List[AcquisitionType] = Field(title=_("Result"))
 
 
 class AcquisitionTypeQueryResponse(AcquisitionTypeResponse):
-    limit: int
-    page: int
-    pages: int
+    limit: int = Field(title=_("Limit"))
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

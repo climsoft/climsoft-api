@@ -4,7 +4,7 @@ from typing import List
 import climsoft_api.api.instrument.schema as instrument_schema
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateInstrumentInspection(BaseSchema):
@@ -57,14 +57,14 @@ class InstrumentInspectionWithStationAndInstrument(InstrumentInspection):
 
 
 class InstrumentInspectionResponse(Response):
-    result: List[InstrumentInspection]
+    result: List[InstrumentInspection] = Field(title=_("Result"))
 
 
 class InstrumentInspectionWithStationAndInstrumentResponse(Response):
-    result: List[InstrumentInspectionWithStationAndInstrument]
+    result: List[InstrumentInspectionWithStationAndInstrument] = Field(title=_("Result"))
 
 
 class InstrumentInspectionQueryResponse(InstrumentInspectionResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

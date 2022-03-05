@@ -2,7 +2,7 @@ from typing import List
 
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateObsScheduleClass(BaseSchema):
@@ -38,7 +38,7 @@ class ObsScheduleClass(CreateObsScheduleClass):
 
 
 class ObsScheduleClassResponse(Response):
-    result: List[ObsScheduleClass]
+    result: List[ObsScheduleClass] = Field(title=_("Result"))
 
 
 class ObsScheduleClassWithStation(ObsScheduleClass):
@@ -46,10 +46,10 @@ class ObsScheduleClassWithStation(ObsScheduleClass):
 
 
 class ObsScheduleClassWithStationResponse(Response):
-    result: List[ObsScheduleClassWithStation]
+    result: List[ObsScheduleClassWithStation] = Field(title=_("Result"))
 
 
 class ObsScheduleClassQueryResponse(ObsScheduleClassResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

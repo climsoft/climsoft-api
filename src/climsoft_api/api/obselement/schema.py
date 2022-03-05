@@ -2,6 +2,16 @@ from typing import List
 from pydantic import constr
 from climsoft_api.api.schema import BaseSchema
 
+field_mapping = {
+    "elementId": "element_id",
+    "elementName": "element_name",
+    "elementScale": "element_scale",
+    "upperLimit": "upper_limit",
+    "lowerLimit": "lower_limit",
+    "elementtype": "element_type",
+    "qcTotalRequired": "qc_total_required"
+}
+
 
 class CreateObsElement(BaseSchema):
     elementId: int
@@ -17,15 +27,7 @@ class CreateObsElement(BaseSchema):
     selected: bool
 
     class Config:
-        fields = {
-            "elementId": "element_id",
-            "elementName": "element_name",
-            "elementScale": "element_scale",
-            "upperLimit": "upper_limit",
-            "lowerLimit": "lower_limit",
-            "elementtype": "element_type",
-            "qcTotalRequired": "qc_total_required"
-        }
+        fields = field_mapping
 
 
 class UpdateObsElement(BaseSchema):
@@ -41,30 +43,14 @@ class UpdateObsElement(BaseSchema):
     selected: bool
 
     class Config:
-        fields = {
-            "elementId": "element_id",
-            "elementName": "element_name",
-            "elementScale": "element_scale",
-            "upperLimit": "upper_limit",
-            "lowerLimit": "lower_limit",
-            "elementtype": "element_type",
-            "qcTotalRequired": "qc_total_required"
-        }
+        fields = field_mapping
 
 
 class ObsElement(CreateObsElement):
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
-        fields = {
-            "elementId": "element_id",
-            "elementName": "element_name",
-            "elementScale": "element_scale",
-            "upperLimit": "upper_limit",
-            "lowerLimit": "lower_limit",
-            "elementtype": "element_type",
-            "qcTotalRequired": "qc_total_required"
-        }
+        fields = field_mapping
 
 
 class ObsElementResponse(BaseSchema):

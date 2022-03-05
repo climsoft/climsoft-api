@@ -6,7 +6,8 @@ from climsoft_api.api.station import (
     schema as station_schema,
 )
 from climsoft_api.api.stationelement import (
-    schema as station_element_schema
+    schema as station_element_schema,
+    station_element_with_children as station_element_with_children_schema
 )
 from climsoft_api.utils.response import (
     get_success_response,
@@ -141,7 +142,10 @@ def delete_station(
 ):
     try:
         station_service.delete(db_session=db_session, station_id=station_id)
-        return get_success_response(result=[], message=_("Successfully deleted station."))
+        return get_success_response(
+            result=[],
+            message=_("Successfully deleted station.")
+        )
     except station_service.FailedDeletingStation as e:
         return get_error_response(message=str(e))
 
@@ -150,7 +154,8 @@ def delete_station(
     "/{station_id}/station-elements",
     response_model=Union[
         Any,
-        station_element_schema.StationElementWithStationQueryResponse
+        station_element_with_children_schema
+            .StationElementWithObsElementQueryResponse
     ]
 )
 def get_station_with_elements(
@@ -161,7 +166,7 @@ def get_station_with_elements(
 ):
     try:
         total, elements = stationelement_service\
-            .get_station_elements_with_station(
+            .get_station_elements_with_obs_element(
                 db_session=db_session,
                 recorded_from=station_id,
                 limit=limit,
@@ -174,7 +179,8 @@ def get_station_with_elements(
             offset
         )
 
-        return station_element_schema.StationElementWithStationQueryResponse(
+        return station_element_with_children_schema\
+            .StationElementWithObsElementQueryResponse(
             message=_("Successfully fetched station elements."),
             result=elements,
             page=current_page,

@@ -6,7 +6,7 @@ from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
 
 
-from gettext import gettext as _
+
 
 router = APIRouter()
 

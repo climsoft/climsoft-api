@@ -7,7 +7,7 @@ from sqlalchemy import text
 import enum
 
 
-from gettext import gettext as _
+
 
 router = APIRouter()
 

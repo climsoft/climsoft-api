@@ -48,8 +48,8 @@ from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
 from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from pathlib import Path
 from climsoft_api.config import settings
-# from starlette.middleware.base import BaseHTTPMiddleware
-# from climsoft_api.middlewares.localization import LocalizationMiddleware
+from starlette.middleware.base import BaseHTTPMiddleware
+from climsoft_api.middlewares.localization import LocalizationMiddleware
 
 
 # load controllers

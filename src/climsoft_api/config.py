@@ -1,4 +1,5 @@
 import os
+
 from pydantic import BaseSettings
 from pydantic.networks import AnyUrl
 

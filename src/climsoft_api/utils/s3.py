@@ -32,4 +32,3 @@ def create_presigned_url(bucket_name, object_name, expiration=3600):
         },
         ExpiresIn=expiration
     )
-

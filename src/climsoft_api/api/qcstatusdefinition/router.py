@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import qcstatusdefinition_service
 import climsoft_api.api.qcstatusdefinition.schema as qcstatusdefinition_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import qcstatusdefinition_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -51,7 +49,8 @@ def get_qc_status_definition_by_id(
 ):
     try:
         return get_success_response(
-            result=[qcstatusdefinition_service.get(db_session=db_session, code=code)],
+            result=[qcstatusdefinition_service.get(db_session=db_session,
+                                                   code=code)],
             message=_("Successfully fetched qc status definition."),
         )
     except qcstatusdefinition_service.FailedGettingQCStatusDefinition as e:
@@ -69,7 +68,8 @@ def create_qc_status_definition(
     try:
         return get_success_response(
             result=[
-                qcstatusdefinition_service.create(db_session=db_session, data=data)
+                qcstatusdefinition_service.create(db_session=db_session,
+                                                  data=data)
             ],
             message=_("Successfully created qc status definition."),
         )

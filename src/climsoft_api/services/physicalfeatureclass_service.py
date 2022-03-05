@@ -1,15 +1,14 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.physicalfeatureclass import (
     schema as physicalfeatureclass_schema
 )
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftPhysicalFeatureClassService")
 logging.basicConfig(level=logging.INFO)
@@ -64,9 +63,9 @@ def get(
     try:
         physical_feature_class = (
             db_session.query(models.Physicalfeatureclas)
-            .filter_by(featureClass=feature_class)
-            .options(joinedload("station"))
-            .first()
+                .filter_by(featureClass=feature_class)
+                .options(joinedload("station"))
+                .first()
         )
 
         if not physical_feature_class:
@@ -75,10 +74,10 @@ def get(
                 detail=_("Physical feature class does not exist.")
             )
 
-        return physicalfeatureclass_schema.PhysicalFeatureClassWithStation\
+        return physicalfeatureclass_schema.PhysicalFeatureClassWithStation \
             .from_orm(
-                physical_feature_class
-            )
+            physical_feature_class
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -141,8 +140,8 @@ def update(
         db_session.commit()
         updated_physical_feature_class = (
             db_session.query(models.Physicalfeatureclas)
-            .filter_by(featureClass=feature_class)
-            .first()
+                .filter_by(featureClass=feature_class)
+                .first()
         )
         return physicalfeatureclass_schema.PhysicalFeatureClass.from_orm(
             updated_physical_feature_class

@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.observationfinal import schema as observationfinal_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
@@ -44,7 +43,8 @@ def create(
         observation_final = models.Observationfinal(**data.dict())
         db_session.add(observation_final)
         db_session.commit()
-        return observationfinal_schema.ObservationFinal.from_orm(observation_final)
+        return observationfinal_schema.ObservationFinal.from_orm(
+            observation_final)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
@@ -62,11 +62,11 @@ def get(
     try:
         observation_final = (
             db_session.query(models.Observationfinal)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .options(joinedload("obselement"), joinedload("station"))
-            .first()
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(obsDatetime=obs_datetime)
+                .options(joinedload("obselement"), joinedload("station"))
+                .first()
         )
 
         if not observation_final:
@@ -244,10 +244,10 @@ def update(
         db_session.commit()
         updated_instrument = (
             db_session.query(models.Observationfinal)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .first()
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(obsDatetime=obs_datetime)
+                .first()
         )
         return observationfinal_schema.ObservationFinal.from_orm(
             updated_instrument
@@ -261,7 +261,8 @@ def update(
 
 
 def delete(
-    db_session: Session, recorded_from: str, described_by: int, obs_datetime: str
+    db_session: Session, recorded_from: str, described_by: int,
+    obs_datetime: str
 ) -> bool:
     try:
         db_session.query(models.Observationfinal).filter_by(

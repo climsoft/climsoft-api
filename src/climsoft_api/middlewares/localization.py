@@ -1,5 +1,6 @@
-import os
 import gettext
+import os
+
 from fastapi import Request
 
 BASE_DIR = os.path.dirname(

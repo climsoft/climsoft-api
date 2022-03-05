@@ -1,4 +1,5 @@
 from typing import List
+
 from climsoft_api.api.schema import Response, BaseSchema
 
 
@@ -12,7 +13,6 @@ class UpdateAcquisitionType(BaseSchema):
 
 
 class AcquisitionType(CreateAcquisitionType):
-
     class Config:
         orm_mode = True
 
@@ -25,4 +25,3 @@ class AcquisitionTypeQueryResponse(AcquisitionTypeResponse):
     limit: int
     page: int
     pages: int
-

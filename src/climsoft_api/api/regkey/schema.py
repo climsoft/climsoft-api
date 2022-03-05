@@ -1,6 +1,7 @@
-from pydantic import constr
 from typing import List
+
 from climsoft_api.api.schema import BaseSchema, Response
+from pydantic import constr
 
 
 class CreateRegKey(BaseSchema):
@@ -46,6 +47,3 @@ class RegKeyQueryResponse(RegKeyResponse):
     limit: int
     page: int
     pages: int
-
-
-

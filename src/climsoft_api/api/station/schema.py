@@ -1,6 +1,7 @@
 from typing import List, Optional
-from pydantic import constr
+
 from climsoft_api.api.schema import BaseSchema
+from pydantic import constr
 
 
 class CreateStation(BaseSchema):

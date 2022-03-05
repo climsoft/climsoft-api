@@ -1,12 +1,11 @@
 import logging
+
+from climsoft_api.api.paperarchive import schema as paperarchive_schema
+from climsoft_api.utils.query import get_count
 from fastapi import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.session import Session
-from climsoft_api.api.paperarchive import schema as paperarchive_schema
-from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.utils.query import get_count
-
-
 
 logger = logging.getLogger("ClimsoftPaperArchiveService")
 logging.basicConfig(level=logging.INFO)
@@ -83,16 +82,16 @@ def get(
     try:
         response = (
             db_session.query(models.Paperarchive)
-            .filter_by(
+                .filter_by(
                 belongsTo=belongs_to,
                 formDatetime=form_datetime,
                 classifiedInto=classified_into,
             )
-            .options(
+                .options(
                 joinedload("station"),
                 joinedload("paperarchivedefinition")
             )
-            .first()
+                .first()
         )
         if not response:
             raise HTTPException(
@@ -100,10 +99,10 @@ def get(
                 detail=_("Paper archive not found.")
             )
 
-        return paperarchive_schema\
+        return paperarchive_schema \
             .PaperArchiveWithStationAndPaperArchiveDefinition.from_orm(
-                response
-            )
+            response
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -143,12 +142,12 @@ def update(
         db_session.commit()
         updated_paper_archive = (
             db_session.query(models.Paperarchive)
-            .filter_by(
+                .filter_by(
                 belongsTo=belongs_to,
                 formDatetime=form_datetime,
                 classifiedInto=classified_into,
             )
-            .first()
+                .first()
         )
         return paperarchive_schema.PaperArchive.from_orm(updated_paper_archive)
     except Exception as e:
@@ -160,7 +159,8 @@ def update(
 
 
 def delete(
-    db_session: Session, belongs_to: str, form_datetime: str, classified_into: str
+    db_session: Session, belongs_to: str, form_datetime: str,
+    classified_into: str
 ):
     try:
         db_session.query(models.Paperarchive).filter_by(

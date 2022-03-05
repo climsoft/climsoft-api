@@ -1,15 +1,14 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.stationlocationhistory import (
     schema as stationlocationhistory_schema,
 )
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
@@ -64,9 +63,10 @@ def get(
     try:
         station_location_history = (
             db_session.query(models.Stationlocationhistory)
-            .filter_by(belongsTo=belongs_to, openingDatetime=opening_datetime)
-            .options(joinedload("station"))
-            .first()
+                .filter_by(belongsTo=belongs_to,
+                           openingDatetime=opening_datetime)
+                .options(joinedload("station"))
+                .first()
         )
 
         if not station_location_history:
@@ -75,10 +75,10 @@ def get(
                 detail=_("Station location history does not exist.")
             )
 
-        return stationlocationhistory_schema.StationLocationHistoryWithStation\
+        return stationlocationhistory_schema.StationLocationHistoryWithStation \
             .from_orm(
-                station_location_history
-            )
+            station_location_history
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -177,11 +177,11 @@ def update(
         db_session.commit()
         updated_station_location_history = (
             db_session.query(models.Stationlocationhistory)
-            .filter_by(
+                .filter_by(
                 belongsTo=belongs_to,
                 openingDatetime=opening_datetime
             )
-            .first()
+                .first()
         )
         return stationlocationhistory_schema.StationLocationHistory.from_orm(
             updated_station_location_history

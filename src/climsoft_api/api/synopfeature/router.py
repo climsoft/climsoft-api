@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import synopfeature_service
 import climsoft_api.api.synopfeature.schema as synopfeature_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import synopfeature_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -38,7 +36,8 @@ def get_qc_types(
         return get_error_response(message=str(e))
 
 
-@router.get("/{abbreviation}", response_model=synopfeature_schema.SynopFeatureResponse)
+@router.get("/{abbreviation}",
+            response_model=synopfeature_schema.SynopFeatureResponse)
 def get_qc_type_by_id(
     abbreviation: str, db_session: Session = Depends(deps.get_session)
 ):
@@ -62,14 +61,16 @@ def create_qc_type(
 ):
     try:
         return get_success_response(
-            result=[synopfeature_service.create(db_session=db_session, data=data)],
+            result=[
+                synopfeature_service.create(db_session=db_session, data=data)],
             message=_("Successfully created synop feature."),
         )
     except synopfeature_service.FailedCreatingSynopFeature as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{abbreviation}", response_model=synopfeature_schema.SynopFeatureResponse)
+@router.put("/{abbreviation}",
+            response_model=synopfeature_schema.SynopFeatureResponse)
 def update_qc_type(
     abbreviation: str,
     data: synopfeature_schema.UpdateSynopFeature,
@@ -93,7 +94,8 @@ def update_qc_type(
 @router.delete(
     "/{abbreviation}", response_model=synopfeature_schema.SynopFeatureResponse
 )
-def delete_qc_type(abbreviation: str, db_session: Session = Depends(deps.get_session)):
+def delete_qc_type(abbreviation: str,
+                   db_session: Session = Depends(deps.get_session)):
     try:
         synopfeature_service.delete(
             db_session=db_session,

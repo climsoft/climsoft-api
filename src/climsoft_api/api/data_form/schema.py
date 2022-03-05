@@ -1,6 +1,7 @@
 from typing import List
-from pydantic import constr
+
 from climsoft_api.api.schema import Response, BaseSchema
+from pydantic import constr
 
 
 class CreateDataForm(BaseSchema):
@@ -29,7 +30,6 @@ class UpdateDataForm(BaseSchema):
 
 
 class DataForm(CreateDataForm):
-
     class Config:
         orm_mode = True
 

@@ -1,7 +1,8 @@
-from pydantic import constr
-from climsoft_api.api.schema import Response, BaseSchema
 from typing import List
+
 import climsoft_api.api.synopfeature.schema as synopfeature_schema
+from climsoft_api.api.schema import Response, BaseSchema
+from pydantic import constr
 
 
 class CreateFeatureGeographicalPosition(BaseSchema):
@@ -50,7 +51,8 @@ class FeatureGeographicalPositionWithSynopFeatureResponse(Response):
     result: List[FeatureGeographicalPositionWithSynopFeature]
 
 
-class FeatureGeographicalPositionQueryResponse(FeatureGeographicalPositionResponse):
+class FeatureGeographicalPositionQueryResponse(
+    FeatureGeographicalPositionResponse):
     limit: int
     page: int
     pages: int

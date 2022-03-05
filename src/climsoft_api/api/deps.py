@@ -1,5 +1,5 @@
-from sqlalchemy.orm.session import Session
 from climsoft_api.db import SessionLocal
+from sqlalchemy.orm.session import Session
 
 
 async def get_session() -> Session:

@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.stationqualifier import schema as stationqualifier_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftStationQualifierService")
 logging.basicConfig(level=logging.INFO)
@@ -44,7 +43,8 @@ def create(
         station_qualifier = models.Stationqualifier(**data.dict())
         db_session.add(station_qualifier)
         db_session.commit()
-        return stationqualifier_schema.StationQualifier.from_orm(station_qualifier)
+        return stationqualifier_schema.StationQualifier.from_orm(
+            station_qualifier)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
@@ -63,14 +63,14 @@ def get(
     try:
         station_qualifier = (
             db_session.query(models.Stationqualifier)
-            .filter_by(
+                .filter_by(
                 qualifier=qualifier,
                 qualifierBeginDate=qualifier_begin_date,
                 qualifierEndDate=qualifier_end_date,
                 belongsTo=belongs_to,
             )
-            .options(joinedload("station"))
-            .first()
+                .options(joinedload("station"))
+                .first()
         )
 
         if not station_qualifier:
@@ -160,13 +160,13 @@ def update(
         db_session.commit()
         updated_station_qualifier = (
             db_session.query(models.Stationqualifier)
-            .filter_by(
+                .filter_by(
                 qualifier=qualifier,
                 qualifierBeginDate=qualifier_begin_date,
                 qualifierEndDate=qualifier_end_date,
                 belongsTo=belongs_to,
             )
-            .first()
+                .first()
         )
         return stationqualifier_schema.StationQualifier.from_orm(
             updated_station_qualifier

@@ -1,15 +1,14 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.instrumentinspection import (
     schema as instrumentinspection_schema
 )
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftInstrumentInspectionService")
 logging.basicConfig(level=logging.INFO)
@@ -64,24 +63,24 @@ def get(
     try:
         instrument_inspection = (
             db_session.query(models.Instrumentinspection)
-            .filter_by(
-                performedOn=performed_on, 
+                .filter_by(
+                performedOn=performed_on,
                 inspectionDatetime=inspection_datetime
             )
-            .options(joinedload("station"))
-            .first()
+                .options(joinedload("station"))
+                .first()
         )
 
         if not instrument_inspection:
             raise HTTPException(
-                status_code=404, 
+                status_code=404,
                 detail=_("Instrument inspection does not exist.")
             )
 
-        return instrumentinspection_schema\
+        return instrumentinspection_schema \
             .InstrumentInspectionWithStationAndInstrument.from_orm(
-                instrument_inspection
-            )
+            instrument_inspection
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -155,11 +154,11 @@ def update(
         db_session.commit()
         updated_instrument_inspection = (
             db_session.query(models.Instrumentinspection)
-            .filter_by(
+                .filter_by(
                 performedOn=performed_on,
                 inspectionDatetime=inspection_datetime
             )
-            .first()
+                .first()
         )
         return instrumentinspection_schema.InstrumentInspection.from_orm(
             updated_instrument_inspection
@@ -172,7 +171,8 @@ def update(
         )
 
 
-def delete(db_session: Session, performed_on: str, inspection_datetime: str) -> bool:
+def delete(db_session: Session, performed_on: str,
+           inspection_datetime: str) -> bool:
     try:
         db_session.query(models.Instrumentinspection).filter_by(
             performedOn=performed_on, inspectionDatetime=inspection_datetime

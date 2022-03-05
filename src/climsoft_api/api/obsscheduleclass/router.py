@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import obsscheduleclass_service
 import climsoft_api.api.obsscheduleclass.schema as obsscheduleclass_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import obsscheduleclass_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -98,7 +96,8 @@ def update_instrument(
         return get_success_response(
             result=[
                 obsscheduleclass_service.update(
-                    db_session=db_session, schedule_class=schedule_class, updates=data
+                    db_session=db_session, schedule_class=schedule_class,
+                    updates=data
                 )
             ],
             message=_("Successfully updated instrument."),

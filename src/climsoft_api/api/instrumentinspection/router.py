@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import instrumentinspection_service
-import climsoft_api.api.instrumentinspection.schema as instrumentinspection_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
+import \
+    climsoft_api.api.instrumentinspection.schema as instrumentinspection_schema
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import instrumentinspection_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -85,7 +84,8 @@ def create_instrument_inspection(
     try:
         return get_success_response(
             result=[
-                instrumentinspection_service.create(db_session=db_session, data=data)
+                instrumentinspection_service.create(db_session=db_session,
+                                                    data=data)
             ],
             message=_("Successfully created instrument inspection."),
         )

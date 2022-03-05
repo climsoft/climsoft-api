@@ -1,6 +1,7 @@
 from typing import List
-from pydantic import constr
+
 from climsoft_api.api.schema import BaseSchema
+from pydantic import constr
 
 field_mapping = {
     "elementId": "element_id",
@@ -63,4 +64,3 @@ class ObsElementQueryResponse(ObsElementResponse):
     limit: int
     page: int
     pages: int
-

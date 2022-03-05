@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 field_mapping = {
     "elementId": "element_id",
@@ -57,10 +57,10 @@ class ObsElement(CreateObsElement):
 class ObsElementResponse(BaseSchema):
     message: str
     status: str
-    result: List[ObsElement]
+    result: List[ObsElement] = Field(title=_("Result"))
 
 
 class ObsElementQueryResponse(ObsElementResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

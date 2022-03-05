@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateQCType(BaseSchema):
@@ -20,10 +20,10 @@ class QCType(CreateQCType):
 
 
 class QCTypeResponse(Response):
-    result: List[QCType]
+    result: List[QCType] = Field(title=_("Result"))
 
 
 class QCTypeQueryResponse(QCTypeResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

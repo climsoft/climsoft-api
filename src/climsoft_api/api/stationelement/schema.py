@@ -5,7 +5,7 @@ import climsoft_api.api.obselement.schema as obselement_schema
 import climsoft_api.api.obsscheduleclass.schema as obsscheduleclass_schema
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 field_names = {
     "recordedFrom": "recorded_from",
@@ -98,12 +98,12 @@ class StationElementWithChildrenResponse(Response):
 class StationElementWithStationQueryResponse(Response):
     status: str = "success"
     result: List[StationElementWithStation]
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int
 
 
 class StationElementQueryResponse(StationElementResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

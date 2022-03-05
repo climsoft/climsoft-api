@@ -20,10 +20,10 @@ class SynopFeature(CreateSynopFeature):
 
 
 class SynopFeatureResponse(Response):
-    result: List[SynopFeature]
+    result: List[SynopFeature] = Field(title=_("Result"))
 
 
 class SynopFeatureQueryResponse(SynopFeatureResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

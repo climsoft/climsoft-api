@@ -1,9 +1,8 @@
 import datetime
 from typing import List
-
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateStationLocationHistory(BaseSchema):
@@ -87,14 +86,14 @@ class StationLocationHistoryWithStation(StationLocationHistory):
 
 
 class StationLocationHistoryResponse(Response):
-    result: List[StationLocationHistory]
+    result: List[StationLocationHistory] = Field(title=_("Result"))
 
 
 class StationLocationHistoryWithStationResponse(Response):
-    result: List[StationLocationHistoryWithStation]
+    result: List[StationLocationHistoryWithStation] = Field(title=_("Result"))
 
 
 class StationLocationHistoryQueryResponse(StationLocationHistoryResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

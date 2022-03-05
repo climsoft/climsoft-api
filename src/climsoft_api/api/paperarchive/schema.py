@@ -5,7 +5,7 @@ import \
     climsoft_api.api.paperarchivedefinition.schema as paperarchivedefinition_schema
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreatePaperArchive(BaseSchema):
@@ -40,7 +40,7 @@ class PaperArchive(CreatePaperArchive):
 
 
 class PaperArchiveResponse(Response):
-    result: List[PaperArchive]
+    result: List[PaperArchive] = Field(title=_("Result"))
 
 
 class PaperArchiveWithStationAndPaperArchiveDefinition(PaperArchive):
@@ -53,6 +53,6 @@ class PaperArchiveWithStationAndPaperArchiveDefinitionResponse(Response):
 
 
 class PaperArchiveQueryResponse(PaperArchiveResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

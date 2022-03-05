@@ -1,7 +1,7 @@
 from typing import List
 
 from climsoft_api.api.schema import Response
-
+from pydantic import Field
 from .schema import StationElement
 from ..obselement.schema import ObsElement, field_mapping
 
@@ -17,7 +17,7 @@ class StationElementWithObsElement(StationElement):
 
 class StationElementWithObsElementQueryResponse(Response):
     status: str = "success"
-    result: List[StationElementWithObsElement]
-    limit: int
+    result: List[StationElementWithObsElement] = Field(title=_("Result"))
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

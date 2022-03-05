@@ -4,7 +4,7 @@ from typing import List
 import \
     climsoft_api.api.instrumentfaultreport.schema as instrumentfaultreport_schema
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateFaultResolution(BaseSchema):
@@ -49,14 +49,14 @@ class FaultResolutionWithInstrumentFaultReport(FaultResolution):
 
 
 class FaultResolutionResponse(Response):
-    result: List[FaultResolution]
+    result: List[FaultResolution] = Field(title=_("Result"))
 
 
 class FaultResolutionWithInstrumentFaultReportResponse(Response):
-    result: List[FaultResolutionWithInstrumentFaultReport]
+    result: List[FaultResolutionWithInstrumentFaultReport] = Field(title=_("Result"))
 
 
 class FaultResolutionQueryResponse(FaultResolutionResponse):
-    limit: int
+    limit: int = Field(title=_("Limit"))
     page: int
     pages: int

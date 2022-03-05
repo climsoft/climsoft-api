@@ -48,7 +48,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingFaultResolution(
-            _("Failed creating fault resolution.")
+            _("Failed to create fault resolution.")
         )
 
 
@@ -80,7 +80,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFaultResolution(
-            _("Failed getting fault resolution.")
+            _("Failed to get fault resolution.")
         )
 
 
@@ -123,7 +123,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFaultResolutionList(
-            _("Failed getting list of fault resolutions.")
+            _("Failed to get list of fault resolutions.")
         )
 
 
@@ -154,7 +154,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingFaultResolution(
-            _("Failed updating fault resolution.")
+            _("Failed to update fault resolution.")
         )
 
 
@@ -171,5 +171,5 @@ def delete(db_session: Session, resolved_datetime: str,
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingFaultResolution(
-            _("Failed deleting fault resolution.")
+            _("Failed to delete fault resolution.")
         )

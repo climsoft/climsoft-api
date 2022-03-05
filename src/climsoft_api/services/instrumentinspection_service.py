@@ -53,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingInstrumentInspection(
-            _("Failed creating instrument inspection.")
+            _("Failed to create instrument inspection.")
         )
 
 
@@ -86,7 +86,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentInspection(
-            _("Failed getting instrument inspection.")
+            _("Failed to get instrument inspection.")
         )
 
 
@@ -137,7 +137,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentInspectionList(
-            _("Failed getting list of instrument inspections.")
+            _("Failed to get list of instrument inspections.")
         )
 
 
@@ -167,7 +167,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingInstrumentInspection(
-            _("Failed updating instrument inspection.")
+            _("Failed to update instrument inspection.")
         )
 
 
@@ -183,5 +183,5 @@ def delete(db_session: Session, performed_on: str,
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingInstrumentInspection(
-            _("Failed deleting instrument inspection.")
+            _("Failed to delete instrument inspection.")
         )

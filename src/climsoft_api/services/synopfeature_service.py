@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingSynopFeature(
-            _("Failed creating synop feature.")
+            _("Failed to create synop feature.")
         )
 
 
@@ -72,7 +72,7 @@ def get(db_session: Session,
     except Exception as e:
         logger.exception(e)
         raise FailedGettingSynopFeature(
-            _("Failed getting synop feature.")
+            _("Failed to get synop feature.")
         )
 
 
@@ -110,7 +110,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingSynopFeatureList(
-            _("Failed getting list of synop features.")
+            _("Failed to get list of synop features.")
         )
 
 
@@ -134,7 +134,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingSynopFeature(
-            _("Failed updating synop feature.")
+            _("Failed to update synop feature.")
         )
 
 
@@ -149,5 +149,5 @@ def delete(db_session: Session, abbreviation: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingSynopFeature(
-            _("Failed deleting synop feature.")
+            _("Failed to delete synop feature.")
         )

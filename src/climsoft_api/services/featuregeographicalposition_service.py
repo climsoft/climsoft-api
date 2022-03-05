@@ -56,7 +56,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingFeatureGeographicalPosition(
-            _("Failed creating feature geographical position.")
+            _("Failed to create feature geographical position.")
         )
 
 
@@ -86,7 +86,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFeatureGeographicalPosition(
-            _("Failed getting feature geographical position.")
+            _("Failed to get feature geographical position.")
         )
 
 
@@ -133,7 +133,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFeatureGeographicalPositionList(
-            _("Failed getting list of feature geographical positions.")
+            _("Failed to get list of feature geographical positions.")
         )
 
 
@@ -161,7 +161,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingFeatureGeographicalPosition(
-            _("Failed updating feature geographical position.")
+            _("Failed to update feature geographical position.")
         )
 
 
@@ -176,5 +176,5 @@ def delete(db_session: Session, belongs_to: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingFeatureGeographicalPosition(
-            _("Failed deleting feature geographical position.")
+            _("Failed to delete feature geographical position.")
         )

@@ -317,7 +317,7 @@ msgstr "Qualificatif de station mis à jour avec succès."
 msgid "Successfully deleted station qualifier."
 msgstr "Qualificatif de station supprimé avec succès."
 
-msgid "Failed getting statistics for climsoft tables."
+msgid "Failed to get statistics for climsoft tables."
 msgstr "Échec de l'obtention des statistiques pour les tables climsoft."
 
 msgid "Successfully fetched synop features."
@@ -344,447 +344,447 @@ msgstr "Image téléchargée avec succès!"
 msgid "Failed uploading image!"
 msgstr "Échec du téléchargement de l'image!"
 
-msgid "Failed creating acquisition type."
+msgid "Failed to create acquisition type."
 msgstr "Échec de la création du type d'acquisition."
 
 msgid "Acquisition type does not exist."
 msgstr "Le type d'acquisition n'existe pas."
 
-msgid "Failed getting acquisition type."
+msgid "Failed to get acquisition type."
 msgstr "Échec de l'obtention du type d'acquisition."
 
-msgid "Failed getting list of acquisition types."
+msgid "Failed to get list of acquisition types."
 msgstr "Échec de l'obtention de la liste des types d'acquisition."
 
-msgid "Failed updating acquisition type."
+msgid "Failed to update acquisition type."
 msgstr "Échec de la mise à jour du type d'acquisition."
 
-msgid "Failed deleting acquisition type."
+msgid "Failed to delete acquisition type."
 msgstr "Échec de la suppression du type d'acquisition."
 
-msgid "Failed creating climsoft user."
+msgid "Failed to create climsoft user."
 msgstr "Échec de la création de l'utilisateur climsoft."
 
 msgid "Climsoft user does not exist."
 msgstr "L'utilisateur Climsoft n'existe pas."
 
-msgid "Failed getting climsoft user."
+msgid "Failed to get climsoft user."
 msgstr "Échec de l'obtention de l'utilisateur climsoft."
 
-msgid "Failed updating climsoft user."
+msgid "Failed to update climsoft user."
 msgstr "Échec de la mise à jour de l'utilisateur climsoft."
 
-msgid "Failed deleting climsoft user."
+msgid "Failed to delete climsoft user."
 msgstr "Impossible de supprimer l'utilisateur climatsoft."
 
-msgid "Failed creating data form."
+msgid "Failed to create data form."
 msgstr "Échec de la création du formulaire de données."
 
 msgid "Data form does not exist."
 msgstr "Le formulaire de données n'existe pas."
 
-msgid "Failed getting data form."
+msgid "Failed to get data form."
 msgstr "Échec de l'obtention du formulaire de données."
 
-msgid "Failed getting list of data forms."
+msgid "Failed to get list of data forms."
 msgstr "Échec de l'obtention de la liste des formulaires de données."
 
-msgid "Failed updating data form."
+msgid "Failed to update data form."
 msgstr "Échec de la mise à jour du formulaire de données."
 
-msgid "Failed deleting data form."
+msgid "Failed to delete data form."
 msgstr "Échec de la suppression du formulaire de données."
 
-msgid "Failed creating fault resolution."
+msgid "Failed to create fault resolution."
 msgstr "Échec de la création de la résolution des erreurs."
 
 msgid "Fault resolution does not exist."
 msgstr "La résolution des pannes n'existe pas."
 
-msgid "Failed getting fault resolution."
+msgid "Failed to get fault resolution."
 msgstr "Impossible d'obtenir la résolution de l'erreur."
 
-msgid "Failed getting list of fault resolutions."
+msgid "Failed to get list of fault resolutions."
 msgstr "Échec de l'obtention de la liste des résolutions de pannes."
 
-msgid "Failed updating fault resolution."
+msgid "Failed to update fault resolution."
 msgstr "Échec de la mise à jour de la résolution des erreurs."
 
-msgid "Failed deleting fault resolution."
+msgid "Failed to delete fault resolution."
 msgstr "Échec de la suppression de la résolution d'erreur."
 
-msgid "Failed creating feature geographical position."
+msgid "Failed to create feature geographical position."
 msgstr "Échec de la création de la position géographique de l'entité."
 
-msgid "Failed getting feature geographical position."
+msgid "Failed to get feature geographical position."
 msgstr "Échec de l'obtention de la position géographique de l'élément."
 
-msgid "Failed getting list of feature geographical positions."
+msgid "Failed to get list of feature geographical positions."
 msgstr "Échec de l'obtention de la liste des positions géographiques des caractéristiques."
 
-msgid "Failed updating feature geographical position."
+msgid "Failed to update feature geographical position."
 msgstr "Échec de la mise à jour de la position géographique de l'entité."
 
-msgid "Failed deleting feature geographical position."
+msgid "Failed to delete feature geographical position."
 msgstr "Échec de la suppression de la position géographique de l'élément géographique."
 
-msgid "Failed creating flag."
-msgstr ""
+msgid "Failed to create flag."
+msgstr "Échec de la création de l'indicateur."
 
 msgid "Flag does not exist."
-msgstr ""
+msgstr "Le drapeau n'existe pas."
 
-msgid "Failed getting flag."
-msgstr ""
+msgid "Failed to get flag."
+msgstr "Échec de l'obtention du drapeau."
 
-msgid "Failed getting list of flags."
-msgstr ""
+msgid "Failed to get list of flags."
+msgstr "Échec de l'obtention de la liste des drapeaux."
 
-msgid "Failed updating flag."
-msgstr ""
+msgid "Failed to update flag."
+msgstr "Échec de la mise à jour de l'indicateur."
 
-msgid "Failed deleting flag."
-msgstr ""
+msgid "Failed to delete flag."
+msgstr "Échec de la suppression de l'indicateur."
 
-msgid "Failed creating instrument."
-msgstr ""
+msgid "Failed to create instrument."
+msgstr "Échec de la création de l'instrument."
 
 msgid "Instrument does not exist."
-msgstr ""
+msgstr "L'appareil n'existe pas."
 
-msgid "Failed getting instrument."
-msgstr ""
+msgid "Failed to get instrument."
+msgstr "Échec de la récupération de l'instrument."
 
-msgid "Failed getting list of instruments."
-msgstr ""
+msgid "Failed to get list of instruments."
+msgstr "Échec de l'obtention de la liste des instruments."
 
-msgid "Failed updating instrument."
-msgstr ""
+msgid "Failed to update instrument."
+msgstr "Échec de la mise à jour de l'instrument."
 
-msgid "Failed deleting instrument."
-msgstr ""
+msgid "Failed to delete instrument."
+msgstr "Échec de la suppression de l'instrument."
 
-msgid "Failed creating instrument fault report."
-msgstr ""
+msgid "Failed to create instrument fault report."
+msgstr "Échec de la création du rapport de panne de l'instrument."
 
 msgid "Instrument fault report does not exist."
-msgstr ""
+msgstr "Le rapport de panne de l'instrument n'existe pas."
 
-msgid "Failed getting instrument fault report."
-msgstr ""
+msgid "Failed to get instrument fault report."
+msgstr "Échec de l'obtention du rapport de panne de l'instrument."
 
-msgid "Failed getting list of instrument fault reports."
-msgstr ""
+msgid "Failed to get list of instrument fault reports."
+msgstr "Échec de l'obtention de la liste des rapports de panne de l'instrument."
 
-msgid "Failed updating instrument fault report."
-msgstr ""
+msgid "Failed to update instrument fault report."
+msgstr "Échec de la mise à jour du rapport de panne de l'instrument."
 
-msgid "Failed deleting instrument fault report."
-msgstr ""
+msgid "Failed to delete instrument fault report."
+msgstr "Échec de la suppression du rapport de panne de l'instrument."
 
-msgid "Failed creating instrument inspection."
-msgstr ""
+msgid "Failed to create instrument inspection."
+msgstr "Échec de la création de l'inspection de l'instrument."
 
 msgid "Instrument inspection does not exist."
-msgstr ""
+msgstr "L'inspection aux instruments n'existe pas."
 
-msgid "Failed getting instrument inspection."
-msgstr ""
+msgid "Failed to get instrument inspection."
+msgstr "Échec de l'inspection de l'instrument."
 
-msgid "Failed getting list of instrument inspections."
-msgstr ""
+msgid "Failed to get list of instrument inspections."
+msgstr "Échec de l'obtention de la liste des inspections d'instruments."
 
-msgid "Failed updating instrument inspection."
-msgstr ""
+msgid "Failed to update instrument inspection."
+msgstr "Échec de la mise à jour de l'inspection de l'instrument."
 
-msgid "Failed deleting instrument inspection."
-msgstr ""
+msgid "Failed to delete instrument inspection."
+msgstr "Échec de la suppression de l'inspection de l'instrument."
 
-msgid "Failed creating obs element."
-msgstr ""
+msgid "Failed to create obs element."
+msgstr "Échec de la création de l'élément obs."
 
 msgid "Obs element does not exist."
-msgstr ""
+msgstr "L'élément Obs n'existe pas."
 
-msgid "Failed getting obs element."
-msgstr ""
+msgid "Failed to get obs element."
+msgstr "Échec de l'obtention de l'élément obs."
 
-msgid "Failed getting list of obs elements."
-msgstr ""
+msgid "Failed to get list of obs elements."
+msgstr "Échec de l'obtention de la liste des éléments obs."
 
-msgid "Failed updating obs element."
-msgstr ""
+msgid "Failed to update obs element."
+msgstr "Échec de la mise à jour de l'élément obs."
 
-msgid "Failed deleting obs element."
-msgstr ""
+msgid "Failed to delete obs element."
+msgstr "Échec de la suppression de l'élément obs."
 
-msgid "Failed creating observation final."
-msgstr ""
+msgid "Failed to create observation final."
+msgstr "Échec de la création de l'observation finale."
 
 msgid "Observation final does not exist."
-msgstr ""
+msgstr "L'observation finale n'existe pas."
 
-msgid "Failed getting observation final."
-msgstr ""
+msgid "Failed to get observation final."
+msgstr "Échec de l'obtention de la finale d'observation."
 
-msgid "Failed getting list of observation finals."
-msgstr ""
+msgid "Failed to get list of observation finals."
+msgstr "Échec de l'obtention de la liste des finales d'observation."
 
-msgid "Failed updating observation final."
-msgstr ""
+msgid "Failed to update observation final."
+msgstr "Échec de la mise à jour de l'observation finale."
 
-msgid "Failed deleting observation final."
-msgstr ""
+msgid "Failed to delete observation final."
+msgstr "Échec de la suppression de l'observation finale."
 
-msgid "Failed creating observation initial."
-msgstr ""
+msgid "Failed to create observation initial."
+msgstr "Échec de la création de l'observation initiale."
 
 msgid "Observation initial does not exist."
-msgstr ""
+msgstr "L'observation initiale n'existe pas."
 
-msgid "Failed getting observation initial."
-msgstr ""
+msgid "Failed to get observation initial."
+msgstr "Échec de l'obtention de l'observation initiale."
 
-msgid "Failed getting list of observation initials."
-msgstr ""
+msgid "Failed to get list of observation initials."
+msgstr "Échec de l'obtention de la liste des initiales d'observation."
 
-msgid "Failed updating observation initial."
-msgstr ""
+msgid "Failed to update observation initial."
+msgstr "Échec de la mise à jour de l'observation initiale."
 
-msgid "Failed deleting observation initial."
-msgstr ""
+msgid "Failed to delete observation initial."
+msgstr "Échec de la suppression de l'observation initiale."
 
-msgid "Failed creating obs schedule class."
-msgstr ""
+msgid "Failed to create obs schedule class."
+msgstr "Échec de la création de la classe de planification obs."
 
 msgid "Obs schedule class does not exist."
-msgstr ""
+msgstr "La classe de planification Obs n'existe pas."
 
-msgid "Failed getting obs schedule class."
-msgstr ""
+msgid "Failed to get obs schedule class."
+msgstr "Échec de l'obtention du cours de planification d'obs."
 
-msgid "Failed getting list of obs schedule classes."
-msgstr ""
+msgid "Failed to get list of obs schedule classes."
+msgstr "Échec de l'obtention de la liste des cours programmés par l'obs."
 
-msgid "Failed updating obs schedule class."
-msgstr ""
+msgid "Failed to update obs schedule class."
+msgstr "Échec de la mise à jour de la classe de planification obs."
 
-msgid "Failed deleting obs schedule class."
-msgstr ""
+msgid "Failed to delete obs schedule class."
+msgstr "Échec de la suppression de la classe de planification obs."
 
 msgid "Failed fetching list of paper archives."
-msgstr ""
+msgstr "Échec de la récupération de la liste des archives papier."
 
 msgid "Paper archive not found."
-msgstr ""
+msgstr "Archives papier introuvables."
 
-msgid "Failed getting paper archive."
-msgstr ""
+msgid "Failed to get paper archive."
+msgstr "Échec de l'obtention de l'archive papier."
 
-msgid "Failed creating paper archive."
-msgstr ""
+msgid "Failed to create paper archive."
+msgstr "Échec de la création de l'archive papier."
 
-msgid "Failed updating paper archive."
-msgstr ""
+msgid "Failed to update paper archive."
+msgstr "Échec de la mise à jour de l'archive papier."
 
-msgid "Failed deleting paper archive."
-msgstr ""
+msgid "Failed to delete paper archive."
+msgstr "Échec de la suppression de l'archive papier."
 
-msgid "Failed creating pape archive definition."
-msgstr ""
+msgid "Failed to create pape archive definition."
+msgstr "Échec de la création de la définition d'archive papier."
 
 msgid "Paper archive definition does not exist."
-msgstr ""
+msgstr "La définition d'archive papier n'existe pas."
 
-msgid "Failed getting paper archive definition."
-msgstr ""
+msgid "Failed to get paper archive definition."
+msgstr "Échec de l'obtention de la définition d'archive papier."
 
-msgid "Failed getting list of paper archive definitions."
-msgstr ""
+msgid "Failed to get list of paper archive definitions."
+msgstr "Échec de l'obtention de la liste des définitions d'archives papier."
 
-msgid "Failed updating paper archive definition."
-msgstr ""
+msgid "Failed to update paper archive definition."
+msgstr "Échec de la mise à jour de la définition de l'archive papier."
 
-msgid "Failed deleting paper archive definition."
-msgstr ""
+msgid "Failed to delete paper archive definition."
+msgstr "Échec de la suppression de la définition d'archive papier."
 
-msgid "Failed creating physical feature."
-msgstr ""
+msgid "Failed to create physical feature."
+msgstr "Échec de la création de l'élément physique."
 
 msgid "Physical feature does not exist."
-msgstr ""
+msgstr "La caractéristique physique n'existe pas."
 
-msgid "Failed getting physical feature."
-msgstr ""
+msgid "Failed to get physical feature."
+msgstr "Échec de l'obtention de la caractéristique physique."
 
-msgid "Failed getting list of physical features."
-msgstr ""
+msgid "Failed to get list of physical features."
+msgstr "Échec de l'obtention de la liste des caractéristiques physiques."
 
-msgid "Failed updating physical feature"
-msgstr ""
+msgid "Failed to update physical feature"
+msgstr "Échec de la mise à jour de la fonctionnalité physique"
 
-msgid "Failed deleting physical feature."
-msgstr ""
+msgid "Failed to delete physical feature."
+msgstr "Échec de la suppression de la caractéristique physique."
 
-msgid "Failed creating physical feature class."
-msgstr ""
+msgid "Failed to create physical feature class."
+msgstr "Échec de la création de la classe d'entités physiques."
 
 msgid "Physical feature class does not exist."
-msgstr ""
+msgstr "La classe d'objets physiques n'existe pas."
 
-msgid "Failed getting physical feature class."
-msgstr ""
+msgid "Failed to get physical feature class."
+msgstr "Échec de l'obtention de la classe d'entités physiques."
 
-msgid "Failed getting list of physical feature classes."
-msgstr ""
+msgid "Failed to get list of physical feature classes."
+msgstr "Échec de l'obtention de la liste des classes d'entités physiques."
 
-msgid "Failed updating physical feature class."
-msgstr ""
+msgid "Failed to update physical feature class."
+msgstr "Échec de la mise à jour de la classe d'entités physiques."
 
-msgid "Failed deleting physical feature class."
-msgstr ""
+msgid "Failed to delete physical feature class."
+msgstr "Échec de la suppression de la classe d'entités physiques."
 
-msgid "Failed creating qc status definition."
-msgstr ""
+msgid "Failed to create qc status definition."
+msgstr "Échec de la création de la définition d'état qc."
 
 msgid "QC status definition does not exist."
-msgstr ""
+msgstr "La définition d'état QC n'existe pas."
 
-msgid "Failed getting qc status definition."
-msgstr ""
+msgid "Failed to get qc status definition."
+msgstr "Échec de l'obtention de la définition de l'état qc."
 
-msgid "Failed getting list of qc status definitions."
-msgstr ""
+msgid "Failed to get list of qc status definitions."
+msgstr "Échec de l'obtention de la liste des définitions d'état qc."
 
-msgid "Failed updating qc status definition."
-msgstr ""
+msgid "Failed to update qc status definition."
+msgstr "Échec de la mise à jour de la définition d'état qc."
 
-msgid "Failed deleting qc status definition."
-msgstr ""
+msgid "Failed to delete qc status definition."
+msgstr "Échec de la suppression de la définition d'état qc."
 
-msgid "Failed creating qc type."
-msgstr ""
+msgid "Failed to create qc type."
+msgstr "Échec de la création du type qc."
 
 msgid "QC type does not exist."
-msgstr ""
+msgstr "Le type QC n'existe pas."
 
-msgid "Failed getting qc type."
-msgstr ""
+msgid "Failed to get qc type."
+msgstr "Impossible d'obtenir le type qc."
 
-msgid "Failed getting list of qc types."
-msgstr ""
+msgid "Failed to get list of qc types."
+msgstr "Échec de l'obtention de la liste des types de qc."
 
-msgid "Failed updating qc type."
-msgstr ""
+msgid "Failed to update qc type."
+msgstr "Échec de la mise à jour du type qc."
 
-msgid "Failed deleting qc type."
-msgstr ""
+msgid "Failed to delete qc type."
+msgstr "Échec de la suppression du type qc."
 
-msgid "Failed creating reg key."
-msgstr ""
+msgid "Failed to create reg key."
+msgstr "Échec de la création de la clé d'inscription."
 
 msgid "Reg key does not exist."
-msgstr ""
+msgstr "La clé de registre n'existe pas."
 
-msgid "Failed getting reg key."
-msgstr ""
+msgid "Failed to get reg key."
+msgstr "Échec de l'obtention de la clé d'enregistrement."
 
-msgid "Failed getting list of reg keys."
-msgstr ""
+msgid "Failed to get list of reg keys."
+msgstr "Échec de l'obtention de la liste des clés de registre."
 
-msgid "Failed updating reg key"
-msgstr ""
+msgid "Failed to update reg key"
+msgstr "Échec de la mise à jour de la clé d'enregistrement"
 
-msgid "Failed deleting reg key."
-msgstr ""
+msgid "Failed to delete reg key."
+msgstr "Échec de la suppression de la clé d'enregistrement."
 
-msgid "Failed creating station."
-msgstr ""
+msgid "Failed to create station."
+msgstr "Échec de la création de la station."
 
 msgid "Station does not exist."
-msgstr ""
+msgstr "La gare n'existe pas."
 
-msgid "Failed getting station."
-msgstr ""
+msgid "Failed to get station."
+msgstr "Échec de l'obtention de la station."
 
-msgid "Failed getting list of stations."
-msgstr ""
+msgid "Failed to get list of stations."
+msgstr "Échec de l'obtention de la liste des stations."
 
-msgid "Failed updating station."
-msgstr ""
+msgid "Failed to update station."
+msgstr "Échec de la mise à jour de la station."
 
-msgid "Failed deleting station."
-msgstr ""
+msgid "Failed to delete station."
+msgstr "Échec de la suppression de la station."
 
-msgid "Failed creating station element."
-msgstr ""
+msgid "Failed to create station element."
+msgstr "Échec de la création de l'élément de station."
 
 msgid "Station element does not exist."
-msgstr ""
+msgstr "L'élément de station n'existe pas."
 
-msgid "Failed getting station element."
-msgstr ""
+msgid "Failed to get station element."
+msgstr "Échec de l'obtention de l'élément de station."
 
-msgid "Failed getting list of station elements."
-msgstr ""
+msgid "Failed to get list of station elements."
+msgstr "Échec de l'obtention de la liste des éléments de la station."
 
-msgid "Failed updating station element."
-msgstr ""
+msgid "Failed to update station element."
+msgstr "Échec de la mise à jour de l'élément de station."
 
-msgid "Failed deleting station element."
-msgstr ""
+msgid "Failed to delete station element."
+msgstr "Échec de la suppression de l'élément de station."
 
-msgid "Failed creating station location history."
-msgstr ""
+msgid "Failed to create station location history."
+msgstr "Échec de la création de l'historique de localisation des stations."
 
 msgid "Station location history does not exist."
-msgstr ""
+msgstr "L'historique de localisation des stations n'existe pas."
 
-msgid "Failed getting station location history."
-msgstr ""
+msgid "Failed to get station location history."
+msgstr "Échec de l'obtention de l'historique de localisation des stations."
 
-msgid "Failed getting list of station location histories."
-msgstr ""
+msgid "Failed to get list of station location histories."
+msgstr "Échec de l'obtention de la liste des historiques d'emplacement des stations."
 
-msgid "Failed updating station location history"
-msgstr ""
+msgid "Failed to update station location history"
+msgstr "Échec de la mise à jour de l'historique de localisation des stations"
 
-msgid "Failed deleting station location history."
-msgstr ""
+msgid "Failed to delete station location history."
+msgstr "Échec de la suppression de l'historique de localisation des stations."
 
-msgid "Failed creating station_qualifier."
-msgstr ""
+msgid "Failed to create station_qualifier."
+msgstr "Échec de la création du qualificateur de station."
 
 msgid "Station qualifier does not exist."
-msgstr ""
+msgstr "Le qualificateur de station n'existe pas."
 
-msgid "Failed getting station qualifier."
-msgstr ""
+msgid "Failed to get station qualifier."
+msgstr "Échec de l'obtention du qualificatif de station."
 
-msgid "Failed getting list of station qualifiers."
-msgstr ""
+msgid "Failed to get list of station qualifiers."
+msgstr "Échec de l'obtention de la liste des qualificatifs de station."
 
-msgid "Failed updating station qualifier"
-msgstr ""
+msgid "Failed to update station qualifier"
+msgstr "Échec de la mise à jour du qualificatif de station"
 
-msgid "Failed deleting station qualifier."
-msgstr ""
+msgid "Failed to delete station qualifier."
+msgstr "Échec de la suppression du qualificatif de station."
 
-msgid "Failed creating synop feature."
-msgstr ""
+msgid "Failed to create synop feature."
+msgstr "Échec de la création de la fonctionnalité de synop."
 
 msgid "Synop feature does not exist."
-msgstr ""
+msgstr "La fonctionnalité Synop n'existe pas."
 
-msgid "Failed getting synop feature."
-msgstr ""
+msgid "Failed to get synop feature."
+msgstr "Échec de l'obtention de la fonctionnalité de synop."
 
-msgid "Failed getting list of synop features."
-msgstr ""
+msgid "Failed to get list of synop features."
+msgstr "Échec de l'obtention de la liste des fonctionnalités synop."
 
-msgid "Failed updating synop feature."
-msgstr ""
+msgid "Failed to update synop feature."
+msgstr "Échec de la mise à jour de la fonctionnalité de synop."
 
-msgid "Failed deleting synop feature."
-msgstr ""
+msgid "Failed to delete synop feature."
+msgstr "Échec de la suppression de la fonctionnalité de synop."
 

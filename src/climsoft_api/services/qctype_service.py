@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingQCType(
-            _("Failed creating qc type.")
+            _("Failed to create qc type.")
         )
 
 
@@ -67,7 +67,7 @@ def get(db_session: Session, code: str) -> qctype_schema.QCType:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCType(
-            _("Failed getting qc type.")
+            _("Failed to get qc type.")
         )
 
 
@@ -103,7 +103,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCTypeList(
-            _("Failed getting list of qc types.")
+            _("Failed to get list of qc types.")
         )
 
 
@@ -121,7 +121,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingQCType(
-            _("Failed updating qc type.")
+            _("Failed to update qc type.")
         )
 
 
@@ -134,5 +134,5 @@ def delete(db_session: Session, code: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingQCType(
-            _("Failed deleting qc type.")
+            _("Failed to delete qc type.")
         )

@@ -108,7 +108,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchive(
-            _("Failed getting paper archive.")
+            _("Failed to get paper archive.")
         )
 
 
@@ -122,7 +122,7 @@ def create(db_session: Session, data: paperarchive_schema.CreatePaperArchive):
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPaperArchive(
-            _("Failed creating paper archive.")
+            _("Failed to create paper archive.")
         )
 
 
@@ -154,7 +154,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPaperArchive(
-            _("Failed updating paper archive.")
+            _("Failed to update paper archive.")
         )
 
 
@@ -174,5 +174,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPaperArchive(
-            _("Failed deleting paper archive.")
+            _("Failed to delete paper archive.")
         )

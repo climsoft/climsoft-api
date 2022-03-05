@@ -316,7 +316,7 @@ msgstr ""
 msgid "Successfully deleted station qualifier."
 msgstr ""
 
-msgid "Failed getting statistics for climsoft tables."
+msgid "Failed to get statistics for climsoft tables."
 msgstr ""
 
 msgid "Successfully fetched synop features."
@@ -343,232 +343,232 @@ msgstr ""
 msgid "Failed uploading image!"
 msgstr ""
 
-msgid "Failed creating acquisition type."
+msgid "Failed to create acquisition type."
 msgstr ""
 
 msgid "Acquisition type does not exist."
 msgstr ""
 
-msgid "Failed getting acquisition type."
+msgid "Failed to get acquisition type."
 msgstr ""
 
-msgid "Failed getting list of acquisition types."
+msgid "Failed to get list of acquisition types."
 msgstr ""
 
-msgid "Failed updating acquisition type."
+msgid "Failed to update acquisition type."
 msgstr ""
 
-msgid "Failed deleting acquisition type."
+msgid "Failed to delete acquisition type."
 msgstr ""
 
-msgid "Failed creating climsoft user."
+msgid "Failed to create climsoft user."
 msgstr ""
 
 msgid "Climsoft user does not exist."
 msgstr ""
 
-msgid "Failed getting climsoft user."
+msgid "Failed to get climsoft user."
 msgstr ""
 
-msgid "Failed updating climsoft user."
+msgid "Failed to update climsoft user."
 msgstr ""
 
-msgid "Failed deleting climsoft user."
+msgid "Failed to delete climsoft user."
 msgstr ""
 
-msgid "Failed creating data form."
+msgid "Failed to create data form."
 msgstr ""
 
 msgid "Data form does not exist."
 msgstr ""
 
-msgid "Failed getting data form."
+msgid "Failed to get data form."
 msgstr ""
 
-msgid "Failed getting list of data forms."
+msgid "Failed to get list of data forms."
 msgstr ""
 
-msgid "Failed updating data form."
+msgid "Failed to update data form."
 msgstr ""
 
-msgid "Failed deleting data form."
+msgid "Failed to delete data form."
 msgstr ""
 
-msgid "Failed creating fault resolution."
+msgid "Failed to create fault resolution."
 msgstr ""
 
 msgid "Fault resolution does not exist."
 msgstr ""
 
-msgid "Failed getting fault resolution."
+msgid "Failed to get fault resolution."
 msgstr ""
 
-msgid "Failed getting list of fault resolutions."
+msgid "Failed to get list of fault resolutions."
 msgstr ""
 
-msgid "Failed updating fault resolution."
+msgid "Failed to update fault resolution."
 msgstr ""
 
-msgid "Failed deleting fault resolution."
+msgid "Failed to delete fault resolution."
 msgstr ""
 
-msgid "Failed creating feature geographical position."
+msgid "Failed to create feature geographical position."
 msgstr ""
 
-msgid "Failed getting feature geographical position."
+msgid "Failed to get feature geographical position."
 msgstr ""
 
-msgid "Failed getting list of feature geographical positions."
+msgid "Failed to get list of feature geographical positions."
 msgstr ""
 
-msgid "Failed updating feature geographical position."
+msgid "Failed to update feature geographical position."
 msgstr ""
 
-msgid "Failed deleting feature geographical position."
+msgid "Failed to delete feature geographical position."
 msgstr ""
 
-msgid "Failed creating flag."
+msgid "Failed to create flag."
 msgstr ""
 
 msgid "Flag does not exist."
 msgstr ""
 
-msgid "Failed getting flag."
+msgid "Failed to get flag."
 msgstr ""
 
-msgid "Failed getting list of flags."
+msgid "Failed to get list of flags."
 msgstr ""
 
-msgid "Failed updating flag."
+msgid "Failed to update flag."
 msgstr ""
 
-msgid "Failed deleting flag."
+msgid "Failed to delete flag."
 msgstr ""
 
-msgid "Failed creating instrument."
+msgid "Failed to create instrument."
 msgstr ""
 
 msgid "Instrument does not exist."
 msgstr ""
 
-msgid "Failed getting instrument."
+msgid "Failed to get instrument."
 msgstr ""
 
-msgid "Failed getting list of instruments."
+msgid "Failed to get list of instruments."
 msgstr ""
 
-msgid "Failed updating instrument."
+msgid "Failed to update instrument."
 msgstr ""
 
-msgid "Failed deleting instrument."
+msgid "Failed to delete instrument."
 msgstr ""
 
-msgid "Failed creating instrument fault report."
+msgid "Failed to create instrument fault report."
 msgstr ""
 
 msgid "Instrument fault report does not exist."
 msgstr ""
 
-msgid "Failed getting instrument fault report."
+msgid "Failed to get instrument fault report."
 msgstr ""
 
-msgid "Failed getting list of instrument fault reports."
+msgid "Failed to get list of instrument fault reports."
 msgstr ""
 
-msgid "Failed updating instrument fault report."
+msgid "Failed to update instrument fault report."
 msgstr ""
 
-msgid "Failed deleting instrument fault report."
+msgid "Failed to delete instrument fault report."
 msgstr ""
 
-msgid "Failed creating instrument inspection."
+msgid "Failed to create instrument inspection."
 msgstr ""
 
 msgid "Instrument inspection does not exist."
 msgstr ""
 
-msgid "Failed getting instrument inspection."
+msgid "Failed to get instrument inspection."
 msgstr ""
 
-msgid "Failed getting list of instrument inspections."
+msgid "Failed to get list of instrument inspections."
 msgstr ""
 
-msgid "Failed updating instrument inspection."
+msgid "Failed to update instrument inspection."
 msgstr ""
 
-msgid "Failed deleting instrument inspection."
+msgid "Failed to delete instrument inspection."
 msgstr ""
 
-msgid "Failed creating obs element."
+msgid "Failed to create obs element."
 msgstr ""
 
 msgid "Obs element does not exist."
 msgstr ""
 
-msgid "Failed getting obs element."
+msgid "Failed to get obs element."
 msgstr ""
 
-msgid "Failed getting list of obs elements."
+msgid "Failed to get list of obs elements."
 msgstr ""
 
-msgid "Failed updating obs element."
+msgid "Failed to update obs element."
 msgstr ""
 
-msgid "Failed deleting obs element."
+msgid "Failed to delete obs element."
 msgstr ""
 
-msgid "Failed creating observation final."
+msgid "Failed to create observation final."
 msgstr ""
 
 msgid "Observation final does not exist."
 msgstr ""
 
-msgid "Failed getting observation final."
+msgid "Failed to get observation final."
 msgstr ""
 
-msgid "Failed getting list of observation finals."
+msgid "Failed to get list of observation finals."
 msgstr ""
 
-msgid "Failed updating observation final."
+msgid "Failed to update observation final."
 msgstr ""
 
-msgid "Failed deleting observation final."
+msgid "Failed to delete observation final."
 msgstr ""
 
-msgid "Failed creating observation initial."
+msgid "Failed to create observation initial."
 msgstr ""
 
 msgid "Observation initial does not exist."
 msgstr ""
 
-msgid "Failed getting observation initial."
+msgid "Failed to get observation initial."
 msgstr ""
 
-msgid "Failed getting list of observation initials."
+msgid "Failed to get list of observation initials."
 msgstr ""
 
-msgid "Failed updating observation initial."
+msgid "Failed to update observation initial."
 msgstr ""
 
-msgid "Failed deleting observation initial."
+msgid "Failed to delete observation initial."
 msgstr ""
 
-msgid "Failed creating obs schedule class."
+msgid "Failed to create obs schedule class."
 msgstr ""
 
 msgid "Obs schedule class does not exist."
 msgstr ""
 
-msgid "Failed getting obs schedule class."
+msgid "Failed to get obs schedule class."
 msgstr ""
 
-msgid "Failed getting list of obs schedule classes."
+msgid "Failed to get list of obs schedule classes."
 msgstr ""
 
-msgid "Failed updating obs schedule class."
+msgid "Failed to update obs schedule class."
 msgstr ""
 
-msgid "Failed deleting obs schedule class."
+msgid "Failed to delete obs schedule class."
 msgstr ""
 
 msgid "Failed fetching list of paper archives."
@@ -577,213 +577,213 @@ msgstr ""
 msgid "Paper archive not found."
 msgstr ""
 
-msgid "Failed getting paper archive."
+msgid "Failed to get paper archive."
 msgstr ""
 
-msgid "Failed creating paper archive."
+msgid "Failed to create paper archive."
 msgstr ""
 
-msgid "Failed updating paper archive."
+msgid "Failed to update paper archive."
 msgstr ""
 
-msgid "Failed deleting paper archive."
+msgid "Failed to delete paper archive."
 msgstr ""
 
-msgid "Failed creating pape archive definition."
+msgid "Failed to create pape archive definition."
 msgstr ""
 
 msgid "Paper archive definition does not exist."
 msgstr ""
 
-msgid "Failed getting paper archive definition."
+msgid "Failed to get paper archive definition."
 msgstr ""
 
-msgid "Failed getting list of paper archive definitions."
+msgid "Failed to get list of paper archive definitions."
 msgstr ""
 
-msgid "Failed updating paper archive definition."
+msgid "Failed to update paper archive definition."
 msgstr ""
 
-msgid "Failed deleting paper archive definition."
+msgid "Failed to delete paper archive definition."
 msgstr ""
 
-msgid "Failed creating physical feature."
+msgid "Failed to create physical feature."
 msgstr ""
 
 msgid "Physical feature does not exist."
 msgstr ""
 
-msgid "Failed getting physical feature."
+msgid "Failed to get physical feature."
 msgstr ""
 
-msgid "Failed getting list of physical features."
+msgid "Failed to get list of physical features."
 msgstr ""
 
-msgid "Failed updating physical feature"
+msgid "Failed to update physical feature"
 msgstr ""
 
-msgid "Failed deleting physical feature."
+msgid "Failed to delete physical feature."
 msgstr ""
 
-msgid "Failed creating physical feature class."
+msgid "Failed to create physical feature class."
 msgstr ""
 
 msgid "Physical feature class does not exist."
 msgstr ""
 
-msgid "Failed getting physical feature class."
+msgid "Failed to get physical feature class."
 msgstr ""
 
-msgid "Failed getting list of physical feature classes."
+msgid "Failed to get list of physical feature classes."
 msgstr ""
 
-msgid "Failed updating physical feature class."
+msgid "Failed to update physical feature class."
 msgstr ""
 
-msgid "Failed deleting physical feature class."
+msgid "Failed to delete physical feature class."
 msgstr ""
 
-msgid "Failed creating qc status definition."
+msgid "Failed to create qc status definition."
 msgstr ""
 
 msgid "QC status definition does not exist."
 msgstr ""
 
-msgid "Failed getting qc status definition."
+msgid "Failed to get qc status definition."
 msgstr ""
 
-msgid "Failed getting list of qc status definitions."
+msgid "Failed to get list of qc status definitions."
 msgstr ""
 
-msgid "Failed updating qc status definition."
+msgid "Failed to update qc status definition."
 msgstr ""
 
-msgid "Failed deleting qc status definition."
+msgid "Failed to delete qc status definition."
 msgstr ""
 
-msgid "Failed creating qc type."
+msgid "Failed to create qc type."
 msgstr ""
 
 msgid "QC type does not exist."
 msgstr ""
 
-msgid "Failed getting qc type."
+msgid "Failed to get qc type."
 msgstr ""
 
-msgid "Failed getting list of qc types."
+msgid "Failed to get list of qc types."
 msgstr ""
 
-msgid "Failed updating qc type."
+msgid "Failed to update qc type."
 msgstr ""
 
-msgid "Failed deleting qc type."
+msgid "Failed to delete qc type."
 msgstr ""
 
-msgid "Failed creating reg key."
+msgid "Failed to create reg key."
 msgstr ""
 
 msgid "Reg key does not exist."
 msgstr ""
 
-msgid "Failed getting reg key."
+msgid "Failed to get reg key."
 msgstr ""
 
-msgid "Failed getting list of reg keys."
+msgid "Failed to get list of reg keys."
 msgstr ""
 
-msgid "Failed updating reg key"
+msgid "Failed to update reg key"
 msgstr ""
 
-msgid "Failed deleting reg key."
+msgid "Failed to delete reg key."
 msgstr ""
 
-msgid "Failed creating station."
+msgid "Failed to create station."
 msgstr ""
 
 msgid "Station does not exist."
 msgstr ""
 
-msgid "Failed getting station."
+msgid "Failed to get station."
 msgstr ""
 
-msgid "Failed getting list of stations."
+msgid "Failed to get list of stations."
 msgstr ""
 
-msgid "Failed updating station."
+msgid "Failed to update station."
 msgstr ""
 
-msgid "Failed deleting station."
+msgid "Failed to delete station."
 msgstr ""
 
-msgid "Failed creating station element."
+msgid "Failed to create station element."
 msgstr ""
 
 msgid "Station element does not exist."
 msgstr ""
 
-msgid "Failed getting station element."
+msgid "Failed to get station element."
 msgstr ""
 
-msgid "Failed getting list of station elements."
+msgid "Failed to get list of station elements."
 msgstr ""
 
-msgid "Failed updating station element."
+msgid "Failed to update station element."
 msgstr ""
 
-msgid "Failed deleting station element."
+msgid "Failed to delete station element."
 msgstr ""
 
-msgid "Failed creating station location history."
+msgid "Failed to create station location history."
 msgstr ""
 
 msgid "Station location history does not exist."
 msgstr ""
 
-msgid "Failed getting station location history."
+msgid "Failed to get station location history."
 msgstr ""
 
-msgid "Failed getting list of station location histories."
+msgid "Failed to get list of station location histories."
 msgstr ""
 
-msgid "Failed updating station location history"
+msgid "Failed to update station location history"
 msgstr ""
 
-msgid "Failed deleting station location history."
+msgid "Failed to delete station location history."
 msgstr ""
 
-msgid "Failed creating station_qualifier."
+msgid "Failed to create station_qualifier."
 msgstr ""
 
 msgid "Station qualifier does not exist."
 msgstr ""
 
-msgid "Failed getting station qualifier."
+msgid "Failed to get station qualifier."
 msgstr ""
 
-msgid "Failed getting list of station qualifiers."
+msgid "Failed to get list of station qualifiers."
 msgstr ""
 
-msgid "Failed updating station qualifier"
+msgid "Failed to update station qualifier"
 msgstr ""
 
-msgid "Failed deleting station qualifier."
+msgid "Failed to delete station qualifier."
 msgstr ""
 
-msgid "Failed creating synop feature."
+msgid "Failed to create synop feature."
 msgstr ""
 
 msgid "Synop feature does not exist."
 msgstr ""
 
-msgid "Failed getting synop feature."
+msgid "Failed to get synop feature."
 msgstr ""
 
-msgid "Failed getting list of synop features."
+msgid "Failed to get list of synop features."
 msgstr ""
 
-msgid "Failed updating synop feature."
+msgid "Failed to update synop feature."
 msgstr ""
 
-msgid "Failed deleting synop feature."
+msgid "Failed to delete synop feature."
 msgstr ""
 

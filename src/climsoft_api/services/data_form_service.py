@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingDataForm(
-            _("Failed creating data form.")
+            _("Failed to create data form.")
         )
 
 
@@ -71,7 +71,7 @@ def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingDataForm(
-            _("Failed getting data form.")
+            _("Failed to get data form.")
         )
 
 
@@ -139,7 +139,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingDataFormList(
-            _("Failed getting list of data forms.")
+            _("Failed to get list of data forms.")
         )
 
 
@@ -163,7 +163,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingDataForm(
-            _("Failed updating data form.")
+            _("Failed to update data form.")
         )
 
 
@@ -178,5 +178,5 @@ def delete(db_session: Session, form_name: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingDataForm(
-            _("Failed deleting data form.")
+            _("Failed to delete data form.")
         )

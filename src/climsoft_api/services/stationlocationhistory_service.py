@@ -53,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStationLocationHistory(
-            _("Failed creating station location history.")
+            _("Failed to create station location history.")
         )
 
 
@@ -84,7 +84,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistory(
-            _("Failed getting station location history.")
+            _("Failed to get station location history.")
         )
 
 
@@ -159,7 +159,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationLocationHistoryList(
-            _("Failed getting list of station location histories.")
+            _("Failed to get list of station location histories.")
         )
 
 
@@ -190,7 +190,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingStationLocationHistory(
-            _("Failed updating station location history")
+            _("Failed to update station location history")
         )
 
 
@@ -206,5 +206,5 @@ def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationLocationHistory(
-            _("Failed deleting station location history.")
+            _("Failed to delete station location history.")
         )

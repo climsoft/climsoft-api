@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingAcquisitionType(
-            _("Failed creating acquisition type.")
+            _("Failed to create acquisition type.")
         )
 
 
@@ -71,7 +71,7 @@ def get(db_session: Session,
     except Exception as e:
         logger.exception(e)
         raise FailedGettingAcquisitionType(
-            _("Failed getting acquisition type.")
+            _("Failed to get acquisition type.")
         )
 
 
@@ -114,7 +114,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingAcquisitionTypeList(
-            _("Failed getting list of acquisition types.")
+            _("Failed to get list of acquisition types.")
         )
 
 
@@ -140,7 +140,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingAcquisitionType(
-            _("Failed updating acquisition type.")
+            _("Failed to update acquisition type.")
         )
 
 
@@ -153,5 +153,5 @@ def delete(db_session: Session, code: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingAcquisitionType(
-            _("Failed deleting acquisition type.")
+            _("Failed to delete acquisition type.")
         )

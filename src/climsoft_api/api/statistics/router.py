@@ -62,5 +62,5 @@ async def get_statistics_for_all_climsoft_tables():
     except Exception as e:
         logger.exception(e)
         return get_error_response(
-            message=_("Failed getting statistics for climsoft tables.")
+            message=_("Failed to get statistics for climsoft tables.")
         )

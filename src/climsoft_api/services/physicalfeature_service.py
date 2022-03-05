@@ -48,7 +48,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPhysicalFeature(
-            _("Failed creating physical feature.")
+            _("Failed to create physical feature.")
         )
 
 
@@ -87,7 +87,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeature(
-            _("Failed getting physical feature.")
+            _("Failed to get physical feature.")
         )
 
 
@@ -138,7 +138,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPhysicalFeatureList(
-            _("Failed getting list of physical features.")
+            _("Failed to get list of physical features.")
         )
 
 
@@ -175,7 +175,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPhysicalFeature(
-            _("Failed updating physical feature")
+            _("Failed to update physical feature")
         )
 
 
@@ -199,5 +199,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPhysicalFeature(
-            _("Failed deleting physical feature.")
+            _("Failed to delete physical feature.")
         )

@@ -51,7 +51,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStationElement(
-            _("Failed creating station element.")
+            _("Failed to create station element.")
         )
 
 
@@ -92,7 +92,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationElement(
-            _("Failed getting station element.")
+            _("Failed to get station element.")
         )
 
 
@@ -163,7 +163,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationElementList(
-            _("Failed getting list of station elements.")
+            _("Failed to get list of station elements.")
         )
 
 
@@ -199,7 +199,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingStationElement(
-            _("Failed updating station element.")
+            _("Failed to update station element.")
         )
 
 
@@ -224,7 +224,7 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationElement(
-            _("Failed deleting station element.")
+            _("Failed to delete station element.")
         )
 
 

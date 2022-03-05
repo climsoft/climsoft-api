@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingClimsoftUser(
-            _("Failed creating climsoft user.")
+            _("Failed to create climsoft user.")
         )
 
 
@@ -69,7 +69,7 @@ def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingClimsoftUser(
-            _("Failed getting climsoft user.")
+            _("Failed to get climsoft user.")
         )
 
 
@@ -110,7 +110,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingClimsoftUserList(
-            "Failed getting list of climsoft users."
+            "Failed to get list of climsoft users."
         )
 
 
@@ -138,7 +138,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingClimsoftUser(
-            _("Failed updating climsoft user.")
+            _("Failed to update climsoft user.")
         )
 
 
@@ -153,5 +153,5 @@ def delete(db_session: Session, username: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingClimsoftUser(
-            _("Failed deleting climsoft user.")
+            _("Failed to delete climsoft user.")
         )

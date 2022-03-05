@@ -46,7 +46,7 @@ def create(db_session: Session,
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingFlag(
-            _("Failed creating flag.")
+            _("Failed to create flag.")
         )
 
 
@@ -70,7 +70,7 @@ def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFlag(
-            _("Failed getting flag.")
+            _("Failed to get flag.")
         )
 
 
@@ -111,7 +111,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingFlagList(
-            _("Failed getting list of flags.")
+            _("Failed to get list of flags.")
         )
 
 
@@ -135,7 +135,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingFlag(
-            _("Failed updating flag.")
+            _("Failed to update flag.")
         )
 
 
@@ -150,5 +150,5 @@ def delete(db_session: Session, character_symbol: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingFlag(
-            _("Failed deleting flag.")
+            _("Failed to delete flag.")
         )

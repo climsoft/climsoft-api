@@ -49,7 +49,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingObservationFinal(
-            _("Failed creating observation final.")
+            _("Failed to create observation final.")
         )
 
 
@@ -83,7 +83,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationFinal(
-            _("Failed getting observation final.")
+            _("Failed to get observation final.")
         )
 
 
@@ -222,7 +222,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationFinalList(
-            _("Failed getting list of observation finals.")
+            _("Failed to get list of observation finals.")
         )
 
 
@@ -256,7 +256,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingObservationFinal(
-            _("Failed updating observation final.")
+            _("Failed to update observation final.")
         )
 
 
@@ -276,5 +276,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingObservationFinal(
-            _("Failed deleting observation final.")
+            _("Failed to delete observation final.")
         )

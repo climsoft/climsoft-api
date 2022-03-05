@@ -52,7 +52,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingPaperArchiveDefinition(
-            _("Failed creating pape archive definition.")
+            _("Failed to create pape archive definition.")
         )
 
 
@@ -80,7 +80,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinition(
-            _("Failed getting paper archive definition.")
+            _("Failed to get paper archive definition.")
         )
 
 
@@ -120,7 +120,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingPaperArchiveDefinitionList(
-            _("Failed getting list of paper archive definitions.")
+            _("Failed to get list of paper archive definitions.")
         )
 
 
@@ -146,7 +146,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingPaperArchiveDefinition(
-            _("Failed updating paper archive definition.")
+            _("Failed to update paper archive definition.")
         )
 
 
@@ -161,5 +161,5 @@ def delete(db_session: Session, form_id: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingPaperArchiveDefinition(
-            _("Failed deleting paper archive definition.")
+            _("Failed to delete paper archive definition.")
         )

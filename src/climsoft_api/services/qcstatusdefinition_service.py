@@ -51,7 +51,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingQCStatusDefinition(
-            _("Failed creating qc status definition.")
+            _("Failed to create qc status definition.")
         )
 
 
@@ -80,7 +80,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCStatusDefinition(
-            _("Failed getting qc status definition.")
+            _("Failed to get qc status definition.")
         )
 
 
@@ -118,7 +118,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingQCStatusDefinitionList(
-            _("Failed getting list of qc status definitions.")
+            _("Failed to get list of qc status definitions.")
         )
 
 
@@ -144,7 +144,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingQCStatusDefinition(
-            _("Failed updating qc status definition.")
+            _("Failed to update qc status definition.")
         )
 
 
@@ -159,5 +159,5 @@ def delete(db_session: Session, code: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingQCStatusDefinition(
-            _("Failed deleting qc status definition.")
+            _("Failed to delete qc status definition.")
         )

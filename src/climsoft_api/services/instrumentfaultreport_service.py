@@ -53,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingInstrumentFaultReport(
-            _("Failed creating instrument fault report.")
+            _("Failed to create instrument fault report.")
         )
 
 
@@ -83,7 +83,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReport(
-            _("Failed getting instrument fault report.")
+            _("Failed to get instrument fault report.")
         )
 
 
@@ -142,7 +142,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentFaultReportList(
-            _("Failed getting list of instrument fault reports.")
+            _("Failed to get list of instrument fault reports.")
         )
 
 
@@ -168,7 +168,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingInstrumentFaultReport(
-            _("Failed updating instrument fault report.")
+            _("Failed to update instrument fault report.")
         )
 
 
@@ -183,5 +183,5 @@ def delete(db_session: Session, report_id: int) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingInstrumentFaultReport(
-            _("Failed deleting instrument fault report.")
+            _("Failed to delete instrument fault report.")
         )

@@ -49,7 +49,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingObsScheduleClass(
-            _("Failed creating obs schedule class.")
+            _("Failed to create obs schedule class.")
         )
 
 
@@ -78,7 +78,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsScheduleClass(
-            _("Failed getting obs schedule class.")
+            _("Failed to get obs schedule class.")
         )
 
 
@@ -126,7 +126,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsScheduleClassList(
-            _("Failed getting list of obs schedule classes.")
+            _("Failed to get list of obs schedule classes.")
         )
 
 
@@ -152,7 +152,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingObsScheduleClass(
-            _("Failed updating obs schedule class.")
+            _("Failed to update obs schedule class.")
         )
 
 
@@ -167,5 +167,5 @@ def delete(db_session: Session, schedule_class: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingObsScheduleClass(
-            _("Failed deleting obs schedule class.")
+            _("Failed to delete obs schedule class.")
         )

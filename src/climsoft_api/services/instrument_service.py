@@ -48,7 +48,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingInstrument(
-            _("Failed creating instrument.")
+            _("Failed to create instrument.")
         )
 
 
@@ -74,7 +74,7 @@ def get(db_session: Session,
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrument(
-            _("Failed getting instrument.")
+            _("Failed to get instrument.")
         )
 
 
@@ -173,7 +173,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingInstrumentList(
-            _("Failed getting list of instruments.")
+            _("Failed to get list of instruments.")
         )
 
 
@@ -197,7 +197,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingInstrument(
-            _("Failed updating instrument.")
+            _("Failed to update instrument.")
         )
 
 
@@ -212,5 +212,5 @@ def delete(db_session: Session, instrument_id: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingInstrument(
-            _("Failed deleting instrument.")
+            _("Failed to delete instrument.")
         )

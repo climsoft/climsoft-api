@@ -53,7 +53,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingObservationInitial(
-            _("Failed creating observation initial.")
+            _("Failed to create observation initial.")
         )
 
 
@@ -92,7 +92,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationInitial(
-            _("Failed getting observation initial.")
+            _("Failed to get observation initial.")
         )
 
 
@@ -231,7 +231,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObservationInitialList(
-            _("Failed getting list of observation initials.")
+            _("Failed to get list of observation initials.")
         )
 
 
@@ -273,7 +273,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingObservationInitial(
-            _("Failed updating observation initial.")
+            _("Failed to update observation initial.")
         )
 
 
@@ -301,5 +301,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingObservationInitial(
-            _("Failed deleting observation initial.")
+            _("Failed to delete observation initial.")
         )

@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStation(
-            _("Failed creating station.")
+            _("Failed to create station.")
         )
 
 
@@ -70,7 +70,7 @@ def get(db_session: Session, station_id: str) -> station_schema.Station:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStation(
-            _("Failed getting station.")
+            _("Failed to get station.")
         )
 
 
@@ -201,7 +201,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationList(
-            _("Failed getting list of stations.")
+            _("Failed to get list of stations.")
         )
 
 
@@ -224,7 +224,7 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingStation(_("Failed updating station."))
+        raise FailedUpdatingStation(_("Failed to update station."))
 
 
 def delete(db_session: Session, station_id: str) -> bool:
@@ -238,5 +238,5 @@ def delete(db_session: Session, station_id: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStation(
-            _("Failed deleting station.")
+            _("Failed to delete station.")
         )

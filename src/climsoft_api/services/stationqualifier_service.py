@@ -49,7 +49,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingStationQualifier(
-            _("Failed creating station_qualifier.")
+            _("Failed to create station_qualifier.")
         )
 
 
@@ -87,7 +87,7 @@ def get(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationQualifier(
-            _("Failed getting station qualifier.")
+            _("Failed to get station qualifier.")
         )
 
 
@@ -138,7 +138,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingStationQualifierList(
-            _("Failed getting list of station qualifiers.")
+            _("Failed to get list of station qualifiers.")
         )
 
 
@@ -175,7 +175,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingStationQualifier(
-            _("Failed updating station qualifier")
+            _("Failed to update station qualifier")
         )
 
 
@@ -199,5 +199,5 @@ def delete(
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingStationQualifier(
-            _("Failed deleting station qualifier.")
+            _("Failed to delete station qualifier.")
         )

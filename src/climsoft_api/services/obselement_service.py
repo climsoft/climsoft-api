@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingObsElement(
-            _("Failed creating obs element.")
+            _("Failed to create obs element.")
         )
 
 
@@ -71,7 +71,7 @@ def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsElement(
-            _("Failed getting obs element.")
+            _("Failed to get obs element.")
         )
 
 
@@ -162,7 +162,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingObsElementList(
-            _("Failed getting list of obs elements.")
+            _("Failed to get list of obs elements.")
         )
 
 
@@ -185,7 +185,7 @@ def update(
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedUpdatingObsElement(_("Failed updating obs element."))
+        raise FailedUpdatingObsElement(_("Failed to update obs element."))
 
 
 def delete(db_session: Session, element_id: str) -> bool:
@@ -198,4 +198,4 @@ def delete(db_session: Session, element_id: str) -> bool:
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
-        raise FailedDeletingObsElement(_("Failed deleting obs element."))
+        raise FailedDeletingObsElement(_("Failed to delete obs element."))

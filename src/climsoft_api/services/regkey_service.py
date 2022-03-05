@@ -47,7 +47,7 @@ def create(
         db_session.rollback()
         logger.exception(e)
         raise FailedCreatingRegKey(
-            _("Failed creating reg key.")
+            _("Failed to create reg key.")
         )
 
 
@@ -69,7 +69,7 @@ def get(db_session: Session, key_name: str) -> regkey_schema.RegKey:
     except Exception as e:
         logger.exception(e)
         raise FailedGettingRegKey(
-            _("Failed getting reg key.")
+            _("Failed to get reg key.")
         )
 
 
@@ -111,7 +111,7 @@ def query(
     except Exception as e:
         logger.exception(e)
         raise FailedGettingRegKeyList(
-            _("Failed getting list of reg keys.")
+            _("Failed to get list of reg keys.")
         )
 
 
@@ -131,7 +131,7 @@ def update(
         db_session.rollback()
         logger.exception(e)
         raise FailedUpdatingRegKey(
-            _("Failed updating reg key")
+            _("Failed to update reg key")
         )
 
 
@@ -144,5 +144,5 @@ def delete(db_session: Session, key_name: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingRegKey(
-            _("Failed deleting reg key.")
+            _("Failed to delete reg key.")
         )

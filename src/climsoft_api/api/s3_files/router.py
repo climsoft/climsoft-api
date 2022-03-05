@@ -4,7 +4,7 @@ from climsoft_api.config import settings
 from fastapi.responses import Response
 
 
-from gettext import gettext as _
+
 
 router = APIRouter()
 

@@ -10,7 +10,7 @@ from climsoft_api.api.upload.schema import (
 )
 
 
-from gettext import gettext as _
+
 
 router = APIRouter()
 

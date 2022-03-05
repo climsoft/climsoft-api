@@ -6,6 +6,7 @@ from opencdms.models.climsoft import v4_1_1_core as models
 from climsoft_api.api.stationelement import schema as stationelement_schema
 from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
+from ..api.stationelement.station_element_with_children import StationElementWithObsElement
 
 
 from gettext import gettext as _
@@ -227,7 +228,7 @@ def delete(
         )
 
 
-def get_station_elements_with_station(
+def get_station_elements_with_obs_element(
     db_session: Session,
     recorded_from: str,
     limit: int = 25,
@@ -236,7 +237,7 @@ def get_station_elements_with_station(
     q = db_session.query(models.Stationelement).filter_by(
         recordedFrom=recorded_from
     ).options(
-        joinedload("station")
+        joinedload("obselement")
     )
 
     total = get_count(q)
@@ -244,7 +245,7 @@ def get_station_elements_with_station(
     station_elements = q.limit(limit).offset(offset).all()
 
     return total, [
-        stationelement_schema.StationElementWithStation.from_orm(se)
+        StationElementWithObsElement.from_orm(se)
         for se in station_elements
     ]
 

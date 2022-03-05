@@ -1,14 +1,15 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.stationelement import schema as stationelement_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-from ..api.stationelement.station_element_with_children import StationElementWithObsElement
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
-
+from ..api.stationelement.station_element_with_children import \
+    StationElementWithObsElement
 
 logger = logging.getLogger("ClimsoftStationElementService")
 logging.basicConfig(level=logging.INFO)
@@ -64,17 +65,17 @@ def get(
     try:
         station_element = (
             db_session.query(models.Stationelement)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(recordedWith=recorded_with)
-            .filter_by(beginDate=begin_date)
-            .options(
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(recordedWith=recorded_with)
+                .filter_by(beginDate=begin_date)
+                .options(
                 joinedload("obselement"),
                 joinedload("station"),
                 joinedload("instrument"),
                 joinedload("obsscheduleclas"),
             )
-            .first()
+                .first()
         )
 
         if not station_element:
@@ -187,11 +188,11 @@ def update(
         db_session.commit()
         updated_instrument = (
             db_session.query(models.Stationelement)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(recordedWith=recorded_with)
-            .filter_by(beginDate=begin_date)
-            .first()
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(recordedWith=recorded_with)
+                .filter_by(beginDate=begin_date)
+                .first()
         )
         return stationelement_schema.StationElement.from_orm(updated_instrument)
     except Exception as e:
@@ -247,5 +248,3 @@ def get_station_elements_with_obs_element(
         StationElementWithObsElement.from_orm(se)
         for se in station_elements
     ]
-
-

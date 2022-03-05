@@ -1,14 +1,13 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.paperarchivedefinition import (
     schema as paperarchivedefinition_schema,
 )
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftPaperArchiveDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -63,8 +62,8 @@ def get(
     try:
         paper_archive_definition = (
             db_session.query(models.Paperarchivedefinition)
-            .filter_by(formId=form_id)
-            .first()
+                .filter_by(formId=form_id)
+                .first()
         )
 
         if not paper_archive_definition:
@@ -137,8 +136,8 @@ def update(
         db_session.commit()
         updated_paper_archive_definition = (
             db_session.query(models.Paperarchivedefinition)
-            .filter_by(formId=form_id)
-            .first()
+                .filter_by(formId=form_id)
+                .first()
         )
         return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
             updated_paper_archive_definition

@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import stationlocationhistory_service
-import climsoft_api.api.stationlocationhistory.schema as stationlocationhistory_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
+import \
+    climsoft_api.api.stationlocationhistory.schema as stationlocationhistory_schema
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import stationlocationhistory_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -97,7 +96,8 @@ def create_station_location_history(
     try:
         return get_success_response(
             result=[
-                stationlocationhistory_service.create(db_session=db_session, data=data)
+                stationlocationhistory_service.create(db_session=db_session,
+                                                      data=data)
             ],
             message=_("Successfully created station location history."),
         )

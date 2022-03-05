@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import paperarchivedefinition_service
-import climsoft_api.api.paperarchivedefinition.schema as paperarchivedefinition_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
+import \
+    climsoft_api.api.paperarchivedefinition.schema as paperarchivedefinition_schema
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import paperarchivedefinition_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -114,9 +113,10 @@ def delete_paper_archive_definition(
     form_id: str, db_session: Session = Depends(deps.get_session)
 ):
     try:
-        paperarchivedefinition_service.delete(db_session=db_session, form_id=form_id)
+        paperarchivedefinition_service.delete(db_session=db_session,
+                                              form_id=form_id)
         return get_success_response(
-            result=[], 
+            result=[],
             message=_("Successfully deleted paper archive definition.")
         )
     except paperarchivedefinition_service.FailedDeletingPaperArchiveDefinition as e:

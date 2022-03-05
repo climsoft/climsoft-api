@@ -1,16 +1,14 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.utils.query import get_count
 
 from climsoft_api.api.featuregeographicalposition import (
     schema as featuregeographicalposition_schema,
 )
+from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
-
-
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftFeatureGeographicalPositionService")
 logging.basicConfig(level=logging.INFO)
@@ -52,8 +50,8 @@ def create(
         db_session.commit()
         return featuregeographicalposition_schema.FeatureGeographicalPosition \
             .from_orm(
-                feature_geographical_position
-            )
+            feature_geographical_position
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
@@ -81,8 +79,8 @@ def get(
 
         return featuregeographicalposition_schema \
             .FeatureGeographicalPositionWithSynopFeature.from_orm(
-                feature_geographical_position
-            )
+            feature_geographical_position
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -128,7 +126,7 @@ def query(
             get_count(q),
             [
                 featuregeographicalposition_schema.FeatureGeographicalPosition
-                .from_orm(s)
+                    .from_orm(s)
                 for s in q.offset(offset).limit(limit).all()
             ]
         )
@@ -155,10 +153,10 @@ def update(
                 .filter_by(belongsTo=belongs_to)
                 .first()
         )
-        return featuregeographicalposition_schema.FeatureGeographicalPosition\
+        return featuregeographicalposition_schema.FeatureGeographicalPosition \
             .from_orm(
-                updated_feature_geographical_position
-            )
+            updated_feature_geographical_position
+        )
     except Exception as e:
         db_session.rollback()
         logger.exception(e)

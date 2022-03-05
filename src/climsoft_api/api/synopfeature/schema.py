@@ -1,6 +1,7 @@
-from pydantic import constr
 from typing import List
+
 from climsoft_api.api.schema import Response, BaseSchema
+from pydantic import constr
 
 
 class CreateSynopFeature(BaseSchema):
@@ -26,5 +27,3 @@ class SynopFeatureQueryResponse(SynopFeatureResponse):
     limit: int
     page: int
     pages: int
-
-

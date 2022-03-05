@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.faultresolution import schema as faultresolution_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftFaultResolutionService")
 logging.basicConfig(level=logging.INFO)
@@ -59,12 +58,12 @@ def get(
     try:
         fault_resolution = (
             db_session.query(models.Faultresolution)
-            .filter_by(
+                .filter_by(
                 resolvedDatetime=resolved_datetime,
                 associatedWith=associated_with
             )
-            .options(joinedload("instrumentfaultreport"))
-            .first()
+                .options(joinedload("instrumentfaultreport"))
+                .first()
         )
 
         if not fault_resolution:
@@ -72,10 +71,10 @@ def get(
                 status_code=404, detail=_("Fault resolution does not exist.")
             )
 
-        return faultresolution_schema.FaultResolutionWithInstrumentFaultReport\
+        return faultresolution_schema.FaultResolutionWithInstrumentFaultReport \
             .from_orm(
-                fault_resolution
-            )
+            fault_resolution
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -142,11 +141,11 @@ def update(
         db_session.commit()
         updated_fault_resolution = (
             db_session.query(models.Faultresolution)
-            .filter_by(
+                .filter_by(
                 resolvedDatetime=resolved_datetime,
                 associatedWith=associated_with
             )
-            .first()
+                .first()
         )
         return faultresolution_schema.FaultResolution.from_orm(
             updated_fault_resolution
@@ -159,7 +158,8 @@ def update(
         )
 
 
-def delete(db_session: Session, resolved_datetime: str, associated_with: str) -> bool:
+def delete(db_session: Session, resolved_datetime: str,
+           associated_with: str) -> bool:
     try:
         db_session.query(models.Faultresolution).filter_by(
             resolvedDatetime=resolved_datetime,

@@ -1,15 +1,14 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.instrumentfaultreport import (
     schema as instrumentfaultreport_schema,
 )
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
@@ -64,21 +63,21 @@ def get(
     try:
         instrument_fault_report = (
             db_session.query(models.Instrumentfaultreport)
-            .filter_by(reportId=report_id)
-            .options(joinedload("station"))
-            .first()
+                .filter_by(reportId=report_id)
+                .options(joinedload("station"))
+                .first()
         )
 
         if not instrument_fault_report:
             raise HTTPException(
-                status_code=404, 
+                status_code=404,
                 detail=_("Instrument fault report does not exist.")
             )
 
-        return instrumentfaultreport_schema\
+        return instrumentfaultreport_schema \
             .InstrumentFaultReportWithStationAndInstrument.from_orm(
-                instrument_fault_report
-            )
+            instrument_fault_report
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -159,8 +158,8 @@ def update(
         db_session.commit()
         updated_instrument_fault_report = (
             db_session.query(models.Instrumentfaultreport)
-            .filter_by(reportId=report_id)
-            .first()
+                .filter_by(reportId=report_id)
+                .first()
         )
         return instrumentfaultreport_schema.InstrumentFaultReport.from_orm(
             updated_instrument_fault_report

@@ -1,13 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import climsoftuser_service
 import climsoft_api.api.climsoftuser.schema as climsoft_user_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
-
+from climsoft_api.services import climsoftuser_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -43,7 +40,8 @@ def get_climsoft_users(
         return get_error_response(message=str(e))
 
 
-@router.get("/{username}", response_model=climsoft_user_schema.ClimsoftUserResponse)
+@router.get("/{username}",
+            response_model=climsoft_user_schema.ClimsoftUserResponse)
 def get_climsoft_user_by_username(
     username: str,
     db_session: Session = Depends(deps.get_session)

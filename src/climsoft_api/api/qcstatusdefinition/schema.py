@@ -1,6 +1,7 @@
-from pydantic import constr
 from typing import List
+
 from climsoft_api.api.schema import BaseSchema, Response
+from pydantic import constr
 
 
 class CreateQCStatusDefinition(BaseSchema):
@@ -26,4 +27,3 @@ class QCStatusDefinitionQueryResponse(QCStatusDefinitionResponse):
     limit: int
     page: int
     pages: int
-

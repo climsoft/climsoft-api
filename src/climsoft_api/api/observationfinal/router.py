@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import observationfinal_service
 import climsoft_api.api.observationfinal.schema as observationfinal_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import observationfinal_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 

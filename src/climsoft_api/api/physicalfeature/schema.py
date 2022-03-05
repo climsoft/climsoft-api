@@ -1,10 +1,11 @@
 import datetime
-
-from pydantic import constr
 from typing import List
-from climsoft_api.api.schema import Response, BaseSchema
+
+import \
+    climsoft_api.api.physicalfeatureclass.schema as physicalfeatureclass_schema
 import climsoft_api.api.station.schema as station_schema
-import climsoft_api.api.physicalfeatureclass.schema as physicalfeatureclass_schema
+from climsoft_api.api.schema import Response, BaseSchema
+from pydantic import constr
 
 
 class CreatePhysicalFeature(BaseSchema):
@@ -65,8 +66,3 @@ class PhysicalFeatureQueryResponse(PhysicalFeatureResponse):
     limit: int
     page: int
     pages: int
-
-
-
-
-

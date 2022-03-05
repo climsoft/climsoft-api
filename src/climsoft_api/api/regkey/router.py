@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import regkey_service
 import climsoft_api.api.regkey.schema as regkey_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import regkey_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -34,7 +32,7 @@ def get_reg_keys(
             limit=limit,
             total=total,
             offset=offset,
-            result=reg_keys, 
+            result=reg_keys,
             message=_("Successfully fetched reg keys.")
         )
     except regkey_service.FailedGettingRegKeyList as e:
@@ -42,10 +40,12 @@ def get_reg_keys(
 
 
 @router.get("/{key_name}", response_model=regkey_schema.RegKeyResponse)
-def get_reg_key_by_id(key_name: str, db_session: Session = Depends(deps.get_session)):
+def get_reg_key_by_id(key_name: str,
+                      db_session: Session = Depends(deps.get_session)):
     try:
         return get_success_response(
-            result=[regkey_service.get(db_session=db_session, key_name=key_name)],
+            result=[
+                regkey_service.get(db_session=db_session, key_name=key_name)],
             message=_("Successfully fetched reg key."),
         )
     except regkey_service.FailedGettingRegKey as e:
@@ -54,7 +54,8 @@ def get_reg_key_by_id(key_name: str, db_session: Session = Depends(deps.get_sess
 
 @router.post("/", response_model=regkey_schema.RegKeyResponse)
 def create_reg_key(
-    data: regkey_schema.CreateRegKey, db_session: Session = Depends(deps.get_session)
+    data: regkey_schema.CreateRegKey,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -85,9 +86,11 @@ def update_reg_key(
 
 
 @router.delete("/{key_name}", response_model=regkey_schema.RegKeyResponse)
-def delete_reg_key(key_name: str, db_session: Session = Depends(deps.get_session)):
+def delete_reg_key(key_name: str,
+                   db_session: Session = Depends(deps.get_session)):
     try:
         regkey_service.delete(db_session=db_session, key_name=key_name)
-        return get_success_response(result=[], message=_("Successfully deleted reg key."))
+        return get_success_response(result=[],
+                                    message=_("Successfully deleted reg key."))
     except regkey_service.FailedDeletingRegKey as e:
         return get_error_response(message=str(e))

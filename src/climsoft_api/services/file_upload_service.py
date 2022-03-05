@@ -1,8 +1,9 @@
+import io
 import uuid
 from pathlib import Path
-from climsoft_api.utils.s3 import get_s3_client, create_presigned_url
+
 from climsoft_api.config import settings
-import io
+from climsoft_api.utils.s3 import get_s3_client
 
 
 def save_file(storage, file, file_type):
@@ -37,4 +38,3 @@ def save_file_to_disk(file, file_name):
         "storage": "disk",
         "filepath": str(target_file_path)
     }
-

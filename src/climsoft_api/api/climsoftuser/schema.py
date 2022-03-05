@@ -1,6 +1,6 @@
 import enum
 from typing import List
-from pydantic import constr
+
 from climsoft_api.api.schema import Response, BaseSchema
 
 

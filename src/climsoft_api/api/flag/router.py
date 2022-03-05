@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import flag_service
 import climsoft_api.api.flag.schema as flag_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import flag_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -61,7 +59,8 @@ def get_flag_by_id(
 
 @router.post("/", response_model=flag_schema.FlagResponse)
 def create_flag(
-    data: flag_schema.CreateFlag, db_session: Session = Depends(deps.get_session)
+    data: flag_schema.CreateFlag,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(

@@ -1,13 +1,11 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import featuregeographicalposition_service
-import climsoft_api.api.featuregeographicalposition.schema as featuregeographicalposition_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
+import \
+    climsoft_api.api.featuregeographicalposition.schema as featuregeographicalposition_schema
 from climsoft_api.api import deps
-
-
-
-
+from climsoft_api.services import featuregeographicalposition_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -43,8 +41,8 @@ def get_feature_geographical_positions(
             result=feature_geographical_positions,
             message=_("Successfully fetched feature geographical positions."),
         )
-    except featuregeographicalposition_service\
-            .FailedGettingFeatureGeographicalPositionList as e:
+    except featuregeographicalposition_service \
+        .FailedGettingFeatureGeographicalPositionList as e:
         return get_error_response(message=str(e))
 
 

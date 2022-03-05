@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.station import schema as station_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftStationService")
 logging.basicConfig(level=logging.INFO)
@@ -55,7 +54,8 @@ def create(
 def get(db_session: Session, station_id: str) -> station_schema.Station:
     try:
         station = (
-            db_session.query(models.Station).filter_by(stationId=station_id).first()
+            db_session.query(models.Station).filter_by(
+                stationId=station_id).first()
         )
 
         if not station:
@@ -155,11 +155,13 @@ def query(
             q = q.filter(models.Station.elevation.ilike(f"%{elevation}%"))
 
         if geolocation_accuracy is not None:
-            q = q.filter(models.Station.geoLocationAccuracy >= geolocation_accuracy)
+            q = q.filter(
+                models.Station.geoLocationAccuracy >= geolocation_accuracy)
 
         if geolocation_method is not None:
             q = q.filter(
-                models.Station.geoLocationMethod.ilike(f"%{geolocation_method}%")
+                models.Station.geoLocationMethod.ilike(
+                    f"%{geolocation_method}%")
             )
 
         if opening_datetime is not None:

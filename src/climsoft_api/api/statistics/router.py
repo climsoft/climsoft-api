@@ -1,13 +1,11 @@
-import logging
-from fastapi import APIRouter
-from climsoft_api.utils.response import get_error_response
-from opencdms.models.climsoft.v4_1_1_core import TARGET_TABLES
-from climsoft_api.db import engine
-from sqlalchemy import text
 import enum
+import logging
 
-
-
+from climsoft_api.db import engine
+from climsoft_api.utils.response import get_error_response
+from fastapi import APIRouter
+from opencdms.models.climsoft.v4_1_1_core import TARGET_TABLES
+from sqlalchemy import text
 
 router = APIRouter()
 
@@ -66,4 +64,3 @@ async def get_statistics_for_all_climsoft_tables():
         return get_error_response(
             message=_("Failed getting statistics for climsoft tables.")
         )
-

@@ -14,7 +14,8 @@ def extract_validators(model):
 
 def extract_validator_function_name(validator_func: Validator):
     return next(
-        filter(lambda x: inspect.isfunction(x[1]), inspect.getmembers(validator_func))
+        filter(lambda x: inspect.isfunction(x[1]),
+               inspect.getmembers(validator_func))
     )[1].__name__
 
 
@@ -46,5 +47,6 @@ if __name__ == "__main__":
         def username_alphanumeric(cls, v):
             assert v.isalnum(), "must be alphanumeric"
             return v
+
 
     print(json.dumps(generate_schema_with_validators(UserModel), indent=2))

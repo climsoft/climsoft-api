@@ -1,9 +1,10 @@
 import datetime
 from typing import List
-from pydantic import constr
-from climsoft_api.api.schema import BaseSchema, Response
-import climsoft_api.api.station.schema as station_schema
+
 import climsoft_api.api.obselement.schema as obselement_schema
+import climsoft_api.api.station.schema as station_schema
+from climsoft_api.api.schema import BaseSchema, Response
+from pydantic import constr
 
 
 class CreateObservationInitial(BaseSchema):

@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import stationelement_service
 import climsoft_api.api.stationelement.schema as stationelement_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import stationelement_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -88,7 +86,8 @@ def create_station_element(
 ):
     try:
         return get_success_response(
-            result=[stationelement_service.create(db_session=db_session, data=data)],
+            result=[stationelement_service.create(db_session=db_session,
+                                                  data=data)],
             message=_("Successfully created station element."),
         )
     except stationelement_service.FailedCreatingStationElement as e:

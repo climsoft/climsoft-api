@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.instrument import schema as instrument_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
@@ -53,13 +52,14 @@ def create(
         )
 
 
-def get(db_session: Session, instrument_id: str) -> instrument_schema.Instrument:
+def get(db_session: Session,
+        instrument_id: str) -> instrument_schema.Instrument:
     try:
         instrument = (
             db_session.query(models.Instrument)
-            .filter_by(instrumentId=instrument_id)
-            .options(joinedload("station"))
-            .first()
+                .filter_by(instrumentId=instrument_id)
+                .options(joinedload("station"))
+                .first()
         )
 
         if not instrument:
@@ -139,7 +139,8 @@ def query(
             q = q.filter(models.Instrument.model.ilike(f"%{model}%"))
 
         if manufacturer is not None:
-            q = q.filter(models.Instrument.manufacturer.ilike(f"%{manufacturer}%"))
+            q = q.filter(
+                models.Instrument.manufacturer.ilike(f"%{manufacturer}%"))
 
         if instrument_uncertainty is not None:
             q = q.filter(
@@ -188,8 +189,8 @@ def update(
         db_session.commit()
         updated_instrument = (
             db_session.query(models.Instrument)
-            .filter_by(instrumentId=instrument_id)
-            .first()
+                .filter_by(instrumentId=instrument_id)
+                .first()
         )
         return instrument_schema.Instrument.from_orm(updated_instrument)
     except Exception as e:

@@ -1,12 +1,10 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import qctype_service
 import climsoft_api.api.qctype.schema as qctype_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import qctype_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -39,7 +37,8 @@ def get_qc_types(
 
 
 @router.get("/{code}", response_model=qctype_schema.QCTypeResponse)
-def get_qc_type_by_id(code: str, db_session: Session = Depends(deps.get_session)):
+def get_qc_type_by_id(code: str,
+                      db_session: Session = Depends(deps.get_session)):
     try:
         return get_success_response(
             result=[qctype_service.get(db_session=db_session, code=code)],
@@ -51,7 +50,8 @@ def get_qc_type_by_id(code: str, db_session: Session = Depends(deps.get_session)
 
 @router.post("/", response_model=qctype_schema.QCTypeResponse)
 def create_qc_type(
-    data: qctype_schema.CreateQCType, db_session: Session = Depends(deps.get_session)
+    data: qctype_schema.CreateQCType,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -71,7 +71,8 @@ def update_qc_type(
     try:
         return get_success_response(
             result=[
-                qctype_service.update(db_session=db_session, code=code, updates=data)
+                qctype_service.update(db_session=db_session, code=code,
+                                      updates=data)
             ],
             message=_("Successfully updated qc type."),
         )

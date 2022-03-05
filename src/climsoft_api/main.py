@@ -1,10 +1,12 @@
 import logging
+from pathlib import Path
 
-from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
-from climsoft_api.api.acquisition_type.router import router as acquisition_type_router
+from climsoft_api.api.acquisition_type.router import \
+    router as acquisition_type_router
+from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
 from climsoft_api.api.data_form.router import router as data_form_router
-from climsoft_api.api.faultresolution.router import router as faultresolution_router
+from climsoft_api.api.faultresolution.router import \
+    router as faultresolution_router
 from climsoft_api.api.featuregeographicalposition.router import (
     router as featuregeographicalposition_router,
 )
@@ -17,16 +19,19 @@ from climsoft_api.api.instrumentinspection.router import (
     router as instrumentinspection_router,
 )
 from climsoft_api.api.obselement.router import router as obselement_router
-from climsoft_api.api.observationfinal.router import router as observationfinal_router
+from climsoft_api.api.observationfinal.router import \
+    router as observationfinal_router
 from climsoft_api.api.observationinitial.router import (
     router as observationinitial_router,
 )
-from climsoft_api.api.obsscheduleclass.router import router as obsscheduleclass_router
+from climsoft_api.api.obsscheduleclass.router import \
+    router as obsscheduleclass_router
 from climsoft_api.api.paperarchive.router import router as paperarchive_router
 from climsoft_api.api.paperarchivedefinition.router import (
     router as paperarchivedefinition_router,
 )
-from climsoft_api.api.physicalfeature.router import router as physicalfeature_router
+from climsoft_api.api.physicalfeature.router import \
+    router as physicalfeature_router
 from climsoft_api.api.physicalfeatureclass.router import (
     router as physicalfeatureclass_router,
 )
@@ -35,21 +40,23 @@ from climsoft_api.api.qcstatusdefinition.router import (
 )
 from climsoft_api.api.qctype.router import router as qctype_router
 from climsoft_api.api.regkey.router import router as regkey_router
+from climsoft_api.api.s3_files.router import router as s3_files_router
 from climsoft_api.api.station.router import router as station_router
+from climsoft_api.api.stationelement.router import \
+    router as stationelement_router
 from climsoft_api.api.stationlocationhistory.router import (
     router as stationlocationhistory_router,
 )
-from climsoft_api.api.stationelement.router import router as stationelement_router
-from climsoft_api.api.stationqualifier.router import router as stationqualifier_router
+from climsoft_api.api.stationqualifier.router import \
+    router as stationqualifier_router
+from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
-from climsoft_api.api.s3_files.router import router as s3_files_router
-from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
-from climsoft_api.api.statistics.router import router as climsoft_stat_router
-from pathlib import Path
 from climsoft_api.config import settings
-from starlette.middleware.base import BaseHTTPMiddleware
 from climsoft_api.middlewares.localization import LocalizationMiddleware
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from starlette.middleware.base import BaseHTTPMiddleware
 
 
 # load controllers
@@ -59,15 +66,18 @@ def get_app():
     app = FastAPI(docs_url="/")
     app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
     app.include_router(climsoft_stat_router, prefix="/v1", tags=["Table Stats"])
-    app.include_router(file_upload_router, prefix="/v1/file-upload", tags=["File Upload"])
+    app.include_router(file_upload_router, prefix="/v1/file-upload",
+                       tags=["File Upload"])
     app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
-    app.include_router(climsoft_user_router, prefix="/v1/climsoft-users", tags=["Climsoft Users"])
+    app.include_router(climsoft_user_router, prefix="/v1/climsoft-users",
+                       tags=["Climsoft Users"])
     app.include_router(
         acquisition_type_router,
         prefix="/v1/acquisition-types",
         tags=["Acquisition Type"],
     )
-    app.include_router(data_form_router, prefix="/v1/data-forms", tags=["Data Forms"])
+    app.include_router(data_form_router, prefix="/v1/data-forms",
+                       tags=["Data Forms"])
     app.include_router(
         faultresolution_router,
         prefix="/v1/fault-resolutions",
@@ -174,5 +184,3 @@ def get_app():
 
 
 app = get_app()
-
-

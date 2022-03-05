@@ -126,307 +126,307 @@ msgid "Successfully created instrument fault report."
 msgstr "Le rapport de panne de l'instrument a été créé avec succès."
 
 msgid "Successfully updated instrument fault report."
-msgstr ""
+msgstr "Le rapport de panne de l'instrument a été mis à jour avec succès."
 
 msgid "Successfully deleted instrument fault report."
-msgstr ""
+msgstr "Le rapport de panne de l'instrument a été supprimé avec succès."
 
 msgid "Successfully fetched obs elements."
-msgstr ""
+msgstr "Éléments obs récupérés avec succès."
 
 msgid "Successfully fetched obs element."
-msgstr ""
+msgstr "Élément obs récupéré avec succès."
 
 msgid "Successfully created obs element."
-msgstr ""
+msgstr "L'élément obs a bien été créé."
 
 msgid "Successfully updated obs element."
-msgstr ""
+msgstr "Élément obs mis à jour avec succès."
 
 msgid "Successfully deleted obs element."
-msgstr ""
+msgstr "L'élément obs a bien été supprimé."
 
 msgid "Successfully fetched observation finals."
-msgstr ""
+msgstr "Finales d'observation récupérées avec succès."
 
 msgid "Successfully fetched observation final."
-msgstr ""
+msgstr "L'observation finale a été récupérée avec succès."
 
 msgid "Successfully created observation final."
-msgstr ""
+msgstr "Finale d'observation créée avec succès."
 
 msgid "Successfully updated observation final."
-msgstr ""
+msgstr "Finale d'observation mise à jour avec succès."
 
 msgid "Successfully deleted observation final."
-msgstr ""
+msgstr "L'observation finale a bien été supprimée."
 
 msgid "Successfully fetched observation initials."
-msgstr ""
+msgstr "Initiales d'observation récupérées avec succès."
 
 msgid "Successfully fetched observation initial."
-msgstr ""
+msgstr "Observation initiale récupérée avec succès."
 
 msgid "Successfully created observation initial."
-msgstr ""
+msgstr "Initiale d'observation créée avec succès."
 
 msgid "Successfully updated observation initial."
-msgstr ""
+msgstr "Observation initiale mise à jour avec succès."
 
 msgid "Successfully deleted observation initial."
-msgstr ""
+msgstr "Observation initiale supprimée avec succès."
 
 msgid "Successfully fetched obs schedule class."
-msgstr ""
+msgstr "La classe de calendrier obs a bien été récupérée."
 
 msgid "Successfully fetched paper archives."
-msgstr ""
+msgstr "Archives papier récupérées avec succès."
 
 msgid "Successfully fetched paper archive."
-msgstr ""
+msgstr "Archive papier récupérée avec succès."
 
 msgid "Successfully created paper archive."
-msgstr ""
+msgstr "Archive papier créée avec succès."
 
 msgid "Successfully updated paper archive."
-msgstr ""
+msgstr "Archives papier mises à jour avec succès."
 
 msgid "Successfully deleted paper archive."
-msgstr ""
+msgstr "Archive papier supprimée avec succès."
 
 msgid "Successfully fetched paper archive definitions."
-msgstr ""
+msgstr "Les définitions d'archive papier ont bien été récupérées."
 
 msgid "Successfully fetched paper archive definition."
-msgstr ""
+msgstr "La définition de l'archive papier a bien été récupérée."
 
 msgid "Successfully created paper archive definition."
-msgstr ""
+msgstr "Définition d'archive papier créée avec succès."
 
 msgid "Successfully updated paper archive definition."
-msgstr ""
+msgstr "Définition de l'archive papier mise à jour avec succès."
 
 msgid "Successfully deleted paper archive definition."
-msgstr ""
+msgstr "La définition d'archive papier a bien été supprimée."
 
 msgid "Successfully fetched physical feature."
-msgstr ""
+msgstr "Caractéristique physique récupérée avec succès."
 
 msgid "Successfully created physical feature."
-msgstr ""
+msgstr "Élément physique créé avec succès."
 
 msgid "Successfully updated physical feature."
-msgstr ""
+msgstr "Caractéristique physique mise à jour avec succès."
 
 msgid "Successfully deleted physical feature."
-msgstr ""
+msgstr "Élément physique supprimé avec succès."
 
 msgid "Successfully fetched physical feature class."
-msgstr ""
+msgstr "La classe d'entités physiques a bien été récupérée."
 
 msgid "Successfully created physical feature class."
-msgstr ""
+msgstr "La classe d'entités physiques a bien été créée."
 
 msgid "Successfully updated physical feature class."
-msgstr ""
+msgstr "Classe d'entités physiques mise à jour avec succès."
 
 msgid "Successfully deleted physical feature class."
-msgstr ""
+msgstr "La classe d'entités physiques a bien été supprimée."
 
 msgid "Successfully fetched qc_status_definitions."
-msgstr ""
+msgstr "Les définitions d'état qc ont bien été récupérées."
 
 msgid "Successfully fetched qc status definition."
-msgstr ""
+msgstr "La définition d'état qc a bien été récupérée."
 
 msgid "Successfully created qc status definition."
-msgstr ""
+msgstr "La définition de statut qc a été créée avec succès."
 
 msgid "Successfully updated qc status definition."
-msgstr ""
+msgstr "La définition d'état qc a été mise à jour avec succès."
 
 msgid "Successfully deleted qc status definition."
-msgstr ""
+msgstr "La définition d'état qc a bien été supprimée."
 
 msgid "Successfully fetched qc types."
-msgstr ""
+msgstr "Types qc récupérés avec succès."
 
 msgid "Successfully fetched qc type."
-msgstr ""
+msgstr "Type qc récupéré avec succès."
 
 msgid "Successfully created qc type."
-msgstr ""
+msgstr "Type qc créé avec succès."
 
 msgid "Successfully updated qc type."
-msgstr ""
+msgstr "Type qc mis à jour avec succès."
 
 msgid "Successfully deleted qc type."
-msgstr ""
+msgstr "Type qc supprimé avec succès."
 
 msgid "Successfully fetched reg keys."
-msgstr ""
+msgstr "Clés de registre récupérées avec succès."
 
 msgid "Successfully fetched reg key."
-msgstr ""
+msgstr "Clé d'enregistrement récupérée avec succès."
 
 msgid "Successfully created reg key."
-msgstr ""
+msgstr "Clé de registre créée avec succès."
 
 msgid "Successfully updated reg key."
-msgstr ""
+msgstr "Clé d'enregistrement mise à jour avec succès."
 
 msgid "Successfully deleted reg key."
-msgstr ""
+msgstr "Clé de registre supprimée avec succès."
 
 msgid "Successfully fetched station elements."
-msgstr ""
+msgstr "Éléments de station récupérés avec succès."
 
 msgid "Successfully fetched station element."
-msgstr ""
+msgstr "Élément de station récupéré avec succès."
 
 msgid "Successfully created station element."
-msgstr ""
+msgstr "Élément de station créé avec succès."
 
 msgid "Successfully updated station element."
-msgstr ""
+msgstr "Élément de station mis à jour avec succès."
 
 msgid "Successfully deleted station element."
-msgstr ""
+msgstr "Élément de station supprimé avec succès."
 
 msgid "Successfully fetched station location history."
-msgstr ""
+msgstr "L'historique de localisation des stations a bien été récupéré."
 
 msgid "Successfully created station location history."
-msgstr ""
+msgstr "L'historique de localisation des stations a bien été créé."
 
 msgid "Successfully updated station location history."
-msgstr ""
+msgstr "Historique de localisation des stations mis à jour avec succès."
 
 msgid "Successfully deleted station location history."
-msgstr ""
+msgstr "L'historique de localisation des stations a bien été supprimé."
 
 msgid "Successfully fetched station qualifier."
-msgstr ""
+msgstr "Qualificatif de station récupéré avec succès."
 
 msgid "Successfully created station qualifier."
-msgstr ""
+msgstr "Qualificatif de station créé avec succès."
 
 msgid "Successfully updated station qualifier."
-msgstr ""
+msgstr "Qualificatif de station mis à jour avec succès."
 
 msgid "Successfully deleted station qualifier."
-msgstr ""
+msgstr "Qualificatif de station supprimé avec succès."
 
 msgid "Failed getting statistics for climsoft tables."
-msgstr ""
+msgstr "Échec de l'obtention des statistiques pour les tables climsoft."
 
 msgid "Successfully fetched synop features."
-msgstr ""
+msgstr "Les fonctionnalités synop ont bien été récupérées."
 
 msgid "Successfully fetched synop feature."
-msgstr ""
+msgstr "Fonctionnalité synop récupérée avec succès."
 
 msgid "Successfully created synop feature."
-msgstr ""
+msgstr "Fonction synop créée avec succès."
 
 msgid "Successfully updated synop feature."
-msgstr ""
+msgstr "Fonction synop mise à jour avec succès."
 
 msgid "Successfully deleted synop feature."
-msgstr ""
+msgstr "Fonction synop supprimée avec succès."
 
 msgid "Only image files are supported."
-msgstr ""
+msgstr "Seuls les fichiers image sont pris en charge."
 
 msgid "Image uploaded successfully!"
-msgstr ""
+msgstr "Image téléchargée avec succès!"
 
 msgid "Failed uploading image!"
-msgstr ""
+msgstr "Échec du téléchargement de l'image!"
 
 msgid "Failed creating acquisition type."
-msgstr ""
+msgstr "Échec de la création du type d'acquisition."
 
 msgid "Acquisition type does not exist."
-msgstr ""
+msgstr "Le type d'acquisition n'existe pas."
 
 msgid "Failed getting acquisition type."
-msgstr ""
+msgstr "Échec de l'obtention du type d'acquisition."
 
 msgid "Failed getting list of acquisition types."
-msgstr ""
+msgstr "Échec de l'obtention de la liste des types d'acquisition."
 
 msgid "Failed updating acquisition type."
-msgstr ""
+msgstr "Échec de la mise à jour du type d'acquisition."
 
 msgid "Failed deleting acquisition type."
-msgstr ""
+msgstr "Échec de la suppression du type d'acquisition."
 
 msgid "Failed creating climsoft user."
-msgstr ""
+msgstr "Échec de la création de l'utilisateur climsoft."
 
 msgid "Climsoft user does not exist."
-msgstr ""
+msgstr "L'utilisateur Climsoft n'existe pas."
 
 msgid "Failed getting climsoft user."
-msgstr ""
+msgstr "Échec de l'obtention de l'utilisateur climsoft."
 
 msgid "Failed updating climsoft user."
-msgstr ""
+msgstr "Échec de la mise à jour de l'utilisateur climsoft."
 
 msgid "Failed deleting climsoft user."
-msgstr ""
+msgstr "Impossible de supprimer l'utilisateur climatsoft."
 
 msgid "Failed creating data form."
-msgstr ""
+msgstr "Échec de la création du formulaire de données."
 
 msgid "Data form does not exist."
-msgstr ""
+msgstr "Le formulaire de données n'existe pas."
 
 msgid "Failed getting data form."
-msgstr ""
+msgstr "Échec de l'obtention du formulaire de données."
 
 msgid "Failed getting list of data forms."
-msgstr ""
+msgstr "Échec de l'obtention de la liste des formulaires de données."
 
 msgid "Failed updating data form."
-msgstr ""
+msgstr "Échec de la mise à jour du formulaire de données."
 
 msgid "Failed deleting data form."
-msgstr ""
+msgstr "Échec de la suppression du formulaire de données."
 
 msgid "Failed creating fault resolution."
-msgstr ""
+msgstr "Échec de la création de la résolution des erreurs."
 
 msgid "Fault resolution does not exist."
-msgstr ""
+msgstr "La résolution des pannes n'existe pas."
 
 msgid "Failed getting fault resolution."
-msgstr ""
+msgstr "Impossible d'obtenir la résolution de l'erreur."
 
 msgid "Failed getting list of fault resolutions."
-msgstr ""
+msgstr "Échec de l'obtention de la liste des résolutions de pannes."
 
 msgid "Failed updating fault resolution."
-msgstr ""
+msgstr "Échec de la mise à jour de la résolution des erreurs."
 
 msgid "Failed deleting fault resolution."
-msgstr ""
+msgstr "Échec de la suppression de la résolution d'erreur."
 
 msgid "Failed creating feature geographical position."
-msgstr ""
+msgstr "Échec de la création de la position géographique de l'entité."
 
 msgid "Failed getting feature geographical position."
-msgstr ""
+msgstr "Échec de l'obtention de la position géographique de l'élément."
 
 msgid "Failed getting list of feature geographical positions."
-msgstr ""
+msgstr "Échec de l'obtention de la liste des positions géographiques des caractéristiques."
 
 msgid "Failed updating feature geographical position."
-msgstr ""
+msgstr "Échec de la mise à jour de la position géographique de l'entité."
 
 msgid "Failed deleting feature geographical position."
-msgstr ""
+msgstr "Échec de la suppression de la position géographique de l'élément géographique."
 
 msgid "Failed creating flag."
 msgstr ""

@@ -1,13 +1,13 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.api.observationinitial import schema as observationinitial_schema
-from fastapi.exceptions import HTTPException
+
+from climsoft_api.api.observationinitial import \
+    schema as observationinitial_schema
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftObservationInitialService")
 logging.basicConfig(level=logging.INFO)
@@ -68,13 +68,13 @@ def get(
     try:
         observation_initial = (
             db_session.query(models.Observationinitial)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .filter_by(qcStatus=qc_status)
-            .filter_by(acquisitionType=acquisition_type)
-            .options(joinedload("obselement"), joinedload("station"))
-            .first()
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(obsDatetime=obs_datetime)
+                .filter_by(qcStatus=qc_status)
+                .filter_by(acquisitionType=acquisition_type)
+                .options(joinedload("obselement"), joinedload("station"))
+                .first()
         )
 
         if not observation_initial:
@@ -83,10 +83,10 @@ def get(
                 detail=_("Observation initial does not exist.")
             )
 
-        return observationinitial_schema.ObservationInitialWithChildren\
+        return observationinitial_schema.ObservationInitialWithChildren \
             .from_orm(
-                observation_initial
-            )
+            observation_initial
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -259,12 +259,12 @@ def update(
         db_session.commit()
         updated_instrument = (
             db_session.query(models.Observationinitial)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .filter_by(qcStatus=qc_status)
-            .filter_by(acquisitionType=acquisition_type)
-            .first()
+                .filter_by(recordedFrom=recorded_from)
+                .filter_by(describedBy=described_by)
+                .filter_by(obsDatetime=obs_datetime)
+                .filter_by(qcStatus=qc_status)
+                .filter_by(acquisitionType=acquisition_type)
+                .first()
         )
         return observationinitial_schema.ObservationInitial.from_orm(
             updated_instrument

@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.climsoftuser import schema as climsoftuser_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
@@ -55,7 +54,8 @@ def create(
 def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
     try:
         climsoft_user = (
-            db_session.query(models.ClimsoftUser).filter_by(userName=username).first()
+            db_session.query(models.ClimsoftUser).filter_by(
+                userName=username).first()
         )
 
         if not climsoft_user:

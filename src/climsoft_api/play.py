@@ -1,4 +1,3 @@
-import gettext
 # gettext.install("climsoft_messages")
 # gettext.bindtextdomain(
 #     'climsoft_messages',

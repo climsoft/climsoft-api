@@ -1,12 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
-from climsoft_api.api.qcstatusdefinition import schema as qcstatusdefinition_schema
-from fastapi.exceptions import HTTPException
+
+from climsoft_api.api.qcstatusdefinition import \
+    schema as qcstatusdefinition_schema
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
@@ -37,7 +37,8 @@ class QCStatusDefinitionDoesNotExist(Exception):
 
 
 def create(
-    db_session: Session, data: qcstatusdefinition_schema.CreateQCStatusDefinition
+    db_session: Session,
+    data: qcstatusdefinition_schema.CreateQCStatusDefinition
 ) -> qcstatusdefinition_schema.QCStatusDefinition:
     try:
         qc_status_definition = models.Qcstatusdefinition(**data.dict())

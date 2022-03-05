@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.obselement import schema as obselement_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
@@ -173,12 +172,14 @@ def update(
     updates: obselement_schema.UpdateObsElement
 ) -> obselement_schema.ObsElement:
     try:
-        db_session.query(models.Obselement).filter_by(elementId=element_id).update(
+        db_session.query(models.Obselement).filter_by(
+            elementId=element_id).update(
             updates.dict()
         )
         db_session.commit()
         updated_obs_element = (
-            db_session.query(models.Obselement).filter_by(elementId=element_id).first()
+            db_session.query(models.Obselement).filter_by(
+                elementId=element_id).first()
         )
         return obselement_schema.ObsElement.from_orm(updated_obs_element)
     except Exception as e:

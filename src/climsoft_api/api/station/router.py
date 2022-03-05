@@ -1,26 +1,22 @@
 import logging
+from typing import Union, Any
 
-from fastapi import APIRouter, Depends, Request, HTTPException
-from climsoft_api.services import station_service, stationelement_service
+from climsoft_api.api import deps
 from climsoft_api.api.station import (
     schema as station_schema,
 )
 from climsoft_api.api.stationelement import (
-    schema as station_element_schema,
     station_element_with_children as station_element_with_children_schema
 )
+from climsoft_api.services import station_service, stationelement_service
 from climsoft_api.utils.response import (
     get_success_response,
     get_error_response,
     get_success_response_for_query,
     get_current_and_total_pages
 )
-from typing import Union, Any
+from fastapi import APIRouter, Depends, Request, HTTPException
 from sqlalchemy.orm.session import Session
-from climsoft_api.api import deps
-
-
-
 
 router = APIRouter()
 
@@ -96,7 +92,8 @@ def get_station_by_id(
 ):
     try:
         return get_success_response(
-            result=[station_service.get(db_session=db_session, station_id=station_id)],
+            result=[station_service.get(db_session=db_session,
+                                        station_id=station_id)],
             message=_("Successfully fetched station."),
         )
     except station_service.FailedGettingStation as e:
@@ -105,7 +102,8 @@ def get_station_by_id(
 
 @router.post("/", response_model=station_schema.StationResponse)
 def create_station(
-    data: station_schema.CreateStation, db_session: Session = Depends(deps.get_session)
+    data: station_schema.CreateStation,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         return get_success_response(
@@ -165,13 +163,13 @@ def get_station_with_elements(
     db_session: Session = Depends(deps.get_session)
 ):
     try:
-        total, elements = stationelement_service\
+        total, elements = stationelement_service \
             .get_station_elements_with_obs_element(
-                db_session=db_session,
-                recorded_from=station_id,
-                limit=limit,
-                offset=offset
-            )
+            db_session=db_session,
+            recorded_from=station_id,
+            limit=limit,
+            offset=offset
+        )
 
         current_page, total_pages = get_current_and_total_pages(
             limit,
@@ -179,7 +177,7 @@ def get_station_with_elements(
             offset
         )
 
-        return station_element_with_children_schema\
+        return station_element_with_children_schema \
             .StationElementWithObsElementQueryResponse(
             message=_("Successfully fetched station elements."),
             result=elements,

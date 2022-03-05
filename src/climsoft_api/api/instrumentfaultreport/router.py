@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends
-from climsoft_api.services import instrumentfaultreport_service
-import climsoft_api.api.instrumentfaultreport.schema as instrumentfaultreport_schema
-from climsoft_api.utils.response import get_success_response, get_error_response, get_success_response_for_query
-from sqlalchemy.orm.session import Session
+import \
+    climsoft_api.api.instrumentfaultreport.schema as instrumentfaultreport_schema
 from climsoft_api.api import deps
-
-
-
+from climsoft_api.services import instrumentfaultreport_service
+from climsoft_api.utils.response import get_success_response, \
+    get_error_response, get_success_response_for_query
+from fastapi import APIRouter, Depends
+from sqlalchemy.orm.session import Session
 
 router = APIRouter()
 
@@ -77,7 +76,8 @@ def get_instrument_fault_report_by_id(
 
 
 @router.post(
-    "/", response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+    "/",
+    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
 )
 def create_instrument_fault_report(
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport,
@@ -129,7 +129,8 @@ def delete_instrument_fault_report(
     report_id: int, db_session: Session = Depends(deps.get_session)
 ):
     try:
-        instrumentfaultreport_service.delete(db_session=db_session, report_id=report_id)
+        instrumentfaultreport_service.delete(db_session=db_session,
+                                             report_id=report_id)
         return get_success_response(
             result=[],
             message=_("Successfully deleted instrument fault report.")

@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.flag import schema as flag_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
@@ -36,7 +35,8 @@ class FlagDoesNotExist(Exception):
     pass
 
 
-def create(db_session: Session, data: flag_schema.CreateFlag) -> flag_schema.Flag:
+def create(db_session: Session,
+           data: flag_schema.CreateFlag) -> flag_schema.Flag:
     try:
         flag = models.Flag(**data.dict())
         db_session.add(flag)
@@ -54,8 +54,8 @@ def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
     try:
         flag = (
             db_session.query(models.Flag)
-            .filter_by(characterSymbol=character_symbol)
-            .first()
+                .filter_by(characterSymbol=character_symbol)
+                .first()
         )
 
         if not flag:
@@ -103,9 +103,9 @@ def query(
         return (
             get_count(q),
             [
-               flag_schema.Flag.from_orm(s) for s in q.offset(
-                    offset
-                ).limit(limit).all()
+                flag_schema.Flag.from_orm(s) for s in q.offset(
+                offset
+            ).limit(limit).all()
             ]
         )
     except Exception as e:
@@ -127,8 +127,8 @@ def update(
         db_session.commit()
         updated_flag = (
             db_session.query(models.Flag)
-            .filter_by(characterSymbol=character_symbol)
-            .first()
+                .filter_by(characterSymbol=character_symbol)
+                .first()
         )
         return flag_schema.Flag.from_orm(updated_flag)
     except Exception as e:

@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.physicalfeature import schema as physicalfeature_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftPhysicalFeatureService")
 logging.basicConfig(level=logging.INFO)
@@ -63,14 +62,14 @@ def get(
     try:
         physical_feature = (
             db_session.query(models.Physicalfeature)
-            .filter_by(
+                .filter_by(
                 associatedWith=associated_with,
                 beginDate=begin_date,
                 classifiedInto=classified_into,
                 description=description,
             )
-            .options(joinedload("station"))
-            .first()
+                .options(joinedload("station"))
+                .first()
         )
 
         if not physical_feature:
@@ -79,10 +78,10 @@ def get(
                 detail=_("Physical feature does not exist.")
             )
 
-        return physicalfeature_schema\
+        return physicalfeature_schema \
             .PhysicalFeatureWithStationAndPhysicalFeatureClass.from_orm(
-                physical_feature
-            )
+            physical_feature
+        )
     except HTTPException:
         raise
     except Exception as e:
@@ -161,13 +160,13 @@ def update(
         db_session.commit()
         updated_physical_feature = (
             db_session.query(models.Physicalfeature)
-            .filter_by(
+                .filter_by(
                 associatedWith=associated_with,
                 beginDate=begin_date,
                 classifiedInto=classified_into,
                 description=description,
             )
-            .first()
+                .first()
         )
         return physicalfeature_schema.PhysicalFeature.from_orm(
             updated_physical_feature

@@ -16,7 +16,8 @@ class ControllerLoader:
             files = [
                 f
                 for f in os.listdir(base_dir)
-                if os.path.isfile(os.path.join(base_dir, f)) and f != "__init__.py"
+                if
+                os.path.isfile(os.path.join(base_dir, f)) and f != "__init__.py"
             ]
             for f in files:
                 _controller_name = os.path.splitext(f)[0]
@@ -29,7 +30,8 @@ class ControllerLoader:
                     self.instances[app_name + _controller_name] = getattr(
                         _module, _controller_name
                     )
-                    app.include_router(getattr(_module, _controller_name).router)
+                    app.include_router(
+                        getattr(_module, _controller_name).router)
                 except Exception as e:
                     logging.exception(
                         f"Failed loading controller: {_controller_name} with exception: {str(e)}"

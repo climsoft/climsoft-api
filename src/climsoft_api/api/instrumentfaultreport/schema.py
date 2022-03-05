@@ -1,10 +1,10 @@
 import datetime
-
-from pydantic import constr
-from climsoft_api.api.schema import Response, BaseSchema
 from typing import List
+
 import climsoft_api.api.instrument.schema as instrument_schema
 import climsoft_api.api.station.schema as station_schema
+from climsoft_api.api.schema import Response, BaseSchema
+from pydantic import constr
 
 
 class CreateInstrumentFaultReport(BaseSchema):
@@ -88,4 +88,3 @@ class InstrumentFaultReportQueryResponse(InstrumentFaultReportResponse):
     limit: int
     page: int
     pages: int
-

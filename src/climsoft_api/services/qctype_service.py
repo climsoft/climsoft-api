@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.qctype import schema as qctype_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)
@@ -112,9 +111,11 @@ def update(
     db_session: Session, code: str, updates: qctype_schema.UpdateQCType
 ) -> qctype_schema.QCType:
     try:
-        db_session.query(models.Qctype).filter_by(code=code).update(updates.dict())
+        db_session.query(models.Qctype).filter_by(code=code).update(
+            updates.dict())
         db_session.commit()
-        updated_qc_type = db_session.query(models.Qctype).filter_by(code=code).first()
+        updated_qc_type = db_session.query(models.Qctype).filter_by(
+            code=code).first()
         return qctype_schema.QCType.from_orm(updated_qc_type)
     except Exception as e:
         db_session.rollback()

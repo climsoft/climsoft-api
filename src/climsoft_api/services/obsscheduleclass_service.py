@@ -1,13 +1,12 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from sqlalchemy.orm import joinedload
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.obsscheduleclass import schema as obsscheduleclass_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm import joinedload
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
@@ -44,7 +43,8 @@ def create(
         obs_schedule_class = models.Obsscheduleclas(**data.dict())
         db_session.add(obs_schedule_class)
         db_session.commit()
-        return obsscheduleclass_schema.ObsScheduleClass.from_orm(obs_schedule_class)
+        return obsscheduleclass_schema.ObsScheduleClass.from_orm(
+            obs_schedule_class)
     except Exception as e:
         db_session.rollback()
         logger.exception(e)
@@ -59,9 +59,9 @@ def get(
     try:
         obs_schedule_class = (
             db_session.query(models.Obsscheduleclas)
-            .filter_by(scheduleClass=schedule_class)
-            .options(joinedload("station"))
-            .first()
+                .filter_by(scheduleClass=schedule_class)
+                .options(joinedload("station"))
+                .first()
         )
 
         if not obs_schedule_class:
@@ -142,8 +142,8 @@ def update(
         db_session.commit()
         updated_obs_schedule_class = (
             db_session.query(models.Obsscheduleclas)
-            .filter_by(scheduleClass=schedule_class)
-            .first()
+                .filter_by(scheduleClass=schedule_class)
+                .first()
         )
         return obsscheduleclass_schema.ObsScheduleClass.from_orm(
             updated_obs_schedule_class

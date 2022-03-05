@@ -1,12 +1,11 @@
 import logging
 from typing import List, Tuple
-from sqlalchemy.orm.session import Session
-from opencdms.models.climsoft import v4_1_1_core as models
+
 from climsoft_api.api.synopfeature import schema as synopfeature_schema
-from fastapi.exceptions import HTTPException
 from climsoft_api.utils.query import get_count
-
-
+from fastapi.exceptions import HTTPException
+from opencdms.models.climsoft import v4_1_1_core as models
+from sqlalchemy.orm.session import Session
 
 logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
@@ -52,12 +51,13 @@ def create(
         )
 
 
-def get(db_session: Session, abbreviation: str) -> synopfeature_schema.SynopFeature:
+def get(db_session: Session,
+        abbreviation: str) -> synopfeature_schema.SynopFeature:
     try:
         synop_feature = (
             db_session.query(models.Synopfeature)
-            .filter_by(abbreviation=abbreviation)
-            .first()
+                .filter_by(abbreviation=abbreviation)
+                .first()
         )
 
         if not synop_feature:
@@ -126,8 +126,8 @@ def update(
         db_session.commit()
         updated_synop_feature = (
             db_session.query(models.Synopfeature)
-            .filter_by(abbreviation=abbreviation)
-            .first()
+                .filter_by(abbreviation=abbreviation)
+                .first()
         )
         return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
     except Exception as e:

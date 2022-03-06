@@ -5,12 +5,12 @@ from pydantic import constr, Field
 
 
 class CreateQCStatusDefinition(BaseSchema):
-    code: int
-    description: constr(max_length=255)
+    code: int = Field(title=_("Code"))
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class UpdateQCStatusDefinition(BaseSchema):
-    description: constr(max_length=255)
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class QCStatusDefinition(CreateQCStatusDefinition):
@@ -25,5 +25,5 @@ class QCStatusDefinitionResponse(Response):
 
 class QCStatusDefinitionQueryResponse(QCStatusDefinitionResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

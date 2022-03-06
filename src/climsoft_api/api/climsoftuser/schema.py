@@ -47,5 +47,5 @@ class ClimsoftUserResponse(Response):
 
 class ClimsoftUserQueryResponse(ClimsoftUserResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

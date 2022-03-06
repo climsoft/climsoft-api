@@ -6,9 +6,9 @@ from pydantic import constr, Field
 
 
 class CreateObsScheduleClass(BaseSchema):
-    scheduleClass: constr(max_length=255)
-    description: constr(max_length=255)
-    refersTo: constr(max_length=255)
+    scheduleClass: constr(max_length=255) = Field(title=_("Schedule Class"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
 
     class Config:
         fields = {
@@ -18,8 +18,8 @@ class CreateObsScheduleClass(BaseSchema):
 
 
 class UpdateObsScheduleClass(BaseSchema):
-    description: constr(max_length=255)
-    refersTo: constr(max_length=255)
+    description: constr(max_length=255) = Field(title=_("Description"))
+    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
 
     class Config:
         fields = {
@@ -42,7 +42,7 @@ class ObsScheduleClassResponse(Response):
 
 
 class ObsScheduleClassWithStation(ObsScheduleClass):
-    station: station_schema.Station
+    station: station_schema.Station = Field(title=_("Station"))
 
 
 class ObsScheduleClassWithStationResponse(Response):
@@ -51,5 +51,5 @@ class ObsScheduleClassWithStationResponse(Response):
 
 class ObsScheduleClassQueryResponse(ObsScheduleClassResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

@@ -40,7 +40,7 @@ class FeatureGeographicalPosition(CreateFeatureGeographicalPosition):
 
 
 class FeatureGeographicalPositionWithSynopFeature(FeatureGeographicalPosition):
-    synopfeature: synopfeature_schema.SynopFeature = Field(title=_("Synop Feature"))
+    synopfeature: synopfeature_schema.SynopFeature = Field(title=_("Synop Feature")) # noqa
 
 
 class FeatureGeographicalPositionResponse(Response):
@@ -55,5 +55,5 @@ class FeatureGeographicalPositionQueryResponse(
     FeatureGeographicalPositionResponse
 ):
     limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Limit"))
-    pages: int = Field(title=_("Limit"))
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

@@ -8,24 +8,24 @@ from pydantic import constr, Field
 
 
 class CreateObservationInitial(BaseSchema):
-    recordedFrom: constr(max_length=255)
-    describedBy: int
-    obsDatetime: str
-    qcStatus: int
-    acquisitionType: int
-    obsLevel: constr(max_length=255)
-    obsValue: constr(max_length=255)
-    flag: constr(max_length=255)
-    period: int
-    qcTypeLog: str
-    dataForm: constr(max_length=255)
-    capturedBy: constr(max_length=255)
-    mark: bool
-    temperatureUnits: constr(max_length=255)
-    precipitationUnits: constr(max_length=255)
-    cloudHeightUnits: constr(max_length=255)
-    visUnits: constr(max_length=255)
-    dataSourceTimeZone: int
+    recordedFrom: constr(max_length=255) = Field(title=_("Recorded From"))
+    describedBy: int = Field(title=_("Described By"))
+    obsDatetime: str = Field(title=_("Obs Datetime"))
+    qcStatus: int = Field(title=_("QC Status"))
+    acquisitionType: int = Field(title=_("Acquisition Type"))
+    obsLevel: constr(max_length=255) = Field(title=_("Obs Level"))
+    obsValue: constr(max_length=255) = Field(title=_("Obs Value"))
+    flag: constr(max_length=255) = Field(title=_("Flag"))
+    period: int = Field(title=_("Period"))
+    qcTypeLog: str = Field(title=_("QC Type Log"))
+    dataForm: constr(max_length=255) = Field(title=_("Data Form"))
+    capturedBy: constr(max_length=255) = Field(title=_("Captured By"))
+    mark: bool = Field(title=_("Mark"))
+    temperatureUnits: constr(max_length=255) = Field(title=_("Temperature Units"))
+    precipitationUnits: constr(max_length=255) = Field(title=_("Precipitation Units"))
+    cloudHeightUnits: constr(max_length=255) = Field(title=_("Cloud Height Units"))
+    visUnits: constr(max_length=255) = Field(title=_("Vis Units"))
+    dataSourceTimeZone: int = Field(title=_("Data Source Timezone"))
 
     class Config:
         fields = {
@@ -47,19 +47,19 @@ class CreateObservationInitial(BaseSchema):
 
 
 class UpdateObservationInitial(BaseSchema):
-    obsLevel: constr(max_length=255)
-    obsValue: constr(max_length=255)
-    flag: constr(max_length=255)
-    period: int
-    qcTypeLog: str
-    dataForm: constr(max_length=255)
-    capturedBy: constr(max_length=255)
-    mark: bool
-    temperatureUnits: constr(max_length=255)
-    precipitationUnits: constr(max_length=255)
-    cloudHeightUnits: constr(max_length=255)
-    visUnits: constr(max_length=255)
-    dataSourceTimeZone: int
+    obsLevel: constr(max_length=255) = Field(title=_("Obs Level"))
+    obsValue: constr(max_length=255) = Field(title=_("Obs Value"))
+    flag: constr(max_length=255) = Field(title=_("Flag"))
+    period: int = Field(title=_("Period"))
+    qcTypeLog: str = Field(title=_("QC Type Log"))
+    dataForm: constr(max_length=255) = Field(title=_("Data Form"))
+    capturedBy: constr(max_length=255) = Field(title=_("Captured By"))
+    mark: bool = Field(title=_("Mark"))
+    temperatureUnits: constr(max_length=255) = Field(title=_("Temperature Units"))
+    precipitationUnits: constr(max_length=255) = Field(title=_("Precipitation Units"))
+    cloudHeightUnits: constr(max_length=255) = Field(title=_("Cloud Height Units"))
+    visUnits: constr(max_length=255) = Field(title=_("Vis Units"))
+    dataSourceTimeZone: int = Field(title=_("Data Source Timezone"))
 
     class Config:
         fields = {
@@ -81,7 +81,7 @@ class UpdateObservationInitial(BaseSchema):
 
 
 class ObservationInitial(CreateObservationInitial):
-    obsDatetime: datetime.datetime
+    obsDatetime: datetime.datetime = Field(title=_("Obs Datetime"))
 
     class Config:
         orm_mode = True
@@ -89,12 +89,12 @@ class ObservationInitial(CreateObservationInitial):
 
 
 class ObservationInitialResponse(Response):
-    result: List[ObservationInitial]
+    result: List[ObservationInitial] = Field(title=_("Result"))
 
 
 class ObservationInitialWithChildren(ObservationInitial):
-    obselement: obselement_schema.ObsElement
-    station: station_schema.Station
+    obselement: obselement_schema.ObsElement = Field(title=_("Obs Element"))
+    station: station_schema.Station = Field(title=_("Station"))
 
     class Config:
         orm_mode = True
@@ -128,5 +128,5 @@ class ObservationInitialInputGen(CreateObservationInitial):
 
 class ObservationInitialQueryResponse(ObservationInitialResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

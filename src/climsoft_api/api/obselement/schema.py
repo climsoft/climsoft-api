@@ -15,33 +15,33 @@ field_mapping = {
 
 
 class CreateObsElement(BaseSchema):
-    elementId: int
-    abbreviation: constr(max_length=255)
-    elementName: constr(max_length=255)
-    description: constr(max_length=255)
-    elementScale: float
-    upperLimit: constr(max_length=255)
-    lowerLimit: constr(max_length=255)
-    units: constr(max_length=255)
-    elementtype: constr(max_length=50)
-    qcTotalRequired: int
-    selected: bool
+    elementId: int = Field(title=_("Element ID"))
+    abbreviation: constr(max_length=255) = Field(title=_("Abbreviation"))
+    elementName: constr(max_length=255) = Field(title=_("Element Name"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    elementScale: float = Field(title=_("Element Scale"))
+    upperLimit: constr(max_length=255) = Field(title=_("Upper Limit"))
+    lowerLimit: constr(max_length=255) = Field(title=_("Lower Limit"))
+    units: constr(max_length=255) = Field(title=_("Units"))
+    elementtype: constr(max_length=50) = Field(title=_("Element Type"))
+    qcTotalRequired: int = Field(title=_("QC Total Required"))
+    selected: bool = Field(title=_("Selected"))
 
     class Config:
         fields = field_mapping
 
 
 class UpdateObsElement(BaseSchema):
-    abbreviation: constr(max_length=255)
-    elementName: constr(max_length=255)
-    description: constr(max_length=255)
-    elementScale: float
-    upperLimit: constr(max_length=255)
-    lowerLimit: constr(max_length=255)
-    units: constr(max_length=255)
-    elementtype: constr(max_length=50)
-    qcTotalRequired: int
-    selected: bool
+    abbreviation: constr(max_length=255) = Field(title=_("Abbreviation"))
+    elementName: constr(max_length=255) = Field(title=_("Element Name"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    elementScale: float = Field(title=_("Element Scale"))
+    upperLimit: constr(max_length=255) = Field(title=_("Upper Limit"))
+    lowerLimit: constr(max_length=255) = Field(title=_("Lower Limit"))
+    units: constr(max_length=255) = Field(title=_("Units"))
+    elementtype: constr(max_length=50) = Field(title=_("Element Type"))
+    qcTotalRequired: int = Field(title=_("QC Total Required"))
+    selected: bool = Field(title=_("Selected"))
 
     class Config:
         fields = field_mapping
@@ -55,12 +55,12 @@ class ObsElement(CreateObsElement):
 
 
 class ObsElementResponse(BaseSchema):
-    message: str
-    status: str
+    message: str = Field(title=_("Message"))
+    status: str = Field(title=_("Status"))
     result: List[ObsElement] = Field(title=_("Result"))
 
 
 class ObsElementQueryResponse(ObsElementResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

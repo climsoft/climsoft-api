@@ -6,12 +6,12 @@ from pydantic import BaseModel, Field
 
 
 class StationWithElements(Station):
-    elements: Optional[List[StationElement]]
+    elements: Optional[List[StationElement]] = Field(title=_("Elements"))
 
 
 class StationWithElementsResponse(BaseModel):
-    message: str
+    message: str = Field(title=_("Message"))
     result: StationWithElements = Field(title=_("Result"))
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

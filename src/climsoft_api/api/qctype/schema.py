@@ -5,12 +5,12 @@ from pydantic import constr, Field
 
 
 class CreateQCType(BaseSchema):
-    code: int
-    description: constr(max_length=255)
+    code: int = Field(title=_("Code"))
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class UpdateQCType(BaseSchema):
-    description: constr(max_length=255)
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class QCType(CreateQCType):
@@ -25,5 +25,5 @@ class QCTypeResponse(Response):
 
 class QCTypeQueryResponse(QCTypeResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

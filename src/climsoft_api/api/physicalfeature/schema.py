@@ -9,12 +9,12 @@ from pydantic import constr, Field
 
 
 class CreatePhysicalFeature(BaseSchema):
-    associatedWith: constr(max_length=255)
-    beginDate: constr(max_length=50)
-    endDate: constr(max_length=50)
-    image: constr(max_length=255)
-    description: constr(max_length=255)
-    classifiedInto: constr(max_length=50)
+    associatedWith: constr(max_length=255) = Field(title=_("Associated With"))
+    beginDate: constr(max_length=50) = Field(title=_("Begin Date"))
+    endDate: constr(max_length=50) = Field(title=_("End Date"))
+    image: constr(max_length=255) = Field(title=_("Image"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    classifiedInto: constr(max_length=50) = Field(title=_("ClassifiedInto"))
 
     class Config:
         fields = {
@@ -26,16 +26,16 @@ class CreatePhysicalFeature(BaseSchema):
 
 
 class UpdatePhysicalFeature(BaseSchema):
-    endDate: constr(max_length=50)
-    image: constr(max_length=255)
+    endDate: constr(max_length=50) = Field(title=_("End Date"))
+    image: constr(max_length=255) = Field(title=_("Image"))
 
     class Config:
         fields = {"endDate": "end_date"}
 
 
 class PhysicalFeature(CreatePhysicalFeature):
-    beginDate = datetime.datetime
-    endDate = datetime.datetime
+    beginDate = datetime.datetime = Field(title=_("Begin Date"))
+    endDate = datetime.datetime = Field(title=_("End Date"))
 
     class Config:
         orm_mode = True
@@ -50,8 +50,8 @@ class PhysicalFeature(CreatePhysicalFeature):
 
 
 class PhysicalFeatureWithStationAndPhysicalFeatureClass(PhysicalFeature):
-    station: station_schema.Station
-    physicalfeatureclas: physicalfeatureclass_schema.PhysicalFeatureClass
+    station: station_schema.Station = Field(title=_("Station"))
+    physicalfeatureclas: physicalfeatureclass_schema.PhysicalFeatureClass = Field(title=_("Physical Feature Class"))
 
 
 class PhysicalFeatureResponse(Response):
@@ -64,5 +64,5 @@ class PhysicalFeatureWithStationAndPhysicalFeatureClassResponse(Response):
 
 class PhysicalFeatureQueryResponse(PhysicalFeatureResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

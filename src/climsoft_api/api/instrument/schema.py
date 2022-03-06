@@ -17,35 +17,35 @@ field_names = {
 
 
 class CreateInstrument(BaseSchema):
-    instrumentName: constr(max_length=255)
-    instrumentId: constr(max_length=255)
-    serialNumber: constr(max_length=255)
-    abbreviation: constr(max_length=255)
-    model: constr(max_length=255)
-    manufacturer: constr(max_length=255)
-    instrumentUncertainty: float
-    installationDatetime: constr(max_length=50)
-    deinstallationDatetime: constr(max_length=50)
-    height: constr(max_length=255)
-    instrumentPicture: constr(max_length=255)
-    installedAt: constr(max_length=255)
+    instrumentName: constr(max_length=255) = Field(title=_("Instrument Name"))
+    instrumentId: constr(max_length=255) = Field(title=_("Instrument ID"))
+    serialNumber: constr(max_length=255) = Field(title=_("Serial Number"))
+    abbreviation: constr(max_length=255) = Field(title=_("Abbreviation"))
+    model: constr(max_length=255) = Field(title=_("Model"))
+    manufacturer: constr(max_length=255) = Field(title=_("Manufacturer"))
+    instrumentUncertainty: float = Field(title=_("Instrument Uncertainty"))
+    installationDatetime: constr(max_length=50) = Field(title=_("Installation Datetime"))
+    deinstallationDatetime: constr(max_length=50) = Field(title=_("Uninstallation Datetime"))
+    height: constr(max_length=255) = Field(title=_("Height"))
+    instrumentPicture: constr(max_length=255) = Field(title=_("Instrument Picture"))
+    installedAt: constr(max_length=255) = Field(title=_("Installed At"))
 
     class Config:
         fields = field_names
 
 
 class UpdateInstrument(BaseSchema):
-    instrumentName: constr(max_length=255)
-    serialNumber: constr(max_length=255)
-    abbreviation: constr(max_length=255)
-    model: constr(max_length=255)
-    manufacturer: constr(max_length=255)
-    instrumentUncertainty: float
-    installationDatetime: constr(max_length=50)
-    deinstallationDatetime: constr(max_length=50)
-    height: constr(max_length=255)
-    instrumentPicture: constr(max_length=255)
-    installedAt: constr(max_length=255)
+    instrumentName: constr(max_length=255) = Field(title=_("Instrument Name"))
+    serialNumber: constr(max_length=255) = Field(title=_("Serial Number"))
+    abbreviation: constr(max_length=255) = Field(title=_("Abbreviation"))
+    model: constr(max_length=255) = Field(title=_("Model"))
+    manufacturer: constr(max_length=255) = Field(title=_("Manufacturer"))
+    instrumentUncertainty: float = Field(title=_("Instrument Uncertainty"))
+    installationDatetime: constr(max_length=50) = Field(title=_("Installation Datetime"))
+    deinstallationDatetime: constr(max_length=50) = Field(title=_("Uninstallation Datetime"))
+    height: constr(max_length=255) = Field(title=_("Height"))
+    instrumentPicture: constr(max_length=255) = Field(title=_("Instrument Picture"))
+    installedAt: constr(max_length=255) = Field(title=_("Installed At"))
 
     class Config:
         fields = field_names
@@ -63,7 +63,7 @@ class InstrumentResponse(Response):
 
 
 class InstrumentWithStation(Instrument):
-    station: station_schema.Station
+    station: station_schema.Station = Field(title=_("Instrument Name"))
 
 
 class InstrumentWithStationResponse(Response):
@@ -72,5 +72,5 @@ class InstrumentWithStationResponse(Response):
 
 class InstrumentQueryResponse(InstrumentResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

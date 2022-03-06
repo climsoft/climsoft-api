@@ -6,10 +6,10 @@ from pydantic import constr, Field
 
 
 class CreateFeatureGeographicalPosition(BaseSchema):
-    belongsTo: constr(max_length=255)
-    observedOn: constr(max_length=50)
-    latitude: float
-    longitude: float
+    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
+    observedOn: constr(max_length=50) = Field(title=_("Observed On"))
+    latitude: float = Field(title=_("Latitude"))
+    longitude: float = Field(title=_("Longitude"))
 
     class Config:
         fields = {
@@ -19,9 +19,9 @@ class CreateFeatureGeographicalPosition(BaseSchema):
 
 
 class UpdateFeatureGeographicalPosition(BaseSchema):
-    observedOn: constr(max_length=50)
-    latitude: float
-    longitude: float
+    observedOn: constr(max_length=50) = Field(title=_("Observed On"))
+    latitude: float = Field(title=_("Latitude"))
+    longitude: float = Field(title=_("Longitude"))
 
     class Config:
         fields = {
@@ -40,7 +40,7 @@ class FeatureGeographicalPosition(CreateFeatureGeographicalPosition):
 
 
 class FeatureGeographicalPositionWithSynopFeature(FeatureGeographicalPosition):
-    synopfeature: synopfeature_schema.SynopFeature
+    synopfeature: synopfeature_schema.SynopFeature = Field(title=_("Synop Feature"))
 
 
 class FeatureGeographicalPositionResponse(Response):
@@ -55,5 +55,5 @@ class FeatureGeographicalPositionQueryResponse(
     FeatureGeographicalPositionResponse
 ):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Limit"))
+    pages: int = Field(title=_("Limit"))

@@ -6,18 +6,18 @@ from pydantic import constr, Field
 
 
 class CreateStationLocationHistory(BaseSchema):
-    belongsTo: constr(max_length=255)
-    openingDatetime: str
-    stationType: constr(max_length=255)
-    geoLocationMethod: constr(max_length=255)
-    geoLocationAccuracy: float
-    closingDatetime: str
-    latitude: float
-    longitude: float
-    elevation: int
-    authority: constr(max_length=255)
-    adminRegion: constr(max_length=255)
-    drainageBasin: constr(max_length=255)
+    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
+    openingDatetime: str = Field(title=_("Opening Datetime"))
+    stationType: constr(max_length=255) = Field(title=_("Station Type"))
+    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
+    geoLocationAccuracy: float = Field(title=_("Geolocation Accuracy"))
+    closingDatetime: str = Field(title=_("Closing Datetime"))
+    latitude: float = Field(title=_("Latitude"))
+    longitude: float = Field(title=_("Longitude"))
+    elevation: int = Field(title=_("Elevation"))
+    authority: constr(max_length=255) = Field(title=_("Authority"))
+    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
+    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
 
     class Config:
         fields = {
@@ -32,16 +32,16 @@ class CreateStationLocationHistory(BaseSchema):
 
 
 class UpdateStationLocationHistory(BaseSchema):
-    stationType: constr(max_length=255)
-    geoLocationMethod: constr(max_length=255)
-    geoLocationAccuracy: float
-    closingDatetime: str
-    latitude: float
-    longitude: float
-    elevation: int
-    authority: constr(max_length=255)
-    adminRegion: constr(max_length=255)
-    drainageBasin: constr(max_length=255)
+    stationType: constr(max_length=255) = Field(title=_("Station Type"))
+    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
+    geoLocationAccuracy: float = Field(title=_("Geolocation Accuracy"))
+    closingDatetime: str = Field(title=_("Closing Datetime"))
+    latitude: float = Field(title=_("Latitude"))
+    longitude: float = Field(title=_("Longitude"))
+    elevation: int = Field(title=_("Elevation"))
+    authority: constr(max_length=255) = Field(title=_("Authority"))
+    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
+    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
 
     class Config:
         fields = {
@@ -54,18 +54,18 @@ class UpdateStationLocationHistory(BaseSchema):
 
 
 class StationLocationHistory(BaseSchema):
-    belongsTo: constr(max_length=255)
-    openingDatetime: datetime.datetime
-    stationType: constr(max_length=255)
-    geoLocationMethod: constr(max_length=255)
-    geoLocationAccuracy: float
-    closingDatetime: datetime.datetime
-    latitude: float
-    longitude: float
-    elevation: int
-    authority: constr(max_length=255)
-    adminRegion: constr(max_length=255)
-    drainageBasin: constr(max_length=255)
+    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
+    openingDatetime: datetime.datetime = Field(title=_("Opening Datetime"))
+    stationType: constr(max_length=255) = Field(title=_("Station Type"))
+    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
+    geoLocationAccuracy: float = Field(title=_("Geolocation History"))
+    closingDatetime: datetime.datetime = Field(title=_("Closing Datetime"))
+    latitude: float = Field(title=_("Latitude"))
+    longitude: float = Field(title=_("Longitude"))
+    elevation: int = Field(title=_("Elevation"))
+    authority: constr(max_length=255) = Field(title=_("Authority"))
+    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
+    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
 
     class Config:
         orm_mode = True
@@ -82,7 +82,7 @@ class StationLocationHistory(BaseSchema):
 
 
 class StationLocationHistoryWithStation(StationLocationHistory):
-    station: station_schema.Station
+    station: station_schema.Station = Field(title=_("Code"))
 
 
 class StationLocationHistoryResponse(Response):
@@ -95,5 +95,5 @@ class StationLocationHistoryWithStationResponse(Response):
 
 class StationLocationHistoryQueryResponse(StationLocationHistoryResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

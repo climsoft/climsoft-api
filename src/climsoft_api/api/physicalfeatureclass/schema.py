@@ -6,17 +6,17 @@ from pydantic import constr, Field
 
 
 class CreatePhysicalFeatureClass(BaseSchema):
-    featureClass: constr(max_length=255)
-    description: constr(max_length=255)
-    refersTo: constr(max_length=255)
+    featureClass: constr(max_length=255) = Field(title=_("Feature Class"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
 
     class Config:
         fields = {"featureClass": "feature_class", "refersTo": "refers_to"}
 
 
 class UpdatePhysicalFeatureClass(BaseSchema):
-    description: constr(max_length=255)
-    refersTo: constr(max_length=255)
+    description: constr(max_length=255) = Field(title=_("Description"))
+    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
 
     class Config:
         orm_mode = True
@@ -25,9 +25,9 @@ class UpdatePhysicalFeatureClass(BaseSchema):
 
 
 class PhysicalFeatureClass(BaseSchema):
-    featureClass: constr(max_length=255)
-    description: constr(max_length=255)
-    refersTo: constr(max_length=255)
+    featureClass: constr(max_length=255) = Field(title=_("Feature Class"))
+    description: constr(max_length=255) = Field(title=_("Description"))
+    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
 
     class Config:
         orm_mode = True
@@ -36,7 +36,7 @@ class PhysicalFeatureClass(BaseSchema):
 
 
 class PhysicalFeatureClassWithStation(PhysicalFeatureClass):
-    station: station_schema.Station
+    station: station_schema.Station = Field(title=_("Station"))
 
 
 class PhysicalFeatureClassResponse(Response):
@@ -49,5 +49,5 @@ class PhysicalFeatureClassWithStationResponse(Response):
 
 class PhysicalFeatureClassQueryResponse(PhysicalFeatureClassResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

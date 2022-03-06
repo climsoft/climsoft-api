@@ -8,12 +8,12 @@ from pydantic import constr, Field
 
 
 class CreateInstrumentInspection(BaseSchema):
-    performedOn: constr(max_length=255)
-    inspectionDatetime: constr(max_length=50)
-    performedBy: constr(max_length=255)
-    status: constr(max_length=255)
-    remarks: constr(max_length=255)
-    performedAt: constr(max_length=50)
+    performedOn: constr(max_length=255) = Field(title=_("Performed On"))
+    inspectionDatetime: constr(max_length=50) = Field(title=_("Performed On"))
+    performedBy: constr(max_length=255) = Field(title=_("Performed On"))
+    status: constr(max_length=255) = Field(title=_("Status"))
+    remarks: constr(max_length=255) = Field(title=_("Remarks"))
+    performedAt: constr(max_length=50) = Field(title=_("Performed At"))
 
     class Config:
         fields = {
@@ -25,10 +25,10 @@ class CreateInstrumentInspection(BaseSchema):
 
 
 class UpdateInstrumentInspection(BaseSchema):
-    performedBy: constr(max_length=255)
-    status: constr(max_length=255)
-    remarks: constr(max_length=255)
-    performedAt: constr(max_length=50)
+    performedBy: constr(max_length=255) = Field(title=_("Performed By"))
+    status: constr(max_length=255) = Field(title=_("Status"))
+    remarks: constr(max_length=255) = Field(title=_("Remarks"))
+    performedAt: constr(max_length=50) = Field(title=_("Performed At"))
 
     class Config:
         fields = {
@@ -38,7 +38,7 @@ class UpdateInstrumentInspection(BaseSchema):
 
 
 class InstrumentInspection(CreateInstrumentInspection):
-    performedAt = datetime.datetime
+    performedAt = datetime.datetime = Field(title=_("Performed On"))
 
     class Config:
         orm_mode = True
@@ -52,8 +52,8 @@ class InstrumentInspection(CreateInstrumentInspection):
 
 
 class InstrumentInspectionWithStationAndInstrument(InstrumentInspection):
-    station: station_schema.Station
-    instrument: instrument_schema.Instrument
+    station: station_schema.Station = Field(title=_("Station"))
+    instrument: instrument_schema.Instrument = Field(title=_("Instrument"))
 
 
 class InstrumentInspectionResponse(Response):
@@ -66,5 +66,5 @@ class InstrumentInspectionWithStationAndInstrumentResponse(Response):
 
 class InstrumentInspectionQueryResponse(InstrumentInspectionResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

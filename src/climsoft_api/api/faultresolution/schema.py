@@ -8,10 +8,10 @@ from pydantic import constr, Field
 
 
 class CreateFaultResolution(BaseSchema):
-    resolvedDatetime: constr(max_length=50)
-    associatedWith: constr(max_length=255)
-    resolvedBy: constr(max_length=255)
-    remarks: constr(max_length=255)
+    resolvedDatetime: constr(max_length=50) = Field(title=_("Resolved at"))
+    associatedWith: constr(max_length=255) = Field(title=_("Associated With"))
+    resolvedBy: constr(max_length=255) = Field(title=_("Resolved By"))
+    remarks: constr(max_length=255) = Field(title=_("Remarks"))
 
     class Config:
         fields = {
@@ -22,8 +22,8 @@ class CreateFaultResolution(BaseSchema):
 
 
 class UpdateFaultResolution(BaseSchema):
-    resolvedBy: constr(max_length=255)
-    remarks: constr(max_length=255)
+    resolvedBy: constr(max_length=255) = Field(title=_("Resolved By"))
+    remarks: constr(max_length=255) = Field(title=_("Remarks"))
 
     class Config:
         fields = {
@@ -32,7 +32,7 @@ class UpdateFaultResolution(BaseSchema):
 
 
 class FaultResolution(CreateFaultResolution):
-    resolvedDatetime = datetime.datetime
+    resolvedDatetime: datetime.datetime = Field(title=_("Resolved At"))
 
     class Config:
         orm_mode = True
@@ -45,7 +45,7 @@ class FaultResolution(CreateFaultResolution):
 
 
 class FaultResolutionWithInstrumentFaultReport(FaultResolution):
-    instrumentfaultreport: instrumentfaultreport_schema.InstrumentFaultReport
+    instrumentfaultreport: instrumentfaultreport_schema.InstrumentFaultReport = Field(title=_("Instrument Fault Report"))
 
 
 class FaultResolutionResponse(Response):
@@ -58,5 +58,5 @@ class FaultResolutionWithInstrumentFaultReportResponse(Response):
 
 class FaultResolutionQueryResponse(FaultResolutionResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

@@ -1,16 +1,16 @@
 from typing import List
 
 from climsoft_api.api.schema import Response, BaseSchema
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateSynopFeature(BaseSchema):
-    abbreviation: str
-    description: constr(max_length=255)
+    abbreviation: str = Field(title=_("Abbreviation"))
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class UpdateSynopFeature(BaseSchema):
-    description: constr(max_length=255)
+    description: constr(max_length=255) = Field(title=_("Description"))
 
 
 class SynopFeature(CreateSynopFeature):
@@ -25,5 +25,5 @@ class SynopFeatureResponse(Response):
 
 class SynopFeatureQueryResponse(SynopFeatureResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

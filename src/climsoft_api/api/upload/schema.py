@@ -4,13 +4,13 @@ from climsoft_api.api.schema import Response, BaseSchema
 
 
 class FileUploadedToDisk(BaseSchema):
-    storage: str = "disk"
-    filepath: str
+    storage: str = Field("disk", title=_("Storage"))
+    filepath: str = Field(title=_("Filepath"))
 
 
 class FileUploadedToS3(BaseSchema):
-    storage: str = "s3"
-    object_key: str
+    storage: str = Field("s3", title=_("Storage"))
+    object_key: str = Field(title=_("Object key"))
 
 
 class FileUploadedToDiskResponse(Response):

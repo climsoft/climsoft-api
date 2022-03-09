@@ -2,16 +2,16 @@ from typing import List
 
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr
+from pydantic import constr, Field
 
 
 class CreateStationQualifier(BaseSchema):
-    qualifier: constr(max_length=255)
-    qualifierBeginDate: constr(max_length=50)
-    qualifierEndDate: constr(max_length=50)
-    belongsTo: constr(max_length=255)
-    stationTimeZone: int
-    stationNetworkType: constr(max_length=255)
+    qualifier: constr(max_length=255) = Field(title=_("Qualifier"))
+    qualifierBeginDate: constr(max_length=50) = Field(title=_("Qualifier Begin Date"))
+    qualifierEndDate: constr(max_length=50) = Field(title=_("Qualifier End Date"))
+    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
+    stationTimeZone: int = Field(title=_("Station Timezone"))
+    stationNetworkType: constr(max_length=255) = Field(title=_("Station Network Type"))
 
     class Config:
         fields = {
@@ -24,8 +24,8 @@ class CreateStationQualifier(BaseSchema):
 
 
 class UpdateStationQualifier(BaseSchema):
-    stationTimeZone: int
-    stationNetworkType: constr(max_length=255)
+    stationTimeZone: int = Field(title=_("Station Timezone"))
+    stationNetworkType: constr(max_length=255) = Field(title=_("Station Network Type"))
 
     class Config:
         fields = {
@@ -52,7 +52,7 @@ class StationQualifierResponse(Response):
 
 
 class StationQualifierWithStation(StationQualifier):
-    station: station_schema.Station
+    station: station_schema.Station = Field(title=_("Station"))
 
 
 class StationQualifierWithStationResponse(Response):
@@ -61,5 +61,5 @@ class StationQualifierWithStationResponse(Response):
 
 class StationQualifierQueryResponse(StationQualifierResponse):
     limit: int = Field(title=_("Limit"))
-    page: int
-    pages: int
+    page: int = Field(title=_("Page"))
+    pages: int = Field(title=_("Pages"))

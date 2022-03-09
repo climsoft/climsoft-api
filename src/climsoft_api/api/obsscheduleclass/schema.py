@@ -6,9 +6,9 @@ from pydantic import constr, Field
 
 
 class CreateObsScheduleClass(BaseSchema):
-    scheduleClass: constr(max_length=255) = Field(title=_("Schedule Class"))
-    description: constr(max_length=255) = Field(title=_("Description"))
-    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
+    scheduleClass: constr(max_length=255) = Field(title="Schedule Class")
+    description: constr(max_length=255) = Field(title="Description")
+    refersTo: constr(max_length=255) = Field(title="Refers To")
 
     class Config:
         fields = {
@@ -18,8 +18,8 @@ class CreateObsScheduleClass(BaseSchema):
 
 
 class UpdateObsScheduleClass(BaseSchema):
-    description: constr(max_length=255) = Field(title=_("Description"))
-    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
+    description: constr(max_length=255) = Field(title="Description")
+    refersTo: constr(max_length=255) = Field(title="Refers To")
 
     class Config:
         fields = {
@@ -38,18 +38,18 @@ class ObsScheduleClass(CreateObsScheduleClass):
 
 
 class ObsScheduleClassResponse(Response):
-    result: List[ObsScheduleClass] = Field(title=_("Result"))
+    result: List[ObsScheduleClass] = Field(title="Result")
 
 
 class ObsScheduleClassWithStation(ObsScheduleClass):
-    station: station_schema.Station = Field(title=_("Station"))
+    station: station_schema.Station = Field(title="Station")
 
 
 class ObsScheduleClassWithStationResponse(Response):
-    result: List[ObsScheduleClassWithStation] = Field(title=_("Result"))
+    result: List[ObsScheduleClassWithStation] = Field(title="Result")
 
 
 class ObsScheduleClassQueryResponse(ObsScheduleClassResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

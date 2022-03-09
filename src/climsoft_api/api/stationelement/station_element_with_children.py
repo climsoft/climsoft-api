@@ -7,7 +7,7 @@ from ..obselement.schema import ObsElement, field_mapping
 
 
 class StationElementWithObsElement(StationElement):
-    obselement: ObsElement = Field(title=_("Obs Element"))
+    obselement: ObsElement = Field(title="Obs Element")
 
     class Config:
         orm_mode = True
@@ -16,8 +16,8 @@ class StationElementWithObsElement(StationElement):
 
 
 class StationElementWithObsElementQueryResponse(Response):
-    status: str = Field("success", title=_("Status"))
-    result: List[StationElementWithObsElement] = Field(title=_("Result"))
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    status: str = Field("success", title="Status")
+    result: List[StationElementWithObsElement] = Field(title="Result")
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

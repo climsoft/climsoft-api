@@ -8,10 +8,10 @@ from pydantic import constr, Field
 
 
 class CreateFaultResolution(BaseSchema):
-    resolvedDatetime: constr(max_length=50) = Field(title=_("Resolved at"))
-    associatedWith: constr(max_length=255) = Field(title=_("Associated With"))
-    resolvedBy: constr(max_length=255) = Field(title=_("Resolved By"))
-    remarks: constr(max_length=255) = Field(title=_("Remarks"))
+    resolvedDatetime: constr(max_length=50) = Field(title="Resolved at")
+    associatedWith: constr(max_length=255) = Field(title="Associated With")
+    resolvedBy: constr(max_length=255) = Field(title="Resolved By")
+    remarks: constr(max_length=255) = Field(title="Remarks")
 
     class Config:
         fields = {
@@ -22,8 +22,8 @@ class CreateFaultResolution(BaseSchema):
 
 
 class UpdateFaultResolution(BaseSchema):
-    resolvedBy: constr(max_length=255) = Field(title=_("Resolved By"))
-    remarks: constr(max_length=255) = Field(title=_("Remarks"))
+    resolvedBy: constr(max_length=255) = Field(title="Resolved By")
+    remarks: constr(max_length=255) = Field(title="Remarks")
 
     class Config:
         fields = {
@@ -32,7 +32,7 @@ class UpdateFaultResolution(BaseSchema):
 
 
 class FaultResolution(CreateFaultResolution):
-    resolvedDatetime: datetime.datetime = Field(title=_("Resolved At"))
+    resolvedDatetime: datetime.datetime = Field(title="Resolved At")
 
     class Config:
         orm_mode = True
@@ -45,18 +45,18 @@ class FaultResolution(CreateFaultResolution):
 
 
 class FaultResolutionWithInstrumentFaultReport(FaultResolution):
-    instrumentfaultreport: instrumentfaultreport_schema.InstrumentFaultReport = Field(title=_("Instrument Fault Report"))
+    instrumentfaultreport: instrumentfaultreport_schema.InstrumentFaultReport = Field(title="Instrument Fault Report")
 
 
 class FaultResolutionResponse(Response):
-    result: List[FaultResolution] = Field(title=_("Result"))
+    result: List[FaultResolution] = Field(title="Result")
 
 
 class FaultResolutionWithInstrumentFaultReportResponse(Response):
-    result: List[FaultResolutionWithInstrumentFaultReport] = Field(title=_("Result"))
+    result: List[FaultResolutionWithInstrumentFaultReport] = Field(title="Result")
 
 
 class FaultResolutionQueryResponse(FaultResolutionResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

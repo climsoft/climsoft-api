@@ -5,15 +5,15 @@ from pydantic import constr, Field
 
 
 class CreatePaperArchiveDefinition(BaseSchema):
-    formId: constr(max_length=50) = Field(title=_("Form ID"))
-    description: constr(max_length=255) = Field(title=_("Description"))
+    formId: constr(max_length=50) = Field(title="Form ID")
+    description: constr(max_length=255) = Field(title="Description")
 
     class Config:
         fields = {"formId": "form_id"}
 
 
 class UpdatePaperArchiveDefinition(BaseSchema):
-    description: constr(max_length=255) = Field(title=_("Description"))
+    description: constr(max_length=255) = Field(title="Description")
 
 
 class PaperArchiveDefinition(CreatePaperArchiveDefinition):
@@ -24,10 +24,10 @@ class PaperArchiveDefinition(CreatePaperArchiveDefinition):
 
 
 class PaperArchiveDefinitionResponse(Response):
-    result: List[PaperArchiveDefinition] = Field(title=_("Result"))
+    result: List[PaperArchiveDefinition] = Field(title="Result")
 
 
 class PaperArchiveDefinitionQueryResponse(PaperArchiveDefinitionResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

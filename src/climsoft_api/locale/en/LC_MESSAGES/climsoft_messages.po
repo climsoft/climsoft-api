@@ -787,3 +787,392 @@ msgstr ""
 msgid "Failed to delete synop feature."
 msgstr ""
 
+msgid "Message"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Code"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Result"
+msgstr ""
+
+msgid "Limit"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Pages"
+msgstr ""
+
+msgid "Username"
+msgstr ""
+
+msgid "Role"
+msgstr ""
+
+msgid "Form Name"
+msgstr ""
+
+msgid "Order Number"
+msgstr ""
+
+msgid "Table Name"
+msgstr ""
+
+msgid "Selected"
+msgstr ""
+
+msgid "Start Position"
+msgstr ""
+
+msgid "End Position"
+msgstr ""
+
+msgid "Location Code of Element"
+msgstr ""
+
+msgid "Sequencer"
+msgstr ""
+
+msgid "Entry Mode"
+msgstr ""
+
+msgid "Resolved at"
+msgstr ""
+
+msgid "Associated With"
+msgstr ""
+
+msgid "Resolved By"
+msgstr ""
+
+msgid "Remarks"
+msgstr ""
+
+msgid "Resolved At"
+msgstr ""
+
+msgid "Instrument Fault Report"
+msgstr ""
+
+msgid "Belongs To"
+msgstr ""
+
+msgid "Observed On"
+msgstr ""
+
+msgid "Latitude"
+msgstr ""
+
+msgid "Longitude"
+msgstr ""
+
+msgid "Synop Feature"
+msgstr ""
+
+msgid "Character Symbol"
+msgstr ""
+
+msgid "Number Symbol"
+msgstr ""
+
+msgid "Instrument Name"
+msgstr ""
+
+msgid "Instrument ID"
+msgstr ""
+
+msgid "Serial Number"
+msgstr ""
+
+msgid "Abbreviation"
+msgstr ""
+
+msgid "Model"
+msgstr ""
+
+msgid "Manufacturer"
+msgstr ""
+
+msgid "Instrument Uncertainty"
+msgstr ""
+
+msgid "Installation Datetime"
+msgstr ""
+
+msgid "Uninstallation Datetime"
+msgstr ""
+
+msgid "Height"
+msgstr ""
+
+msgid "Instrument Picture"
+msgstr ""
+
+msgid "Installed At"
+msgstr ""
+
+msgid "Refers To"
+msgstr ""
+
+msgid "Report ID"
+msgstr ""
+
+msgid "Report Datetime"
+msgstr ""
+
+msgid "Fault Description"
+msgstr ""
+
+msgid "Reported By"
+msgstr ""
+
+msgid "Received Datetime"
+msgstr ""
+
+msgid "Received By"
+msgstr ""
+
+msgid "Reported From"
+msgstr ""
+
+msgid "Station"
+msgstr ""
+
+msgid "Instrument"
+msgstr ""
+
+msgid "Performed On"
+msgstr ""
+
+msgid "Performed At"
+msgstr ""
+
+msgid "Performed By"
+msgstr ""
+
+msgid "Element ID"
+msgstr ""
+
+msgid "Element Name"
+msgstr ""
+
+msgid "Element Scale"
+msgstr ""
+
+msgid "Upper Limit"
+msgstr ""
+
+msgid "Lower Limit"
+msgstr ""
+
+msgid "Units"
+msgstr ""
+
+msgid "Element Type"
+msgstr ""
+
+msgid "QC Total Required"
+msgstr ""
+
+msgid "Recorded From"
+msgstr ""
+
+msgid "Described By"
+msgstr ""
+
+msgid "Obs Datetime"
+msgstr ""
+
+msgid "QC Status"
+msgstr ""
+
+msgid "Acquisition Type"
+msgstr ""
+
+msgid "Obs Level"
+msgstr ""
+
+msgid "ObsValue"
+msgstr ""
+
+msgid "Flag"
+msgstr ""
+
+msgid "Period"
+msgstr ""
+
+msgid "QC Type Log"
+msgstr ""
+
+msgid "Data Form"
+msgstr ""
+
+msgid "Captured By"
+msgstr ""
+
+msgid "Mark"
+msgstr ""
+
+msgid "Temperature Units"
+msgstr ""
+
+msgid "Precipitation Units"
+msgstr ""
+
+msgid "Cloud Height Units"
+msgstr ""
+
+msgid "Vis Units"
+msgstr ""
+
+msgid "Data Source Timezone"
+msgstr ""
+
+msgid "Obs Value"
+msgstr ""
+
+msgid "Obs Element"
+msgstr ""
+
+msgid "Schedule Class"
+msgstr ""
+
+msgid "Form Datetime"
+msgstr ""
+
+msgid "Image"
+msgstr ""
+
+msgid "Classified Into"
+msgstr ""
+
+msgid "Paper Archive Definition"
+msgstr ""
+
+msgid "Form ID"
+msgstr ""
+
+msgid "Begin Date"
+msgstr ""
+
+msgid "End Date"
+msgstr ""
+
+msgid "ClassifiedInto"
+msgstr ""
+
+msgid "Physical Feature Class"
+msgstr ""
+
+msgid "Feature Class"
+msgstr ""
+
+msgid "Key Name"
+msgstr ""
+
+msgid "Key Value"
+msgstr ""
+
+msgid "Key Description"
+msgstr ""
+
+msgid "Station ID"
+msgstr ""
+
+msgid "Station Name"
+msgstr ""
+
+msgid "Wmo ID"
+msgstr ""
+
+msgid "Icao ID"
+msgstr ""
+
+msgid "Qualifier"
+msgstr ""
+
+msgid "Elevation"
+msgstr ""
+
+msgid "Geolocation Method"
+msgstr ""
+
+msgid "Geolocation Accuracy"
+msgstr ""
+
+msgid "Opening Datetime"
+msgstr ""
+
+msgid "Closing Datetime"
+msgstr ""
+
+msgid "Country"
+msgstr ""
+
+msgid "Authority"
+msgstr ""
+
+msgid "Admin Region"
+msgstr ""
+
+msgid "Drainage Basin"
+msgstr ""
+
+msgid "Waca Selection"
+msgstr ""
+
+msgid "Cpt Selection"
+msgstr ""
+
+msgid "Station Operational"
+msgstr ""
+
+msgid "Elements"
+msgstr ""
+
+msgid "Recorded With"
+msgstr ""
+
+msgid "Instrument Code"
+msgstr ""
+
+msgid "Scheduled For"
+msgstr ""
+
+msgid "Obs Schedule Class"
+msgstr ""
+
+msgid "Station Type"
+msgstr ""
+
+msgid "Geolocation History"
+msgstr ""
+
+msgid "Qualifier Begin Date"
+msgstr ""
+
+msgid "Qualifier End Date"
+msgstr ""
+
+msgid "Station Timezone"
+msgstr ""
+
+msgid "Station Network Type"
+msgstr ""
+
+msgid "Storage"
+msgstr ""
+
+msgid "Filepath"
+msgstr ""
+
+msgid "Object key"
+msgstr ""

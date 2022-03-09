@@ -18,8 +18,8 @@ class ClimsoftUserRole(str, enum.Enum):
 
 
 class CreateClimsoftUser(BaseSchema):
-    userName: str = Field(title=_("Username"))
-    userRole: ClimsoftUserRole = Field(title=_("Role"))
+    userName: str = Field(title="Username")
+    userRole: ClimsoftUserRole = Field(title="Role")
 
     class Config:
         fields = {
@@ -29,8 +29,8 @@ class CreateClimsoftUser(BaseSchema):
 
 
 class ClimsoftUser(BaseSchema):
-    userName: str = Field(title=_("Username"))
-    userRole: ClimsoftUserRole = Field(title=_("Role"))
+    userName: str = Field(title="Username")
+    userRole: ClimsoftUserRole = Field(title="Role")
 
     class Config:
         fields = {
@@ -42,10 +42,10 @@ class ClimsoftUser(BaseSchema):
 
 
 class ClimsoftUserResponse(Response):
-    result: List[ClimsoftUser] = Field(title=_("Result"))
+    result: List[ClimsoftUser] = Field(title="Result")
 
 
 class ClimsoftUserQueryResponse(ClimsoftUserResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

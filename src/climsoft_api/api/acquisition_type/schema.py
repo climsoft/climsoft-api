@@ -4,12 +4,12 @@ from climsoft_api.api.schema import Response, BaseSchema
 
 
 class CreateAcquisitionType(BaseSchema):
-    code: int = Field(title=_("Code"))
-    description: str = Field(title=_("Description"))
+    code: int = Field(title="Code")
+    description: str = Field(title="Description")
 
 
 class UpdateAcquisitionType(BaseSchema):
-    description: str = Field(title=_("Description"))
+    description: str = Field(title="Description")
 
 
 class AcquisitionType(CreateAcquisitionType):
@@ -18,10 +18,10 @@ class AcquisitionType(CreateAcquisitionType):
 
 
 class AcquisitionTypeResponse(Response):
-    result: List[AcquisitionType] = Field(title=_("Result"))
+    result: List[AcquisitionType] = Field(title="Result")
 
 
 class AcquisitionTypeQueryResponse(AcquisitionTypeResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

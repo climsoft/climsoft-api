@@ -6,12 +6,12 @@ from pydantic import constr, Field
 
 
 class CreateStationQualifier(BaseSchema):
-    qualifier: constr(max_length=255) = Field(title=_("Qualifier"))
-    qualifierBeginDate: constr(max_length=50) = Field(title=_("Qualifier Begin Date"))
-    qualifierEndDate: constr(max_length=50) = Field(title=_("Qualifier End Date"))
-    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
-    stationTimeZone: int = Field(title=_("Station Timezone"))
-    stationNetworkType: constr(max_length=255) = Field(title=_("Station Network Type"))
+    qualifier: constr(max_length=255) = Field(title="Qualifier")
+    qualifierBeginDate: constr(max_length=50) = Field(title="Qualifier Begin Date")
+    qualifierEndDate: constr(max_length=50) = Field(title="Qualifier End Date")
+    belongsTo: constr(max_length=255) = Field(title="Belongs To")
+    stationTimeZone: int = Field(title="Station Timezone")
+    stationNetworkType: constr(max_length=255) = Field(title="Station Network Type")
 
     class Config:
         fields = {
@@ -24,8 +24,8 @@ class CreateStationQualifier(BaseSchema):
 
 
 class UpdateStationQualifier(BaseSchema):
-    stationTimeZone: int = Field(title=_("Station Timezone"))
-    stationNetworkType: constr(max_length=255) = Field(title=_("Station Network Type"))
+    stationTimeZone: int = Field(title="Station Timezone")
+    stationNetworkType: constr(max_length=255) = Field(title="Station Network Type")
 
     class Config:
         fields = {
@@ -48,18 +48,18 @@ class StationQualifier(CreateStationQualifier):
 
 
 class StationQualifierResponse(Response):
-    result: List[StationQualifier] = Field(title=_("Result"))
+    result: List[StationQualifier] = Field(title="Result")
 
 
 class StationQualifierWithStation(StationQualifier):
-    station: station_schema.Station = Field(title=_("Station"))
+    station: station_schema.Station = Field(title="Station")
 
 
 class StationQualifierWithStationResponse(Response):
-    result: List[StationQualifierWithStation] = Field(title=_("Result"))
+    result: List[StationQualifierWithStation] = Field(title="Result")
 
 
 class StationQualifierQueryResponse(StationQualifierResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

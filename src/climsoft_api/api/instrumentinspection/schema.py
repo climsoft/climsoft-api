@@ -8,12 +8,12 @@ from pydantic import constr, Field
 
 
 class CreateInstrumentInspection(BaseSchema):
-    performedOn: constr(max_length=255) = Field(title=_("Performed On"))
-    inspectionDatetime: constr(max_length=50) = Field(title=_("Performed On"))
-    performedBy: constr(max_length=255) = Field(title=_("Performed On"))
-    status: constr(max_length=255) = Field(title=_("Status"))
-    remarks: constr(max_length=255) = Field(title=_("Remarks"))
-    performedAt: constr(max_length=50) = Field(title=_("Performed At"))
+    performedOn: constr(max_length=255) = Field(title="Performed On")
+    inspectionDatetime: constr(max_length=50) = Field(title="Performed On")
+    performedBy: constr(max_length=255) = Field(title="Performed On")
+    status: constr(max_length=255) = Field(title="Status")
+    remarks: constr(max_length=255) = Field(title="Remarks")
+    performedAt: constr(max_length=50) = Field(title="Performed At")
 
     class Config:
         fields = {
@@ -25,10 +25,10 @@ class CreateInstrumentInspection(BaseSchema):
 
 
 class UpdateInstrumentInspection(BaseSchema):
-    performedBy: constr(max_length=255) = Field(title=_("Performed By"))
-    status: constr(max_length=255) = Field(title=_("Status"))
-    remarks: constr(max_length=255) = Field(title=_("Remarks"))
-    performedAt: constr(max_length=50) = Field(title=_("Performed At"))
+    performedBy: constr(max_length=255) = Field(title="Performed By")
+    status: constr(max_length=255) = Field(title="Status")
+    remarks: constr(max_length=255) = Field(title="Remarks")
+    performedAt: constr(max_length=50) = Field(title="Performed At")
 
     class Config:
         fields = {
@@ -38,7 +38,7 @@ class UpdateInstrumentInspection(BaseSchema):
 
 
 class InstrumentInspection(CreateInstrumentInspection):
-    performedAt = datetime.datetime = Field(title=_("Performed On"))
+    performedAt: datetime.datetime = Field(title="Performed On")
 
     class Config:
         orm_mode = True
@@ -52,19 +52,19 @@ class InstrumentInspection(CreateInstrumentInspection):
 
 
 class InstrumentInspectionWithStationAndInstrument(InstrumentInspection):
-    station: station_schema.Station = Field(title=_("Station"))
-    instrument: instrument_schema.Instrument = Field(title=_("Instrument"))
+    station: station_schema.Station = Field(title="Station")
+    instrument: instrument_schema.Instrument = Field(title="Instrument")
 
 
 class InstrumentInspectionResponse(Response):
-    result: List[InstrumentInspection] = Field(title=_("Result"))
+    result: List[InstrumentInspection] = Field(title="Result")
 
 
 class InstrumentInspectionWithStationAndInstrumentResponse(Response):
-    result: List[InstrumentInspectionWithStationAndInstrument] = Field(title=_("Result"))
+    result: List[InstrumentInspectionWithStationAndInstrument] = Field(title="Result")
 
 
 class InstrumentInspectionQueryResponse(InstrumentInspectionResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

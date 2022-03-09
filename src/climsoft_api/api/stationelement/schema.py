@@ -19,24 +19,24 @@ field_names = {
 
 
 class CreateStationElement(BaseSchema):
-    recordedFrom: constr(max_length=255) = Field(title=_("Recorded From"))
-    describedBy: Optional[int] = Field(title=_("Described By"))
-    recordedWith: Optional[constr(max_length=255)] = Field(title=_("Recorded With"))
-    instrumentcode: Optional[constr(max_length=6)] = Field(title=_("Instrument Code"))
-    scheduledFor: Optional[constr(max_length=255)] = Field(title=_("Scheduled For"))
-    height: Optional[float] = Field(title=_("Height"))
-    beginDate: Optional[constr(max_length=50)] = Field(title=_("Begin Date"))
-    endDate: Optional[constr(max_length=255)] = Field(title=_("End Date"))
+    recordedFrom: constr(max_length=255) = Field(title="Recorded From")
+    describedBy: Optional[int] = Field(title="Described By")
+    recordedWith: Optional[constr(max_length=255)] = Field(title="Recorded With")
+    instrumentcode: Optional[constr(max_length=6)] = Field(title="Instrument Code")
+    scheduledFor: Optional[constr(max_length=255)] = Field(title="Scheduled For")
+    height: Optional[float] = Field(title="Height")
+    beginDate: Optional[constr(max_length=50)] = Field(title="Begin Date")
+    endDate: Optional[constr(max_length=255)] = Field(title="End Date")
 
     class Config:
         fields = field_names
 
 
 class UpdateStationElement(BaseSchema):
-    instrumentcode: Optional[constr(max_length=6)] = Field(title=_("Instrument Code"))
-    scheduledFor: Optional[constr(max_length=255)] = Field(title=_("Scheduled For"))
-    height: Optional[float] = Field(title=_("Height"))
-    endDate: Optional[constr(max_length=255)] = Field(title=_("End Date"))
+    instrumentcode: Optional[constr(max_length=6)] = Field(title="Instrument Code")
+    scheduledFor: Optional[constr(max_length=255)] = Field(title="Scheduled For")
+    height: Optional[float] = Field(title="Height")
+    endDate: Optional[constr(max_length=255)] = Field(title="End Date")
 
     class Config:
         fields = field_names
@@ -50,14 +50,14 @@ class StationElement(CreateStationElement):
 
 
 class StationElementResponse(Response):
-    result: List[StationElement] = Field(title=_("Result"))
+    result: List[StationElement] = Field(title="Result")
 
 
 class StationElementWithChildren(StationElement):
-    obselement: Optional[obselement_schema.ObsElement] = Field(title=_("Obs Element"))
-    station: Optional[station_schema.Station] = Field(title=_("Station"))
-    instrument: Optional[instrument_schema.Instrument] = Field(title=_("Instrument"))
-    obsscheduleclas: Optional[obsscheduleclass_schema.ObsScheduleClass] = Field(title=_("Obs Schedule Class"))
+    obselement: Optional[obselement_schema.ObsElement] = Field(title="Obs Element")
+    station: Optional[station_schema.Station] = Field(title="Station")
+    instrument: Optional[instrument_schema.Instrument] = Field(title="Instrument")
+    obsscheduleclas: Optional[obsscheduleclass_schema.ObsScheduleClass] = Field(title="Obs Schedule Class")
 
     class Config:
         orm_mode = True
@@ -70,15 +70,15 @@ class StationElementWithChildren(StationElement):
 
 
 class StationElementWithStation(BaseSchema):
-    describedBy: Optional[int] = Field(title=_("Described By"))
-    recordedWith: Optional[constr(max_length=255)] = Field(title=_("Recorded With"))
-    instrumentcode: Optional[constr(max_length=6)] = Field(title=_("Instrument Code"))
-    scheduledFor: Optional[constr(max_length=255)] = Field(title=_("Scheduled For"))
-    height: Optional[float] = Field(title=_("Height"))
-    beginDate: Optional[constr(max_length=50)] = Field(title=_("Begin Date"))
-    endDate: Optional[constr(max_length=255)] = Field(title=_("End Date"))
+    describedBy: Optional[int] = Field(title="Described By")
+    recordedWith: Optional[constr(max_length=255)] = Field(title="Recorded With")
+    instrumentcode: Optional[constr(max_length=6)] = Field(title="Instrument Code")
+    scheduledFor: Optional[constr(max_length=255)] = Field(title="Scheduled For")
+    height: Optional[float] = Field(title="Height")
+    beginDate: Optional[constr(max_length=50)] = Field(title="Begin Date")
+    endDate: Optional[constr(max_length=255)] = Field(title="End Date")
 
-    station: Optional[station_schema.Station] = Field(title=_("Station"))
+    station: Optional[station_schema.Station] = Field(title="Station")
 
     class Config:
         orm_mode = True
@@ -92,18 +92,18 @@ class StationElementWithStation(BaseSchema):
 
 
 class StationElementWithChildrenResponse(Response):
-    result: List[StationElementWithChildren] = Field(title=_("Result"))
+    result: List[StationElementWithChildren] = Field(title="Result")
 
 
 class StationElementWithStationQueryResponse(Response):
-    status: str = Field("success", title=_("Status"))
-    result: List[StationElementWithStation] = Field(title=_("Result"))
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    status: str = Field("success", title="Status")
+    result: List[StationElementWithStation] = Field(title="Result")
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")
 
 
 class StationElementQueryResponse(StationElementResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

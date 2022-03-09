@@ -6,10 +6,10 @@ from pydantic import constr, Field
 
 
 class CreateFeatureGeographicalPosition(BaseSchema):
-    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
-    observedOn: constr(max_length=50) = Field(title=_("Observed On"))
-    latitude: float = Field(title=_("Latitude"))
-    longitude: float = Field(title=_("Longitude"))
+    belongsTo: constr(max_length=255) = Field(title="Belongs To")
+    observedOn: constr(max_length=50) = Field(title="Observed On")
+    latitude: float = Field(title="Latitude")
+    longitude: float = Field(title="Longitude")
 
     class Config:
         fields = {
@@ -19,9 +19,9 @@ class CreateFeatureGeographicalPosition(BaseSchema):
 
 
 class UpdateFeatureGeographicalPosition(BaseSchema):
-    observedOn: constr(max_length=50) = Field(title=_("Observed On"))
-    latitude: float = Field(title=_("Latitude"))
-    longitude: float = Field(title=_("Longitude"))
+    observedOn: constr(max_length=50) = Field(title="Observed On")
+    latitude: float = Field(title="Latitude")
+    longitude: float = Field(title="Longitude")
 
     class Config:
         fields = {
@@ -40,20 +40,20 @@ class FeatureGeographicalPosition(CreateFeatureGeographicalPosition):
 
 
 class FeatureGeographicalPositionWithSynopFeature(FeatureGeographicalPosition):
-    synopfeature: synopfeature_schema.SynopFeature = Field(title=_("Synop Feature")) # noqa
+    synopfeature: synopfeature_schema.SynopFeature = Field(title="Synop Feature") # noqa
 
 
 class FeatureGeographicalPositionResponse(Response):
-    result: List[FeatureGeographicalPosition] = Field(title=_("Result"))
+    result: List[FeatureGeographicalPosition] = Field(title="Result")
 
 
 class FeatureGeographicalPositionWithSynopFeatureResponse(Response):
-    result: List[FeatureGeographicalPositionWithSynopFeature] = Field(title=_("Result"))
+    result: List[FeatureGeographicalPositionWithSynopFeature] = Field(title="Result")
 
 
 class FeatureGeographicalPositionQueryResponse(
     FeatureGeographicalPositionResponse
 ):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

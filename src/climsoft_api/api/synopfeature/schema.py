@@ -5,12 +5,12 @@ from pydantic import constr, Field
 
 
 class CreateSynopFeature(BaseSchema):
-    abbreviation: str = Field(title=_("Abbreviation"))
-    description: constr(max_length=255) = Field(title=_("Description"))
+    abbreviation: str = Field(title="Abbreviation")
+    description: constr(max_length=255) = Field(title="Description")
 
 
 class UpdateSynopFeature(BaseSchema):
-    description: constr(max_length=255) = Field(title=_("Description"))
+    description: constr(max_length=255) = Field(title="Description")
 
 
 class SynopFeature(CreateSynopFeature):
@@ -20,10 +20,10 @@ class SynopFeature(CreateSynopFeature):
 
 
 class SynopFeatureResponse(Response):
-    result: List[SynopFeature] = Field(title=_("Result"))
+    result: List[SynopFeature] = Field(title="Result")
 
 
 class SynopFeatureQueryResponse(SynopFeatureResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

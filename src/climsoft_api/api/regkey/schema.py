@@ -5,9 +5,9 @@ from pydantic import constr, Field
 
 
 class CreateRegKey(BaseSchema):
-    keyName: constr(max_length=255) = Field(title=_("Key Name"))
-    keyValue: constr(max_length=255) = Field(title=_("Key Value"))
-    keyDescription: constr(max_length=255) = Field(title=_("Key Description"))
+    keyName: constr(max_length=255) = Field(title="Key Name")
+    keyValue: constr(max_length=255) = Field(title="Key Value")
+    keyDescription: constr(max_length=255) = Field(title="Key Description")
 
     class Config:
         fields = {
@@ -18,8 +18,8 @@ class CreateRegKey(BaseSchema):
 
 
 class UpdateRegKey(BaseSchema):
-    keyValue: constr(max_length=255) = Field(title=_("Key Value"))
-    keyDescription: constr(max_length=255) = Field(title=_("Key Description"))
+    keyValue: constr(max_length=255) = Field(title="Key Value")
+    keyDescription: constr(max_length=255) = Field(title="Key Description")
 
     class Config:
         fields = {
@@ -40,10 +40,10 @@ class RegKey(CreateRegKey):
 
 
 class RegKeyResponse(Response):
-    result: List[RegKey] = Field(title=_("Result"))
+    result: List[RegKey] = Field(title="Result")
 
 
 class RegKeyQueryResponse(RegKeyResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

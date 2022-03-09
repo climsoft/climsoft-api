@@ -6,17 +6,17 @@ from pydantic import constr, Field
 
 
 class CreatePhysicalFeatureClass(BaseSchema):
-    featureClass: constr(max_length=255) = Field(title=_("Feature Class"))
-    description: constr(max_length=255) = Field(title=_("Description"))
-    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
+    featureClass: constr(max_length=255) = Field(title="Feature Class")
+    description: constr(max_length=255) = Field(title="Description")
+    refersTo: constr(max_length=255) = Field(title="Refers To")
 
     class Config:
         fields = {"featureClass": "feature_class", "refersTo": "refers_to"}
 
 
 class UpdatePhysicalFeatureClass(BaseSchema):
-    description: constr(max_length=255) = Field(title=_("Description"))
-    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
+    description: constr(max_length=255) = Field(title="Description")
+    refersTo: constr(max_length=255) = Field(title="Refers To")
 
     class Config:
         orm_mode = True
@@ -25,9 +25,9 @@ class UpdatePhysicalFeatureClass(BaseSchema):
 
 
 class PhysicalFeatureClass(BaseSchema):
-    featureClass: constr(max_length=255) = Field(title=_("Feature Class"))
-    description: constr(max_length=255) = Field(title=_("Description"))
-    refersTo: constr(max_length=255) = Field(title=_("Refers To"))
+    featureClass: constr(max_length=255) = Field(title="Feature Class")
+    description: constr(max_length=255) = Field(title="Description")
+    refersTo: constr(max_length=255) = Field(title="Refers To")
 
     class Config:
         orm_mode = True
@@ -36,18 +36,18 @@ class PhysicalFeatureClass(BaseSchema):
 
 
 class PhysicalFeatureClassWithStation(PhysicalFeatureClass):
-    station: station_schema.Station = Field(title=_("Station"))
+    station: station_schema.Station = Field(title="Station")
 
 
 class PhysicalFeatureClassResponse(Response):
-    result: List[PhysicalFeatureClass] = Field(title=_("Result"))
+    result: List[PhysicalFeatureClass] = Field(title="Result")
 
 
 class PhysicalFeatureClassWithStationResponse(Response):
-    result: List[PhysicalFeatureClassWithStation] = Field(title=_("Result"))
+    result: List[PhysicalFeatureClassWithStation] = Field(title="Result")
 
 
 class PhysicalFeatureClassQueryResponse(PhysicalFeatureClassResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

@@ -6,18 +6,18 @@ from pydantic import constr, Field
 
 
 class CreateStationLocationHistory(BaseSchema):
-    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
-    openingDatetime: str = Field(title=_("Opening Datetime"))
-    stationType: constr(max_length=255) = Field(title=_("Station Type"))
-    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
-    geoLocationAccuracy: float = Field(title=_("Geolocation Accuracy"))
-    closingDatetime: str = Field(title=_("Closing Datetime"))
-    latitude: float = Field(title=_("Latitude"))
-    longitude: float = Field(title=_("Longitude"))
-    elevation: int = Field(title=_("Elevation"))
-    authority: constr(max_length=255) = Field(title=_("Authority"))
-    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
-    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
+    belongsTo: constr(max_length=255) = Field(title="Belongs To")
+    openingDatetime: str = Field(title="Opening Datetime")
+    stationType: constr(max_length=255) = Field(title="Station Type")
+    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
+    closingDatetime: str = Field(title="Closing Datetime")
+    latitude: float = Field(title="Latitude")
+    longitude: float = Field(title="Longitude")
+    elevation: int = Field(title="Elevation")
+    authority: constr(max_length=255) = Field(title="Authority")
+    adminRegion: constr(max_length=255) = Field(title="Admin Region")
+    drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
 
     class Config:
         fields = {
@@ -32,16 +32,16 @@ class CreateStationLocationHistory(BaseSchema):
 
 
 class UpdateStationLocationHistory(BaseSchema):
-    stationType: constr(max_length=255) = Field(title=_("Station Type"))
-    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
-    geoLocationAccuracy: float = Field(title=_("Geolocation Accuracy"))
-    closingDatetime: str = Field(title=_("Closing Datetime"))
-    latitude: float = Field(title=_("Latitude"))
-    longitude: float = Field(title=_("Longitude"))
-    elevation: int = Field(title=_("Elevation"))
-    authority: constr(max_length=255) = Field(title=_("Authority"))
-    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
-    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
+    stationType: constr(max_length=255) = Field(title="Station Type")
+    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
+    closingDatetime: str = Field(title="Closing Datetime")
+    latitude: float = Field(title="Latitude")
+    longitude: float = Field(title="Longitude")
+    elevation: int = Field(title="Elevation")
+    authority: constr(max_length=255) = Field(title="Authority")
+    adminRegion: constr(max_length=255) = Field(title="Admin Region")
+    drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
 
     class Config:
         fields = {
@@ -54,18 +54,18 @@ class UpdateStationLocationHistory(BaseSchema):
 
 
 class StationLocationHistory(BaseSchema):
-    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
-    openingDatetime: datetime.datetime = Field(title=_("Opening Datetime"))
-    stationType: constr(max_length=255) = Field(title=_("Station Type"))
-    geoLocationMethod: constr(max_length=255) = Field(title=_("Geolocation Method"))
-    geoLocationAccuracy: float = Field(title=_("Geolocation History"))
-    closingDatetime: datetime.datetime = Field(title=_("Closing Datetime"))
-    latitude: float = Field(title=_("Latitude"))
-    longitude: float = Field(title=_("Longitude"))
-    elevation: int = Field(title=_("Elevation"))
-    authority: constr(max_length=255) = Field(title=_("Authority"))
-    adminRegion: constr(max_length=255) = Field(title=_("Admin Region"))
-    drainageBasin: constr(max_length=255) = Field(title=_("Drainage Basin"))
+    belongsTo: constr(max_length=255) = Field(title="Belongs To")
+    openingDatetime: datetime.datetime = Field(title="Opening Datetime")
+    stationType: constr(max_length=255) = Field(title="Station Type")
+    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationAccuracy: float = Field(title="Geolocation History")
+    closingDatetime: datetime.datetime = Field(title="Closing Datetime")
+    latitude: float = Field(title="Latitude")
+    longitude: float = Field(title="Longitude")
+    elevation: int = Field(title="Elevation")
+    authority: constr(max_length=255) = Field(title="Authority")
+    adminRegion: constr(max_length=255) = Field(title="Admin Region")
+    drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
 
     class Config:
         orm_mode = True
@@ -82,18 +82,18 @@ class StationLocationHistory(BaseSchema):
 
 
 class StationLocationHistoryWithStation(StationLocationHistory):
-    station: station_schema.Station = Field(title=_("Code"))
+    station: station_schema.Station = Field(title="Code")
 
 
 class StationLocationHistoryResponse(Response):
-    result: List[StationLocationHistory] = Field(title=_("Result"))
+    result: List[StationLocationHistory] = Field(title="Result")
 
 
 class StationLocationHistoryWithStationResponse(Response):
-    result: List[StationLocationHistoryWithStation] = Field(title=_("Result"))
+    result: List[StationLocationHistoryWithStation] = Field(title="Result")
 
 
 class StationLocationHistoryQueryResponse(StationLocationHistoryResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

@@ -5,9 +5,9 @@ from pydantic import constr, Field
 
 
 class CreateFlag(BaseSchema):
-    characterSymbol: constr(max_length=255) = Field(title=_("Character Symbol"))
-    numSymbol: int = Field(title=_("Number Symbol"))
-    description: constr(max_length=255) = Field(title=_("Description"))
+    characterSymbol: constr(max_length=255) = Field(title="Character Symbol")
+    numSymbol: int = Field(title="Number Symbol")
+    description: constr(max_length=255) = Field(title="Description")
 
     class Config:
         fields = {
@@ -17,8 +17,8 @@ class CreateFlag(BaseSchema):
 
 
 class UpdateFlag(BaseSchema):
-    numSymbol: int = Field(title=_("Number Symbol"))
-    description: constr(max_length=255) = Field(title=_("Description"))
+    numSymbol: int = Field(title="Number Symbol")
+    description: constr(max_length=255) = Field(title="Description")
 
     class Config:
         fields = {
@@ -37,10 +37,10 @@ class Flag(CreateFlag):
 
 
 class FlagResponse(Response):
-    result: List[Flag] = Field(title=_("Result"))
+    result: List[Flag] = Field(title="Result")
 
 
 class FlagQueryResponse(FlagResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

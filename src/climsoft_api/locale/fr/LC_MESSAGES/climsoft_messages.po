@@ -788,3 +788,393 @@ msgstr "Échec de la mise à jour de la fonctionnalité de synop."
 msgid "Failed to delete synop feature."
 msgstr "Échec de la suppression de la fonctionnalité de synop."
 
+msgid "Message"
+msgstr "Message"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Code"
+msgstr "Code"
+
+msgid "Description"
+msgstr "La description"
+
+msgid "Result"
+msgstr "Résultat"
+
+msgid "Limit"
+msgstr "Limite"
+
+msgid "Page"
+msgstr "Page"
+
+msgid "Pages"
+msgstr "Pages"
+
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+msgid "Role"
+msgstr "Rôle"
+
+msgid "Form Name"
+msgstr "Nom de forme"
+
+msgid "Order Number"
+msgstr "Numéro de commande"
+
+msgid "Table Name"
+msgstr "Nom de la table"
+
+msgid "Selected"
+msgstr "Choisi"
+
+msgid "Start Position"
+msgstr "La position de départ"
+
+msgid "End Position"
+msgstr "Position finale"
+
+msgid "Location Code of Element"
+msgstr "Code d'emplacement de l'élément"
+
+msgid "Sequencer"
+msgstr "Séquenceur"
+
+msgid "Entry Mode"
+msgstr "Mode d'entrée"
+
+msgid "Resolved at"
+msgstr "Résolu à"
+
+msgid "Associated With"
+msgstr "Associé à"
+
+msgid "Resolved By"
+msgstr "Résolu par"
+
+msgid "Remarks"
+msgstr "Remarques"
+
+msgid "Resolved At"
+msgstr "Résolu à"
+
+msgid "Instrument Fault Report"
+msgstr "Rapport de panne de l'appareil"
+
+msgid "Belongs To"
+msgstr "Appartient à"
+
+msgid "Observed On"
+msgstr "Observé le"
+
+msgid "Latitude"
+msgstr ""
+
+msgid "Longitude"
+msgstr ""
+
+msgid "Synop Feature"
+msgstr "Fonction Synop"
+
+msgid "Character Symbol"
+msgstr "Symbole de caractère"
+
+msgid "Number Symbol"
+msgstr "Symbole numérique"
+
+msgid "Instrument Name"
+msgstr "Nom de l'appareil"
+
+msgid "Instrument ID"
+msgstr "Identifiant de l'instrument"
+
+msgid "Serial Number"
+msgstr "Numéro de série"
+
+msgid "Abbreviation"
+msgstr "Abréviation"
+
+msgid "Model"
+msgstr "Modèle"
+
+msgid "Manufacturer"
+msgstr "Fabricant"
+
+msgid "Instrument Uncertainty"
+msgstr "Incertitude des instruments"
+
+msgid "Installation Datetime"
+msgstr "Date et heure d'installation"
+
+msgid "Uninstallation Datetime"
+msgstr "Date et heure de désinstallation"
+
+msgid "Height"
+msgstr "Hauteur"
+
+msgid "Instrument Picture"
+msgstr "Image de l'instrument"
+
+msgid "Installed At"
+msgstr "Installé à"
+
+msgid "Refers To"
+msgstr "Refers To"
+
+msgid "Report ID"
+msgstr "ID de rapport"
+
+msgid "Report Datetime"
+msgstr "Date et heure du rapport"
+
+msgid "Fault Description"
+msgstr "Description du défaut"
+
+msgid "Reported By"
+msgstr "Rapporté par"
+
+msgid "Received Datetime"
+msgstr "Date et heure de réception"
+
+msgid "Received By"
+msgstr "Reçu par"
+
+msgid "Reported From"
+msgstr "Signalé de"
+
+msgid "Station"
+msgstr ""
+
+msgid "Instrument"
+msgstr ""
+
+msgid "Performed On"
+msgstr "Effectué le"
+
+msgid "Performed At"
+msgstr "Joué à"
+
+msgid "Performed By"
+msgstr "Interprété par"
+
+msgid "Element ID"
+msgstr "ID d'élément"
+
+msgid "Element Name"
+msgstr "Nom de l'élément"
+
+msgid "Element Scale"
+msgstr "Échelle des éléments"
+
+msgid "Upper Limit"
+msgstr "Limite supérieure"
+
+msgid "Lower Limit"
+msgstr "Limite inférieure"
+
+msgid "Units"
+msgstr "Unités"
+
+msgid "Element Type"
+msgstr "Type d'élément"
+
+msgid "QC Total Required"
+msgstr "CQ total requis"
+
+msgid "Recorded From"
+msgstr "Enregistré depuis"
+
+msgid "Described By"
+msgstr "Décrit par"
+
+msgid "Obs Datetime"
+msgstr "Date et heure de l'obs"
+
+msgid "QC Status"
+msgstr "Statut CQ"
+
+msgid "Acquisition Type"
+msgstr "Type d'acquisition"
+
+msgid "Obs Level"
+msgstr "Niveau Obs"
+
+msgid "ObsValue"
+msgstr "Valeur Obs"
+
+msgid "Flag"
+msgstr "Drapeau"
+
+msgid "Period"
+msgstr "Période"
+
+msgid "QC Type Log"
+msgstr "Journal de type CQ"
+
+msgid "Data Form"
+msgstr "Formulaire de données"
+
+msgid "Captured By"
+msgstr "Capturé par"
+
+msgid "Mark"
+msgstr "Marque"
+
+msgid "Temperature Units"
+msgstr "Unités de température"
+
+msgid "Precipitation Units"
+msgstr "Unités de précipitation"
+
+msgid "Cloud Height Units"
+msgstr "Unités de hauteur des nuages"
+
+msgid "Vis Units"
+msgstr "Unités Vis"
+
+msgid "Data Source Timezone"
+msgstr "Fuseau horaire de la source de données"
+
+msgid "Obs Value"
+msgstr "Valeur Obs"
+
+msgid "Obs Element"
+msgstr "Élément Obs"
+
+msgid "Schedule Class"
+msgstr "Horaire Classe"
+
+msgid "Form Datetime"
+msgstr "Date et heure du formulaire"
+
+msgid "Image"
+msgstr ""
+
+msgid "Classified Into"
+msgstr "Classé dans"
+
+msgid "Paper Archive Definition"
+msgstr "Définition des archives papier"
+
+msgid "Form ID"
+msgstr "ID de formulaire"
+
+msgid "Begin Date"
+msgstr "Date de début"
+
+msgid "End Date"
+msgstr "Date de fin"
+
+msgid "ClassifiedInto"
+msgstr "Classé dans"
+
+msgid "Physical Feature Class"
+msgstr "Classe d'entité physique"
+
+msgid "Feature Class"
+msgstr "Classe d'entités"
+
+msgid "Key Name"
+msgstr "Nom de la clé"
+
+msgid "Key Value"
+msgstr "Valeur clé"
+
+msgid "Key Description"
+msgstr "Description de la clé"
+
+msgid "Station ID"
+msgstr "Identifiant de la station"
+
+msgid "Station Name"
+msgstr "Nom de la station"
+
+msgid "Wmo ID"
+msgstr "Identifiant de Wmo"
+
+msgid "Icao ID"
+msgstr "Identifiant de Icao"
+
+msgid "Qualifier"
+msgstr "Qualificatif"
+
+msgid "Elevation"
+msgstr "Élévation"
+
+msgid "Geolocation Method"
+msgstr "Méthode de géolocalisation"
+
+msgid "Geolocation Accuracy"
+msgstr "Précision de la géolocalisation"
+
+msgid "Opening Datetime"
+msgstr "Date et heure d'ouverture"
+
+msgid "Closing Datetime"
+msgstr "Date et heure de clôture"
+
+msgid "Country"
+msgstr "De campagne"
+
+msgid "Authority"
+msgstr "Autorité"
+
+msgid "Admin Region"
+msgstr "Région administrative"
+
+msgid "Drainage Basin"
+msgstr "Bassin de drainage"
+
+msgid "Waca Selection"
+msgstr "Sélection Waca"
+
+msgid "Cpt Selection"
+msgstr "Sélection de CP"
+
+msgid "Station Operational"
+msgstr "Station opérationnelle"
+
+msgid "Elements"
+msgstr "Éléments"
+
+msgid "Recorded With"
+msgstr "Enregistré avec"
+
+msgid "Instrument Code"
+msgstr "Code instrument"
+
+msgid "Scheduled For"
+msgstr "Planifié pour"
+
+msgid "Obs Schedule Class"
+msgstr "Obs Horaire Classe"
+
+msgid "Station Type"
+msgstr "Type de poste"
+
+msgid "Geolocation History"
+msgstr "Historique de géolocalisation"
+
+msgid "Qualifier Begin Date"
+msgstr "Date de début de qualification"
+
+msgid "Qualifier End Date"
+msgstr "Date de fin de qualification"
+
+msgid "Station Timezone"
+msgstr "Fuseau horaire de la gare"
+
+msgid "Station Network Type"
+msgstr "Type de réseau de stations"
+
+msgid "Storage"
+msgstr "Espace de rangement"
+
+msgid "Filepath"
+msgstr "Chemin du fichier"
+
+msgid "Object key"
+msgstr "Clé d'objet"
+

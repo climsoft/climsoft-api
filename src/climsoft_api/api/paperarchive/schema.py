@@ -9,10 +9,10 @@ from pydantic import constr, Field
 
 
 class CreatePaperArchive(BaseSchema):
-    belongsTo: constr(max_length=255) = Field(title=_("Belongs To"))
-    formDatetime: str = Field(title=_("Form Datetime"))
-    image: constr(max_length=255) = Field(title=_("Image"))
-    classifiedInto: constr(max_length=50) = Field(title=_("Classified Into"))
+    belongsTo: constr(max_length=255) = Field(title="Belongs To")
+    formDatetime: str = Field(title="Form Datetime")
+    image: constr(max_length=255) = Field(title="Image")
+    classifiedInto: constr(max_length=50) = Field(title="Classified Into")
 
     class Config:
         fields = {
@@ -23,11 +23,11 @@ class CreatePaperArchive(BaseSchema):
 
 
 class UpdatePaperArchive(BaseSchema):
-    image: constr(max_length=255) = Field(title=_("Image"))
+    image: constr(max_length=255) = Field(title="Image")
 
 
 class PaperArchive(CreatePaperArchive):
-    formDatetime: datetime.datetime = Field(title=_("Form Datetime"))
+    formDatetime: datetime.datetime = Field(title="Form Datetime")
 
     class Config:
         orm_mode = True
@@ -40,19 +40,19 @@ class PaperArchive(CreatePaperArchive):
 
 
 class PaperArchiveResponse(Response):
-    result: List[PaperArchive] = Field(title=_("Result"))
+    result: List[PaperArchive] = Field(title="Result")
 
 
 class PaperArchiveWithStationAndPaperArchiveDefinition(PaperArchive):
-    station: station_schema.Station = Field(title=_("Station"))
-    paperarchivedefinition: paperarchivedefinition_schema.PaperArchiveDefinition = Field(title=_("Paper Archive Definition"))
+    station: station_schema.Station = Field(title="Station")
+    paperarchivedefinition: paperarchivedefinition_schema.PaperArchiveDefinition = Field(title="Paper Archive Definition")
 
 
 class PaperArchiveWithStationAndPaperArchiveDefinitionResponse(Response):
-    result: List[PaperArchiveWithStationAndPaperArchiveDefinition] = Field(title=_("Result"))
+    result: List[PaperArchiveWithStationAndPaperArchiveDefinition] = Field(title="Result")
 
 
 class PaperArchiveQueryResponse(PaperArchiveResponse):
-    limit: int = Field(title=_("Limit"))
-    page: int = Field(title=_("Page"))
-    pages: int = Field(title=_("Pages"))
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

@@ -23,7 +23,7 @@ class CreateStationLocationHistory(BaseSchema):
         fields = {
             "belongsTo": "belongs_to",
             "stationType": "station_type",
-            "geolocation_method": "geolocationMethod",
+            "geolocationMethod": "geolocation_method",
             "openingDatetime": "opening_datetime",
             "closingDatetime": "closing_datetime",
             "adminRegion": "admin_region",
@@ -46,7 +46,7 @@ class UpdateStationLocationHistory(BaseSchema):
     class Config:
         fields = {
             "stationType": "station_type",
-            "geolocation_method": "geolocationMethod",
+            "geolocationMethod": "geolocation_method",
             "closingDatetime": "closing_datetime",
             "adminRegion": "admin_region",
             "drainageBasin": "drainage_basin",
@@ -73,7 +73,8 @@ class StationLocationHistory(BaseSchema):
         fields = {
             "belongsTo": "belongs_to",
             "stationType": "station_type",
-            "geolocation_method": "geolocationMethod",
+            "geolocationMethod": "geolocation_method",
+            "geolocationAccuracy": "geolocation_accuracy",
             "openingDatetime": "opening_datetime",
             "closingDatetime": "closing_datetime",
             "adminRegion": "admin_region",

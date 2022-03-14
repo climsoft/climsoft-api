@@ -52,6 +52,33 @@ def get_station_elements(
 
 
 @router.get(
+    "/search"
+)
+def search_station_elements(
+    query: str,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    try:
+        total, station_elements = stationelement_service.search(
+            db_session=db_session,
+            _query=query,
+            limit=limit,
+            offset=offset,
+        )
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=station_elements,
+            message=_("Successfully fetched station elements.")
+        )
+    except stationelement_service.FailedGettingStationElementList as e:
+        return get_error_response(message=str(e))
+
+
+@router.get(
     "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
     response_model=stationelement_schema.StationElementWithChildrenResponse,
 )

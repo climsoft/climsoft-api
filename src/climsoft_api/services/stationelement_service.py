@@ -167,6 +167,38 @@ def query(
         )
 
 
+def search(
+    db_session: Session,
+    _query: str = None,
+    limit: int = 25,
+    offset: int = 0,
+) -> Tuple[int, List[stationelement_schema.StationElement]]:
+
+    try:
+        q = db_session.query(models.Stationelement)
+
+        if _query:
+            q = q.filter(
+                models.Stationelement.recordedFrom.ilike(f"%{_query}%")
+                | models.Stationelement.describedBy.ilike(f"%{_query}%")
+                | models.Stationelement.recordedWith.ilike(f"%{_query}%")
+                | models.Stationelement.beginDate.ilike(f"%{_query}%")
+            )
+
+        return (
+            get_count(q),
+            [
+                stationelement_schema.StationElement.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
+    except Exception as e:
+        logger.exception(e)
+        raise FailedGettingStationElementList(
+            _("Failed to get list of station elements.")
+        )
+
+
 def update(
     db_session: Session,
     recorded_from: str,

@@ -1,5 +1,5 @@
 import datetime
-from typing import List
+from typing import List, Optional
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
 from pydantic import constr, Field
@@ -54,18 +54,18 @@ class UpdateStationLocationHistory(BaseSchema):
 
 
 class StationLocationHistory(BaseSchema):
-    belongsTo: constr(max_length=255) = Field(title="Belongs To")
-    openingDatetime: datetime.datetime = Field(title="Opening Datetime")
-    stationType: constr(max_length=255) = Field(title="Station Type")
-    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
-    geoLocationAccuracy: float = Field(title="Geolocation History")
-    closingDatetime: datetime.datetime = Field(title="Closing Datetime")
-    latitude: float = Field(title="Latitude")
-    longitude: float = Field(title="Longitude")
-    elevation: int = Field(title="Elevation")
-    authority: constr(max_length=255) = Field(title="Authority")
-    adminRegion: constr(max_length=255) = Field(title="Admin Region")
-    drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
+    belongsTo: Optional[constr(max_length=255)] = Field(title="Belongs To")
+    openingDatetime: Optional[datetime.datetime] = Field(title="Opening Datetime")
+    stationType: Optional[constr(max_length=255)] = Field(title="Station Type")
+    geoLocationMethod: Optional[constr(max_length=255)] = Field(title="Geolocation Method")
+    geoLocationAccuracy: Optional[float] = Field(title="Geolocation History")
+    closingDatetime: Optional[datetime.datetime] = Field(title="Closing Datetime")
+    latitude: Optional[float] = Field(title="Latitude")
+    longitude: Optional[float] = Field(title="Longitude")
+    elevation: Optional[int] = Field(title="Elevation")
+    authority: Optional[constr(max_length=255)] = Field(title="Authority")
+    adminRegion: Optional[constr(max_length=255)] = Field(title="Admin Region")
+    drainageBasin: Optional[constr(max_length=255)] = Field(title="Drainage Basin")
 
     class Config:
         orm_mode = True

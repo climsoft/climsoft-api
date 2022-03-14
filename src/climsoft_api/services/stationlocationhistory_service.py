@@ -170,6 +170,12 @@ def update(
     updates: stationlocationhistory_schema.UpdateStationLocationHistory,
 ) -> stationlocationhistory_schema.StationLocationHistory:
     try:
+        if not db_session.query(models.Stationlocationhistory).filter_by(
+            belongsTo=belongs_to,
+            openingDatetime=opening_datetime
+        ).first():
+            raise StationLocationHistoryDoesNotExist(
+                "Station location history does not exist.")
         db_session.query(models.Stationlocationhistory).filter_by(
             belongsTo=belongs_to,
             openingDatetime=opening_datetime
@@ -182,7 +188,7 @@ def update(
                 openingDatetime=opening_datetime
             ).first()
         )
-        print(bool(updated_station_location_history))
+        print(updated_station_location_history)
         return stationlocationhistory_schema.StationLocationHistory.from_orm(
             updated_station_location_history
         )

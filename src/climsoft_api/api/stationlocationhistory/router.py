@@ -106,8 +106,7 @@ def create_station_location_history(
 
 
 @router.put(
-    "/{belongs_to}/{opening_datetime}",
-    response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
+    "/{belongs_to}/{opening_datetime}"
 )
 def update_station_location_history(
     belongs_to: str,

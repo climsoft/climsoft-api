@@ -175,14 +175,14 @@ def update(
             openingDatetime=opening_datetime
         ).update(updates.dict())
         db_session.commit()
-        updated_station_location_history = (
-            db_session.query(models.Stationlocationhistory)
-                .filter_by(
+
+        updated_station_location_history: models.Stationlocationhistory = (
+            db_session.query(models.Stationlocationhistory).filter_by(
                 belongsTo=belongs_to,
                 openingDatetime=opening_datetime
-            )
-                .first()
+            ).first()
         )
+        print(bool(updated_station_location_history))
         return stationlocationhistory_schema.StationLocationHistory.from_orm(
             updated_station_location_history
         )

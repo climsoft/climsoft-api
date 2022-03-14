@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response, Request
 from climsoft_api.services import acquisitiontype_service
 from climsoft_api.utils.response import get_success_response, \
     get_error_response, get_success_response_for_query
@@ -6,13 +6,13 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from climsoft_api.api.deps import get_session
+from climsoft_api.utils.response import translate_schema
 
 router = APIRouter()
 
 
 @router.get(
     "/",
-    response_model=acquisitiontype_schema.AcquisitionTypeQueryResponse
 )
 def get_acquisition_types(
     code: str = None,
@@ -29,13 +29,16 @@ def get_acquisition_types(
             limit=limit,
             offset=offset,
         )
-
         return get_success_response_for_query(
             limit=limit,
             total=total,
             offset=offset,
             result=stations,
-            message=_("Successfully fetched acquisition types.")
+            message=_("Successfully fetched acquisition types."),
+            schema=translate_schema(
+                _,
+                acquisitiontype_schema.AcquisitionTypeQueryResponse.schema()
+            )
         )
     except acquisitiontype_service.FailedGettingAcquisitionTypeList as e:
         return get_error_response(message=str(e))

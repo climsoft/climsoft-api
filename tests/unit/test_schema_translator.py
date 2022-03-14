@@ -1,13 +1,15 @@
 import gettext
-import json
 import os.path
-
 from climsoft_api.api.stationelement.schema import StationElementWithStation
 from climsoft_api.utils.response import translate_schema
 
 
 ROOT_DIR = os.path.dirname(
-    os.path.abspath(__file__)
+    os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+    )
 )
 
 
@@ -17,16 +19,17 @@ LOCALE_DIR = os.path.join(
 )
 
 
-if __name__ == "__main__":
-    fr = gettext.translation(
+def test_should_translate_schema_successfully():
+    language = gettext.translation(
         domain="climsoft_messages",
         localedir=LOCALE_DIR,
         languages=["fr"],
     )
 
-    fr.install()
+    language.install()
+
     translated_schema = translate_schema(
-        fr.gettext,
+        language.gettext,
         StationElementWithStation.schema()
     )
 
@@ -41,5 +44,4 @@ if __name__ == "__main__":
            ][
                "title"
            ] == "Nom de la station"
-
 

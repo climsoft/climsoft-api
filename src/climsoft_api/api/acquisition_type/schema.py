@@ -19,9 +19,11 @@ class AcquisitionType(CreateAcquisitionType):
 
 class AcquisitionTypeResponse(Response):
     result: List[AcquisitionType] = Field(title="Result")
+    _schema: str
 
 
 class AcquisitionTypeQueryResponse(AcquisitionTypeResponse):
     limit: int = Field(title="Limit")
     page: int = Field(title="Page")
     pages: int = Field(title="Pages")
+    _schema: str

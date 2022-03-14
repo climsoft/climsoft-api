@@ -47,6 +47,21 @@ msgstr "Utilisateur climsoft mis à jour avec succès."
 msgid "Successfully deleted climsoft user."
 msgstr "Utilisateur climsoft supprimé avec succès."
 
+msgid "Successfully fetched acquisition types."
+msgstr "Types d'acquisition récupérés avec succès."
+
+msgid "Successfully fetched acquisition type."
+msgstr "Type d'acquisition récupéré avec succès."
+
+msgid "Successfully created acquisition type."
+msgstr "Type d'acquisition créé avec succès."
+
+msgid "Successfully updated acquisition type."
+msgstr "Type d'acquisition mis à jour avec succès."
+
+msgid "Successfully deleted acquisition type."
+msgstr "Type d'acquisition supprimé avec succès."
+
 msgid "Successfully fetched data forms."
 msgstr "Formulaires de données récupérés avec succès."
 

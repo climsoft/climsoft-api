@@ -1,7 +1,9 @@
 import gettext
+import json
 import os
-
-from fastapi import Request
+from climsoft_api.utils.response import translate_schema
+import starlette.responses
+from fastapi import Request, Response
 
 BASE_DIR = os.path.dirname(
     os.path.dirname(
@@ -49,5 +51,8 @@ class LocalizationMiddleware:
 
         request.state.gettext = language.gettext
 
-        response = await call_next(request)
+        response: starlette.responses.StreamingResponse = await call_next(
+            request
+        )
+
         return response

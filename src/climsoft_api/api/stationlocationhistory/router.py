@@ -114,6 +114,7 @@ def update_station_location_history(
     data: stationlocationhistory_schema.UpdateStationLocationHistory,
     db_session: Session = Depends(deps.get_session),
 ):
+    print(belongs_to, opening_datetime)
     try:
         return get_success_response(
             result=[

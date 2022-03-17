@@ -80,6 +80,9 @@ class StationLocationHistory(BaseSchema):
             "adminRegion": "admin_region",
             "drainageBasin": "drainage_basin",
         }
+        json_encoders = {
+            datetime.datetime: lambda dt: dt.strftime("%Y-%m-%d %H:%M:%S")
+        }
 
 
 class StationLocationHistoryWithStation(StationLocationHistory):

@@ -30,16 +30,14 @@ class LocalizationMiddleware:
             language_code = request.query_params.get("lang")
 
         if type(language_code) is not str:
-            response = await call_next(request)
-            return response
-
-        language_code: str = language_code.split(',')[0]
-
-        if language_code.startswith("fr"):
-            language_code = "fr"
-
-        if language_code.startswith("en"):
             language_code = "en"
+        else:
+            language_code: str = language_code.split(',')[0]
+
+            if language_code.startswith("fr"):
+                language_code = "fr"
+            else:
+                language_code = "en"
 
         language = gettext.translation(
             domain=self.domain,

@@ -56,6 +56,33 @@ def get_obselements(
 
 
 @router.get(
+    "/search"
+)
+def search_obselements(
+    query: str,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    try:
+        total, obs_elements = obselement_service.search(
+            db_session=db_session,
+            _query=query,
+            limit=limit,
+            offset=offset,
+        )
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=obs_elements,
+            message=_("Successfully fetched obs elements.")
+        )
+    except obselement_service.FailedGettingObsElementList as e:
+        return get_error_response(message=str(e))
+
+
+@router.get(
     "/{element_id}",
     response_model=obselement_schema.ObsElementResponse
 )

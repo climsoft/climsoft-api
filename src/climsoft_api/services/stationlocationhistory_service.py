@@ -188,7 +188,6 @@ def update(
                 openingDatetime=opening_datetime
             ).first()
         )
-        print(updated_station_location_history)
         return stationlocationhistory_schema.StationLocationHistory.from_orm(
             updated_station_location_history
         )

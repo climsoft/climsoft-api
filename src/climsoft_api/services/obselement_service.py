@@ -199,3 +199,32 @@ def delete(db_session: Session, element_id: str) -> bool:
         db_session.rollback()
         logger.exception(e)
         raise FailedDeletingObsElement(_("Failed to delete obs element."))
+
+
+def search(
+    db_session: Session,
+    _query: str = None,
+    limit: int = 25,
+    offset: int = 0,
+) -> Tuple[int, List[obselement_schema.ObsElement]]:
+
+    try:
+        q = db_session.query(models.Obselement)
+
+        if _query:
+            q = q.filter(
+                models.Obselement.elementId.ilike(f"%{_query}%")
+                | models.Obselement.elementName.ilike(f"%{_query}%")
+            )
+        return (
+            get_count(q),
+            [
+                obselement_schema.ObsElement.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
+    except Exception as e:
+        logger.exception(e)
+        raise FailedGettingObsElementList(
+            _("Failed to get list of obs elements.")
+        )

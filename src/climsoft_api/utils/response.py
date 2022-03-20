@@ -9,8 +9,17 @@ def get_current_and_total_pages(limit: int, total: int, offset: int):
     return math.floor(offset / limit) + 1, math.ceil(total / limit)
 
 
-def get_success_response(result: List[Any], message: str):
-    return {"status": "success", "message": message, "result": result}
+def get_success_response(
+    result: List[Any],
+    message: str,
+    schema: Any = None
+):
+    return {
+        "status": "success",
+        "message": message,
+        "result": result,
+        "_schema": schema
+    }
 
 
 def get_success_response_for_query(
@@ -32,11 +41,16 @@ def get_success_response_for_query(
     }
 
 
-def get_error_response(message: str, result: List[Any] = None):
+def get_error_response(
+    message: str,
+    result: List[Any] = None,
+    schema: Any = None
+):
     return {
         "status": "error",
         "message": message,
         "result": [] if result is None else result,
+        "_schema": schema
     }
 
 

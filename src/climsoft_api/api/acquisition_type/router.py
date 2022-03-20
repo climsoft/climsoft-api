@@ -1,4 +1,3 @@
-from fastapi import APIRouter, Depends, Response, Request
 from climsoft_api.services import acquisitiontype_service
 from climsoft_api.utils.response import get_success_response, \
     get_error_response, get_success_response_for_query
@@ -45,8 +44,7 @@ def get_acquisition_types(
 
 
 @router.get(
-    "/{code}",
-    response_model=acquisitiontype_schema.AcquisitionTypeResponse
+    "/{code}"
 )
 def get_acquisition_type_by_id(
     code: str,
@@ -59,14 +57,17 @@ def get_acquisition_type_by_id(
                 code=code
             )],
             message=_("Successfully fetched acquisition type."),
+            schema=translate_schema(
+                _,
+                acquisitiontype_schema.AcquisitionTypeResponse.schema()
+            )
         )
     except acquisitiontype_service.FailedGettingAcquisitionType as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=acquisitiontype_schema.AcquisitionTypeResponse
+    "/"
 )
 def create_acquisition_type(
     data: acquisitiontype_schema.CreateAcquisitionType,
@@ -79,14 +80,17 @@ def create_acquisition_type(
                 data=data
             )],
             message=_("Successfully created acquisition type."),
+            schema=translate_schema(
+                _,
+                acquisitiontype_schema.AcquisitionTypeResponse
+            )
         )
     except acquisitiontype_service.FailedCreatingAcquisitionType as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{code}",
-    response_model=acquisitiontype_schema.AcquisitionTypeResponse
+    "/{code}"
 )
 def update_acquisition_type(
     code: str,
@@ -101,14 +105,17 @@ def update_acquisition_type(
                 )
             ],
             message=_("Successfully updated acquisition type."),
+            schema=translate_schema(
+                _,
+                acquisitiontype_schema.AcquisitionTypeResponse
+            )
         )
     except acquisitiontype_service.FailedUpdatingAcquisitionType as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{code}",
-    response_model=acquisitiontype_schema.AcquisitionTypeResponse
+    "/{code}"
 )
 def delete_acquisition_type(
     code: str,
@@ -118,7 +125,11 @@ def delete_acquisition_type(
         acquisitiontype_service.delete(db_session=db_session, code=code)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted acquisition type.")
+            message=_("Successfully deleted acquisition type."),
+            schema=translate_schema(
+                _,
+                acquisitiontype_schema.AcquisitionTypeResponse
+            )
         )
     except acquisitiontype_service.FailedDeletingAcquisitionType as e:
         return get_error_response(message=str(e))

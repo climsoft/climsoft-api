@@ -10,3 +10,4 @@ class BaseSchema(BaseModel):
 class Response(BaseSchema):
     message: str = Field(title="Message")
     status: str = Field(title="Status")
+    _schema: str = None

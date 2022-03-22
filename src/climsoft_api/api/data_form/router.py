@@ -132,8 +132,8 @@ def update_data_form(
     "/{form_name}"
 )
 def delete_data_form(
-    db_session: Session,
-    form_name: str
+    form_name: str,
+    db_session: Session = Depends(deps.get_session)
 ):
     try:
         data_form_service.delete(db_session=db_session, form_name=form_name)

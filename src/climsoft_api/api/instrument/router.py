@@ -62,6 +62,38 @@ def get_instruments(
 
 
 @router.get(
+    "/search"
+)
+def search_instruments(
+    query: str,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    try:
+        total, station_elements = instrument_service.search(
+            db_session=db_session,
+            _query=query,
+            limit=limit,
+            offset=offset,
+        )
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=station_elements,
+            message=_("Successfully fetched instruments."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentQueryResponse.schema()
+            )
+        )
+    except instrument_service.FailedGettingInstrumentList as e:
+        return get_error_response(message=str(e))
+
+
+
+@router.get(
     "/{instrument_id}"
 )
 def get_instrument_by_id(
@@ -154,35 +186,3 @@ def delete_instrument(
         )
     except instrument_service.FailedDeletingInstrument as e:
         return get_error_response(message=str(e))
-
-
-@router.get(
-    "/search"
-)
-def search_instruments(
-    query: str,
-    db_session: Session = Depends(deps.get_session),
-    limit: int = 25,
-    offset: int = 0
-):
-    try:
-        total, station_elements = instrument_service.search(
-            db_session=db_session,
-            _query=query,
-            limit=limit,
-            offset=offset,
-        )
-        return get_success_response_for_query(
-            limit=limit,
-            total=total,
-            offset=offset,
-            result=station_elements,
-            message=_("Successfully fetched instruments."),
-            schema=translate_schema(
-                _,
-                instrument_schema.InstrumentQueryResponse.schema()
-            )
-        )
-    except instrument_service.FailedGettingInstrumentList as e:
-        return get_error_response(message=str(e))
-

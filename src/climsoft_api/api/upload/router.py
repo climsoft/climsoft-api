@@ -9,6 +9,8 @@ from climsoft_api.config import settings
 from climsoft_api.services import file_upload_service
 from climsoft_api.utils.response import get_success_response, get_error_response
 from fastapi import APIRouter, UploadFile, File
+from climsoft_api.utils.response import translate_schema
+
 
 router = APIRouter()
 

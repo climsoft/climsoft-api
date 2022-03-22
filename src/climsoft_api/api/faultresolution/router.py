@@ -42,7 +42,7 @@ def get_instrument_inspection(
             message=_("Successfully fetched instrument inspection."),
             schema=translate_schema(
                 _,
-                faultresolution_schema.FaultResolutionQueryResponse
+                faultresolution_schema.FaultResolutionQueryResponse.schema()
             )
         )
     except faultresolution_service.FailedGettingFaultResolutionList as e:
@@ -69,7 +69,7 @@ def get_instrument_inspection_by_id(
             message=_("Successfully fetched instrument inspection."),
             schema=translate_schema(
                 _,
-                faultresolution_schema.FaultResolutionWithInstrumentFaultReportResponse,
+                faultresolution_schema.FaultResolutionWithInstrumentFaultReportResponse.schema(),
             )
         )
     except faultresolution_service.FailedGettingFaultResolution as e:
@@ -92,7 +92,7 @@ def create_instrument_inspection(
             message=_("Successfully created instrument inspection."),
             schema=translate_schema(
                 _,
-                faultresolution_schema.FaultResolutionResponse
+                faultresolution_schema.FaultResolutionResponse.schema()
             )
         )
     except faultresolution_service.FailedCreatingFaultResolution as e:
@@ -121,7 +121,7 @@ def update_instrument_inspection(
             message=_("Successfully updated instrument inspection."),
             schema=translate_schema(
                 _,
-                faultresolution_schema.FaultResolutionResponse
+                faultresolution_schema.FaultResolutionResponse.schema()
             )
         )
     except faultresolution_service.FailedUpdatingFaultResolution as e:
@@ -147,7 +147,7 @@ def delete_instrument_inspection(
             message=_("Successfully deleted instrument inspection."),
             schema=translate_schema(
                 _,
-                faultresolution_schema.FaultResolutionResponse
+                faultresolution_schema.FaultResolutionResponse.schema()
             )
         )
     except faultresolution_service.FailedDeletingFaultResolution as e:

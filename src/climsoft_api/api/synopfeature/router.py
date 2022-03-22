@@ -11,7 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/", response_model=synopfeature_schema.SynopFeatureQueryResponse)
+@router.get("/")
 def get_qc_types(
     abbreviation: str = None,
     description: str = None,
@@ -32,14 +32,18 @@ def get_qc_types(
             limit=limit,
             total=total,
             offset=offset,
-            result=qc_types, message=_("Successfully fetched synop features.")
+            result=qc_types,
+            message=_("Successfully fetched synop features."),
+            schema=translate_schema(
+                _,
+                synopfeature_schema.SynopFeatureQueryResponse.schema()
+            )
         )
     except synopfeature_service.FailedGettingSynopFeatureList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/{abbreviation}",
-            response_model=synopfeature_schema.SynopFeatureResponse)
+@router.get("/{abbreviation}")
 def get_qc_type_by_id(
     abbreviation: str, db_session: Session = Depends(deps.get_session)
 ):
@@ -51,12 +55,16 @@ def get_qc_type_by_id(
                 )
             ],
             message=_("Successfully fetched synop feature."),
+            schema=translate_schema(
+                _,
+                synopfeature_schema.SynopFeatureResponse.schema()
+            )
         )
     except synopfeature_service.FailedGettingSynopFeature as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=synopfeature_schema.SynopFeatureResponse)
+@router.post("/")
 def create_qc_type(
     data: synopfeature_schema.CreateSynopFeature,
     db_session: Session = Depends(deps.get_session),
@@ -66,13 +74,16 @@ def create_qc_type(
             result=[
                 synopfeature_service.create(db_session=db_session, data=data)],
             message=_("Successfully created synop feature."),
+            schema=translate_schema(
+                _,
+                synopfeature_schema.SynopFeatureResponse.schema()
+            )
         )
     except synopfeature_service.FailedCreatingSynopFeature as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{abbreviation}",
-            response_model=synopfeature_schema.SynopFeatureResponse)
+@router.put("/{abbreviation}")
 def update_qc_type(
     abbreviation: str,
     data: synopfeature_schema.UpdateSynopFeature,
@@ -88,13 +99,17 @@ def update_qc_type(
                 )
             ],
             message=_("Successfully updated synop feature."),
+            schema=translate_schema(
+                _,
+                synopfeature_schema.SynopFeatureResponse.schema()
+            )
         )
     except synopfeature_service.FailedUpdatingSynopFeature as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{abbreviation}", response_model=synopfeature_schema.SynopFeatureResponse
+    "/{abbreviation}"
 )
 def delete_qc_type(abbreviation: str,
                    db_session: Session = Depends(deps.get_session)):
@@ -105,7 +120,11 @@ def delete_qc_type(abbreviation: str,
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted synop feature.")
+            message=_("Successfully deleted synop feature."),
+            schema=translate_schema(
+                _,
+                synopfeature_schema.SynopFeatureResponse.schema()
+            )
         )
     except synopfeature_service.FailedDeletingSynopFeature as e:
         return get_error_response(message=str(e))

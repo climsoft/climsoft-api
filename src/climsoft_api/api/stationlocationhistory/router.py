@@ -14,7 +14,6 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=stationlocationhistory_schema.StationLocationHistoryQueryResponse,
 )
 def get_station_location_history(
     belongs_to: str = None,
@@ -58,14 +57,17 @@ def get_station_location_history(
             offset=offset,
             result=station_location_history,
             message=_("Successfully fetched station location history."),
+            schema=translate_schema(
+                _,
+                stationlocationhistory_schema.StationLocationHistoryQueryResponse.schema()
+            )
         )
     except stationlocationhistory_service.FailedGettingStationLocationHistoryList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{belongs_to}/{opening_datetime}",
-    response_model=stationlocationhistory_schema.StationLocationHistoryWithStationResponse,
+    "/{belongs_to}/{opening_datetime}"
 )
 def get_station_location_history_by_id(
     belongs_to: str,
@@ -82,6 +84,10 @@ def get_station_location_history_by_id(
                 )
             ],
             message=_("Successfully fetched station location history."),
+            schema=translate_schema(
+                _,
+                stationlocationhistory_schema.StationLocationHistoryWithStationResponse.schema()
+            )
         )
     except stationlocationhistory_service.FailedGettingStationLocationHistory as e:
         return get_error_response(message=str(e))
@@ -89,7 +95,6 @@ def get_station_location_history_by_id(
 
 @router.post(
     "/",
-    response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
 )
 def create_station_location_history(
     data: stationlocationhistory_schema.CreateStationLocationHistory,
@@ -102,6 +107,10 @@ def create_station_location_history(
                                                       data=data)
             ],
             message=_("Successfully created station location history."),
+            schema=translate_schema(
+                _,
+                stationlocationhistory_schema.StationLocationHistoryResponse.schema()
+            )
         )
     except stationlocationhistory_service.FailedCreatingStationLocationHistory as e:
         return get_error_response(message=str(e))
@@ -128,14 +137,17 @@ def update_station_location_history(
                 )
             ],
             message=_("Successfully updated station location history."),
+            schema=translate_schema(
+                _,
+                stationlocationhistory_schema.StationLocationHistoryResponse.schema()
+            )
         )
     except stationlocationhistory_service.FailedUpdatingStationLocationHistory as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{belongs_to}/{opening_datetime}",
-    response_model=stationlocationhistory_schema.StationLocationHistoryResponse,
+    "/{belongs_to}/{opening_datetime}"
 )
 def delete_station_location_history(
     belongs_to: str,
@@ -150,7 +162,11 @@ def delete_station_location_history(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted station location history.")
+            message=_("Successfully deleted station location history."),
+            schema=translate_schema(
+                _,
+                stationlocationhistory_schema.StationLocationHistoryResponse.schema()
+            )
         )
     except stationlocationhistory_service.FailedDeletingStationLocationHistory as e:
         return get_error_response(message=str(e))

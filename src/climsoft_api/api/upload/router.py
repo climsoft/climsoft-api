@@ -19,11 +19,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.post(
-    "/image",
-    response_model=Union[
-        FileUploadedToDiskResponse,
-        FileUploadedToS3Response
-    ]
+    "/image"
 )
 async def upload_image(file: UploadFile = File(...)):
     try:
@@ -40,7 +36,17 @@ async def upload_image(file: UploadFile = File(...)):
 
         return get_success_response(
             result=[filepath],
-            message=_("Image uploaded successfully!")
+            message=_("Image uploaded successfully!"),
+            schema=[
+                translate_schema(
+                    _,
+                    FileUploadedToDiskResponse.schema()
+                ),
+                translate_schema(
+                    _,
+                    FileUploadedToS3Response.schema()
+                )
+            ]
         )
     except TypeError:
         raise

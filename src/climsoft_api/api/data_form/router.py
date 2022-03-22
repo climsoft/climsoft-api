@@ -53,7 +53,7 @@ def get_data_forms(
             message=_("Successfully fetched data forms."),
             schema=translate_schema(
                 _,
-                data_form_schema.DataFormQueryResponse
+                data_form_schema.DataFormQueryResponse.schema()
             )
         )
     except data_form_service.FailedGettingDataFormList as e:
@@ -76,7 +76,7 @@ def get_data_form_by_id(
             message=_("Successfully fetched data form."),
             schema=translate_schema(
                 _,
-                data_form_schema.DataFormResponse
+                data_form_schema.DataFormResponse.schema()
             )
         )
     except data_form_service.FailedGettingDataForm as e:
@@ -96,7 +96,7 @@ def create_data_form(
             message=_("Successfully created data form."),
             schema=translate_schema(
                 _,
-                data_form_schema.DataFormResponse
+                data_form_schema.DataFormResponse.schema()
             )
         )
     except data_form_service.FailedCreatingDataForm as e:
@@ -121,7 +121,7 @@ def update_data_form(
             message=_("Successfully updated data form."),
             schema=translate_schema(
                 _,
-                data_form_schema.DataFormResponse
+                data_form_schema.DataFormResponse.schema()
             )
         )
     except data_form_service.FailedUpdatingDataForm as e:
@@ -142,7 +142,7 @@ def delete_data_form(
             message=_("Successfully deleted data form."),
             schema=translate_schema(
                 _,
-                data_form_schema.DataFormResponse
+                data_form_schema.DataFormResponse.schema()
             )
         )
     except data_form_service.FailedDeletingDataForm as e:

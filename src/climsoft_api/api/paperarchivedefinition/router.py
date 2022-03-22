@@ -14,7 +14,6 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionQueryResponse,
 )
 def get_paper_archive_definitions(
     form_id: str = None,
@@ -38,6 +37,10 @@ def get_paper_archive_definitions(
             offset=offset,
             result=paper_archive_definitions,
             message=_("Successfully fetched paper archive definitions."),
+            schema=translate_schema(
+                _,
+                paperarchivedefinition_schema.PaperArchiveDefinitionQueryResponse.schema()
+            )
         )
     except paperarchivedefinition_service.FailedGettingPaperArchiveDefinitionList as e:
         return get_error_response(message=str(e))
@@ -45,7 +48,6 @@ def get_paper_archive_definitions(
 
 @router.get(
     "/{form_id}",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def get_paper_archive_definition_by_id(
     form_id: str, db_session: Session = Depends(deps.get_session)
@@ -58,6 +60,10 @@ def get_paper_archive_definition_by_id(
                 )
             ],
             message=_("Successfully fetched paper archive definition."),
+            schema=translate_schema(
+                _,
+                paperarchivedefinition_schema.PaperArchiveDefinitionResponse.schema()
+            )
         )
     except paperarchivedefinition_service.FailedGettingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))
@@ -65,7 +71,6 @@ def get_paper_archive_definition_by_id(
 
 @router.post(
     "/",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
 )
 def create_paper_archive_definition(
     data: paperarchivedefinition_schema.CreatePaperArchiveDefinition,
@@ -80,14 +85,17 @@ def create_paper_archive_definition(
                 )
             ],
             message=_("Successfully created paper archive definition."),
+            schema=translate_schema(
+                _,
+                paperarchivedefinition_schema.PaperArchiveDefinitionResponse.schema()
+            )
         )
     except paperarchivedefinition_service.FailedCreatingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{form_id}",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
+    "/{form_id}"
 )
 def update_paper_archive_definition(
     form_id: str,
@@ -102,14 +110,17 @@ def update_paper_archive_definition(
                 )
             ],
             message=_("Successfully updated paper archive definition."),
+            schema=translate_schema(
+                _,
+                paperarchivedefinition_schema.PaperArchiveDefinitionResponse.schema()
+            )
         )
     except paperarchivedefinition_service.FailedUpdatingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{form_id}",
-    response_model=paperarchivedefinition_schema.PaperArchiveDefinitionResponse,
+    "/{form_id}"
 )
 def delete_paper_archive_definition(
     form_id: str, db_session: Session = Depends(deps.get_session)
@@ -119,7 +130,11 @@ def delete_paper_archive_definition(
                                               form_id=form_id)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted paper archive definition.")
+            message=_("Successfully deleted paper archive definition."),
+            schema=translate_schema(
+                _,
+                paperarchivedefinition_schema.PaperArchiveDefinitionResponse.schema()
+            )
         )
     except paperarchivedefinition_service.FailedDeletingPaperArchiveDefinition as e:
         return get_error_response(message=str(e))

@@ -11,8 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/",
-            response_model=observationinitial_schema.ObservationInitialQueryResponse)
+@router.get("/")
 def get_observation_initials(
     recorded_from: str = None,
     described_by: int = None,
@@ -67,14 +66,17 @@ def get_observation_initials(
             offset=offset,
             result=observation_initials,
             message=_("Successfully fetched observation initials."),
+            schema=translate_schema(
+                _,
+                observationinitial_schema.ObservationInitialQueryResponse.schema()
+            )
         )
     except observationinitial_service.FailedGettingObservationInitialList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}",
-    response_model=observationinitial_schema.ObservationInitialWithChildrenResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def get_observation_initial_by_id(
     recorded_from: str,
@@ -97,14 +99,17 @@ def get_observation_initial_by_id(
                 )
             ],
             message=_("Successfully fetched observation initial."),
+            schema=translate_schema(
+                _,
+                observationinitial_schema.ObservationInitialWithChildrenResponse.schema()
+            )
         )
     except observationinitial_service.FailedGettingObservationInitial as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=observationinitial_schema.ObservationInitialResponse
+    "/"
 )
 def create_observation_initial(
     data: observationinitial_schema.CreateObservationInitial,
@@ -119,14 +124,17 @@ def create_observation_initial(
                 )
             ],
             message=_("Successfully created observation initial."),
+            schema=translate_schema(
+                _,
+                observationinitial_schema.ObservationInitialResponse.schema()
+            )
         )
     except observationinitial_service.FailedCreatingObservationInitial as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}",
-    response_model=observationinitial_schema.ObservationInitialResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def update_observation_initial(
     recorded_from: str,
@@ -151,14 +159,17 @@ def update_observation_initial(
                 )
             ],
             message=_("Successfully updated observation initial."),
+            schema=translate_schema(
+                _,
+                observationinitial_schema.ObservationInitialResponse.schema()
+            )
         )
     except observationinitial_service.FailedUpdatingObservationInitial as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}",
-    response_model=observationinitial_schema.ObservationInitialResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def delete_observation_initial(
     recorded_from: str,
@@ -179,7 +190,11 @@ def delete_observation_initial(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted observation initial.")
+            message=_("Successfully deleted observation initial."),
+            schema=translate_schema(
+                _,
+                observationinitial_schema.ObservationInitialResponse.schema()
+            )
         )
     except observationinitial_service.FailedDeletingObservationInitial as e:
         return get_error_response(message=str(e))

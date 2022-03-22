@@ -13,8 +13,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=featuregeographicalposition_schema.FeatureGeographicalPositionQueryResponse,
+    "/"
 )
 def get_feature_geographical_positions(
     belongs_to: str = None,
@@ -42,6 +41,10 @@ def get_feature_geographical_positions(
             offset=offset,
             result=feature_geographical_positions,
             message=_("Successfully fetched feature geographical positions."),
+            schema=translate_schema(
+                _,
+                featuregeographicalposition_schema.FeatureGeographicalPositionQueryResponse.schema(),
+            )
         )
     except featuregeographicalposition_service \
         .FailedGettingFeatureGeographicalPositionList as e:
@@ -50,7 +53,6 @@ def get_feature_geographical_positions(
 
 @router.get(
     "/{belongs_to}",
-    response_model=featuregeographicalposition_schema.FeatureGeographicalPositionWithSynopFeatureResponse,
 )
 def get_feature_geographical_position_by_id(
     belongs_to: str,
@@ -64,14 +66,17 @@ def get_feature_geographical_position_by_id(
                 )
             ],
             message=_("Successfully fetched feature geographical position."),
+            schema=translate_schema(
+                _,
+                featuregeographicalposition_schema.FeatureGeographicalPositionWithSynopFeatureResponse.schema()
+            )
         )
     except featuregeographicalposition_service.FailedGettingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=featuregeographicalposition_schema.FeatureGeographicalPositionResponse,
+    "/"
 )
 def create_feature_geographical_position(
     data: featuregeographicalposition_schema.CreateFeatureGeographicalPosition,
@@ -85,14 +90,17 @@ def create_feature_geographical_position(
                 )
             ],
             message=_("Successfully created feature geographical position."),
+            schema=translate_schema(
+                _,
+                featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema(),
+            )
         )
     except featuregeographicalposition_service.FailedCreatingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{belongs_to}",
-    response_model=featuregeographicalposition_schema.FeatureGeographicalPositionResponse,
+    "/{belongs_to}"
 )
 def update_feature_geographical_position(
     belongs_to: str,
@@ -109,14 +117,17 @@ def update_feature_geographical_position(
                 )
             ],
             message=_("Successfully updated feature geographical position."),
+            schema=translate_schema(
+                _,
+                featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema()
+            )
         )
     except featuregeographicalposition_service.FailedUpdatingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{belongs_to}",
-    response_model=featuregeographicalposition_schema.FeatureGeographicalPositionResponse,
+    "/{belongs_to}"
 )
 def delete_feature_geographical_position(
     belongs_to: str, db_session: Session = Depends(deps.get_session)
@@ -128,7 +139,11 @@ def delete_feature_geographical_position(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted feature geographical position.")
+            message=_("Successfully deleted feature geographical position."),
+            schema=translate_schema(
+                _,
+                featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema()
+            )
         )
     except featuregeographicalposition_service.FailedDeletingFeatureGeographicalPosition as e:
         return get_error_response(message=str(e))

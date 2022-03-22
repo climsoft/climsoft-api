@@ -37,7 +37,7 @@ def get_climsoft_users(
             message=_("Successfully fetched climsoft users."),
             schema=translate_schema(
                 _,
-                climsoft_user_schema.ClimsoftUserQueryResponse
+                climsoft_user_schema.ClimsoftUserQueryResponse.schema()
             )
         )
     except climsoftuser_service.FailedGettingClimsoftUserList as e:
@@ -58,7 +58,7 @@ def get_climsoft_user_by_username(
             message=_("Successfully fetched climsoft user."),
             schema=translate_schema(
                 _,
-                climsoft_user_schema.ClimsoftUserResponse
+                climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
     except climsoftuser_service.FailedGettingClimsoftUser as e:
@@ -79,7 +79,7 @@ def create_climsoft_user(
             message=_("Successfully created climsoft user."),
             schema=translate_schema(
                 _,
-                climsoft_user_schema.ClimsoftUserResponse
+                climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
     except climsoftuser_service.FailedCreatingClimsoftUser as e:
@@ -104,7 +104,7 @@ def update_climsoft_user(
             message=_("Successfully updated climsoft user."),
             schema=translate_schema(
                 _,
-                climsoft_user_schema.ClimsoftUserResponse
+                climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
     except climsoftuser_service.FailedUpdatingClimsoftUser as e:
@@ -125,7 +125,7 @@ def delete_climsoft_user(
             message=_("Successfully deleted climsoft user."),
             schema=translate_schema(
                 _,
-                climsoft_user_schema.ClimsoftUserResponse
+                climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
     except climsoftuser_service.FailedDeletingClimsoftUser as e:

@@ -12,8 +12,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=obsscheduleclass_schema.ObsScheduleClassQueryResponse,
+    "/"
 )
 def get_obs_schedule_class(
     schedule_class: str = None,
@@ -39,14 +38,17 @@ def get_obs_schedule_class(
             offset=offset,
             result=obs_schedule_class,
             message=_("Successfully fetched obs schedule class."),
+            schema=translate_schema(
+                _,
+                obsscheduleclass_schema.ObsScheduleClassQueryResponse.schema()
+            )
         )
     except obsscheduleclass_service.FailedGettingObsScheduleClassList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{schedule_class}",
-    response_model=obsscheduleclass_schema.ObsScheduleClassWithStationResponse,
+    "/{schedule_class}"
 )
 def get_instrument_by_id(
     schedule_class: str,
@@ -60,6 +62,10 @@ def get_instrument_by_id(
                 )
             ],
             message=_("Successfully fetched instrument."),
+            schema=translate_schema(
+                _,
+                obsscheduleclass_schema.ObsScheduleClassWithStationResponse.schema()
+            )
         )
     except obsscheduleclass_service.FailedGettingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -67,7 +73,6 @@ def get_instrument_by_id(
 
 @router.post(
     "/",
-    response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def create_instrument(
     data: obsscheduleclass_schema.CreateObsScheduleClass,
@@ -80,6 +85,10 @@ def create_instrument(
                 data=data
             )],
             message=_("Successfully created instrument."),
+            schema=translate_schema(
+                _,
+                obsscheduleclass_schema.ObsScheduleClassResponse.schema()
+            )
         )
     except obsscheduleclass_service.FailedCreatingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -103,6 +112,10 @@ def update_instrument(
                 )
             ],
             message=_("Successfully updated instrument."),
+            schema=translate_schema(
+                _,
+                obsscheduleclass_schema.ObsScheduleClassResponse.schema()
+            )
         )
     except obsscheduleclass_service.FailedUpdatingObsScheduleClass as e:
         return get_error_response(message=str(e))
@@ -121,7 +134,11 @@ def delete_instrument(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted instrument.")
+            message=_("Successfully deleted instrument."),
+            schema=translate_schema(
+                _,
+                obsscheduleclass_schema.ObsScheduleClassResponse.schema()
+            )
         )
     except obsscheduleclass_service.FailedDeletingObsScheduleClass as e:
         return get_error_response(message=str(e))

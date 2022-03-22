@@ -11,7 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/", response_model=flag_schema.FlagQueryResponse)
+@router.get("/")
 def get_flags(
     character_symbol: str = None,
     num_symbol: int = None,
@@ -35,13 +35,17 @@ def get_flags(
             total=total,
             offset=offset,
             result=flags,
-            message=_("Successfully fetched flags.")
+            message=_("Successfully fetched flags."),
+            schema=translate_schema(
+                _,
+                flag_schema.FlagQueryResponse.schema()
+            )
         )
     except flag_service.FailedGettingFlagList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/{character_symbol}", response_model=flag_schema.FlagResponse)
+@router.get("/{character_symbol}")
 def get_flag_by_id(
     character_symbol: str, db_session: Session = Depends(deps.get_session)
 ):
@@ -54,12 +58,16 @@ def get_flag_by_id(
                 )
             ],
             message=_("Successfully fetched flag."),
+            schema=translate_schema(
+                _,
+                flag_schema.FlagResponse.schema()
+            )
         )
     except flag_service.FailedGettingFlag as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=flag_schema.FlagResponse)
+@router.post("/")
 def create_flag(
     data: flag_schema.CreateFlag,
     db_session: Session = Depends(deps.get_session)
@@ -68,12 +76,16 @@ def create_flag(
         return get_success_response(
             result=[flag_service.create(db_session=db_session, data=data)],
             message=_("Successfully created flag."),
+            schema=translate_schema(
+                _,
+                flag_schema.FlagResponse.schema()
+            )
         )
     except flag_service.FailedCreatingFlag as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{character_symbol}", response_model=flag_schema.FlagResponse)
+@router.put("/{character_symbol}")
 def update_flag(
     character_symbol: str,
     data: flag_schema.UpdateFlag,
@@ -89,12 +101,16 @@ def update_flag(
                 )
             ],
             message=_("Successfully updated flag."),
+            schema=translate_schema(
+                _,
+                flag_schema.FlagResponse.schema()
+            )
         )
     except flag_service.FailedUpdatingFlag as e:
         return get_error_response(message=str(e))
 
 
-@router.delete("/{character_symbol}", response_model=flag_schema.FlagResponse)
+@router.delete("/{character_symbol}")
 def delete_flag(
     character_symbol: str,
     db_session: Session = Depends(deps.get_session)
@@ -106,7 +122,11 @@ def delete_flag(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted flag.")
+            message=_("Successfully deleted flag."),
+            schema=translate_schema(
+                _,
+                flag_schema.FlagResponse.schema()
+            )
         )
     except flag_service.FailedDeletingFlag as e:
         return get_error_response(message=str(e))

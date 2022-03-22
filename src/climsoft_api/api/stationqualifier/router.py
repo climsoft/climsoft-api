@@ -13,7 +13,6 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=stationqualifier_schema.StationQualifierQueryResponse,
 )
 def get_station_qualifier(
     qualifier: str = None,
@@ -44,15 +43,18 @@ def get_station_qualifier(
             total=total,
             offset=offset,
             result=station_qualifier,
-            message=_("Successfully fetched station qualifier.")
+            message=_("Successfully fetched station qualifier."),
+            schema=translate_schema(
+                _,
+                stationqualifier_schema.StationQualifierQueryResponse.schema()
+            )
         )
     except stationqualifier_service.FailedGettingStationQualifierList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
-    response_model=stationqualifier_schema.StationQualifierWithStationResponse,
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def get_station_qualifier_by_id(
     qualifier: str,
@@ -73,14 +75,17 @@ def get_station_qualifier_by_id(
                 )
             ],
             message=_("Successfully fetched station qualifier."),
+            schema=translate_schema(
+                _,
+                stationqualifier_schema.StationQualifierWithStationResponse.schema()
+            )
         )
     except stationqualifier_service.FailedGettingStationQualifier as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=stationqualifier_schema.StationQualifierResponse,
+    "/"
 )
 def create_station_qualifier(
     data: stationqualifier_schema.CreateStationQualifier,
@@ -91,14 +96,17 @@ def create_station_qualifier(
             result=[stationqualifier_service.create(db_session=db_session,
                                                     data=data)],
             message=_("Successfully created station qualifier."),
+            schema=translate_schema(
+                _,
+                stationqualifier_schema.StationQualifierResponse.schema()
+            )
         )
     except stationqualifier_service.FailedCreatingStationQualifier as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
-    response_model=stationqualifier_schema.StationQualifierResponse,
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def update_station_qualifier(
     qualifier: str,
@@ -121,14 +129,17 @@ def update_station_qualifier(
                 )
             ],
             message=_("Successfully updated station qualifier."),
+            schema=translate_schema(
+                _,
+                stationqualifier_schema.StationQualifierResponse.schema()
+            )
         )
     except stationqualifier_service.FailedUpdatingStationQualifier as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
-    response_model=stationqualifier_schema.StationQualifierResponse,
+    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def delete_station_qualifier(
     qualifier: str,
@@ -146,7 +157,12 @@ def delete_station_qualifier(
             belongs_to=belongs_to,
         )
         return get_success_response(
-            result=[], message=_("Successfully deleted station qualifier.")
+            result=[],
+            message=_("Successfully deleted station qualifier."),
+            schema=translate_schema(
+                _,
+                stationqualifier_schema.StationQualifierResponse.schema()
+            )
         )
     except stationqualifier_service.FailedDeletingStationQualifier as e:
         return get_error_response(message=str(e))

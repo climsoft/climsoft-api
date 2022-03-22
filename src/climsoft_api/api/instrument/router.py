@@ -11,7 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/", response_model=instrument_schema.InstrumentQueryResponse)
+@router.get("/")
 def get_instruments(
     instrument_id: str = None,
     instrument_name: str = None,
@@ -51,15 +51,18 @@ def get_instruments(
             total=total,
             offset=offset,
             result=instruments,
-            message=_("Successfully fetched instruments.")
+            message=_("Successfully fetched instruments."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentQueryResponse.schema()
+            )
         )
     except instrument_service.FailedGettingInstrumentList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{instrument_id}",
-    response_model=instrument_schema.InstrumentWithStationResponse
+    "/{instrument_id}"
 )
 def get_instrument_by_id(
     instrument_id: str,
@@ -73,12 +76,16 @@ def get_instrument_by_id(
                 )
             ],
             message=_("Successfully fetched instrument."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentWithStationResponse.schema()
+            )
         )
     except instrument_service.FailedGettingInstrument as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=instrument_schema.InstrumentResponse)
+@router.post("/")
 def create_instrument(
     data: instrument_schema.CreateInstrument,
     db_session: Session = Depends(deps.get_session),
@@ -90,14 +97,17 @@ def create_instrument(
                 data=data
             )],
             message=_("Successfully created instrument."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentResponse.schema()
+            )
         )
     except instrument_service.FailedCreatingInstrument as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{instrument_id}",
-    response_model=instrument_schema.InstrumentResponse
+    "/{instrument_id}"
 )
 def update_instrument(
     instrument_id: str,
@@ -114,14 +124,17 @@ def update_instrument(
                 )
             ],
             message=_("Successfully updated instrument."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentResponse.schema()
+            )
         )
     except instrument_service.FailedUpdatingInstrument as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{instrument_id}",
-    response_model=instrument_schema.InstrumentResponse
+    "/{instrument_id}"
 )
 def delete_instrument(
     instrument_id: str, db_session: Session = Depends(deps.get_session)
@@ -133,7 +146,11 @@ def delete_instrument(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted instrument.")
+            message=_("Successfully deleted instrument."),
+            schema=translate_schema(
+                _,
+                instrument_schema.InstrumentResponse.schema()
+            )
         )
     except instrument_service.FailedDeletingInstrument as e:
         return get_error_response(message=str(e))

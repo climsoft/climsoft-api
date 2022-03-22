@@ -14,7 +14,6 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=instrumentinspection_schema.InstrumentInspectionQueryResponse,
 )
 def get_instrument_inspection(
     performed_on: str = None,
@@ -46,6 +45,10 @@ def get_instrument_inspection(
             offset=offset,
             result=instrument_inspection,
             message=_("Successfully fetched instrument inspection."),
+            schema=translate_schema(
+                _,
+                instrumentinspection_schema.InstrumentInspectionQueryResponse.schema()
+            )
         )
     except instrumentinspection_service.FailedGettingInstrumentInspectionList as e:
         return get_error_response(message=str(e))
@@ -53,7 +56,6 @@ def get_instrument_inspection(
 
 @router.get(
     "/{performed_on}/{inspection_datetime}",
-    response_model=instrumentinspection_schema.InstrumentInspectionWithStationAndInstrumentResponse,
 )
 def get_instrument_inspection_by_id(
     performed_on: str,
@@ -70,14 +72,17 @@ def get_instrument_inspection_by_id(
                 )
             ],
             message=_("Successfully fetched instrument inspection."),
+            schema=translate_schema(
+                _,
+                instrumentinspection_schema.InstrumentInspectionWithStationAndInstrumentResponse.schema()
+            )
         )
     except instrumentinspection_service.FailedGettingInstrumentInspection as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=instrumentinspection_schema.InstrumentInspectionResponse,
+    "/"
 )
 def create_instrument_inspection(
     data: instrumentinspection_schema.CreateInstrumentInspection,
@@ -90,14 +95,17 @@ def create_instrument_inspection(
                                                     data=data)
             ],
             message=_("Successfully created instrument inspection."),
+            schema=translate_schema(
+                _,
+                instrumentinspection_schema.InstrumentInspectionResponse.schema()
+            )
         )
     except instrumentinspection_service.FailedCreatingInstrumentInspection as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{performed_on}/{inspection_datetime}",
-    response_model=instrumentinspection_schema.InstrumentInspectionResponse,
+    "/{performed_on}/{inspection_datetime}"
 )
 def update_instrument_inspection(
     performed_on: str,
@@ -116,14 +124,17 @@ def update_instrument_inspection(
                 )
             ],
             message=_("Successfully updated instrument inspection."),
+            schema=translate_schema(
+                _,
+                instrumentinspection_schema.InstrumentInspectionResponse.schema()
+            )
         )
     except instrumentinspection_service.FailedUpdatingInstrumentInspection as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{performed_on}/{inspection_datetime}",
-    response_model=instrumentinspection_schema.InstrumentInspectionResponse,
+    "/{performed_on}/{inspection_datetime}"
 )
 def delete_instrument_inspection(
     performed_on: str,
@@ -138,7 +149,11 @@ def delete_instrument_inspection(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted instrument inspection.")
+            message=_("Successfully deleted instrument inspection."),
+            schema=translate_schema(
+                _,
+                instrumentinspection_schema.InstrumentInspectionResponse.schema()
+            )
         )
     except instrumentinspection_service.FailedDeletingInstrumentInspection as e:
         return get_error_response(message=str(e))

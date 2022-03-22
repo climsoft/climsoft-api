@@ -12,8 +12,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=stationelement_schema.StationElementQueryResponse
+    "/"
 )
 def get_station_elements(
     recorded_from: str = None,
@@ -47,7 +46,11 @@ def get_station_elements(
             total=total,
             offset=offset,
             result=station_elements,
-            message=_("Successfully fetched station elements.")
+            message=_("Successfully fetched station elements."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementQueryResponse.schema()
+            )
         )
     except stationelement_service.FailedGettingStationElementList as e:
         return get_error_response(message=str(e))
@@ -74,15 +77,18 @@ def search_station_elements(
             total=total,
             offset=offset,
             result=station_elements,
-            message=_("Successfully fetched station elements.")
+            message=_("Successfully fetched station elements."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementQueryResponse.schema()
+            )
         )
     except stationelement_service.FailedGettingStationElementList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
-    response_model=stationelement_schema.StationElementWithChildrenResponse,
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def get_station_element_by_id(
     recorded_from: str,
@@ -103,12 +109,16 @@ def get_station_element_by_id(
                 )
             ],
             message=_("Successfully fetched station element."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementWithChildrenResponse.schema()
+            )
         )
     except stationelement_service.FailedGettingStationElement as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=stationelement_schema.StationElementResponse)
+@router.post("/")
 def create_station_element(
     data: stationelement_schema.CreateStationElement,
     db_session: Session = Depends(deps.get_session),
@@ -118,14 +128,17 @@ def create_station_element(
             result=[stationelement_service.create(db_session=db_session,
                                                   data=data)],
             message=_("Successfully created station element."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementResponse.schema()
+            )
         )
     except stationelement_service.FailedCreatingStationElement as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
-    response_model=stationelement_schema.StationElementResponse,
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def update_station_element(
     recorded_from: str,
@@ -148,14 +161,17 @@ def update_station_element(
                 )
             ],
             message=_("Successfully updated station element."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementResponse.schema()
+            )
         )
     except stationelement_service.FailedUpdatingStationElement as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}",
-    response_model=stationelement_schema.StationElementResponse,
+    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def delete_station_element(
     recorded_from: str,
@@ -173,7 +189,12 @@ def delete_station_element(
             begin_date=begin_date,
         )
         return get_success_response(
-            result=[], message=_("Successfully deleted station element.")
+            result=[],
+            message=_("Successfully deleted station element."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementResponse.schema()
+            )
         )
     except stationelement_service.FailedDeletingStationElement as e:
         return get_error_response(message=str(e))

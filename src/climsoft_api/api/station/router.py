@@ -19,11 +19,10 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
 
-
 router = APIRouter()
 
 
-@router.get("/", response_model=station_schema.StationQueryResponse)
+@router.get("/")
 def get_stations(
     request: Request,
     station_id: str = None,
@@ -81,13 +80,17 @@ def get_stations(
             total=total,
             offset=offset,
             result=stations,
-            message=_("Successfully fetched stations.")
+            message=_("Successfully fetched stations."),
+            schema=translate_schema(
+                _,
+                station_schema.StationQueryResponse.schema()
+            )
         )
     except station_service.FailedGettingStationList as e:
         return get_error_response(message=_(str(e)))
 
 
-@router.get("/{station_id}", response_model=station_schema.StationResponse)
+@router.get("/{station_id}")
 def get_station_by_id(
     station_id: str,
     db_session: Session = Depends(deps.get_session)
@@ -97,12 +100,16 @@ def get_station_by_id(
             result=[station_service.get(db_session=db_session,
                                         station_id=station_id)],
             message=_("Successfully fetched station."),
+            schema=translate_schema(
+                _,
+                station_schema.StationResponse.schema()
+            )
         )
     except station_service.FailedGettingStation as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=station_schema.StationResponse)
+@router.post("/")
 def create_station(
     data: station_schema.CreateStation,
     db_session: Session = Depends(deps.get_session)
@@ -111,12 +118,16 @@ def create_station(
         return get_success_response(
             result=[station_service.create(db_session=db_session, data=data)],
             message=_("Successfully created station."),
+            schema=translate_schema(
+                _,
+                station_schema.StationResponse.schema()
+            )
         )
     except station_service.FailedCreatingStation as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{station_id}", response_model=station_schema.StationResponse)
+@router.put("/{station_id}")
 def update_station(
     station_id: str,
     data: station_schema.UpdateStation,
@@ -130,12 +141,16 @@ def update_station(
                 )
             ],
             message=_("Successfully updated station."),
+            schema=translate_schema(
+                _,
+                station_schema.StationResponse.schema()
+            )
         )
     except station_service.FailedUpdatingStation as e:
         return get_error_response(message=str(e))
 
 
-@router.delete("/{station_id}", response_model=station_schema.StationResponse)
+@router.delete("/{station_id}")
 def delete_station(
     station_id: str,
     db_session: Session = Depends(deps.get_session)
@@ -144,19 +159,18 @@ def delete_station(
         station_service.delete(db_session=db_session, station_id=station_id)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted station.")
+            message=_("Successfully deleted station."),
+            schema=translate_schema(
+                _,
+                station_schema.StationResponse.schema()
+            )
         )
     except station_service.FailedDeletingStation as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{station_id}/station-elements",
-    response_model=Union[
-        Any,
-        station_element_with_children_schema
-            .StationElementWithObsElementQueryResponse
-    ]
+    "/{station_id}/station-elements"
 )
 def get_station_with_elements(
     station_id: str,
@@ -167,11 +181,11 @@ def get_station_with_elements(
     try:
         total, elements = stationelement_service \
             .get_station_elements_with_obs_element(
-            db_session=db_session,
-            recorded_from=station_id,
-            limit=limit,
-            offset=offset
-        )
+                db_session=db_session,
+                recorded_from=station_id,
+                limit=limit,
+                offset=offset
+            )
 
         current_page, total_pages = get_current_and_total_pages(
             limit,
@@ -179,13 +193,17 @@ def get_station_with_elements(
             offset
         )
 
-        return station_element_with_children_schema \
-            .StationElementWithObsElementQueryResponse(
-            message=_("Successfully fetched station elements."),
+        return get_success_response_for_query(
+            schema=translate_schema(
+                _,
+                station_element_with_children_schema
+                    .StationElementWithObsElementQueryResponse.schema()
+            ),
             result=elements,
-            page=current_page,
-            pages=total_pages,
-            limit=limit
+            total=total,
+            limit=limit,
+            message=_("Successfully fetched station elements."),
+            offset=offset
         )
     except HTTPException:
         raise

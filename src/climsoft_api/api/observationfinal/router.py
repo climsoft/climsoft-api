@@ -12,8 +12,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=observationfinal_schema.ObservationFinalQueryResponse,
+    "/"
 )
 def get_observation_finals(
     recorded_from: str = None,
@@ -69,14 +68,17 @@ def get_observation_finals(
             offset=offset,
             result=observation_finals,
             message=_("Successfully fetched observation finals."),
+            schema=translate_schema(
+                _,
+                observationfinal_schema.ObservationFinalQueryResponse.schema()
+            )
         )
     except observationfinal_service.FailedGettingObservationFinalList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{obs_datetime}",
-    response_model=observationfinal_schema.ObservationFinalWithChildrenResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def get_observation_final_by_id(
     recorded_from: str,
@@ -95,6 +97,10 @@ def get_observation_final_by_id(
                 )
             ],
             message=_("Successfully fetched observation final."),
+            schema=translate_schema(
+                _,
+                observationfinal_schema.ObservationFinalWithChildrenResponse.schema()
+            )
         )
     except observationfinal_service.FailedGettingObservationFinal as e:
         return get_error_response(message=str(e))
@@ -102,7 +108,6 @@ def get_observation_final_by_id(
 
 @router.post(
     "/",
-    response_model=observationfinal_schema.ObservationFinalResponse,
 )
 def create_observation_final(
     data: observationfinal_schema.CreateObservationFinal,
@@ -115,14 +120,17 @@ def create_observation_final(
                 data=data
             )],
             message=_("Successfully created observation final."),
+            schema=translate_schema(
+                _,
+                observationfinal_schema.ObservationFinalResponse.schema()
+            )
         )
     except observationfinal_service.FailedCreatingObservationFinal as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{obs_datetime}",
-    response_model=observationfinal_schema.ObservationFinalResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def update_observation_final(
     recorded_from: str,
@@ -143,14 +151,17 @@ def update_observation_final(
                 )
             ],
             message=_("Successfully updated observation final."),
+            schema=translate_schema(
+                _,
+                observationfinal_schema.ObservationFinalResponse.schema()
+            )
         )
     except observationfinal_service.FailedUpdatingObservationFinal as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{obs_datetime}",
-    response_model=observationfinal_schema.ObservationFinalResponse,
+    "/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def delete_observation_final(
     recorded_from: str,
@@ -167,7 +178,11 @@ def delete_observation_final(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted observation final.")
+            message=_("Successfully deleted observation final."),
+            schema=translate_schema(
+                _,
+                observationfinal_schema.ObservationFinalResponse.schema()
+            )
         )
     except observationfinal_service.FailedDeletingObservationFinal as e:
         return get_error_response(message=str(e))

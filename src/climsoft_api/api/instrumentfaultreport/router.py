@@ -12,8 +12,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=instrumentfaultreport_schema.InstrumentFaultReportQueryResponse
+    "/"
 )
 def get_instrument_fault_report(
     refers_to: str = None,
@@ -49,14 +48,17 @@ def get_instrument_fault_report(
             offset=offset,
             result=instrument_fault_report,
             message=_("Successfully fetched instrument fault report."),
+            schema=translate_schema(
+                _,
+                instrumentfaultreport_schema.InstrumentFaultReportQueryResponse.schema()
+            )
         )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReportList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{report_id}",
-    response_model=instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse,
+    "/{report_id}"
 )
 def get_instrument_fault_report_by_id(
     report_id: int,
@@ -71,14 +73,17 @@ def get_instrument_fault_report_by_id(
                 )
             ],
             message=_("Successfully fetched instrument fault report."),
+            schema=translate_schema(
+                _,
+                instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse.schema()
+            )
         )
     except instrumentfaultreport_service.FailedGettingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse
+    "/"
 )
 def create_instrument_fault_report(
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport,
@@ -93,14 +98,17 @@ def create_instrument_fault_report(
                 )
             ],
             message=_("Successfully created instrument fault report."),
+            schema=translate_schema(
+                _,
+                instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
+            )
         )
     except instrumentfaultreport_service.FailedCreatingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{report_id}",
-    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
+    "/{report_id}"
 )
 def update_instrument_fault_report(
     report_id: int,
@@ -117,6 +125,10 @@ def update_instrument_fault_report(
                 )
             ],
             message=_("Successfully updated instrument fault report."),
+            schema=translate_schema(
+                _,
+                instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
+            )
         )
     except instrumentfaultreport_service.FailedUpdatingInstrumentFaultReport as e:
         return get_error_response(message=str(e))
@@ -124,7 +136,6 @@ def update_instrument_fault_report(
 
 @router.delete(
     "/{report_id}",
-    response_model=instrumentfaultreport_schema.InstrumentFaultReportResponse,
 )
 def delete_instrument_fault_report(
     report_id: int, db_session: Session = Depends(deps.get_session)
@@ -134,7 +145,11 @@ def delete_instrument_fault_report(
                                              report_id=report_id)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted instrument fault report.")
+            message=_("Successfully deleted instrument fault report."),
+            schema=translate_schema(
+                _,
+                instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
+            )
         )
     except instrumentfaultreport_service.FailedDeletingInstrumentFaultReport as e:
         return get_error_response(message=str(e))

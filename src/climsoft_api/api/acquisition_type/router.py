@@ -82,7 +82,7 @@ def create_acquisition_type(
             message=_("Successfully created acquisition type."),
             schema=translate_schema(
                 _,
-                acquisitiontype_schema.AcquisitionTypeResponse
+                acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
     except acquisitiontype_service.FailedCreatingAcquisitionType as e:
@@ -107,7 +107,7 @@ def update_acquisition_type(
             message=_("Successfully updated acquisition type."),
             schema=translate_schema(
                 _,
-                acquisitiontype_schema.AcquisitionTypeResponse
+                acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
     except acquisitiontype_service.FailedUpdatingAcquisitionType as e:
@@ -128,7 +128,7 @@ def delete_acquisition_type(
             message=_("Successfully deleted acquisition type."),
             schema=translate_schema(
                 _,
-                acquisitiontype_schema.AcquisitionTypeResponse
+                acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
     except acquisitiontype_service.FailedDeletingAcquisitionType as e:

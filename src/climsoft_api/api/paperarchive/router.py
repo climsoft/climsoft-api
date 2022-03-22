@@ -11,7 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/", response_model=paperarchive_schema.PaperArchiveQueryResponse)
+@router.get("/")
 def get_paper_archives(
     belongs_to: str = None,
     form_datetime: str = None,
@@ -37,15 +37,18 @@ def get_paper_archives(
             total=total,
             offset=offset,
             result=paper_archives,
-            message=_("Successfully fetched paper archives.")
+            message=_("Successfully fetched paper archives."),
+            schema=translate_schema(
+                _,
+                paperarchive_schema.PaperArchiveQueryResponse.schema()
+            )
         )
     except paperarchive_service.FailedGettingPaperArchiveList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{belongs_to}/{form_datetime}/{classified_into}",
-    response_model=paperarchive_schema.PaperArchiveWithStationAndPaperArchiveDefinitionResponse,
+    "/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def get_paper_archive_by_id(
     belongs_to: str,
@@ -64,12 +67,16 @@ def get_paper_archive_by_id(
                 )
             ],
             message=_("Successfully fetched paper archive."),
+            schema=translate_schema(
+                _,
+                paperarchive_schema.PaperArchiveWithStationAndPaperArchiveDefinitionResponse.schema()
+            )
         )
     except paperarchive_service.FailedGettingPaperArchive as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=paperarchive_schema.PaperArchiveResponse)
+@router.post("/")
 def create_paper_archive(
     data: paperarchive_schema.CreatePaperArchive,
     db_session: Session = Depends(deps.get_session),
@@ -79,14 +86,17 @@ def create_paper_archive(
             result=[
                 paperarchive_service.create(db_session=db_session, data=data)],
             message=_("Successfully created paper archive."),
+            schema=translate_schema(
+                _,
+                paperarchive_schema.PaperArchiveResponse.schema()
+            )
         )
     except paperarchive_service.FailedCreatingPaperArchive as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{belongs_to}/{form_datetime}/{classified_into}",
-    response_model=paperarchive_schema.PaperArchiveResponse,
+    "/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def update_paper_archive(
     belongs_to: str,
@@ -107,14 +117,17 @@ def update_paper_archive(
                 )
             ],
             message=_("Successfully updated paper archive."),
+            schema=translate_schema(
+                _,
+                paperarchive_schema.PaperArchiveResponse.schema()
+            )
         )
     except paperarchive_service.FailedUpdatingPaperArchive as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{belongs_to}/{form_datetime}/{classified_into}",
-    response_model=paperarchive_schema.PaperArchiveResponse,
+    "/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def delete_paper_archive(
     belongs_to: str,
@@ -131,7 +144,11 @@ def delete_paper_archive(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted paper archive.")
+            message=_("Successfully deleted paper archive."),
+            schema=translate_schema(
+                _,
+                paperarchive_schema.PaperArchiveResponse.schema()
+            )
         )
     except paperarchive_service.FailedDeletingPaperArchive as e:
         return get_error_response(message=str(e))

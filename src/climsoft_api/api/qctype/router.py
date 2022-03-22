@@ -11,7 +11,7 @@ from climsoft_api.utils.response import translate_schema
 router = APIRouter()
 
 
-@router.get("/", response_model=qctype_schema.QCTypeQueryResponse)
+@router.get("/")
 def get_qc_types(
     code: str = None,
     description: str = None,
@@ -32,25 +32,36 @@ def get_qc_types(
             limit=limit,
             total=total,
             offset=offset,
-            result=qc_types, message=_("Successfully fetched qc types.")
+            result=qc_types,
+            message=_("Successfully fetched qc types."),
+            schema=translate_schema(
+                _,
+                qctype_schema.QCTypeQueryResponse.schema()
+            )
         )
     except qctype_service.FailedGettingQCTypeList as e:
         return get_error_response(message=str(e))
 
 
-@router.get("/{code}", response_model=qctype_schema.QCTypeResponse)
-def get_qc_type_by_id(code: str,
-                      db_session: Session = Depends(deps.get_session)):
+@router.get("/{code}")
+def get_qc_type_by_id(
+    code: str,
+    db_session: Session = Depends(deps.get_session)
+):
     try:
         return get_success_response(
             result=[qctype_service.get(db_session=db_session, code=code)],
             message=_("Successfully fetched qc type."),
+            schema=translate_schema(
+                _,
+                qctype_schema.QCTypeResponse.schema()
+            )
         )
     except qctype_service.FailedGettingQCType as e:
         return get_error_response(message=str(e))
 
 
-@router.post("/", response_model=qctype_schema.QCTypeResponse)
+@router.post("/")
 def create_qc_type(
     data: qctype_schema.CreateQCType,
     db_session: Session = Depends(deps.get_session)
@@ -59,12 +70,16 @@ def create_qc_type(
         return get_success_response(
             result=[qctype_service.create(db_session=db_session, data=data)],
             message=_("Successfully created qc type."),
+            schema=translate_schema(
+                _,
+                qctype_schema.QCTypeResponse.schema()
+            )
         )
     except qctype_service.FailedCreatingQCType as e:
         return get_error_response(message=str(e))
 
 
-@router.put("/{code}", response_model=qctype_schema.QCTypeResponse)
+@router.put("/{code}")
 def update_qc_type(
     code: str,
     data: qctype_schema.UpdateQCType,
@@ -73,10 +88,17 @@ def update_qc_type(
     try:
         return get_success_response(
             result=[
-                qctype_service.update(db_session=db_session, code=code,
-                                      updates=data)
+                qctype_service.update(
+                    db_session=db_session,
+                    code=code,
+                    updates=data
+                )
             ],
             message=_("Successfully updated qc type."),
+            schema=translate_schema(
+                _,
+                qctype_schema.QCTypeResponse.schema()
+            )
         )
     except qctype_service.FailedUpdatingQCType as e:
         return get_error_response(message=str(e))
@@ -88,7 +110,11 @@ def delete_qc_type(code: str, db_session: Session = Depends(deps.get_session)):
         qctype_service.delete(db_session=db_session, code=code)
         return get_success_response(
             result=[],
-            message=_("Successfully deleted qc type.")
+            message=_("Successfully deleted qc type."),
+            schema=translate_schema(
+                _,
+                qctype_schema.QCTypeResponse.schema()
+            )
         )
     except qctype_service.FailedDeletingQCType as e:
         return get_error_response(message=str(e))

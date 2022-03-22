@@ -214,3 +214,34 @@ def delete(db_session: Session, instrument_id: str) -> bool:
         raise FailedDeletingInstrument(
             _("Failed to delete instrument.")
         )
+
+
+def search(
+    db_session: Session,
+    _query: str = None,
+    limit: int = 25,
+    offset: int = 0,
+) -> Tuple[int, List[instrument_schema.Instrument]]:
+
+    try:
+        q = db_session.query(models.Instrument)
+
+        if _query:
+            q = q.filter(
+                models.Instrument.instrumentId.ilike(f"%{_query}%")
+                | models.Instrument.instrumentName.ilike(f"%{_query}%")
+            )
+
+        return (
+            get_count(q),
+            [
+                instrument_schema.Instrument.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
+    except Exception as e:
+        logger.exception(e)
+        raise FailedGettingInstrumentList(
+            _("Failed to get list of instruments.")
+        )
+

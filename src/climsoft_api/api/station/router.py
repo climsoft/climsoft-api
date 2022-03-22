@@ -17,6 +17,8 @@ from climsoft_api.utils.response import (
 )
 from fastapi import APIRouter, Depends, Request, HTTPException
 from sqlalchemy.orm.session import Session
+from climsoft_api.utils.response import translate_schema
+
 
 router = APIRouter()
 

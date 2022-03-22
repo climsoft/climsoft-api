@@ -5,6 +5,8 @@ from climsoft_api.utils.response import get_success_response, \
     get_error_response, get_success_response_for_query
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
+from climsoft_api.utils.response import translate_schema
+
 
 router = APIRouter()
 

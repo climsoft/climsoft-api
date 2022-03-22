@@ -12,8 +12,7 @@ router = APIRouter()
 
 
 @router.get(
-    "/",
-    response_model=faultresolution_schema.FaultResolutionQueryResponse
+    "/"
 )
 def get_instrument_inspection(
     resolved_datetime: str = None,
@@ -41,14 +40,17 @@ def get_instrument_inspection(
             offset=offset,
             result=instrument_inspection,
             message=_("Successfully fetched instrument inspection."),
+            schema=translate_schema(
+                _,
+                faultresolution_schema.FaultResolutionQueryResponse
+            )
         )
     except faultresolution_service.FailedGettingFaultResolutionList as e:
         return get_error_response(message=str(e))
 
 
 @router.get(
-    "/{resolved_datetime}/{associated_with}",
-    response_model=faultresolution_schema.FaultResolutionWithInstrumentFaultReportResponse,
+    "/{resolved_datetime}/{associated_with}"
 )
 def get_instrument_inspection_by_id(
     resolved_datetime: str,
@@ -65,14 +67,17 @@ def get_instrument_inspection_by_id(
                 )
             ],
             message=_("Successfully fetched instrument inspection."),
+            schema=translate_schema(
+                _,
+                faultresolution_schema.FaultResolutionWithInstrumentFaultReportResponse,
+            )
         )
     except faultresolution_service.FailedGettingFaultResolution as e:
         return get_error_response(message=str(e))
 
 
 @router.post(
-    "/",
-    response_model=faultresolution_schema.FaultResolutionResponse
+    "/"
 )
 def create_instrument_inspection(
     data: faultresolution_schema.CreateFaultResolution,
@@ -85,14 +90,17 @@ def create_instrument_inspection(
                 data=data
             )],
             message=_("Successfully created instrument inspection."),
+            schema=translate_schema(
+                _,
+                faultresolution_schema.FaultResolutionResponse
+            )
         )
     except faultresolution_service.FailedCreatingFaultResolution as e:
         return get_error_response(message=str(e))
 
 
 @router.put(
-    "/{resolved_datetime}/{associated_with}",
-    response_model=faultresolution_schema.FaultResolutionResponse,
+    "/{resolved_datetime}/{associated_with}"
 )
 def update_instrument_inspection(
     resolved_datetime: str,
@@ -111,14 +119,17 @@ def update_instrument_inspection(
                 )
             ],
             message=_("Successfully updated instrument inspection."),
+            schema=translate_schema(
+                _,
+                faultresolution_schema.FaultResolutionResponse
+            )
         )
     except faultresolution_service.FailedUpdatingFaultResolution as e:
         return get_error_response(message=str(e))
 
 
 @router.delete(
-    "/{resolved_datetime}/{associated_with}",
-    response_model=faultresolution_schema.FaultResolutionResponse,
+    "/{resolved_datetime}/{associated_with}"
 )
 def delete_instrument_inspection(
     resolved_datetime: str,
@@ -133,7 +144,11 @@ def delete_instrument_inspection(
         )
         return get_success_response(
             result=[],
-            message=_("Successfully deleted instrument inspection.")
+            message=_("Successfully deleted instrument inspection."),
+            schema=translate_schema(
+                _,
+                faultresolution_schema.FaultResolutionResponse
+            )
         )
     except faultresolution_service.FailedDeletingFaultResolution as e:
         return get_error_response(message=str(e))

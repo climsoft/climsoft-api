@@ -240,3 +240,34 @@ def delete(db_session: Session, station_id: str) -> bool:
         raise FailedDeletingStation(
             _("Failed to delete station.")
         )
+
+
+def search(
+    db_session: Session,
+    _query: str = None,
+    limit: int = 25,
+    offset: int = 0,
+) -> Tuple[int, List[station_schema.Station]]:
+
+    try:
+        q = db_session.query(models.Station)
+
+        if _query:
+            q = q.filter(
+                models.Station.stationId.ilike(f"%{_query}%")
+                | models.Station.stationName.ilike(f"%{_query}%")
+            )
+
+        return (
+            get_count(q),
+            [
+                station_schema.Station.from_orm(s)
+                for s in q.offset(offset).limit(limit).all()
+            ]
+        )
+    except Exception as e:
+        logger.exception(e)
+        raise FailedGettingStationList(
+            _("Failed to get list of stations.")
+        )
+

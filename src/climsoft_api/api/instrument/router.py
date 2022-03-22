@@ -92,7 +92,6 @@ def search_instruments(
         return get_error_response(message=str(e))
 
 
-
 @router.get(
     "/{instrument_id}"
 )

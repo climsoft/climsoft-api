@@ -90,6 +90,37 @@ def get_stations(
         return get_error_response(message=_(str(e)))
 
 
+@router.get(
+    "/search"
+)
+def search_stations(
+    query: str,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    try:
+        total, station_elements = station_service.search(
+            db_session=db_session,
+            _query=query,
+            limit=limit,
+            offset=offset,
+        )
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=station_elements,
+            message=_("Successfully fetched stations."),
+            schema=translate_schema(
+                _,
+                station_schema.StationQueryResponse.schema()
+            )
+        )
+    except station_service.FailedGettingStationList as e:
+        return get_error_response(message=str(e))
+
+
 @router.get("/{station_id}")
 def get_station_by_id(
     station_id: str,

@@ -6,6 +6,9 @@ from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
 from opencdms.models.climsoft import v4_1_1_core as models
 from sqlalchemy.orm.session import Session
+from opencdms.utils.climsoft.elements import (
+    get_element_abbreviation_by_time_period
+)
 
 logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
@@ -204,6 +207,7 @@ def delete(db_session: Session, element_id: str) -> bool:
 def search(
     db_session: Session,
     _query: str = None,
+    time_period: str = None,
     limit: int = 25,
     offset: int = 0,
 ) -> Tuple[int, List[obselement_schema.ObsElement]]:
@@ -216,6 +220,12 @@ def search(
                 models.Obselement.elementId.ilike(f"%{_query}%")
                 | models.Obselement.elementName.ilike(f"%{_query}%")
             )
+        if time_period:
+            abbreviations = get_element_abbreviation_by_time_period(time_period)
+            q = q.filter(models.Obselement.abbreviation.in_(
+                tuple(abbreviations)
+            ))
+
         return (
             get_count(q),
             [

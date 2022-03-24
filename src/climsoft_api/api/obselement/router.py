@@ -66,6 +66,7 @@ def get_obselements(
 )
 def search_obselements(
     query: str,
+    time_period: str = None,
     db_session: Session = Depends(deps.get_session),
     limit: int = 25,
     offset: int = 0
@@ -76,6 +77,7 @@ def search_obselements(
             _query=query,
             limit=limit,
             offset=offset,
+            time_period=time_period
         )
         return get_success_response_for_query(
             limit=limit,

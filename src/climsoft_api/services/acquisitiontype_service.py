@@ -1,6 +1,8 @@
 import logging
 from typing import List, Tuple
-
+import backoff
+import fastapi
+import sqlalchemy.exc
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,70 +13,47 @@ logger = logging.getLogger("ClimsoftAcquisitionTypeService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingAcquisitionType(Exception):
-    pass
+def get_or_not_found_acquisition_type(db_session: Session, code: str):
+    acquisition_type = db_session.query(
+        models.Acquisitiontype
+    ).filter_by(code=code).first()
+    if not acquisition_type:
+        raise fastapi.HTTPException(
+            status_code=404,
+            detail=_("Acquisition type does not exist.")
+        )
 
 
-class FailedGettingAcquisitionType(Exception):
-    pass
-
-
-class FailedGettingAcquisitionTypeList(Exception):
-    pass
-
-
-class FailedUpdatingAcquisitionType(Exception):
-    pass
-
-
-class FailedDeletingAcquisitionType(Exception):
-    pass
-
-
-class AcquisitionTypeDoesNotExist(Exception):
-    pass
-
-
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: acquisitiontype_schema.CreateAcquisitionType
 ) -> acquisitiontype_schema.AcquisitionType:
-    try:
-        acquisition_type = models.Acquisitiontype(**data.dict())
-        db_session.add(acquisition_type)
-        db_session.commit()
-        return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingAcquisitionType(
-            _("Failed to create acquisition type.")
+    acquisition_type = models.Acquisitiontype(**data.dict())
+    db_session.add(acquisition_type)
+    db_session.commit()
+    return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
+
+
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
+def get(
+    db_session: Session,
+    code: str
+) -> acquisitiontype_schema.AcquisitionType:
+    acquisition_type = (
+        db_session.query(models.Acquisitiontype).filter_by(
+            code=code).first()
+    )
+
+    if not acquisition_type:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Acquisition type does not exist.")
         )
 
-
-def get(db_session: Session,
-        code: str) -> acquisitiontype_schema.AcquisitionType:
-    try:
-        acquisition_type = (
-            db_session.query(models.Acquisitiontype).filter_by(
-                code=code).first()
-        )
-
-        if not acquisition_type:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Acquisition type does not exist.")
-            )
-
-        return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingAcquisitionType(
-            _("Failed to get acquisition type.")
-        )
+    return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -93,65 +72,50 @@ def query(
     :param offset:
     :return:
     """
-    try:
-        q = db_session.query(models.Acquisitiontype)
 
-        if code is not None:
-            q = q.filter_by(code=code)
+    q = db_session.query(models.Acquisitiontype)
 
-        if description is not None:
-            q = q.filter(models.Acquisitiontype.description.ilike(
-                f"%{description}%")
-            )
+    if code is not None:
+        q = q.filter_by(code=code)
 
-        return (
-            get_count(q),
-            [
-                acquisitiontype_schema.AcquisitionType.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingAcquisitionTypeList(
-            _("Failed to get list of acquisition types.")
+    if description is not None:
+        q = q.filter(models.Acquisitiontype.description.ilike(
+            f"%{description}%")
         )
 
+    return (
+        get_count(q),
+        [
+            acquisitiontype_schema.AcquisitionType.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
+
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     code: str,
     updates: acquisitiontype_schema.UpdateAcquisitionType,
 ) -> acquisitiontype_schema.AcquisitionType:
-    try:
-        db_session.query(models.Acquisitiontype).filter_by(code=code).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_acquisition_type = (
-            db_session.query(
-                models.Acquisitiontype
-            ).filter_by(code=code).first()
-        )
-        return acquisitiontype_schema.AcquisitionType.from_orm(
-            updated_acquisition_type
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingAcquisitionType(
-            _("Failed to update acquisition type.")
-        )
+    get_or_not_found_acquisition_type(db_session, code)
+    db_session.query(models.Acquisitiontype).filter_by(code=code).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_acquisition_type = (
+        db_session.query(
+            models.Acquisitiontype
+        ).filter_by(code=code).first()
+    )
+    return acquisitiontype_schema.AcquisitionType.from_orm(
+        updated_acquisition_type
+    )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
-    try:
-        db_session.query(models.Acquisitiontype).filter_by(code=code).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingAcquisitionType(
-            _("Failed to delete acquisition type.")
-        )
+    get_or_not_found_acquisition_type(db_session, code)
+    db_session.query(models.Acquisitiontype).filter_by(code=code).delete()
+    db_session.commit()
+    return True

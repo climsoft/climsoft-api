@@ -1,3 +1,4 @@
+import fastapi
 from climsoft_api.services import acquisitiontype_service
 from climsoft_api.utils.response import get_success_response, \
     get_error_response, get_success_response_for_query
@@ -39,8 +40,12 @@ def get_acquisition_types(
                 acquisitiontype_schema.AcquisitionTypeQueryResponse.schema()
             )
         )
-    except acquisitiontype_service.FailedGettingAcquisitionTypeList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -62,8 +67,12 @@ def get_acquisition_type_by_id(
                 acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
-    except acquisitiontype_service.FailedGettingAcquisitionType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -110,8 +119,12 @@ def update_acquisition_type(
                 acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
-    except acquisitiontype_service.FailedUpdatingAcquisitionType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -131,5 +144,9 @@ def delete_acquisition_type(
                 acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
-    except acquisitiontype_service.FailedDeletingAcquisitionType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        return get_error_response(
+            message=str(e)
+        )

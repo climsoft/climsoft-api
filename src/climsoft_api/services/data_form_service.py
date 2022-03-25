@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingDataForm(Exception):
-    pass
-
-
-class FailedGettingDataForm(Exception):
-    pass
-
-
-class FailedGettingDataFormList(Exception):
-    pass
-
-
-class FailedUpdatingDataForm(Exception):
-    pass
-
-
-class FailedDeletingDataForm(Exception):
-    pass
-
-
-class DataFormDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: data_form_schema.CreateDataForm
 ) -> data_form_schema.DataForm:

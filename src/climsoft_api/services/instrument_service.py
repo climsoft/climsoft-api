@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingInstrument(Exception):
-    pass
-
-
-class FailedGettingInstrument(Exception):
-    pass
-
-
-class FailedGettingInstrumentList(Exception):
-    pass
-
-
-class FailedUpdatingInstrument(Exception):
-    pass
-
-
-class FailedDeletingInstrument(Exception):
-    pass
-
-
-class InstrumentDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: instrument_schema.CreateInstrument
 ) -> instrument_schema.Instrument:

@@ -14,30 +14,6 @@ logger = logging.getLogger("ClimsoftFeatureGeographicalPositionService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingFeatureGeographicalPosition(Exception):
-    pass
-
-
-class FailedGettingFeatureGeographicalPosition(Exception):
-    pass
-
-
-class FailedGettingFeatureGeographicalPositionList(Exception):
-    pass
-
-
-class FailedUpdatingFeatureGeographicalPosition(Exception):
-    pass
-
-
-class FailedDeletingFeatureGeographicalPosition(Exception):
-    pass
-
-
-class FeatureGeographicalPositionDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: featuregeographicalposition_schema.CreateFeatureGeographicalPosition,

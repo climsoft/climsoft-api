@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingClimsoftUser(Exception):
-    pass
-
-
-class FailedGettingClimsoftUser(Exception):
-    pass
-
-
-class FailedGettingClimsoftUserList(Exception):
-    pass
-
-
-class FailedUpdatingClimsoftUser(Exception):
-    pass
-
-
-class FailedDeletingClimsoftUser(Exception):
-    pass
-
-
-class ClimsoftUserDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: climsoftuser_schema.CreateClimsoftUser
 ) -> climsoftuser_schema.ClimsoftUser:

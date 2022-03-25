@@ -14,30 +14,6 @@ logger = logging.getLogger("ClimsoftInstrumentInspectionService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingInstrumentInspection(Exception):
-    pass
-
-
-class FailedGettingInstrumentInspection(Exception):
-    pass
-
-
-class FailedGettingInstrumentInspectionList(Exception):
-    pass
-
-
-class FailedUpdatingInstrumentInspection(Exception):
-    pass
-
-
-class FailedDeletingInstrumentInspection(Exception):
-    pass
-
-
-class InstrumentInspectionDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: instrumentinspection_schema.CreateInstrumentInspection

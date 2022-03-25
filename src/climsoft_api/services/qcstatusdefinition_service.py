@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingQCStatusDefinition(Exception):
-    pass
-
-
-class FailedGettingQCStatusDefinition(Exception):
-    pass
-
-
-class FailedGettingQCStatusDefinitionList(Exception):
-    pass
-
-
-class FailedUpdatingQCStatusDefinition(Exception):
-    pass
-
-
-class FailedDeletingQCStatusDefinition(Exception):
-    pass
-
-
-class QCStatusDefinitionDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: qcstatusdefinition_schema.CreateQCStatusDefinition

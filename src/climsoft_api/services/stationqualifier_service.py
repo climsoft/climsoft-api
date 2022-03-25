@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftStationQualifierService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingStationQualifier(Exception):
-    pass
-
-
-class FailedGettingStationQualifier(Exception):
-    pass
-
-
-class FailedGettingStationQualifierList(Exception):
-    pass
-
-
-class FailedUpdatingStationQualifier(Exception):
-    pass
-
-
-class FailedDeletingStationQualifier(Exception):
-    pass
-
-
-class StationQualifierDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: stationqualifier_schema.CreateStationQualifier
 ) -> stationqualifier_schema.StationQualifier:

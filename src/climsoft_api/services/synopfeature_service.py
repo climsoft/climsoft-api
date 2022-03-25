@@ -11,26 +11,6 @@ logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingSynopFeature(Exception):
-    pass
-
-
-class FailedGettingSynopFeature(Exception):
-    pass
-
-
-class FailedGettingSynopFeatureList(Exception):
-    pass
-
-
-class FailedUpdatingSynopFeature(Exception):
-    pass
-
-
-class FailedDeletingSynopFeature(Exception):
-    pass
-
-
 class SynopFeatureDoesNotExist(Exception):
     pass
 

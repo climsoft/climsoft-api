@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingQCType(Exception):
-    pass
-
-
-class FailedGettingQCType(Exception):
-    pass
-
-
-class FailedGettingQCTypeList(Exception):
-    pass
-
-
-class FailedUpdatingQCType(Exception):
-    pass
-
-
-class FailedDeletingQCType(Exception):
-    pass
-
-
-class QCTypeDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: qctype_schema.CreateQCType
 ) -> qctype_schema.QCType:

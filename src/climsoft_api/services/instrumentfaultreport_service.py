@@ -14,30 +14,6 @@ logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingInstrumentFaultReport(Exception):
-    pass
-
-
-class FailedGettingInstrumentFaultReport(Exception):
-    pass
-
-
-class FailedGettingInstrumentFaultReportList(Exception):
-    pass
-
-
-class FailedUpdatingInstrumentFaultReport(Exception):
-    pass
-
-
-class FailedDeletingInstrumentFaultReport(Exception):
-    pass
-
-
-class InstrumentFaultReportDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport

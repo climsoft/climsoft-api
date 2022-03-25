@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftFaultResolutionService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingFaultResolution(Exception):
-    pass
-
-
-class FailedGettingFaultResolution(Exception):
-    pass
-
-
-class FailedGettingFaultResolutionList(Exception):
-    pass
-
-
-class FailedUpdatingFaultResolution(Exception):
-    pass
-
-
-class FailedDeletingFaultResolution(Exception):
-    pass
-
-
-class FaultResolutionDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: faultresolution_schema.CreateFaultResolution
 ) -> faultresolution_schema.FaultResolution:

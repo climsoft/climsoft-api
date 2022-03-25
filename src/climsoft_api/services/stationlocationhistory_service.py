@@ -14,30 +14,6 @@ logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingStationLocationHistory(Exception):
-    pass
-
-
-class FailedGettingStationLocationHistory(Exception):
-    pass
-
-
-class FailedGettingStationLocationHistoryList(Exception):
-    pass
-
-
-class FailedUpdatingStationLocationHistory(Exception):
-    pass
-
-
-class FailedDeletingStationLocationHistory(Exception):
-    pass
-
-
-class StationLocationHistoryDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: stationlocationhistory_schema.CreateStationLocationHistory,

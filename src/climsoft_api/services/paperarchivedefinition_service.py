@@ -13,30 +13,6 @@ logger = logging.getLogger("ClimsoftPaperArchiveDefinitionService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingPaperArchiveDefinition(Exception):
-    pass
-
-
-class FailedGettingPaperArchiveDefinition(Exception):
-    pass
-
-
-class FailedGettingPaperArchiveDefinitionList(Exception):
-    pass
-
-
-class FailedUpdatingPaperArchiveDefinition(Exception):
-    pass
-
-
-class FailedDeletingPaperArchiveDefinition(Exception):
-    pass
-
-
-class PaperArchiveDefinitionDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: paperarchivedefinition_schema.CreatePaperArchiveDefinition,

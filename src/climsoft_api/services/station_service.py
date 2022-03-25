@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftStationService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingStation(Exception):
-    pass
-
-
-class FailedGettingStation(Exception):
-    pass
-
-
-class FailedGettingStationList(Exception):
-    pass
-
-
-class FailedUpdatingStation(Exception):
-    pass
-
-
-class FailedDeletingStation(Exception):
-    pass
-
-
-class StationDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: station_schema.CreateStation
 ) -> station_schema.Station:

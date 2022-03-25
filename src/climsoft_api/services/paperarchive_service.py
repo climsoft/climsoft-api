@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftPaperArchiveService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedGettingPaperArchive(Exception):
-    pass
-
-
-class FailedFetchingPaperArchives(Exception):
-    pass
-
-
-class FailedCreatingPaperArchive(Exception):
-    pass
-
-
-class FailedUpdatingPaperArchive(Exception):
-    pass
-
-
-class FailedDeletingPaperArchive(Exception):
-    pass
-
-
-class FailedGettingPaperArchiveList(Exception):
-    pass
-
-
 def query(
     db_session: Session,
     belongs_to: str = None,

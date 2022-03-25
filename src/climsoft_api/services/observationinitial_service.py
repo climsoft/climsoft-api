@@ -13,30 +13,6 @@ logger = logging.getLogger("ClimsoftObservationInitialService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingObservationInitial(Exception):
-    pass
-
-
-class FailedGettingObservationInitial(Exception):
-    pass
-
-
-class FailedGettingObservationInitialList(Exception):
-    pass
-
-
-class FailedUpdatingObservationInitial(Exception):
-    pass
-
-
-class FailedDeletingObservationInitial(Exception):
-    pass
-
-
-class ObservationInitialDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session,
     data: observationinitial_schema.CreateObservationInitial

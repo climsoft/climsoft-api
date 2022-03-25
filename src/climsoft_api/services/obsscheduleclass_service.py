@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingObsScheduleClass(Exception):
-    pass
-
-
-class FailedGettingObsScheduleClass(Exception):
-    pass
-
-
-class FailedGettingObsScheduleClassList(Exception):
-    pass
-
-
-class FailedUpdatingObsScheduleClass(Exception):
-    pass
-
-
-class FailedDeletingObsScheduleClass(Exception):
-    pass
-
-
-class ObsScheduleClassDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: obsscheduleclass_schema.CreateObsScheduleClass
 ) -> obsscheduleclass_schema.ObsScheduleClass:

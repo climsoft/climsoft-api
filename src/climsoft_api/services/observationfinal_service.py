@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingObservationFinal(Exception):
-    pass
-
-
-class FailedGettingObservationFinal(Exception):
-    pass
-
-
-class FailedGettingObservationFinalList(Exception):
-    pass
-
-
-class FailedUpdatingObservationFinal(Exception):
-    pass
-
-
-class FailedDeletingObservationFinal(Exception):
-    pass
-
-
-class ObservationFinalDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: observationfinal_schema.CreateObservationFinal
 ) -> observationfinal_schema.ObservationFinal:

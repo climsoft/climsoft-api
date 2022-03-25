@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingFlag(Exception):
-    pass
-
-
-class FailedGettingFlag(Exception):
-    pass
-
-
-class FailedGettingFlagList(Exception):
-    pass
-
-
-class FailedUpdatingFlag(Exception):
-    pass
-
-
-class FailedDeletingFlag(Exception):
-    pass
-
-
-class FlagDoesNotExist(Exception):
-    pass
-
-
 def create(db_session: Session,
            data: flag_schema.CreateFlag) -> flag_schema.Flag:
     try:

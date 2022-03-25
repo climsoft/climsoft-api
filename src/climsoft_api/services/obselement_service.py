@@ -14,30 +14,6 @@ logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingObsElement(Exception):
-    pass
-
-
-class FailedGettingObsElement(Exception):
-    pass
-
-
-class FailedGettingObsElementList(Exception):
-    pass
-
-
-class FailedUpdatingObsElement(Exception):
-    pass
-
-
-class FailedDeletingObsElement(Exception):
-    pass
-
-
-class ObsElementDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: obselement_schema.CreateObsElement
 ) -> obselement_schema.ObsElement:

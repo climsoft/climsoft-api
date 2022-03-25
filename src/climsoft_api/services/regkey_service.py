@@ -11,30 +11,6 @@ logger = logging.getLogger("ClimsoftRegKeyService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingRegKey(Exception):
-    pass
-
-
-class FailedGettingRegKey(Exception):
-    pass
-
-
-class FailedGettingRegKeyList(Exception):
-    pass
-
-
-class FailedUpdatingRegKey(Exception):
-    pass
-
-
-class FailedDeletingRegKey(Exception):
-    pass
-
-
-class RegKeyDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: regkey_schema.CreateRegKey
 ) -> regkey_schema.RegKey:

@@ -12,30 +12,6 @@ logger = logging.getLogger("ClimsoftPhysicalFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
-class FailedCreatingPhysicalFeature(Exception):
-    pass
-
-
-class FailedGettingPhysicalFeature(Exception):
-    pass
-
-
-class FailedGettingPhysicalFeatureList(Exception):
-    pass
-
-
-class FailedUpdatingPhysicalFeature(Exception):
-    pass
-
-
-class FailedDeletingPhysicalFeature(Exception):
-    pass
-
-
-class PhysicalFeatureDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: physicalfeature_schema.CreatePhysicalFeature
 ) -> physicalfeature_schema.PhysicalFeature:

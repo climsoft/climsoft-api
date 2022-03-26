@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.observationfinal import schema as observationfinal_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -12,6 +13,7 @@ logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: observationfinal_schema.CreateObservationFinal
 ) -> observationfinal_schema.ObservationFinal:
@@ -22,6 +24,7 @@ def create(
         observation_final)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     recorded_from: str,
@@ -48,6 +51,7 @@ def get(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     recorded_from: str = None,
@@ -181,6 +185,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     recorded_from: str,
@@ -198,16 +203,17 @@ def update(
     db_session.commit()
     updated_instrument = (
         db_session.query(models.Observationfinal)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .first()
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(obsDatetime=obs_datetime)
+        .first()
     )
     return observationfinal_schema.ObservationFinal.from_orm(
         updated_instrument
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session, recorded_from: str, described_by: int,
     obs_datetime: str

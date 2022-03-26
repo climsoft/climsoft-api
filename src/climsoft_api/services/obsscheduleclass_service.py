@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.obsscheduleclass import schema as obsscheduleclass_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -12,6 +13,7 @@ logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: obsscheduleclass_schema.CreateObsScheduleClass
 ) -> obsscheduleclass_schema.ObsScheduleClass:
@@ -23,6 +25,7 @@ def create(
         obs_schedule_class)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, schedule_class: str
 ) -> obsscheduleclass_schema.ObsScheduleClass:
@@ -44,6 +47,7 @@ def get(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     schedule_class: str = None,
@@ -86,6 +90,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     schedule_class: str,
@@ -97,14 +102,15 @@ def update(
     db_session.commit()
     updated_obs_schedule_class = (
         db_session.query(models.Obsscheduleclas)
-            .filter_by(scheduleClass=schedule_class)
-            .first()
+        .filter_by(scheduleClass=schedule_class)
+        .first()
     )
     return obsscheduleclass_schema.ObsScheduleClass.from_orm(
         updated_obs_schedule_class
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, schedule_class: str) -> bool:
     db_session.query(models.Obsscheduleclas).filter_by(
         scheduleClass=schedule_class

@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.data_form import schema as data_form_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: data_form_schema.CreateDataForm
 ) -> data_form_schema.DataForm:
@@ -20,6 +22,7 @@ def create(
     return data_form_schema.DataForm.from_orm(data_form)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
 
     data_form = (
@@ -37,6 +40,7 @@ def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
     return data_form_schema.DataForm.from_orm(data_form)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     order_num: int = None,
@@ -99,6 +103,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     form_name: str,
@@ -116,6 +121,7 @@ def update(
     return data_form_schema.DataForm.from_orm(updated_data_form)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, form_name: str) -> bool:
     db_session.query(models.DataForm).filter_by(
         form_name=form_name

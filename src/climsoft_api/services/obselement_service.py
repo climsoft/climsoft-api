@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.obselement import schema as obselement_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -14,6 +15,7 @@ logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: obselement_schema.CreateObsElement
 ) -> obselement_schema.ObsElement:
@@ -23,6 +25,7 @@ def create(
     return obselement_schema.ObsElement.from_orm(obs_element)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
 
     obs_element = (
@@ -40,6 +43,7 @@ def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
     return obselement_schema.ObsElement.from_orm(obs_element)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     element_id: str = None,
@@ -125,6 +129,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     element_id: str,
@@ -142,6 +147,7 @@ def update(
     return obselement_schema.ObsElement.from_orm(updated_obs_element)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, element_id: str) -> bool:
     db_session.query(models.Obselement).filter_by(
         elementId=element_id
@@ -150,6 +156,7 @@ def delete(db_session: Session, element_id: str) -> bool:
     return True
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,

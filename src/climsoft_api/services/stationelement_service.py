@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.stationelement import schema as stationelement_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -15,6 +16,7 @@ logger = logging.getLogger("ClimsoftStationElementService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: stationelement_schema.CreateStationElement
 ) -> stationelement_schema.StationElement:
@@ -24,6 +26,7 @@ def create(
     return stationelement_schema.StationElement.from_orm(station_element)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     recorded_from: str,
@@ -34,17 +37,17 @@ def get(
 
     station_element = (
         db_session.query(models.Stationelement)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(recordedWith=recorded_with)
-            .filter_by(beginDate=begin_date)
-            .options(
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(recordedWith=recorded_with)
+        .filter_by(beginDate=begin_date)
+        .options(
             joinedload("obselement"),
             joinedload("station"),
             joinedload("instrument"),
             joinedload("obsscheduleclas"),
         )
-            .first()
+        .first()
     )
 
     if not station_element:
@@ -58,6 +61,7 @@ def get(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     recorded_from: str = None,
@@ -123,6 +127,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,
@@ -149,6 +154,7 @@ def search(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     recorded_from: str,
@@ -178,6 +184,7 @@ def update(
     return stationelement_schema.StationElement.from_orm(updated_instrument)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session,
     recorded_from: str,
@@ -196,6 +203,7 @@ def delete(
     return True
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get_station_elements_with_obs_element(
     db_session: Session,
     recorded_from: str,

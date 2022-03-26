@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.qcstatusdefinition import \
     schema as qcstatusdefinition_schema
 from climsoft_api.utils.query import get_count
@@ -12,6 +13,7 @@ logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: qcstatusdefinition_schema.CreateQCStatusDefinition
@@ -24,6 +26,7 @@ def create(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     code: str
@@ -45,6 +48,7 @@ def get(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -77,6 +81,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     code: str,
@@ -96,6 +101,7 @@ def update(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
     db_session.query(models.Qcstatusdefinition).filter_by(
         code=code

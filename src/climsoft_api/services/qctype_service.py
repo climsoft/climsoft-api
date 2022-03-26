@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.qctype import schema as qctype_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: qctype_schema.CreateQCType
 ) -> qctype_schema.QCType:
@@ -20,6 +22,7 @@ def create(
     return qctype_schema.QCType.from_orm(qc_type)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, code: str) -> qctype_schema.QCType:
     qc_type = db_session.query(models.Qctype).filter_by(code=code).first()
 
@@ -32,6 +35,7 @@ def get(db_session: Session, code: str) -> qctype_schema.QCType:
     return qctype_schema.QCType.from_orm(qc_type)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -62,6 +66,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session, code: str, updates: qctype_schema.UpdateQCType
 ) -> qctype_schema.QCType:
@@ -73,6 +78,7 @@ def update(
     return qctype_schema.QCType.from_orm(updated_qc_type)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
     db_session.query(models.Qctype).filter_by(code=code).delete()
     db_session.commit()

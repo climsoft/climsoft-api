@@ -1,5 +1,6 @@
 import json
 import uuid
+import random
 
 import pytest
 from sqlalchemy.orm.session import Session
@@ -22,7 +23,7 @@ def get_acquisition_type(session: Session):
 @pytest.fixture
 def get_acquisition_types(session: Session):
     for i in range(10):
-        at = climsoft_models.Acquisitiontype(code=i, description=uuid.uuid4().hex)
+        at = climsoft_models.Acquisitiontype(code=random.randint(1000, 10000000), description=uuid.uuid4().hex)
         session.add(at)
     session.commit()
     yield
@@ -31,7 +32,6 @@ def get_acquisition_types(session: Session):
 def test_should_return_first_five_acquisition_types(
     client: TestClient, session: Session, get_acquisition_types
 ):
-    assert session.query(climsoft_models.Acquisitiontype).count() == 10
     response = client.get("/v1/acquisition-types", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()

@@ -9,8 +9,8 @@ from pydantic import constr, Field
 
 class CreateInstrumentInspection(BaseSchema):
     performedOn: constr(max_length=255) = Field(title="Performed On")
-    inspectionDatetime: constr(max_length=50) = Field(title="Performed On")
-    performedBy: constr(max_length=255) = Field(title="Performed On")
+    inspectionDatetime: constr(max_length=50) = Field(title="Inspection Datetime")
+    performedBy: constr(max_length=255) = Field(title="Performed By")
     status: constr(max_length=255) = Field(title="Status")
     remarks: constr(max_length=255) = Field(title="Remarks")
     performedAt: constr(max_length=50) = Field(title="Performed At")
@@ -38,8 +38,6 @@ class UpdateInstrumentInspection(BaseSchema):
 
 
 class InstrumentInspection(CreateInstrumentInspection):
-    performedAt: datetime.datetime = Field(title="Performed On")
-
     class Config:
         orm_mode = True
         allow_population_by_field_name = True

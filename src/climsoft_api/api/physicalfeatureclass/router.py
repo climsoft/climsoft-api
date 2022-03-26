@@ -109,6 +109,7 @@ def create_physical_feature_class(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -141,6 +142,7 @@ def update_physical_feature_class(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -168,6 +170,7 @@ def delete_physical_feature_class(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)

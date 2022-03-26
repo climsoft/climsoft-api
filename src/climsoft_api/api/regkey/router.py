@@ -100,6 +100,7 @@ def create_reg_key(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -128,6 +129,7 @@ def update_reg_key(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -152,6 +154,7 @@ def delete_reg_key(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)

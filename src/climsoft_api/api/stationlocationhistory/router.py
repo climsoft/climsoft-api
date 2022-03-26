@@ -130,6 +130,7 @@ def create_station_location_history(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -165,6 +166,7 @@ def update_station_location_history(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -196,6 +198,7 @@ def delete_station_location_history(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)

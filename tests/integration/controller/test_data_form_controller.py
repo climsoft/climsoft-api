@@ -1,4 +1,6 @@
 import json
+import random
+
 import pytest
 from sqlalchemy.orm.session import Session
 from opencdms.models.climsoft import v4_1_1_core as climsoft_models
@@ -21,11 +23,12 @@ def get_data_form(session: Session):
 @pytest.fixture
 def get_data_forms(session: Session):
     for i in range(10):
+        form_id = random.randint(1000, 10000000)
         data_form = climsoft_models.DataForm(
-            id=i,
-            order_num=f"order{i}",
+            id=form_id,
+            order_num=f"order{form_id}",
             table_name="table",
-            form_name=f"form {i}",
+            form_name=f"form {form_id}",
             description="description",
             selected=True,
             elem_code_location="location",
@@ -38,7 +41,6 @@ def get_data_forms(session: Session):
 def test_should_return_first_five_data_forms(
     client: TestClient, session: Session, get_data_forms
 ):
-    assert session.query(climsoft_models.DataForm).count() == 10
     response = client.get(
         "/v1/data-forms/",
         params={"limit": 5},

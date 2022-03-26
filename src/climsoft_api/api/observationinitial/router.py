@@ -143,8 +143,14 @@ def create_observation_initial(
                 observationinitial_schema.ObservationInitialResponse.schema()
             )
         )
-    except observationinitial_service.FailedCreatingObservationInitial as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        db_session.rollback()
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -181,6 +187,7 @@ def update_observation_initial(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -218,6 +225,7 @@ def delete_observation_initial(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)

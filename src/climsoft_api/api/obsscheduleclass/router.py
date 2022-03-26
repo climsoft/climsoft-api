@@ -107,6 +107,7 @@ def create_instrument(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -139,6 +140,7 @@ def update_instrument(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)
@@ -167,6 +169,7 @@ def delete_instrument(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        db_session.rollback()
         logger.exception(e)
         return get_error_response(
             message=str(e)

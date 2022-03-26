@@ -1,4 +1,5 @@
 import climsoft_api.api.observationinitial.schema as observationinitial_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import observationinitial_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -71,8 +75,13 @@ def get_observation_initials(
                 observationinitial_schema.ObservationInitialQueryResponse.schema()
             )
         )
-    except observationinitial_service.FailedGettingObservationInitialList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -104,8 +113,13 @@ def get_observation_initial_by_id(
                 observationinitial_schema.ObservationInitialWithChildrenResponse.schema()
             )
         )
-    except observationinitial_service.FailedGettingObservationInitial as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -164,8 +178,13 @@ def update_observation_initial(
                 observationinitial_schema.ObservationInitialResponse.schema()
             )
         )
-    except observationinitial_service.FailedUpdatingObservationInitial as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -196,5 +215,10 @@ def delete_observation_initial(
                 observationinitial_schema.ObservationInitialResponse.schema()
             )
         )
-    except observationinitial_service.FailedDeletingObservationInitial as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

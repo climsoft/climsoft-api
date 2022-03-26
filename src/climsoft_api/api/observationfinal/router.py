@@ -1,4 +1,5 @@
 import climsoft_api.api.observationfinal.schema as observationfinal_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import observationfinal_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -73,8 +77,13 @@ def get_observation_finals(
                 observationfinal_schema.ObservationFinalQueryResponse.schema()
             )
         )
-    except observationfinal_service.FailedGettingObservationFinalList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -102,8 +111,13 @@ def get_observation_final_by_id(
                 observationfinal_schema.ObservationFinalWithChildrenResponse.schema()
             )
         )
-    except observationfinal_service.FailedGettingObservationFinal as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -125,8 +139,13 @@ def create_observation_final(
                 observationfinal_schema.ObservationFinalResponse.schema()
             )
         )
-    except observationfinal_service.FailedCreatingObservationFinal as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -156,8 +175,13 @@ def update_observation_final(
                 observationfinal_schema.ObservationFinalResponse.schema()
             )
         )
-    except observationfinal_service.FailedUpdatingObservationFinal as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -184,5 +208,10 @@ def delete_observation_final(
                 observationfinal_schema.ObservationFinalResponse.schema()
             )
         )
-    except observationfinal_service.FailedDeletingObservationFinal as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

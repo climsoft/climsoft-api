@@ -1,6 +1,7 @@
 import logging
 from typing import Union, Any
 
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.api.station import (
     schema as station_schema,
@@ -20,6 +21,9 @@ from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -86,8 +90,13 @@ def get_stations(
                 station_schema.StationQueryResponse.schema()
             )
         )
-    except station_service.FailedGettingStationList as e:
-        return get_error_response(message=_(str(e)))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -117,8 +126,13 @@ def search_stations(
                 station_schema.StationQueryResponse.schema()
             )
         )
-    except station_service.FailedGettingStationList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get("/{station_id}")
@@ -136,8 +150,13 @@ def get_station_by_id(
                 station_schema.StationResponse.schema()
             )
         )
-    except station_service.FailedGettingStation as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -154,8 +173,13 @@ def create_station(
                 station_schema.StationResponse.schema()
             )
         )
-    except station_service.FailedCreatingStation as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put("/{station_id}")
@@ -177,8 +201,13 @@ def update_station(
                 station_schema.StationResponse.schema()
             )
         )
-    except station_service.FailedUpdatingStation as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete("/{station_id}")
@@ -196,8 +225,13 @@ def delete_station(
                 station_schema.StationResponse.schema()
             )
         )
-    except station_service.FailedDeletingStation as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -218,17 +252,11 @@ def get_station_with_elements(
                 offset=offset
             )
 
-        current_page, total_pages = get_current_and_total_pages(
-            limit,
-            total,
-            offset
-        )
-
         return get_success_response_for_query(
             schema=translate_schema(
                 _,
                 station_element_with_children_schema
-                    .StationElementWithObsElementQueryResponse.schema()
+                .StationElementWithObsElementQueryResponse.schema()
             ),
             result=elements,
             total=total,

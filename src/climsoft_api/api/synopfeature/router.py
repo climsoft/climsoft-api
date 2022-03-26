@@ -1,4 +1,6 @@
 import climsoft_api.api.synopfeature.schema as synopfeature_schema
+import fastapi
+import logging
 from climsoft_api.api import deps
 from climsoft_api.services import synopfeature_service
 from climsoft_api.utils.response import get_success_response, \
@@ -9,6 +11,9 @@ from climsoft_api.utils.response import translate_schema
 
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -39,8 +44,13 @@ def get_qc_types(
                 synopfeature_schema.SynopFeatureQueryResponse.schema()
             )
         )
-    except synopfeature_service.FailedGettingSynopFeatureList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get("/{abbreviation}")
@@ -60,8 +70,13 @@ def get_qc_type_by_id(
                 synopfeature_schema.SynopFeatureResponse.schema()
             )
         )
-    except synopfeature_service.FailedGettingSynopFeature as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -79,8 +94,13 @@ def create_qc_type(
                 synopfeature_schema.SynopFeatureResponse.schema()
             )
         )
-    except synopfeature_service.FailedCreatingSynopFeature as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put("/{abbreviation}")
@@ -104,8 +124,13 @@ def update_qc_type(
                 synopfeature_schema.SynopFeatureResponse.schema()
             )
         )
-    except synopfeature_service.FailedUpdatingSynopFeature as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -126,5 +151,10 @@ def delete_qc_type(abbreviation: str,
                 synopfeature_schema.SynopFeatureResponse.schema()
             )
         )
-    except synopfeature_service.FailedDeletingSynopFeature as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

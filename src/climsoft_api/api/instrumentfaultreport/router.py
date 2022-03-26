@@ -1,5 +1,6 @@
 import \
     climsoft_api.api.instrumentfaultreport.schema as instrumentfaultreport_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import instrumentfaultreport_service
 from climsoft_api.utils.response import get_success_response, \
@@ -7,8 +8,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -53,8 +58,13 @@ def get_instrument_fault_report(
                 instrumentfaultreport_schema.InstrumentFaultReportQueryResponse.schema()
             )
         )
-    except instrumentfaultreport_service.FailedGettingInstrumentFaultReportList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -78,8 +88,13 @@ def get_instrument_fault_report_by_id(
                 instrumentfaultreport_schema.InstrumentFaultReportWithStationAndInstrumentResponse.schema()
             )
         )
-    except instrumentfaultreport_service.FailedGettingInstrumentFaultReport as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -103,8 +118,13 @@ def create_instrument_fault_report(
                 instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
             )
         )
-    except instrumentfaultreport_service.FailedCreatingInstrumentFaultReport as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -130,8 +150,13 @@ def update_instrument_fault_report(
                 instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
             )
         )
-    except instrumentfaultreport_service.FailedUpdatingInstrumentFaultReport as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -151,5 +176,10 @@ def delete_instrument_fault_report(
                 instrumentfaultreport_schema.InstrumentFaultReportResponse.schema()
             )
         )
-    except instrumentfaultreport_service.FailedDeletingInstrumentFaultReport as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

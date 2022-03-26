@@ -1,4 +1,5 @@
 import climsoft_api.api.flag.schema as flag_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import flag_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -41,8 +45,13 @@ def get_flags(
                 flag_schema.FlagQueryResponse.schema()
             )
         )
-    except flag_service.FailedGettingFlagList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get("/{character_symbol}")
@@ -63,8 +72,13 @@ def get_flag_by_id(
                 flag_schema.FlagResponse.schema()
             )
         )
-    except flag_service.FailedGettingFlag as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -81,8 +95,13 @@ def create_flag(
                 flag_schema.FlagResponse.schema()
             )
         )
-    except flag_service.FailedCreatingFlag as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put("/{character_symbol}")
@@ -106,8 +125,13 @@ def update_flag(
                 flag_schema.FlagResponse.schema()
             )
         )
-    except flag_service.FailedUpdatingFlag as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete("/{character_symbol}")
@@ -128,5 +152,10 @@ def delete_flag(
                 flag_schema.FlagResponse.schema()
             )
         )
-    except flag_service.FailedDeletingFlag as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

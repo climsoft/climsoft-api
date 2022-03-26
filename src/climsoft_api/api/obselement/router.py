@@ -1,4 +1,5 @@
 import climsoft_api.api.obselement.schema as obselement_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import obselement_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,13 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -57,8 +62,13 @@ def get_obselements(
                 obselement_schema.ObsElementQueryResponse.schema()
             )
         )
-    except obselement_service.FailedGettingObsElementList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -90,8 +100,13 @@ def search_obselements(
                 obselement_schema.ObsElementQueryResponse.schema()
             )
         )
-    except obselement_service.FailedGettingObsElementList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -115,8 +130,13 @@ def get_obs_element_by_id(
                 obselement_schema.ObsElementResponse.schema()
             )
         )
-    except obselement_service.FailedGettingObsElement as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -136,8 +156,13 @@ def create_obs_element(
                 obselement_schema.ObsElementResponse.schema()
             )
         )
-    except obselement_service.FailedCreatingObsElement as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -163,8 +188,13 @@ def update_obs_element(
                 obselement_schema.ObsElementResponse.schema()
             )
         )
-    except obselement_service.FailedUpdatingObsElement as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -187,5 +217,10 @@ def delete_obs_element(
                 obselement_schema.ObsElementResponse.schema()
             )
         )
-    except obselement_service.FailedDeletingObsElement as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

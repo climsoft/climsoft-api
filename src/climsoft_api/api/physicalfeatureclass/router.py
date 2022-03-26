@@ -1,5 +1,6 @@
 import \
     climsoft_api.api.physicalfeatureclass.schema as physicalfeatureclass_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import physicalfeatureclass_service
 from climsoft_api.utils.response import get_success_response, \
@@ -7,9 +8,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -44,8 +48,13 @@ def get_physical_feature_class(
                 physicalfeatureclass_schema.PhysicalFeatureClassQueryResponse.schema()
             )
         )
-    except physicalfeatureclass_service.FailedGettingPhysicalFeatureClassList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -67,8 +76,13 @@ def get_physical_feature_class_by_id(
                 physicalfeatureclass_schema.PhysicalFeatureClassWithStationResponse.schema()
             )
         )
-    except physicalfeatureclass_service.FailedGettingPhysicalFeatureClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -92,8 +106,13 @@ def create_physical_feature_class(
                 physicalfeatureclass_schema.PhysicalFeatureClassResponse.schema()
             )
         )
-    except physicalfeatureclass_service.FailedCreatingPhysicalFeatureClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -119,8 +138,13 @@ def update_physical_feature_class(
                 physicalfeatureclass_schema.PhysicalFeatureClassResponse.schema()
             )
         )
-    except physicalfeatureclass_service.FailedUpdatingPhysicalFeatureClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -141,5 +165,10 @@ def delete_physical_feature_class(
                 physicalfeatureclass_schema.PhysicalFeatureClassResponse.schema()
             )
         )
-    except physicalfeatureclass_service.FailedDeletingPhysicalFeatureClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

@@ -1,4 +1,5 @@
 import climsoft_api.api.qctype.schema as qctype_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import qctype_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -39,8 +43,13 @@ def get_qc_types(
                 qctype_schema.QCTypeQueryResponse.schema()
             )
         )
-    except qctype_service.FailedGettingQCTypeList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get("/{code}")
@@ -57,8 +66,13 @@ def get_qc_type_by_id(
                 qctype_schema.QCTypeResponse.schema()
             )
         )
-    except qctype_service.FailedGettingQCType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -75,8 +89,13 @@ def create_qc_type(
                 qctype_schema.QCTypeResponse.schema()
             )
         )
-    except qctype_service.FailedCreatingQCType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put("/{code}")
@@ -100,8 +119,13 @@ def update_qc_type(
                 qctype_schema.QCTypeResponse.schema()
             )
         )
-    except qctype_service.FailedUpdatingQCType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete("/{code}", response_model=qctype_schema.QCTypeResponse)
@@ -116,5 +140,10 @@ def delete_qc_type(code: str, db_session: Session = Depends(deps.get_session)):
                 qctype_schema.QCTypeResponse.schema()
             )
         )
-    except qctype_service.FailedDeletingQCType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

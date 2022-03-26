@@ -1,4 +1,5 @@
 import climsoft_api.api.stationqualifier.schema as stationqualifier_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import stationqualifier_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,13 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -49,8 +54,13 @@ def get_station_qualifier(
                 stationqualifier_schema.StationQualifierQueryResponse.schema()
             )
         )
-    except stationqualifier_service.FailedGettingStationQualifierList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -80,8 +90,13 @@ def get_station_qualifier_by_id(
                 stationqualifier_schema.StationQualifierWithStationResponse.schema()
             )
         )
-    except stationqualifier_service.FailedGettingStationQualifier as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -101,8 +116,13 @@ def create_station_qualifier(
                 stationqualifier_schema.StationQualifierResponse.schema()
             )
         )
-    except stationqualifier_service.FailedCreatingStationQualifier as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -134,8 +154,13 @@ def update_station_qualifier(
                 stationqualifier_schema.StationQualifierResponse.schema()
             )
         )
-    except stationqualifier_service.FailedUpdatingStationQualifier as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -164,5 +189,10 @@ def delete_station_qualifier(
                 stationqualifier_schema.StationQualifierResponse.schema()
             )
         )
-    except stationqualifier_service.FailedDeletingStationQualifier as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

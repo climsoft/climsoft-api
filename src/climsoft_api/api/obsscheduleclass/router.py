@@ -1,4 +1,5 @@
 import climsoft_api.api.obsscheduleclass.schema as obsscheduleclass_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import obsscheduleclass_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -43,8 +47,13 @@ def get_obs_schedule_class(
                 obsscheduleclass_schema.ObsScheduleClassQueryResponse.schema()
             )
         )
-    except obsscheduleclass_service.FailedGettingObsScheduleClassList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -67,8 +76,13 @@ def get_instrument_by_id(
                 obsscheduleclass_schema.ObsScheduleClassWithStationResponse.schema()
             )
         )
-    except obsscheduleclass_service.FailedGettingObsScheduleClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -90,8 +104,13 @@ def create_instrument(
                 obsscheduleclass_schema.ObsScheduleClassResponse.schema()
             )
         )
-    except obsscheduleclass_service.FailedCreatingObsScheduleClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -117,8 +136,13 @@ def update_instrument(
                 obsscheduleclass_schema.ObsScheduleClassResponse.schema()
             )
         )
-    except obsscheduleclass_service.FailedUpdatingObsScheduleClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -140,5 +164,10 @@ def delete_instrument(
                 obsscheduleclass_schema.ObsScheduleClassResponse.schema()
             )
         )
-    except obsscheduleclass_service.FailedDeletingObsScheduleClass as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

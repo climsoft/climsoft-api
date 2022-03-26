@@ -1,4 +1,5 @@
 import climsoft_api.api.climsoftuser.schema as climsoft_user_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import climsoftuser_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,8 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -40,8 +45,14 @@ def get_climsoft_users(
                 climsoft_user_schema.ClimsoftUserQueryResponse.schema()
             )
         )
-    except climsoftuser_service.FailedGettingClimsoftUserList as e:
-        return get_error_response(message=str(e))
+
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get("/{username}")
@@ -61,8 +72,13 @@ def get_climsoft_user_by_username(
                 climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
-    except climsoftuser_service.FailedGettingClimsoftUser as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -82,8 +98,13 @@ def create_climsoft_user(
                 climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
-    except climsoftuser_service.FailedCreatingClimsoftUser as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -107,8 +128,13 @@ def update_climsoft_user(
                 climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
-    except climsoftuser_service.FailedUpdatingClimsoftUser as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -128,5 +154,10 @@ def delete_climsoft_user(
                 climsoft_user_schema.ClimsoftUserResponse.schema()
             )
         )
-    except climsoftuser_service.FailedDeletingClimsoftUser as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

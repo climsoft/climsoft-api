@@ -1,5 +1,6 @@
 import \
     climsoft_api.api.featuregeographicalposition.schema as featuregeographicalposition_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import featuregeographicalposition_service
 from climsoft_api.utils.response import get_success_response, \
@@ -7,9 +8,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -46,9 +50,13 @@ def get_feature_geographical_positions(
                 featuregeographicalposition_schema.FeatureGeographicalPositionQueryResponse.schema(),
             )
         )
-    except featuregeographicalposition_service \
-        .FailedGettingFeatureGeographicalPositionList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -71,8 +79,13 @@ def get_feature_geographical_position_by_id(
                 featuregeographicalposition_schema.FeatureGeographicalPositionWithSynopFeatureResponse.schema()
             )
         )
-    except featuregeographicalposition_service.FailedGettingFeatureGeographicalPosition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -95,8 +108,13 @@ def create_feature_geographical_position(
                 featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema(),
             )
         )
-    except featuregeographicalposition_service.FailedCreatingFeatureGeographicalPosition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -122,8 +140,13 @@ def update_feature_geographical_position(
                 featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema()
             )
         )
-    except featuregeographicalposition_service.FailedUpdatingFeatureGeographicalPosition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -145,5 +168,10 @@ def delete_feature_geographical_position(
                 featuregeographicalposition_schema.FeatureGeographicalPositionResponse.schema()
             )
         )
-    except featuregeographicalposition_service.FailedDeletingFeatureGeographicalPosition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

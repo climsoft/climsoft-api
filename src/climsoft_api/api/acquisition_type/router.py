@@ -7,8 +7,12 @@ from sqlalchemy.orm.session import Session
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from climsoft_api.api.deps import get_session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -43,6 +47,7 @@ def get_acquisition_types(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        logger.exception(e)
         return get_error_response(
             message=str(e)
         )
@@ -70,6 +75,7 @@ def get_acquisition_type_by_id(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        logger.exception(e)
         return get_error_response(
             message=str(e)
         )
@@ -94,8 +100,13 @@ def create_acquisition_type(
                 acquisitiontype_schema.AcquisitionTypeResponse.schema()
             )
         )
-    except acquisitiontype_service.FailedCreatingAcquisitionType as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -122,6 +133,7 @@ def update_acquisition_type(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        logger.exception(e)
         return get_error_response(
             message=str(e)
         )
@@ -147,6 +159,7 @@ def delete_acquisition_type(
     except fastapi.HTTPException:
         raise
     except Exception as e:
+        logger.exception(e)
         return get_error_response(
             message=str(e)
         )

@@ -1,4 +1,5 @@
 import climsoft_api.api.paperarchive.schema as paperarchive_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import paperarchive_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/")
@@ -43,8 +47,13 @@ def get_paper_archives(
                 paperarchive_schema.PaperArchiveQueryResponse.schema()
             )
         )
-    except paperarchive_service.FailedGettingPaperArchiveList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -72,8 +81,13 @@ def get_paper_archive_by_id(
                 paperarchive_schema.PaperArchiveWithStationAndPaperArchiveDefinitionResponse.schema()
             )
         )
-    except paperarchive_service.FailedGettingPaperArchive as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post("/")
@@ -91,8 +105,13 @@ def create_paper_archive(
                 paperarchive_schema.PaperArchiveResponse.schema()
             )
         )
-    except paperarchive_service.FailedCreatingPaperArchive as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -122,8 +141,13 @@ def update_paper_archive(
                 paperarchive_schema.PaperArchiveResponse.schema()
             )
         )
-    except paperarchive_service.FailedUpdatingPaperArchive as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -150,5 +174,10 @@ def delete_paper_archive(
                 paperarchive_schema.PaperArchiveResponse.schema()
             )
         )
-    except paperarchive_service.FailedDeletingPaperArchive as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

@@ -1,4 +1,5 @@
 import climsoft_api.api.qcstatusdefinition.schema as qcstatusdefinition_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import qcstatusdefinition_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,9 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
-
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -41,8 +45,13 @@ def get_qc_status_definitions(
                 qcstatusdefinition_schema.QCStatusDefinitionQueryResponse.schema()
             )
         )
-    except qcstatusdefinition_service.FailedGettingQCStatusDefinitionList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -63,8 +72,13 @@ def get_qc_status_definition_by_id(
                 qcstatusdefinition_schema.QCStatusDefinitionResponse.schema()
             )
         )
-    except qcstatusdefinition_service.FailedGettingQCStatusDefinition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -88,8 +102,13 @@ def create_qc_status_definition(
                 qcstatusdefinition_schema.QCStatusDefinitionResponse.schema()
             )
         )
-    except qcstatusdefinition_service.FailedCreatingQCStatusDefinition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put(
@@ -113,8 +132,13 @@ def update_qc_status_definition(
                 qcstatusdefinition_schema.QCStatusDefinitionResponse.schema()
             )
         )
-    except qcstatusdefinition_service.FailedUpdatingQCStatusDefinition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -133,5 +157,10 @@ def delete_qc_status_definition(
                 qcstatusdefinition_schema.QCStatusDefinitionResponse.schema()
             )
         )
-    except qcstatusdefinition_service.FailedDeletingQCStatusDefinition as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

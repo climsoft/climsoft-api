@@ -1,4 +1,5 @@
 import climsoft_api.api.data_form.schema as data_form_schema
+import fastapi
 from climsoft_api.api import deps
 from climsoft_api.services import data_form_service
 from climsoft_api.utils.response import get_success_response, \
@@ -6,8 +7,12 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+import logging
 
 router = APIRouter()
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
@@ -56,8 +61,13 @@ def get_data_forms(
                 data_form_schema.DataFormQueryResponse.schema()
             )
         )
-    except data_form_service.FailedGettingDataFormList as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.get(
@@ -79,8 +89,13 @@ def get_data_form_by_id(
                 data_form_schema.DataFormResponse.schema()
             )
         )
-    except data_form_service.FailedGettingDataForm as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.post(
@@ -99,8 +114,13 @@ def create_data_form(
                 data_form_schema.DataFormResponse.schema()
             )
         )
-    except data_form_service.FailedCreatingDataForm as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.put("/{form_name}")
@@ -124,8 +144,13 @@ def update_data_form(
                 data_form_schema.DataFormResponse.schema()
             )
         )
-    except data_form_service.FailedUpdatingDataForm as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )
 
 
 @router.delete(
@@ -145,5 +170,10 @@ def delete_data_form(
                 data_form_schema.DataFormResponse.schema()
             )
         )
-    except data_form_service.FailedDeletingDataForm as e:
-        return get_error_response(message=str(e))
+    except fastapi.HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(e)
+        return get_error_response(
+            message=str(e)
+        )

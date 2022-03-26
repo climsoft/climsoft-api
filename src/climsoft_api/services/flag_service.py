@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.flag import schema as flag_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: flag_schema.CreateFlag
@@ -21,6 +23,7 @@ def create(
     return flag_schema.Flag.from_orm(flag)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
     flag = (
         db_session.query(models.Flag)
@@ -37,6 +40,7 @@ def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
     return flag_schema.Flag.from_orm(flag)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     character_symbol: str = None,
@@ -72,6 +76,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     character_symbol: str,
@@ -89,6 +94,7 @@ def update(
     return flag_schema.Flag.from_orm(updated_flag)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, character_symbol: str) -> bool:
     db_session.query(models.Flag).filter_by(
         characterSymbol=character_symbol

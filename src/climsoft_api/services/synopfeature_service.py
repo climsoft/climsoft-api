@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.synopfeature import schema as synopfeature_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: synopfeature_schema.CreateSynopFeature
 ) -> synopfeature_schema.SynopFeature:
@@ -21,12 +23,15 @@ def create(
     return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
-def get(db_session: Session,
-    abbreviation: str) -> synopfeature_schema.SynopFeature:
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
+def get(
+    db_session: Session,
+    abbreviation: str
+) -> synopfeature_schema.SynopFeature:
     synop_feature = (
         db_session.query(models.Synopfeature)
-            .filter_by(abbreviation=abbreviation)
-            .first()
+        .filter_by(abbreviation=abbreviation)
+        .first()
     )
 
     if not synop_feature:
@@ -38,6 +43,7 @@ def get(db_session: Session,
     return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     abbreviation: str = None,
@@ -70,6 +76,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     abbreviation: str,
@@ -87,6 +94,7 @@ def update(
     return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, abbreviation: str) -> bool:
     db_session.query(models.Synopfeature).filter_by(
         abbreviation=abbreviation

@@ -1,7 +1,6 @@
 import io
 import uuid
 from pathlib import Path
-import backoff
 from climsoft_api.config import settings
 from climsoft_api.utils.s3 import get_s3_client
 

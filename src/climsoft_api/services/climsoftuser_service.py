@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.climsoftuser import schema as climsoftuser_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: climsoftuser_schema.CreateClimsoftUser
 ) -> climsoftuser_schema.ClimsoftUser:
@@ -20,6 +22,7 @@ def create(
     return climsoftuser_schema.ClimsoftUser.from_orm(climsoft_user)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
     climsoft_user = (
         db_session.query(models.ClimsoftUser).filter_by(
@@ -34,6 +37,7 @@ def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
     return climsoftuser_schema.ClimsoftUser.from_orm(climsoft_user)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     username: str = None,
@@ -69,6 +73,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     username: str,
@@ -90,6 +95,7 @@ def update(
     return climsoftuser_schema.ClimsoftUser.from_orm(updated_climsoft_user)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, username: str) -> bool:
     db_session.query(models.ClimsoftUser).filter_by(
         userName=username

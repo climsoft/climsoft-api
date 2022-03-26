@@ -1,5 +1,6 @@
 import logging
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.paperarchive import schema as paperarchive_schema
 from climsoft_api.utils.query import get_count
 from fastapi import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftPaperArchiveService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     belongs_to: str = None,
@@ -43,6 +45,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     belongs_to: str,
@@ -74,6 +77,7 @@ def get(
         )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(db_session: Session, data: paperarchive_schema.CreatePaperArchive):
     paper_archive = models.Paperarchive(**data.dict())
     db_session.add(paper_archive)
@@ -81,6 +85,7 @@ def create(db_session: Session, data: paperarchive_schema.CreatePaperArchive):
     return paperarchive_schema.PaperArchive.from_orm(paper_archive)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     belongs_to: str,
@@ -106,6 +111,7 @@ def update(
     return paperarchive_schema.PaperArchive.from_orm(updated_paper_archive)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session, belongs_to: str, form_datetime: str,
     classified_into: str

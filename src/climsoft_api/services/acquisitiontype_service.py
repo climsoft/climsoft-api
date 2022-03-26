@@ -1,8 +1,8 @@
 import logging
 from typing import List, Tuple
 import backoff
-import fastapi
 import sqlalchemy.exc
+import fastapi
 from climsoft_api.api.acquisition_type import schema as acquisitiontype_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException

@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.observationinitial import \
     schema as observationinitial_schema
 from climsoft_api.utils.query import get_count
@@ -13,6 +14,7 @@ logger = logging.getLogger("ClimsoftObservationInitialService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: observationinitial_schema.CreateObservationInitial
@@ -26,6 +28,7 @@ def create(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     recorded_from: str,
@@ -57,6 +60,7 @@ def get(
         )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     recorded_from: str = None,
@@ -190,6 +194,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     recorded_from: str,
@@ -225,6 +230,7 @@ def update(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session,
     recorded_from: str,

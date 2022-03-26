@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.station import schema as station_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -11,6 +12,7 @@ logger = logging.getLogger("ClimsoftStationService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: station_schema.CreateStation
 ) -> station_schema.Station:
@@ -20,6 +22,7 @@ def create(
     return station_schema.Station.from_orm(station)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, station_id: str) -> station_schema.Station:
     station = (
         db_session.query(models.Station).filter_by(
@@ -35,6 +38,7 @@ def get(db_session: Session, station_id: str) -> station_schema.Station:
     return station_schema.Station.from_orm(station)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     station_id: str = None,
@@ -160,6 +164,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     station_id: str,
@@ -177,6 +182,7 @@ def update(
     return station_schema.Station.from_orm(updated_station)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, station_id: str) -> bool:
     db_session.query(
         models.Station
@@ -185,6 +191,7 @@ def delete(db_session: Session, station_id: str) -> bool:
     return True
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,

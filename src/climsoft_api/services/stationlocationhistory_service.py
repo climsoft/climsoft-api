@@ -1,6 +1,8 @@
 import logging
 from typing import List, Tuple
 import backoff
+import fastapi
+import sqlalchemy.exc
 from climsoft_api.api.stationlocationhistory import (
     schema as stationlocationhistory_schema,
 )
@@ -14,6 +16,7 @@ logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: stationlocationhistory_schema.CreateStationLocationHistory,
@@ -26,6 +29,7 @@ def create(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, belongs_to: str, opening_datetime: str
 ) -> stationlocationhistory_schema.StationLocationHistory:
@@ -49,6 +53,7 @@ def get(
         )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     belongs_to: str = None,
@@ -118,6 +123,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     belongs_to: str,
@@ -128,8 +134,10 @@ def update(
         belongsTo=belongs_to,
         openingDatetime=opening_datetime
     ).first():
-        raise StationLocationHistoryDoesNotExist(
-            "Station location history does not exist.")
+        raise fastapi.HTTPException(
+            status_code=404,
+            detail=_("Station location history does not exist.")
+        )
     db_session.query(models.Stationlocationhistory).filter_by(
         belongsTo=belongs_to,
         openingDatetime=opening_datetime
@@ -147,6 +155,7 @@ def update(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
     db_session.query(models.Stationlocationhistory).filter_by(
         belongsTo=belongs_to,

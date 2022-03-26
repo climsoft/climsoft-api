@@ -1,6 +1,7 @@
 import logging
 from typing import List, Tuple
 import backoff
+import sqlalchemy.exc
 from climsoft_api.api.physicalfeatureclass import (
     schema as physicalfeatureclass_schema
 )
@@ -14,6 +15,7 @@ logger = logging.getLogger("ClimsoftPhysicalFeatureClassService")
 logging.basicConfig(level=logging.INFO)
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: physicalfeatureclass_schema.CreatePhysicalFeatureClass
@@ -26,6 +28,7 @@ def create(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, feature_class: str
 ) -> physicalfeatureclass_schema.PhysicalFeatureClass:
@@ -48,6 +51,7 @@ def get(
         )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     feature_class: str = None,
@@ -83,6 +87,7 @@ def query(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     feature_class: str,
@@ -102,6 +107,7 @@ def update(
     )
 
 
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, feature_class: str) -> bool:
     db_session.query(models.Physicalfeatureclas).filter_by(
         featureClass=feature_class

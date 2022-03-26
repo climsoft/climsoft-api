@@ -13,6 +13,24 @@ logger = logging.getLogger("ClimsoftObsScheduleClassService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    schedule_class: str
+):
+    obs_schedule_class = (
+        db_session.query(models.Obsscheduleclas)
+        .filter_by(scheduleClass=schedule_class)
+        .first()
+    )
+
+    if not obs_schedule_class:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Obs schedule class does not exist.")
+        )
+    return obs_schedule_class
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: obsscheduleclass_schema.CreateObsScheduleClass
@@ -31,9 +49,9 @@ def get(
 ) -> obsscheduleclass_schema.ObsScheduleClass:
     obs_schedule_class = (
         db_session.query(models.Obsscheduleclas)
-            .filter_by(scheduleClass=schedule_class)
-            .options(joinedload("station"))
-            .first()
+        .filter_by(scheduleClass=schedule_class)
+        .options(joinedload("station"))
+        .first()
     )
 
     if not obs_schedule_class:
@@ -96,6 +114,7 @@ def update(
     schedule_class: str,
     updates: obsscheduleclass_schema.UpdateObsScheduleClass,
 ) -> obsscheduleclass_schema.ObsScheduleClass:
+    get_or_404(db_session, schedule_class)
     db_session.query(models.Obsscheduleclas).filter_by(
         scheduleClass=schedule_class
     ).update(updates.dict())
@@ -112,6 +131,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, schedule_class: str) -> bool:
+    get_or_404(db_session, schedule_class)
     db_session.query(models.Obsscheduleclas).filter_by(
         scheduleClass=schedule_class
     ).delete()

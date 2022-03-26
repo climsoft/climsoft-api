@@ -13,6 +13,32 @@ logger = logging.getLogger("ClimsoftPhysicalFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    associated_with: str,
+    begin_date: str,
+    classified_into: str,
+    description: str,
+):
+    physical_feature = (
+        db_session.query(models.Physicalfeature)
+        .filter_by(
+            associatedWith=associated_with,
+            beginDate=begin_date,
+            classifiedInto=classified_into,
+            description=description,
+        )
+        .options(joinedload("station"))
+        .first()
+    )
+
+    if not physical_feature:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Physical feature does not exist.")
+        )
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: physicalfeature_schema.CreatePhysicalFeature
@@ -33,14 +59,14 @@ def get(
 ) -> physicalfeature_schema.PhysicalFeature:
     physical_feature = (
         db_session.query(models.Physicalfeature)
-            .filter_by(
+        .filter_by(
             associatedWith=associated_with,
             beginDate=begin_date,
             classifiedInto=classified_into,
             description=description,
         )
-            .options(joinedload("station"))
-            .first()
+        .options(joinedload("station"))
+        .first()
     )
 
     if not physical_feature:
@@ -110,6 +136,13 @@ def update(
     description: str,
     updates: physicalfeature_schema.UpdatePhysicalFeature,
 ) -> physicalfeature_schema.PhysicalFeature:
+    get_or_404(
+        db_session,
+        associated_with,
+        begin_date,
+        classified_into,
+        description
+    )
     db_session.query(models.Physicalfeature).filter_by(
         associatedWith=associated_with,
         beginDate=begin_date,
@@ -140,6 +173,13 @@ def delete(
     classified_into: str,
     description: str,
 ) -> bool:
+    get_or_404(
+        db_session,
+        associated_with,
+        begin_date,
+        classified_into,
+        description
+    )
     db_session.query(models.Physicalfeature).filter_by(
         associatedWith=associated_with,
         beginDate=begin_date,

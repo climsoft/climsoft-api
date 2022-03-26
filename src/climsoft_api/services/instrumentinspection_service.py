@@ -15,6 +15,27 @@ logger = logging.getLogger("ClimsoftInstrumentInspectionService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    performed_on: str,
+    inspection_datetime: str
+):
+    instrument_inspection = (
+        db_session.query(models.Instrumentinspection)
+        .filter_by(
+            performedOn=performed_on,
+            inspectionDatetime=inspection_datetime
+        )
+        .first()
+    )
+
+    if not instrument_inspection:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument inspection does not exist.")
+        )
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -39,7 +60,7 @@ def get(
             inspectionDatetime=inspection_datetime
         )
         .options(joinedload("station"))
-            .first()
+        .first()
     )
 
     if not instrument_inspection:
@@ -107,6 +128,7 @@ def update(
     inspection_datetime: str,
     updates: instrumentinspection_schema.UpdateInstrumentInspection,
 ) -> instrumentinspection_schema.InstrumentInspection:
+    get_or_404(db_session, performed_on, inspection_datetime)
     db_session.query(models.Instrumentinspection).filter_by(
         performedOn=performed_on, inspectionDatetime=inspection_datetime
     ).update(updates.dict())
@@ -130,6 +152,7 @@ def delete(
     performed_on: str,
     inspection_datetime: str
 ) -> bool:
+    get_or_404(db_session, performed_on, inspection_datetime)
     db_session.query(models.Instrumentinspection).filter_by(
         performedOn=performed_on, inspectionDatetime=inspection_datetime
     ).delete()

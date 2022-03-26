@@ -12,6 +12,24 @@ logger = logging.getLogger("ClimsoftStationService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    station_id: str
+):
+    station = (
+        db_session.query(models.Station).filter_by(
+            stationId=station_id).first()
+    )
+
+    if not station:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station does not exist.")
+        )
+
+    return station
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: station_schema.CreateStation
@@ -24,16 +42,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, station_id: str) -> station_schema.Station:
-    station = (
-        db_session.query(models.Station).filter_by(
-            stationId=station_id).first()
-    )
-
-    if not station:
-        raise HTTPException(
-            status_code=404,
-            detail=_("Station does not exist.")
-        )
+    station = get_or_404(db_session, station_id)
 
     return station_schema.Station.from_orm(station)
 
@@ -170,6 +179,7 @@ def update(
     station_id: str,
     updates: station_schema.UpdateStation
 ) -> station_schema.Station:
+    get_or_404(db_session, station_id)
     db_session.query(models.Station).filter_by(stationId=station_id).update(
         updates.dict()
     )
@@ -184,6 +194,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, station_id: str) -> bool:
+    get_or_404(db_session, station_id)
     db_session.query(
         models.Station
     ).filter_by(stationId=station_id).delete()

@@ -13,6 +13,25 @@ logger = logging.getLogger("ClimsoftQCStatusDefinitionService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    code: str
+):
+    qc_status_definition = (
+        db_session.query(models.Qcstatusdefinition).filter_by(
+            code=code
+        ).first()
+    )
+
+    if not qc_status_definition:
+        raise HTTPException(
+            status_code=404,
+            detail=_("QC status definition does not exist.")
+        )
+
+    return qc_status_definition
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -31,17 +50,7 @@ def get(
     db_session: Session,
     code: str
 ) -> qcstatusdefinition_schema.QCStatusDefinition:
-    qc_status_definition = (
-        db_session.query(models.Qcstatusdefinition).filter_by(
-            code=code
-        ).first()
-    )
-
-    if not qc_status_definition:
-        raise HTTPException(
-            status_code=404,
-            detail=_("QC status definition does not exist.")
-        )
+    qc_status_definition = get_or_404(db_session, code)
 
     return qcstatusdefinition_schema.QCStatusDefinition.from_orm(
         qc_status_definition
@@ -87,6 +96,7 @@ def update(
     code: str,
     updates: qcstatusdefinition_schema.UpdateQCStatusDefinition,
 ) -> qcstatusdefinition_schema.QCStatusDefinition:
+    get_or_404(db_session, code)
     db_session.query(models.Qcstatusdefinition).filter_by(code=code).update(
         updates.dict()
     )
@@ -103,6 +113,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
+    get_or_404(db_session, code)
     db_session.query(models.Qcstatusdefinition).filter_by(
         code=code
     ).delete()

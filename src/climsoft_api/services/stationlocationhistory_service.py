@@ -16,6 +16,25 @@ logger = logging.getLogger("ClimsoftStationLocationHistoryService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session, belongs_to: str, opening_datetime: str
+):
+    station_location_history = (
+        db_session.query(models.Stationlocationhistory)
+        .filter_by(belongsTo=belongs_to,
+                   openingDatetime=opening_datetime)
+        .first()
+    )
+
+    if not station_location_history:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station location history does not exist.")
+        )
+
+    return station_location_history
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -130,14 +149,7 @@ def update(
     opening_datetime: str,
     updates: stationlocationhistory_schema.UpdateStationLocationHistory,
 ) -> stationlocationhistory_schema.StationLocationHistory:
-    if not db_session.query(models.Stationlocationhistory).filter_by(
-        belongsTo=belongs_to,
-        openingDatetime=opening_datetime
-    ).first():
-        raise fastapi.HTTPException(
-            status_code=404,
-            detail=_("Station location history does not exist.")
-        )
+    get_or_404(db_session, belongs_to, opening_datetime)
     db_session.query(models.Stationlocationhistory).filter_by(
         belongsTo=belongs_to,
         openingDatetime=opening_datetime
@@ -157,6 +169,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
+    get_or_404(db_session, belongs_to, opening_datetime)
     db_session.query(models.Stationlocationhistory).filter_by(
         belongsTo=belongs_to,
         openingDatetime=opening_datetime

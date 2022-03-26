@@ -12,6 +12,23 @@ logger = logging.getLogger("ClimsoftRegKeyService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    key_name: str
+):
+    reg_key = db_session.query(models.Regkey).filter_by(
+        keyName=key_name
+    ).first()
+
+    if not reg_key:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Reg key does not exist.")
+        )
+
+    return reg_key
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: regkey_schema.CreateRegKey
@@ -24,16 +41,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, key_name: str) -> regkey_schema.RegKey:
-
-    reg_key = db_session.query(models.Regkey).filter_by(
-        keyName=key_name
-    ).first()
-
-    if not reg_key:
-        raise HTTPException(
-            status_code=404,
-            detail=_("Reg key does not exist.")
-        )
+    reg_key = get_or_404(db_session, key_name)
 
     return regkey_schema.RegKey.from_orm(reg_key)
 
@@ -79,6 +87,7 @@ def query(
 def update(
     db_session: Session, key_name: str, updates: regkey_schema.UpdateRegKey
 ) -> regkey_schema.RegKey:
+    get_or_404(db_session, key_name)
     db_session.query(models.Regkey).filter_by(keyName=key_name).update(
         updates.dict()
     )
@@ -91,6 +100,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, key_name: str) -> bool:
+    get_or_404(db_session, key_name)
     db_session.query(models.Regkey).filter_by(keyName=key_name).delete()
     db_session.commit()
     return True

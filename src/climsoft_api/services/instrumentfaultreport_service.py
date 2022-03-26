@@ -18,49 +18,35 @@ def create(
     db_session: Session,
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
-    try:
-        instrument_fault_report = models.Instrumentfaultreport(**data.dict())
-        db_session.add(instrument_fault_report)
-        db_session.commit()
-        return instrumentfaultreport_schema.InstrumentFaultReport.from_orm(
-            instrument_fault_report
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingInstrumentFaultReport(
-            _("Failed to create instrument fault report.")
-        )
+    instrument_fault_report = models.Instrumentfaultreport(**data.dict())
+    db_session.add(instrument_fault_report)
+    db_session.commit()
+    return instrumentfaultreport_schema.InstrumentFaultReport.from_orm(
+        instrument_fault_report
+    )
 
 
 def get(
     db_session: Session, report_id: int
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
-    try:
-        instrument_fault_report = (
-            db_session.query(models.Instrumentfaultreport)
-                .filter_by(reportId=report_id)
-                .options(joinedload("station"))
-                .first()
+
+    instrument_fault_report = (
+        db_session.query(models.Instrumentfaultreport)
+            .filter_by(reportId=report_id)
+            .options(joinedload("station"))
+            .first()
+    )
+
+    if not instrument_fault_report:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument fault report does not exist.")
         )
 
-        if not instrument_fault_report:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Instrument fault report does not exist.")
-            )
-
-        return instrumentfaultreport_schema \
-            .InstrumentFaultReportWithStationAndInstrument.from_orm(
-            instrument_fault_report
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentFaultReport(
-            _("Failed to get instrument fault report.")
-        )
+    return instrumentfaultreport_schema \
+        .InstrumentFaultReportWithStationAndInstrument.from_orm(
+        instrument_fault_report
+    )
 
 
 def query(
@@ -81,45 +67,39 @@ def query(
     `limit` numbers of `instrument_fault_report` row skipping
     `offset` number of rows
     """
-    try:
-        q = db_session.query(models.Instrumentfaultreport)
+    q = db_session.query(models.Instrumentfaultreport)
 
-        if refers_to is not None:
-            q = q.filter_by(refersTo=refers_to)
+    if refers_to is not None:
+        q = q.filter_by(refersTo=refers_to)
 
-        if report_id is not None:
-            q = q.filter_by(reportId=report_id)
+    if report_id is not None:
+        q = q.filter_by(reportId=report_id)
 
-        if report_datetime is not None:
-            q = q.filter_by(reportDatetime=report_datetime)
+    if report_datetime is not None:
+        q = q.filter_by(reportDatetime=report_datetime)
 
-        if fault_description is not None:
-            q = q.filter_by(faultDescription=fault_description)
+    if fault_description is not None:
+        q = q.filter_by(faultDescription=fault_description)
 
-        if reported_by is not None:
-            q = q.filter_by(reportedBy=reported_by)
+    if reported_by is not None:
+        q = q.filter_by(reportedBy=reported_by)
 
-        if received_datetime is not None:
-            q = q.filter_by(receivedDatetime=received_datetime)
+    if received_datetime is not None:
+        q = q.filter_by(receivedDatetime=received_datetime)
 
-        if received_by is not None:
-            q = q.filter_by(receivedBy=received_by)
+    if received_by is not None:
+        q = q.filter_by(receivedBy=received_by)
 
-        if reported_from is not None:
-            q = q.filter_by(reportedFrom=reported_from)
+    if reported_from is not None:
+        q = q.filter_by(reportedFrom=reported_from)
 
-        return (
-            get_count(q),
-            [
-                instrumentfaultreport_schema.InstrumentFaultReport.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentFaultReportList(
-            _("Failed to get list of instrument fault reports.")
-        )
+    return (
+        get_count(q),
+        [
+            instrumentfaultreport_schema.InstrumentFaultReport.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -127,37 +107,23 @@ def update(
     report_id: int,
     updates: instrumentfaultreport_schema.UpdateInstrumentFaultReport,
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
-    try:
-        db_session.query(models.Instrumentfaultreport).filter_by(
-            reportId=report_id
-        ).update(updates.dict())
-        db_session.commit()
-        updated_instrument_fault_report = (
-            db_session.query(models.Instrumentfaultreport)
-                .filter_by(reportId=report_id)
-                .first()
-        )
-        return instrumentfaultreport_schema.InstrumentFaultReport.from_orm(
-            updated_instrument_fault_report
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingInstrumentFaultReport(
-            _("Failed to update instrument fault report.")
-        )
+    db_session.query(models.Instrumentfaultreport).filter_by(
+        reportId=report_id
+    ).update(updates.dict())
+    db_session.commit()
+    updated_instrument_fault_report = (
+        db_session.query(models.Instrumentfaultreport)
+            .filter_by(reportId=report_id)
+            .first()
+    )
+    return instrumentfaultreport_schema.InstrumentFaultReport.from_orm(
+        updated_instrument_fault_report
+    )
 
 
 def delete(db_session: Session, report_id: int) -> bool:
-    try:
-        db_session.query(models.Instrumentfaultreport).filter_by(
-            reportId=report_id
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingInstrumentFaultReport(
-            _("Failed to delete instrument fault report.")
-        )
+    db_session.query(models.Instrumentfaultreport).filter_by(
+        reportId=report_id
+    ).delete()
+    db_session.commit()
+    return True

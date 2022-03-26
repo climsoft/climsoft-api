@@ -18,17 +18,10 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: stationelement_schema.CreateStationElement
 ) -> stationelement_schema.StationElement:
-    try:
-        station_element = models.Stationelement(**data.dict())
-        db_session.add(station_element)
-        db_session.commit()
-        return stationelement_schema.StationElement.from_orm(station_element)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingStationElement(
-            _("Failed to create station element.")
-        )
+    station_element = models.Stationelement(**data.dict())
+    db_session.add(station_element)
+    db_session.commit()
+    return stationelement_schema.StationElement.from_orm(station_element)
 
 
 def get(
@@ -38,38 +31,31 @@ def get(
     recorded_with: str,
     begin_date: str,
 ) -> stationelement_schema.StationElementWithChildren:
-    try:
-        station_element = (
-            db_session.query(models.Stationelement)
-                .filter_by(recordedFrom=recorded_from)
-                .filter_by(describedBy=described_by)
-                .filter_by(recordedWith=recorded_with)
-                .filter_by(beginDate=begin_date)
-                .options(
-                joinedload("obselement"),
-                joinedload("station"),
-                joinedload("instrument"),
-                joinedload("obsscheduleclas"),
-            )
-                .first()
+
+    station_element = (
+        db_session.query(models.Stationelement)
+            .filter_by(recordedFrom=recorded_from)
+            .filter_by(describedBy=described_by)
+            .filter_by(recordedWith=recorded_with)
+            .filter_by(beginDate=begin_date)
+            .options(
+            joinedload("obselement"),
+            joinedload("station"),
+            joinedload("instrument"),
+            joinedload("obsscheduleclas"),
+        )
+            .first()
+    )
+
+    if not station_element:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station element does not exist.")
         )
 
-        if not station_element:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Station element does not exist.")
-            )
-
-        return stationelement_schema.StationElementWithChildren.from_orm(
-            station_element
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationElement(
-            _("Failed to get station element.")
-        )
+    return stationelement_schema.StationElementWithChildren.from_orm(
+        station_element
+    )
 
 
 def query(
@@ -102,45 +88,39 @@ def query(
     :param offset: skips first `offset` number of records
     :return: list of `stationelement`
     """
-    try:
-        q = db_session.query(models.Stationelement)
+    q = db_session.query(models.Stationelement)
 
-        if recorded_from is not None:
-            q = q.filter_by(recordedFrom=recorded_from)
+    if recorded_from is not None:
+        q = q.filter_by(recordedFrom=recorded_from)
 
-        if described_by is not None:
-            q = q.filter_by(describedBy=described_by)
+    if described_by is not None:
+        q = q.filter_by(describedBy=described_by)
 
-        if recorded_with is not None:
-            q = q.filter_by(recordedWith=recorded_with)
+    if recorded_with is not None:
+        q = q.filter_by(recordedWith=recorded_with)
 
-        if instrument_code is not None:
-            q = q.filter_by(instrumentcode=instrument_code)
+    if instrument_code is not None:
+        q = q.filter_by(instrumentcode=instrument_code)
 
-        if scheduled_for is not None:
-            q = q.filter_by(scheduledFor=scheduled_for)
+    if scheduled_for is not None:
+        q = q.filter_by(scheduledFor=scheduled_for)
 
-        if height is not None:
-            q = q.filter(models.Stationelement.height >= height)
+    if height is not None:
+        q = q.filter(models.Stationelement.height >= height)
 
-        if begin_date is not None:
-            q = q.filter(models.Stationelement.beginDate >= begin_date)
+    if begin_date is not None:
+        q = q.filter(models.Stationelement.beginDate >= begin_date)
 
-        if end_date is not None:
-            q = q.filter(models.Stationelement.endDate <= end_date)
+    if end_date is not None:
+        q = q.filter(models.Stationelement.endDate <= end_date)
 
-        return (
-            get_count(q),
-            [
-                stationelement_schema.StationElement.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationElementList(
-            _("Failed to get list of station elements.")
-        )
+    return (
+        get_count(q),
+        [
+            stationelement_schema.StationElement.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def search(
@@ -150,29 +130,23 @@ def search(
     offset: int = 0,
 ) -> Tuple[int, List[stationelement_schema.StationElement]]:
 
-    try:
-        q = db_session.query(models.Stationelement)
+    q = db_session.query(models.Stationelement)
 
-        if _query:
-            q = q.filter(
-                models.Stationelement.recordedFrom.ilike(f"%{_query}%")
-                | models.Stationelement.describedBy.ilike(f"%{_query}%")
-                | models.Stationelement.recordedWith.ilike(f"%{_query}%")
-                | models.Stationelement.beginDate.ilike(f"%{_query}%")
-            )
+    if _query:
+        q = q.filter(
+            models.Stationelement.recordedFrom.ilike(f"%{_query}%")
+            | models.Stationelement.describedBy.ilike(f"%{_query}%")
+            | models.Stationelement.recordedWith.ilike(f"%{_query}%")
+            | models.Stationelement.beginDate.ilike(f"%{_query}%")
+        )
 
-        return (
-            get_count(q),
-            [
-                stationelement_schema.StationElement.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationElementList(
-            _("Failed to get list of station elements.")
-        )
+    return (
+        get_count(q),
+        [
+            stationelement_schema.StationElement.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -183,32 +157,25 @@ def update(
     begin_date: str,
     updates: stationelement_schema.UpdateStationElement,
 ) -> stationelement_schema.StationElement:
-    try:
-        db_session.query(models.Stationelement).filter_by(
-            recordedFrom=recorded_from
-        ).filter_by(describedBy=described_by).filter_by(
-            recordedWith=recorded_with
-        ).filter_by(
-            beginDate=begin_date
-        ).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_instrument = (
-            db_session.query(models.Stationelement)
-                .filter_by(recordedFrom=recorded_from)
-                .filter_by(describedBy=described_by)
-                .filter_by(recordedWith=recorded_with)
-                .filter_by(beginDate=begin_date)
-                .first()
-        )
-        return stationelement_schema.StationElement.from_orm(updated_instrument)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingStationElement(
-            _("Failed to update station element.")
-        )
+    db_session.query(models.Stationelement).filter_by(
+        recordedFrom=recorded_from
+    ).filter_by(describedBy=described_by).filter_by(
+        recordedWith=recorded_with
+    ).filter_by(
+        beginDate=begin_date
+    ).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_instrument = (
+        db_session.query(models.Stationelement)
+            .filter_by(recordedFrom=recorded_from)
+            .filter_by(describedBy=described_by)
+            .filter_by(recordedWith=recorded_with)
+            .filter_by(beginDate=begin_date)
+            .first()
+    )
+    return stationelement_schema.StationElement.from_orm(updated_instrument)
 
 
 def delete(
@@ -218,22 +185,15 @@ def delete(
     recorded_with: str,
     begin_date: str,
 ) -> bool:
-    try:
-        db_session.query(models.Stationelement).filter_by(
-            recordedFrom=recorded_from
-        ).filter_by(describedBy=described_by).filter_by(
-            recordedWith=recorded_with
-        ).filter_by(
-            beginDate=begin_date
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingStationElement(
-            _("Failed to delete station element.")
-        )
+    db_session.query(models.Stationelement).filter_by(
+        recordedFrom=recorded_from
+    ).filter_by(describedBy=described_by).filter_by(
+        recordedWith=recorded_with
+    ).filter_by(
+        beginDate=begin_date
+    ).delete()
+    db_session.commit()
+    return True
 
 
 def get_station_elements_with_obs_element(

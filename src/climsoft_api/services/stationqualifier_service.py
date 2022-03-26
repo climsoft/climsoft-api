@@ -15,18 +15,12 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: stationqualifier_schema.CreateStationQualifier
 ) -> stationqualifier_schema.StationQualifier:
-    try:
-        station_qualifier = models.Stationqualifier(**data.dict())
-        db_session.add(station_qualifier)
-        db_session.commit()
-        return stationqualifier_schema.StationQualifier.from_orm(
-            station_qualifier)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingStationQualifier(
-            _("Failed to create station_qualifier.")
-        )
+    station_qualifier = models.Stationqualifier(**data.dict())
+    db_session.add(station_qualifier)
+    db_session.commit()
+    return stationqualifier_schema.StationQualifier.from_orm(
+        station_qualifier
+    )
 
 
 def get(
@@ -36,35 +30,27 @@ def get(
     qualifier_end_date: str,
     belongs_to: str,
 ) -> stationqualifier_schema.StationQualifier:
-    try:
-        station_qualifier = (
-            db_session.query(models.Stationqualifier)
-                .filter_by(
-                qualifier=qualifier,
-                qualifierBeginDate=qualifier_begin_date,
-                qualifierEndDate=qualifier_end_date,
-                belongsTo=belongs_to,
-            )
-                .options(joinedload("station"))
-                .first()
+    station_qualifier = (
+        db_session.query(models.Stationqualifier)
+        .filter_by(
+            qualifier=qualifier,
+            qualifierBeginDate=qualifier_begin_date,
+            qualifierEndDate=qualifier_end_date,
+            belongsTo=belongs_to,
+        )
+        .options(joinedload("station"))
+        .first()
+    )
+
+    if not station_qualifier:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station qualifier does not exist.")
         )
 
-        if not station_qualifier:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Station qualifier does not exist.")
-            )
-
-        return stationqualifier_schema.StationQualifierWithStation.from_orm(
-            station_qualifier
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationQualifier(
-            _("Failed to get station qualifier.")
-        )
+    return stationqualifier_schema.StationQualifierWithStation.from_orm(
+        station_qualifier
+    )
 
 
 def query(
@@ -83,39 +69,33 @@ def query(
     `limit` numbers of `station_qualifier` row skipping
     `offset` number of rows
     """
-    try:
-        q = db_session.query(models.Stationqualifier)
+    q = db_session.query(models.Stationqualifier)
 
-        if qualifier is not None:
-            q = q.filter_by(qualifier=qualifier)
+    if qualifier is not None:
+        q = q.filter_by(qualifier=qualifier)
 
-        if qualifier_begin_date is not None:
-            q = q.filter_by(qualifierBeginDate=qualifier_begin_date)
+    if qualifier_begin_date is not None:
+        q = q.filter_by(qualifierBeginDate=qualifier_begin_date)
 
-        if qualifier_end_date is not None:
-            q = q.filter_by(qualifierEndDate=qualifier_end_date)
+    if qualifier_end_date is not None:
+        q = q.filter_by(qualifierEndDate=qualifier_end_date)
 
-        if station_timezone is not None:
-            q = q.filter_by(stationTimeZone=station_timezone)
+    if station_timezone is not None:
+        q = q.filter_by(stationTimeZone=station_timezone)
 
-        if station_network_type is not None:
-            q = q.filter_by(stationNetworkType=station_network_type)
+    if station_network_type is not None:
+        q = q.filter_by(stationNetworkType=station_network_type)
 
-        if belongs_to is not None:
-            q = q.filter_by(belongsTo=belongs_to)
+    if belongs_to is not None:
+        q = q.filter_by(belongsTo=belongs_to)
 
-        return (
-            get_count(q),
-            [
-                stationqualifier_schema.StationQualifier.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationQualifierList(
-            _("Failed to get list of station qualifiers.")
-        )
+    return (
+        get_count(q),
+        [
+            stationqualifier_schema.StationQualifier.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -126,33 +106,26 @@ def update(
     belongs_to: str,
     updates: stationqualifier_schema.UpdateStationQualifier,
 ) -> stationqualifier_schema.StationQualifier:
-    try:
-        db_session.query(models.Stationqualifier).filter_by(
+    db_session.query(models.Stationqualifier).filter_by(
+        qualifier=qualifier,
+        qualifierBeginDate=qualifier_begin_date,
+        qualifierEndDate=qualifier_end_date,
+        belongsTo=belongs_to,
+    ).update(updates.dict())
+    db_session.commit()
+    updated_station_qualifier = (
+        db_session.query(models.Stationqualifier)
+            .filter_by(
             qualifier=qualifier,
             qualifierBeginDate=qualifier_begin_date,
             qualifierEndDate=qualifier_end_date,
             belongsTo=belongs_to,
-        ).update(updates.dict())
-        db_session.commit()
-        updated_station_qualifier = (
-            db_session.query(models.Stationqualifier)
-                .filter_by(
-                qualifier=qualifier,
-                qualifierBeginDate=qualifier_begin_date,
-                qualifierEndDate=qualifier_end_date,
-                belongsTo=belongs_to,
-            )
-                .first()
         )
-        return stationqualifier_schema.StationQualifier.from_orm(
-            updated_station_qualifier
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingStationQualifier(
-            _("Failed to update station qualifier")
-        )
+        .first()
+    )
+    return stationqualifier_schema.StationQualifier.from_orm(
+        updated_station_qualifier
+    )
 
 
 def delete(
@@ -162,18 +135,11 @@ def delete(
     qualifier_end_date: str,
     belongs_to: str,
 ) -> bool:
-    try:
-        db_session.query(models.Stationqualifier).filter_by(
-            qualifier=qualifier,
-            qualifierBeginDate=qualifier_begin_date,
-            qualifierEndDate=qualifier_end_date,
-            belongsTo=belongs_to,
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingStationQualifier(
-            _("Failed to delete station qualifier.")
-        )
+    db_session.query(models.Stationqualifier).filter_by(
+        qualifier=qualifier,
+        qualifierBeginDate=qualifier_begin_date,
+        qualifierEndDate=qualifier_end_date,
+        belongsTo=belongs_to,
+    ).delete()
+    db_session.commit()
+    return True

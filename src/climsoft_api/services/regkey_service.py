@@ -14,39 +14,25 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: regkey_schema.CreateRegKey
 ) -> regkey_schema.RegKey:
-    try:
-        reg_key = models.Regkey(**data.dict())
-        db_session.add(reg_key)
-        db_session.commit()
-        return regkey_schema.RegKey.from_orm(reg_key)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingRegKey(
-            _("Failed to create reg key.")
-        )
+    reg_key = models.Regkey(**data.dict())
+    db_session.add(reg_key)
+    db_session.commit()
+    return regkey_schema.RegKey.from_orm(reg_key)
 
 
 def get(db_session: Session, key_name: str) -> regkey_schema.RegKey:
-    try:
-        reg_key = db_session.query(models.Regkey).filter_by(
-            keyName=key_name
-        ).first()
 
-        if not reg_key:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Reg key does not exist.")
-            )
+    reg_key = db_session.query(models.Regkey).filter_by(
+        keyName=key_name
+    ).first()
 
-        return regkey_schema.RegKey.from_orm(reg_key)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingRegKey(
-            _("Failed to get reg key.")
+    if not reg_key:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Reg key does not exist.")
         )
+
+    return regkey_schema.RegKey.from_orm(reg_key)
 
 
 def query(
@@ -63,62 +49,42 @@ def query(
     `offset` number of rows
 
     """
-    try:
-        q = db_session.query(models.Regkey)
+    q = db_session.query(models.Regkey)
 
-        if key_name is not None:
-            q = q.filter_by(keyName=key_name)
+    if key_name is not None:
+        q = q.filter_by(keyName=key_name)
 
-        if key_value is not None:
-            q = q.filter_by(keyValue=key_value)
+    if key_value is not None:
+        q = q.filter_by(keyValue=key_value)
 
-        if key_description is not None:
-            q = q.filter(
-                models.Regkey.keyDescription.ilike(f"%{key_description}%")
-            )
-
-        return (
-            get_count(q),
-            [
-                regkey_schema.RegKey.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
+    if key_description is not None:
+        q = q.filter(
+            models.Regkey.keyDescription.ilike(f"%{key_description}%")
         )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingRegKeyList(
-            _("Failed to get list of reg keys.")
-        )
+
+    return (
+        get_count(q),
+        [
+            regkey_schema.RegKey.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
     db_session: Session, key_name: str, updates: regkey_schema.UpdateRegKey
 ) -> regkey_schema.RegKey:
-    try:
-        db_session.query(models.Regkey).filter_by(keyName=key_name).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_reg_key = (
-            db_session.query(models.Regkey).filter_by(keyName=key_name).first()
-        )
-        return regkey_schema.RegKey.from_orm(updated_reg_key)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingRegKey(
-            _("Failed to update reg key")
-        )
+    db_session.query(models.Regkey).filter_by(keyName=key_name).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_reg_key = (
+        db_session.query(models.Regkey).filter_by(keyName=key_name).first()
+    )
+    return regkey_schema.RegKey.from_orm(updated_reg_key)
 
 
 def delete(db_session: Session, key_name: str) -> bool:
-    try:
-        db_session.query(models.Regkey).filter_by(keyName=key_name).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingRegKey(
-            _("Failed to delete reg key.")
-        )
+    db_session.query(models.Regkey).filter_by(keyName=key_name).delete()
+    db_session.commit()
+    return True

@@ -11,49 +11,31 @@ logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
-class SynopFeatureDoesNotExist(Exception):
-    pass
-
-
 def create(
     db_session: Session, data: synopfeature_schema.CreateSynopFeature
 ) -> synopfeature_schema.SynopFeature:
-    try:
-        synop_feature = models.Synopfeature(**data.dict())
-        db_session.add(synop_feature)
-        db_session.commit()
-        return synopfeature_schema.SynopFeature.from_orm(synop_feature)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingSynopFeature(
-            _("Failed to create synop feature.")
-        )
+
+    synop_feature = models.Synopfeature(**data.dict())
+    db_session.add(synop_feature)
+    db_session.commit()
+    return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
 def get(db_session: Session,
-        abbreviation: str) -> synopfeature_schema.SynopFeature:
-    try:
-        synop_feature = (
-            db_session.query(models.Synopfeature)
-                .filter_by(abbreviation=abbreviation)
-                .first()
+    abbreviation: str) -> synopfeature_schema.SynopFeature:
+    synop_feature = (
+        db_session.query(models.Synopfeature)
+            .filter_by(abbreviation=abbreviation)
+            .first()
+    )
+
+    if not synop_feature:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Synop feature does not exist.")
         )
 
-        if not synop_feature:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Synop feature does not exist.")
-            )
-
-        return synopfeature_schema.SynopFeature.from_orm(synop_feature)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingSynopFeature(
-            _("Failed to get synop feature.")
-        )
+    return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
 def query(
@@ -69,29 +51,23 @@ def query(
     `offset` number of rows
 
     """
-    try:
-        q = db_session.query(models.Synopfeature)
+    q = db_session.query(models.Synopfeature)
 
-        if abbreviation is not None:
-            q = q.filter_by(abbreviation=abbreviation)
+    if abbreviation is not None:
+        q = q.filter_by(abbreviation=abbreviation)
 
-        if description is not None:
-            q = q.filter(
-                models.Synopfeature.description.ilike(f"%{description}%")
-            )
-
-        return (
-            get_count(q),
-            [
-                synopfeature_schema.SynopFeature.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
+    if description is not None:
+        q = q.filter(
+            models.Synopfeature.description.ilike(f"%{description}%")
         )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingSynopFeatureList(
-            _("Failed to get list of synop features.")
-        )
+
+    return (
+        get_count(q),
+        [
+            synopfeature_schema.SynopFeature.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -99,35 +75,21 @@ def update(
     abbreviation: str,
     updates: synopfeature_schema.UpdateSynopFeature,
 ) -> synopfeature_schema.SynopFeature:
-    try:
-        db_session.query(models.Synopfeature).filter_by(
-            abbreviation=abbreviation
-        ).update(updates.dict())
-        db_session.commit()
-        updated_synop_feature = (
-            db_session.query(models.Synopfeature)
-                .filter_by(abbreviation=abbreviation)
-                .first()
-        )
-        return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingSynopFeature(
-            _("Failed to update synop feature.")
-        )
+    db_session.query(models.Synopfeature).filter_by(
+        abbreviation=abbreviation
+    ).update(updates.dict())
+    db_session.commit()
+    updated_synop_feature = (
+        db_session.query(models.Synopfeature)
+            .filter_by(abbreviation=abbreviation)
+            .first()
+    )
+    return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
 
 
 def delete(db_session: Session, abbreviation: str) -> bool:
-    try:
-        db_session.query(models.Synopfeature).filter_by(
-            abbreviation=abbreviation
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingSynopFeature(
-            _("Failed to delete synop feature.")
-        )
+    db_session.query(models.Synopfeature).filter_by(
+        abbreviation=abbreviation
+    ).delete()
+    db_session.commit()
+    return True

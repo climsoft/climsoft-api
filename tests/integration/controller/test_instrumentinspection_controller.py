@@ -53,15 +53,25 @@ def get_instrument_inspection(
 
 @pytest.fixture
 def get_instrument_inspections(
-    get_station: climsoft_models.Station,
-    get_instrument: climsoft_models.Instrument,
     session: Session,
 ):
     for _ in range(10):
+        station = climsoft_models.Station(
+            **climsoft_station.get_valid_station_input().dict()
+        )
+        session.add(station)
+        session.commit()
+        instrument = climsoft_models.Instrument(
+            **climsoft_instrument.get_valid_instrument_input(
+                station_id=station.stationId
+            ).dict()
+        )
+        session.add(instrument)
+        session.commit()
         instrument_inspection = climsoft_models.Instrumentinspection(
             **climsoft_instrument_inspection.get_valid_instrument_inspection_input(
-                station_id=get_station.stationId,
-                instrument_id=get_instrument.instrumentId,
+                station_id=station.stationId,
+                instrument_id=instrument.instrumentId,
             ).dict()
         )
         session.add(instrument_inspection)

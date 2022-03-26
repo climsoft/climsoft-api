@@ -17,7 +17,10 @@ def get_or_404(db_session: Session, username: str):
         userName=username
     ).first()
     if not user:
-        HTTPException(status_code=404, detail=_("Climsoft user not found."))
+        raise HTTPException(
+            status_code=404,
+            detail=_("Climsoft user not found.")
+        )
     return user
 
 

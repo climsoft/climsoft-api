@@ -28,12 +28,12 @@ def get_climsoft_users(session: Session):
         session.add(cu)
     session.commit()
     yield
+    session.close()
 
 
 def test_should_return_first_five_climsoft_users(
     client: TestClient, session: Session, get_climsoft_users
 ):
-    assert session.query(climsoft_models.ClimsoftUser).count() == 10
     response = client.get("/v1/climsoft-users", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()

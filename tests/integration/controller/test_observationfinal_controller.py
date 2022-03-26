@@ -77,7 +77,6 @@ def get_observation_finals(
 def test_should_return_first_five_observation_finals(
     client: TestClient, get_observation_finals, session: Session
 ):
-    assert session.query(climsoft_models.Observationfinal).count() == 10
     response = client.get(
         "/v1/observation-finals/",
         params={"limit": 5},

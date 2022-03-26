@@ -12,6 +12,22 @@ logger = logging.getLogger("ClimsoftDataFormService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, form_name: str):
+    data_form = (
+        db_session.query(models.DataForm).filter_by(
+            form_name=form_name
+        ).first()
+    )
+
+    if not data_form:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Data form does not exist.")
+        )
+
+    return data_form
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: data_form_schema.CreateDataForm
@@ -24,18 +40,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
-
-    data_form = (
-        db_session.query(models.DataForm).filter_by(
-            form_name=form_name
-        ).first()
-    )
-
-    if not data_form:
-        raise HTTPException(
-            status_code=404,
-            detail=_("Data form does not exist.")
-        )
+    data_form = get_or_404(db_session, form_name)
 
     return data_form_schema.DataForm.from_orm(data_form)
 
@@ -109,6 +114,7 @@ def update(
     form_name: str,
     updates: data_form_schema.UpdateDataForm
 ) -> data_form_schema.DataForm:
+    get_or_404(db_session, form_name)
     db_session.query(models.DataForm).filter_by(form_name=form_name).update(
         updates.dict()
     )
@@ -123,6 +129,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, form_name: str) -> bool:
+    get_or_404(db_session, form_name)
     db_session.query(models.DataForm).filter_by(
         form_name=form_name
     ).delete()

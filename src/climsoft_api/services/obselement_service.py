@@ -15,18 +15,10 @@ logger = logging.getLogger("ClimsoftObsElementService")
 logging.basicConfig(level=logging.INFO)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
-def create(
-    db_session: Session, data: obselement_schema.CreateObsElement
-) -> obselement_schema.ObsElement:
-    obs_element = models.Obselement(**data.dict())
-    db_session.add(obs_element)
-    db_session.commit()
-    return obselement_schema.ObsElement.from_orm(obs_element)
-
-
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
-def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
+def get_or_404(
+    db_session: Session,
+    element_id: str
+):
 
     obs_element = (
         db_session.query(
@@ -39,6 +31,23 @@ def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
             status_code=404,
             detail=_("Obs element does not exist.")
         )
+
+    return obs_element
+
+
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
+def create(
+    db_session: Session, data: obselement_schema.CreateObsElement
+) -> obselement_schema.ObsElement:
+    obs_element = models.Obselement(**data.dict())
+    db_session.add(obs_element)
+    db_session.commit()
+    return obselement_schema.ObsElement.from_orm(obs_element)
+
+
+@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
+def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
+    obs_element = get_or_404(db_session, element_id)
 
     return obselement_schema.ObsElement.from_orm(obs_element)
 
@@ -135,6 +144,7 @@ def update(
     element_id: str,
     updates: obselement_schema.UpdateObsElement
 ) -> obselement_schema.ObsElement:
+    get_or_404(db_session, element_id)
     db_session.query(models.Obselement).filter_by(
         elementId=element_id).update(
         updates.dict()
@@ -149,6 +159,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, element_id: str) -> bool:
+    get_or_404(db_session, element_id)
     db_session.query(models.Obselement).filter_by(
         elementId=element_id
     ).delete()

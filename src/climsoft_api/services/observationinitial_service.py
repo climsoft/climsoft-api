@@ -14,6 +14,33 @@ logger = logging.getLogger("ClimsoftObservationInitialService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    recorded_from: str,
+    described_by: int,
+    obs_datetime: str,
+    qc_status: int,
+    acquisition_type: int,
+):
+    observation_initial = (
+        db_session.query(models.Observationinitial)
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(obsDatetime=obs_datetime)
+        .filter_by(qcStatus=qc_status)
+        .filter_by(acquisitionType=acquisition_type)
+        .first()
+    )
+
+    if not observation_initial:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Observation initial does not exist.")
+        )
+
+    return observation_initial
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -204,6 +231,14 @@ def update(
     acquisition_type: int,
     updates: observationinitial_schema.UpdateObservationInitial,
 ) -> observationinitial_schema.ObservationInitial:
+    get_or_404(
+        db_session,
+        recorded_from,
+        described_by,
+        obs_datetime,
+        qc_status,
+        acquisition_type
+    )
     db_session.query(models.Observationinitial).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(
@@ -239,6 +274,14 @@ def delete(
     qc_status: int,
     acquisition_type: int,
 ) -> bool:
+    get_or_404(
+        db_session,
+        recorded_from,
+        described_by,
+        obs_datetime,
+        qc_status,
+        acquisition_type
+    )
     db_session.query(models.Observationinitial).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(

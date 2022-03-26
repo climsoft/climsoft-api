@@ -15,6 +15,25 @@ logger = logging.getLogger("ClimsoftPhysicalFeatureClassService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    feature_class: str
+):
+    physical_feature_class = (
+        db_session.query(models.Physicalfeatureclas)
+        .filter_by(featureClass=feature_class)
+        .first()
+    )
+
+    if not physical_feature_class:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Physical feature class does not exist.")
+        )
+
+    return physical_feature_class
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -34,9 +53,9 @@ def get(
 ) -> physicalfeatureclass_schema.PhysicalFeatureClass:
     physical_feature_class = (
         db_session.query(models.Physicalfeatureclas)
-            .filter_by(featureClass=feature_class)
-            .options(joinedload("station"))
-            .first()
+        .filter_by(featureClass=feature_class)
+        .options(joinedload("station"))
+        .first()
     )
 
     if not physical_feature_class:
@@ -93,6 +112,7 @@ def update(
     feature_class: str,
     updates: physicalfeatureclass_schema.UpdatePhysicalFeatureClass,
 ) -> physicalfeatureclass_schema.PhysicalFeatureClass:
+    get_or_404(db_session, feature_class)
     db_session.query(models.Physicalfeatureclas).filter_by(
         featureClass=feature_class
     ).update(updates.dict())
@@ -109,6 +129,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, feature_class: str) -> bool:
+    get_or_404(db_session, feature_class)
     db_session.query(models.Physicalfeatureclas).filter_by(
         featureClass=feature_class
     ).delete()

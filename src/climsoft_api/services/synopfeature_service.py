@@ -12,6 +12,25 @@ logger = logging.getLogger("ClimsoftSynopFeatureService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    abbreviation: str
+):
+    synop_feature = (
+        db_session.query(models.Synopfeature)
+        .filter_by(abbreviation=abbreviation)
+        .first()
+    )
+
+    if not synop_feature:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Synop feature does not exist.")
+        )
+
+    return synop_feature
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: synopfeature_schema.CreateSynopFeature
@@ -82,20 +101,22 @@ def update(
     abbreviation: str,
     updates: synopfeature_schema.UpdateSynopFeature,
 ) -> synopfeature_schema.SynopFeature:
+    get_or_404(db_session, abbreviation)
     db_session.query(models.Synopfeature).filter_by(
         abbreviation=abbreviation
     ).update(updates.dict())
     db_session.commit()
     updated_synop_feature = (
         db_session.query(models.Synopfeature)
-            .filter_by(abbreviation=abbreviation)
-            .first()
+        .filter_by(abbreviation=abbreviation)
+        .first()
     )
     return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
 
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, abbreviation: str) -> bool:
+    get_or_404(db_session, abbreviation)
     db_session.query(models.Synopfeature).filter_by(
         abbreviation=abbreviation
     ).delete()

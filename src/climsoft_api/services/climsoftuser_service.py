@@ -12,6 +12,15 @@ logger = logging.getLogger("ClimsoftUserService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, username: str):
+    user = db_session.query(models.ClimsoftUser).filter_by(
+        userName=username
+    ).first()
+    if not user:
+        HTTPException(status_code=404, detail=_("Climsoft user not found."))
+    return user
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: climsoftuser_schema.CreateClimsoftUser
@@ -24,15 +33,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, username: str) -> climsoftuser_schema.ClimsoftUser:
-    climsoft_user = (
-        db_session.query(models.ClimsoftUser).filter_by(
-            userName=username).first()
-    )
-
-    if not climsoft_user:
-        raise HTTPException(
-            status_code=404, detail=_("Climsoft user does not exist.")
-        )
+    climsoft_user = get_or_404(db_session, username)
 
     return climsoftuser_schema.ClimsoftUser.from_orm(climsoft_user)
 
@@ -79,6 +80,7 @@ def update(
     username: str,
     role: str,
 ) -> climsoftuser_schema.ClimsoftUser:
+    get_or_404(db_session, username)
     db_session.query(
         models.ClimsoftUser
     ).filter_by(userName=username).update(
@@ -97,6 +99,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, username: str) -> bool:
+    get_or_404(db_session, username)
     db_session.query(models.ClimsoftUser).filter_by(
         userName=username
     ).delete()

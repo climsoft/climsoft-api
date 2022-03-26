@@ -15,6 +15,21 @@ logger = logging.getLogger("ClimsoftFeatureGeographicalPositionService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, belongs_to: str):
+    feature_geographical_position = (
+        db_session.query(models.Featuregeographicalposition)
+        .filter_by(belongsTo=belongs_to)
+        .first()
+    )
+
+    if not feature_geographical_position:
+        raise HTTPException(
+            status_code=404,
+            detail="Feature geographical position does not exist."
+        )
+    return feature_geographical_position
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -27,8 +42,8 @@ def create(
     db_session.commit()
     return featuregeographicalposition_schema.FeatureGeographicalPosition \
         .from_orm(
-        feature_geographical_position
-    )
+            feature_geographical_position
+        )
 
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
@@ -38,9 +53,9 @@ def get(
 
     feature_geographical_position = (
         db_session.query(models.Featuregeographicalposition)
-            .filter_by(belongsTo=belongs_to)
-            .options(joinedload("synopfeature"))
-            .first()
+        .filter_by(belongsTo=belongs_to)
+        .options(joinedload("synopfeature"))
+        .first()
     )
 
     if not feature_geographical_position:
@@ -92,7 +107,7 @@ def query(
         get_count(q),
         [
             featuregeographicalposition_schema.FeatureGeographicalPosition
-                .from_orm(s)
+            .from_orm(s)
             for s in q.offset(offset).limit(limit).all()
         ]
     )
@@ -105,15 +120,15 @@ def update(
     updates: featuregeographicalposition_schema
         .UpdateFeatureGeographicalPosition,
 ) -> featuregeographicalposition_schema.FeatureGeographicalPosition:
-
+    get_or_404(db_session, belongs_to)
     db_session.query(models.Featuregeographicalposition).filter_by(
         belongsTo=belongs_to
     ).update(updates.dict())
     db_session.commit()
     updated_feature_geographical_position = (
         db_session.query(models.Featuregeographicalposition)
-            .filter_by(belongsTo=belongs_to)
-            .first()
+        .filter_by(belongsTo=belongs_to)
+        .first()
     )
     return featuregeographicalposition_schema.FeatureGeographicalPosition \
         .from_orm(
@@ -123,6 +138,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, belongs_to: str) -> bool:
+    get_or_404(db_session, belongs_to)
     db_session.query(models.Featuregeographicalposition).filter_by(
         belongsTo=belongs_to
     ).delete()

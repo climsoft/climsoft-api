@@ -15,6 +15,22 @@ logger = logging.getLogger("ClimsoftInstrumentFaultReportService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, report_id):
+    instrument_fault_report = (
+        db_session.query(models.Instrumentfaultreport)
+        .filter_by(reportId=report_id)
+        .first()
+    )
+
+    if not instrument_fault_report:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument fault report does not exist.")
+        )
+
+    return instrument_fault_report
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -112,6 +128,7 @@ def update(
     report_id: int,
     updates: instrumentfaultreport_schema.UpdateInstrumentFaultReport,
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
+    get_or_404(db_session, report_id)
     db_session.query(models.Instrumentfaultreport).filter_by(
         reportId=report_id
     ).update(updates.dict())
@@ -128,6 +145,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, report_id: int) -> bool:
+    get_or_404(db_session, report_id)
     db_session.query(models.Instrumentfaultreport).filter_by(
         reportId=report_id
     ).delete()

@@ -12,6 +12,22 @@ logger = logging.getLogger("ClimsoftFlagService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, character_symbol: str):
+    flag = (
+        db_session.query(models.Flag)
+        .filter_by(characterSymbol=character_symbol)
+        .first()
+    )
+
+    if not flag:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Flag does not exist.")
+        )
+
+    return flag
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -25,18 +41,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, character_symbol: str) -> flag_schema.Flag:
-    flag = (
-        db_session.query(models.Flag)
-            .filter_by(characterSymbol=character_symbol)
-            .first()
-    )
-
-    if not flag:
-        raise HTTPException(
-            status_code=404,
-            detail=_("Flag does not exist.")
-        )
-
+    flag = get_or_404(db_session, character_symbol)
     return flag_schema.Flag.from_orm(flag)
 
 
@@ -82,20 +87,22 @@ def update(
     character_symbol: str,
     updates: flag_schema.UpdateFlag
 ) -> flag_schema.Flag:
+    get_or_404(db_session, character_symbol)
     db_session.query(models.Flag).filter_by(
         characterSymbol=character_symbol
     ).update(updates.dict())
     db_session.commit()
     updated_flag = (
         db_session.query(models.Flag)
-            .filter_by(characterSymbol=character_symbol)
-            .first()
+        .filter_by(characterSymbol=character_symbol)
+        .first()
     )
     return flag_schema.Flag.from_orm(updated_flag)
 
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, character_symbol: str) -> bool:
+    get_or_404(db_session, character_symbol)
     db_session.query(models.Flag).filter_by(
         characterSymbol=character_symbol
     ).delete()

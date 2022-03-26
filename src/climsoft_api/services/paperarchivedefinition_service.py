@@ -14,6 +14,24 @@ logger = logging.getLogger("ClimsoftPaperArchiveDefinitionService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session, form_id: str
+):
+    paper_archive_definition = (
+        db_session.query(models.Paperarchivedefinition)
+        .filter_by(formId=form_id)
+        .first()
+    )
+
+    if not paper_archive_definition:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Paper archive definition does not exist.")
+        )
+
+    return paper_archive_definition
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
@@ -31,17 +49,7 @@ def create(
 def get(
     db_session: Session, form_id: str
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
-    paper_archive_definition = (
-        db_session.query(models.Paperarchivedefinition)
-            .filter_by(formId=form_id)
-            .first()
-    )
-
-    if not paper_archive_definition:
-        raise HTTPException(
-            status_code=404,
-            detail=_("Paper archive definition does not exist.")
-        )
+    paper_archive_definition = get_or_404(db_session, form_id)
 
     return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
         paper_archive_definition
@@ -89,6 +97,7 @@ def update(
     form_id: str,
     updates: paperarchivedefinition_schema.UpdatePaperArchiveDefinition,
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
+    get_or_404(db_session, form_id)
     db_session.query(models.Paperarchivedefinition).filter_by(
         formId=form_id
     ).update(updates.dict())
@@ -105,6 +114,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, form_id: str) -> bool:
+    get_or_404(db_session, form_id)
     db_session.query(models.Paperarchivedefinition).filter_by(
         formId=form_id
     ).delete()

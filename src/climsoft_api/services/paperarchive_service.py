@@ -12,6 +12,30 @@ logger = logging.getLogger("ClimsoftPaperArchiveService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    belongs_to: str,
+    form_datetime: str,
+    classified_into: str
+):
+    response = (
+        db_session.query(models.Paperarchive)
+        .filter_by(
+            belongsTo=belongs_to,
+            formDatetime=form_datetime,
+            classifiedInto=classified_into,
+        )
+        .first()
+    )
+    if not response:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Paper archive not found.")
+        )
+
+    return response
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
@@ -93,6 +117,12 @@ def update(
     classified_into: str,
     data: paperarchive_schema.UpdatePaperArchive,
 ):
+    get_or_404(
+        db_session,
+        belongs_to,
+        form_datetime,
+        classified_into
+    )
     db_session.query(models.Paperarchive).filter_by(
         belongsTo=belongs_to,
         formDatetime=form_datetime,
@@ -116,6 +146,12 @@ def delete(
     db_session: Session, belongs_to: str, form_datetime: str,
     classified_into: str
 ):
+    get_or_404(
+        db_session,
+        belongs_to,
+        form_datetime,
+        classified_into
+    )
     db_session.query(models.Paperarchive).filter_by(
         belongsTo=belongs_to,
         formDatetime=form_datetime,

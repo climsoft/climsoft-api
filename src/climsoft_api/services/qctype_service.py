@@ -12,6 +12,21 @@ logger = logging.getLogger("ClimsoftQCTypeService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    code: str
+):
+    qc_type = db_session.query(models.Qctype).filter_by(code=code).first()
+
+    if not qc_type:
+        raise HTTPException(
+            status_code=404,
+            detail=_("QC type does not exist.")
+        )
+
+    return qc_type
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: qctype_schema.CreateQCType
@@ -24,13 +39,7 @@ def create(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, code: str) -> qctype_schema.QCType:
-    qc_type = db_session.query(models.Qctype).filter_by(code=code).first()
-
-    if not qc_type:
-        raise HTTPException(
-            status_code=404,
-            detail=_("QC type does not exist.")
-        )
+    qc_type = get_or_404(db_session, code)
 
     return qctype_schema.QCType.from_orm(qc_type)
 
@@ -70,6 +79,7 @@ def query(
 def update(
     db_session: Session, code: str, updates: qctype_schema.UpdateQCType
 ) -> qctype_schema.QCType:
+    get_or_404(db_session, code)
     db_session.query(models.Qctype).filter_by(code=code).update(
         updates.dict())
     db_session.commit()
@@ -80,6 +90,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
+    get_or_404(db_session, code)
     db_session.query(models.Qctype).filter_by(code=code).delete()
     db_session.commit()
     return True

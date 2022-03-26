@@ -16,6 +16,31 @@ logger = logging.getLogger("ClimsoftStationElementService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    recorded_from: str,
+    described_by: int,
+    recorded_with: str,
+    begin_date: str,
+):
+    station_element = (
+        db_session.query(models.Stationelement)
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(recordedWith=recorded_with)
+        .filter_by(beginDate=begin_date)
+        .first()
+    )
+
+    if not station_element:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station element does not exist.")
+        )
+
+    return station_element
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: stationelement_schema.CreateStationElement
@@ -34,7 +59,6 @@ def get(
     recorded_with: str,
     begin_date: str,
 ) -> stationelement_schema.StationElementWithChildren:
-
     station_element = (
         db_session.query(models.Stationelement)
         .filter_by(recordedFrom=recorded_from)
@@ -163,6 +187,13 @@ def update(
     begin_date: str,
     updates: stationelement_schema.UpdateStationElement,
 ) -> stationelement_schema.StationElement:
+    get_or_404(
+        db_session,
+        recorded_from,
+        described_by,
+        recorded_with,
+        begin_date
+    )
     db_session.query(models.Stationelement).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(
@@ -192,6 +223,13 @@ def delete(
     recorded_with: str,
     begin_date: str,
 ) -> bool:
+    get_or_404(
+        db_session,
+        recorded_from,
+        described_by,
+        recorded_with,
+        begin_date
+    )
     db_session.query(models.Stationelement).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(

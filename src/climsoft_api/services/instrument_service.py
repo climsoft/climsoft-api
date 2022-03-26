@@ -13,6 +13,22 @@ logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(db_session: Session, instrument_id):
+    instrument = (
+        db_session.query(models.Instrument)
+        .filter_by(instrumentId=instrument_id)
+        .first()
+    )
+
+    if not instrument:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument does not exist.")
+        )
+
+    return instrument
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: instrument_schema.CreateInstrument
@@ -145,7 +161,7 @@ def update(
     instrument_id: str,
     updates: instrument_schema.UpdateInstrument
 ) -> instrument_schema.Instrument:
-
+    get_or_404(db_session, instrument_id)
     db_session.query(models.Instrument).filter_by(
         instrumentId=instrument_id
     ).update(updates.dict())
@@ -160,6 +176,7 @@ def update(
 
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, instrument_id: str) -> bool:
+    get_or_404(db_session, instrument_id)
     db_session.query(models.Instrument).filter_by(
         instrumentId=instrument_id
     ).delete()

@@ -13,6 +13,33 @@ logger = logging.getLogger("ClimsoftStationQualifierService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    qualifier: str,
+    qualifier_begin_date: str,
+    qualifier_end_date: str,
+    belongs_to: str,
+):
+    station_qualifier = (
+        db_session.query(models.Stationqualifier)
+        .filter_by(
+            qualifier=qualifier,
+            qualifierBeginDate=qualifier_begin_date,
+            qualifierEndDate=qualifier_end_date,
+            belongsTo=belongs_to,
+        )
+        .first()
+    )
+
+    if not station_qualifier:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station qualifier does not exist.")
+        )
+
+    return station_qualifier
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: stationqualifier_schema.CreateStationQualifier
@@ -111,6 +138,13 @@ def update(
     belongs_to: str,
     updates: stationqualifier_schema.UpdateStationQualifier,
 ) -> stationqualifier_schema.StationQualifier:
+    get_or_404(
+        db_session,
+        qualifier,
+        qualifier_begin_date,
+        qualifier_end_date,
+        belongs_to
+    )
     db_session.query(models.Stationqualifier).filter_by(
         qualifier=qualifier,
         qualifierBeginDate=qualifier_begin_date,
@@ -141,6 +175,13 @@ def delete(
     qualifier_end_date: str,
     belongs_to: str,
 ) -> bool:
+    get_or_404(
+        db_session,
+        qualifier,
+        qualifier_begin_date,
+        qualifier_end_date,
+        belongs_to
+    )
     db_session.query(models.Stationqualifier).filter_by(
         qualifier=qualifier,
         qualifierBeginDate=qualifier_begin_date,

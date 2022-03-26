@@ -13,6 +13,29 @@ logger = logging.getLogger("ClimsoftObservationFinalService")
 logging.basicConfig(level=logging.INFO)
 
 
+def get_or_404(
+    db_session: Session,
+    recorded_from: str,
+    described_by: int,
+    obs_datetime: str
+):
+    observation_final = (
+        db_session.query(models.Observationfinal)
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(obsDatetime=obs_datetime)
+        .first()
+    )
+
+    if not observation_final:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Observation final does not exist.")
+        )
+
+    return observation_final
+
+
 @backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: observationfinal_schema.CreateObservationFinal
@@ -33,11 +56,11 @@ def get(
 ) -> observationfinal_schema.ObservationFinalWithChildren:
     observation_final = (
         db_session.query(models.Observationfinal)
-            .filter_by(recordedFrom=recorded_from)
-            .filter_by(describedBy=described_by)
-            .filter_by(obsDatetime=obs_datetime)
-            .options(joinedload("obselement"), joinedload("station"))
-            .first()
+        .filter_by(recordedFrom=recorded_from)
+        .filter_by(describedBy=described_by)
+        .filter_by(obsDatetime=obs_datetime)
+        .options(joinedload("obselement"), joinedload("station"))
+        .first()
     )
 
     if not observation_final:
@@ -193,6 +216,7 @@ def update(
     obs_datetime: str,
     updates: observationfinal_schema.UpdateObservationFinal,
 ) -> observationfinal_schema.ObservationFinal:
+    get_or_404(db_session, recorded_from, described_by, obs_datetime)
     db_session.query(models.Observationfinal).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(
@@ -218,6 +242,7 @@ def delete(
     db_session: Session, recorded_from: str, described_by: int,
     obs_datetime: str
 ) -> bool:
+    get_or_404(db_session, recorded_from, described_by, obs_datetime)
     db_session.query(models.Observationfinal).filter_by(
         recordedFrom=recorded_from
     ).filter_by(describedBy=described_by).filter_by(

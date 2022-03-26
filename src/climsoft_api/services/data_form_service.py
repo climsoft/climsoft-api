@@ -14,41 +14,27 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: data_form_schema.CreateDataForm
 ) -> data_form_schema.DataForm:
-    try:
-        data_form = models.DataForm(**data.dict())
-        db_session.add(data_form)
-        db_session.commit()
-        return data_form_schema.DataForm.from_orm(data_form)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingDataForm(
-            _("Failed to create data form.")
-        )
+    data_form = models.DataForm(**data.dict())
+    db_session.add(data_form)
+    db_session.commit()
+    return data_form_schema.DataForm.from_orm(data_form)
 
 
 def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
-    try:
-        data_form = (
-            db_session.query(models.DataForm).filter_by(
-                form_name=form_name
-            ).first()
+
+    data_form = (
+        db_session.query(models.DataForm).filter_by(
+            form_name=form_name
+        ).first()
+    )
+
+    if not data_form:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Data form does not exist.")
         )
 
-        if not data_form:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Data form does not exist.")
-            )
-
-        return data_form_schema.DataForm.from_orm(data_form)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingDataForm(
-            _("Failed to get data form.")
-        )
+    return data_form_schema.DataForm.from_orm(data_form)
 
 
 def query(
@@ -72,51 +58,45 @@ def query(
     `offset` number of rows
 
     """
-    try:
-        q = db_session.query(models.DataForm)
+    q = db_session.query(models.DataForm)
 
-        if order_num is not None:
-            q = q.filter_by(order_num=order_num)
+    if order_num is not None:
+        q = q.filter_by(order_num=order_num)
 
-        if table_name is not None:
-            q = q.filter_by(table_name=table_name)
+    if table_name is not None:
+        q = q.filter_by(table_name=table_name)
 
-        if form_name is not None:
-            q = q.filter_by(form_name=form_name)
+    if form_name is not None:
+        q = q.filter_by(form_name=form_name)
 
-        if description is not None:
-            q = q.filter(models.DataForm.description.ilike(f"%{description}%"))
+    if description is not None:
+        q = q.filter(models.DataForm.description.ilike(f"%{description}%"))
 
-        if selected is not None:
-            q = q.filter_by(selected=selected)
+    if selected is not None:
+        q = q.filter_by(selected=selected)
 
-        if val_start_position is not None:
-            q = q.filter_by(val_start_position=val_start_position)
+    if val_start_position is not None:
+        q = q.filter_by(val_start_position=val_start_position)
 
-        if val_end_position is not None:
-            q = q.filter_by(val_end_position=val_end_position)
+    if val_end_position is not None:
+        q = q.filter_by(val_end_position=val_end_position)
 
-        if elem_code_location is not None:
-            q = q.filter_by(elem_code_location=elem_code_location)
+    if elem_code_location is not None:
+        q = q.filter_by(elem_code_location=elem_code_location)
 
-        if sequencer is not None:
-            q = q.filter_by(sequencer=sequencer)
+    if sequencer is not None:
+        q = q.filter_by(sequencer=sequencer)
 
-        if entry_mode is not None:
-            q = q.filter(models.DataForm.entry_mode.ilike(f"%{entry_mode}%"))
+    if entry_mode is not None:
+        q = q.filter(models.DataForm.entry_mode.ilike(f"%{entry_mode}%"))
 
-        return (
-            get_count(q),
-            [
-                data_form_schema.DataForm.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingDataFormList(
-            _("Failed to get list of data forms.")
-        )
+    return (
+        get_count(q),
+        [
+            data_form_schema.DataForm.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -124,35 +104,21 @@ def update(
     form_name: str,
     updates: data_form_schema.UpdateDataForm
 ) -> data_form_schema.DataForm:
-    try:
-        db_session.query(models.DataForm).filter_by(form_name=form_name).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_data_form = (
-            db_session.query(models.DataForm).filter_by(
-                form_name=form_name
-            ).first()
-        )
-        return data_form_schema.DataForm.from_orm(updated_data_form)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingDataForm(
-            _("Failed to update data form.")
-        )
+    db_session.query(models.DataForm).filter_by(form_name=form_name).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_data_form = (
+        db_session.query(models.DataForm).filter_by(
+            form_name=form_name
+        ).first()
+    )
+    return data_form_schema.DataForm.from_orm(updated_data_form)
 
 
 def delete(db_session: Session, form_name: str) -> bool:
-    try:
-        db_session.query(models.DataForm).filter_by(
-            form_name=form_name
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingDataForm(
-            _("Failed to delete data form.")
-        )
+    db_session.query(models.DataForm).filter_by(
+        form_name=form_name
+    ).delete()
+    db_session.commit()
+    return True

@@ -18,51 +18,36 @@ def create(
     db_session: Session,
     data: instrumentinspection_schema.CreateInstrumentInspection
 ) -> instrumentinspection_schema.InstrumentInspection:
-    try:
-        instrument_inspection = models.Instrumentinspection(**data.dict())
-        db_session.add(instrument_inspection)
-        db_session.commit()
-        return instrumentinspection_schema.InstrumentInspection.from_orm(
-            instrument_inspection
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingInstrumentInspection(
-            _("Failed to create instrument inspection.")
-        )
+    instrument_inspection = models.Instrumentinspection(**data.dict())
+    db_session.add(instrument_inspection)
+    db_session.commit()
+    return instrumentinspection_schema.InstrumentInspection.from_orm(
+        instrument_inspection
+    )
 
 
 def get(
     db_session: Session, performed_on: str, inspection_datetime: str
 ) -> instrumentinspection_schema.InstrumentInspection:
-    try:
-        instrument_inspection = (
-            db_session.query(models.Instrumentinspection)
-                .filter_by(
-                performedOn=performed_on,
-                inspectionDatetime=inspection_datetime
-            )
-                .options(joinedload("station"))
-                .first()
+    instrument_inspection = (
+        db_session.query(models.Instrumentinspection)
+            .filter_by(
+            performedOn=performed_on,
+            inspectionDatetime=inspection_datetime
+        )
+            .options(joinedload("station"))
+            .first()
+    )
+
+    if not instrument_inspection:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument inspection does not exist.")
         )
 
-        if not instrument_inspection:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Instrument inspection does not exist.")
-            )
-
-        return instrumentinspection_schema \
-            .InstrumentInspectionWithStationAndInstrument.from_orm(
+    return instrumentinspection_schema \
+        .InstrumentInspectionWithStationAndInstrument.from_orm(
             instrument_inspection
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentInspection(
-            _("Failed to get instrument inspection.")
         )
 
 
@@ -82,39 +67,33 @@ def query(
     `limit` numbers of `instrument_inspection` row skipping
     `offset` number of rows
     """
-    try:
-        q = db_session.query(models.Instrumentinspection)
+    q = db_session.query(models.Instrumentinspection)
 
-        if performed_on is not None:
-            q = q.filter_by(performedOn=performed_on)
+    if performed_on is not None:
+        q = q.filter_by(performedOn=performed_on)
 
-        if inspection_datetime is not None:
-            q = q.filter_by(inspectionDatetime=inspection_datetime)
+    if inspection_datetime is not None:
+        q = q.filter_by(inspectionDatetime=inspection_datetime)
 
-        if performed_by is not None:
-            q = q.filter_by(performedBy=performed_by)
+    if performed_by is not None:
+        q = q.filter_by(performedBy=performed_by)
 
-        if status is not None:
-            q = q.filter_by(status=status)
+    if status is not None:
+        q = q.filter_by(status=status)
 
-        if remarks is not None:
-            q = q.filter_by(remarks=remarks)
+    if remarks is not None:
+        q = q.filter_by(remarks=remarks)
 
-        if performed_at is not None:
-            q = q.filter_by(performedAt=performed_at)
+    if performed_at is not None:
+        q = q.filter_by(performedAt=performed_at)
 
-        return (
-            get_count(q),
-            [
-                instrumentinspection_schema.InstrumentInspection.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentInspectionList(
-            _("Failed to get list of instrument inspections.")
-        )
+    return (
+        get_count(q),
+        [
+            instrumentinspection_schema.InstrumentInspection.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -123,41 +102,30 @@ def update(
     inspection_datetime: str,
     updates: instrumentinspection_schema.UpdateInstrumentInspection,
 ) -> instrumentinspection_schema.InstrumentInspection:
-    try:
-        db_session.query(models.Instrumentinspection).filter_by(
-            performedOn=performed_on, inspectionDatetime=inspection_datetime
-        ).update(updates.dict())
-        db_session.commit()
-        updated_instrument_inspection = (
-            db_session.query(models.Instrumentinspection)
-                .filter_by(
-                performedOn=performed_on,
-                inspectionDatetime=inspection_datetime
-            )
-                .first()
+    db_session.query(models.Instrumentinspection).filter_by(
+        performedOn=performed_on, inspectionDatetime=inspection_datetime
+    ).update(updates.dict())
+    db_session.commit()
+    updated_instrument_inspection = (
+        db_session.query(models.Instrumentinspection)
+            .filter_by(
+            performedOn=performed_on,
+            inspectionDatetime=inspection_datetime
         )
-        return instrumentinspection_schema.InstrumentInspection.from_orm(
-            updated_instrument_inspection
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingInstrumentInspection(
-            _("Failed to update instrument inspection.")
-        )
+            .first()
+    )
+    return instrumentinspection_schema.InstrumentInspection.from_orm(
+        updated_instrument_inspection
+    )
 
 
-def delete(db_session: Session, performed_on: str,
-           inspection_datetime: str) -> bool:
-    try:
-        db_session.query(models.Instrumentinspection).filter_by(
-            performedOn=performed_on, inspectionDatetime=inspection_datetime
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingInstrumentInspection(
-            _("Failed to delete instrument inspection.")
-        )
+def delete(
+    db_session: Session,
+    performed_on: str,
+    inspection_datetime: str
+) -> bool:
+    db_session.query(models.Instrumentinspection).filter_by(
+        performedOn=performed_on, inspectionDatetime=inspection_datetime
+    ).delete()
+    db_session.commit()
+    return True

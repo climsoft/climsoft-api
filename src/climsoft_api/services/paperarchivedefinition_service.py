@@ -17,47 +17,32 @@ def create(
     db_session: Session,
     data: paperarchivedefinition_schema.CreatePaperArchiveDefinition,
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
-    try:
-        paper_archive_definition = models.Paperarchivedefinition(**data.dict())
-        db_session.add(paper_archive_definition)
-        db_session.commit()
-        return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
-            paper_archive_definition
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingPaperArchiveDefinition(
-            _("Failed to create pape archive definition.")
-        )
+    paper_archive_definition = models.Paperarchivedefinition(**data.dict())
+    db_session.add(paper_archive_definition)
+    db_session.commit()
+    return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
+        paper_archive_definition
+    )
 
 
 def get(
     db_session: Session, form_id: str
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
-    try:
-        paper_archive_definition = (
-            db_session.query(models.Paperarchivedefinition)
-                .filter_by(formId=form_id)
-                .first()
+    paper_archive_definition = (
+        db_session.query(models.Paperarchivedefinition)
+            .filter_by(formId=form_id)
+            .first()
+    )
+
+    if not paper_archive_definition:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Paper archive definition does not exist.")
         )
 
-        if not paper_archive_definition:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Paper archive definition does not exist.")
-            )
-
-        return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
-            paper_archive_definition
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingPaperArchiveDefinition(
-            _("Failed to get paper archive definition.")
-        )
+    return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
+        paper_archive_definition
+    )
 
 
 def query(
@@ -73,31 +58,25 @@ def query(
     `offset` number of rows
 
     """
-    try:
-        q = db_session.query(models.Paperarchivedefinition)
+    q = db_session.query(models.Paperarchivedefinition)
 
-        if form_id is not None:
-            q = q.filter_by(formId=form_id)
+    if form_id is not None:
+        q = q.filter_by(formId=form_id)
 
-        if description is not None:
-            q = q.filter(
-                models.Paperarchivedefinition.description.ilike(
-                    f"%{description}%"
-                )
+    if description is not None:
+        q = q.filter(
+            models.Paperarchivedefinition.description.ilike(
+                f"%{description}%"
             )
+        )
 
-        return (
-            get_count(q),
-            [
-                paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingPaperArchiveDefinitionList(
-            _("Failed to get list of paper archive definitions.")
-        )
+    return (
+        get_count(q),
+        [
+            paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -105,37 +84,23 @@ def update(
     form_id: str,
     updates: paperarchivedefinition_schema.UpdatePaperArchiveDefinition,
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
-    try:
-        db_session.query(models.Paperarchivedefinition).filter_by(
-            formId=form_id
-        ).update(updates.dict())
-        db_session.commit()
-        updated_paper_archive_definition = (
-            db_session.query(models.Paperarchivedefinition)
-                .filter_by(formId=form_id)
-                .first()
-        )
-        return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
-            updated_paper_archive_definition
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingPaperArchiveDefinition(
-            _("Failed to update paper archive definition.")
-        )
+    db_session.query(models.Paperarchivedefinition).filter_by(
+        formId=form_id
+    ).update(updates.dict())
+    db_session.commit()
+    updated_paper_archive_definition = (
+        db_session.query(models.Paperarchivedefinition)
+            .filter_by(formId=form_id)
+            .first()
+    )
+    return paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(
+        updated_paper_archive_definition
+    )
 
 
 def delete(db_session: Session, form_id: str) -> bool:
-    try:
-        db_session.query(models.Paperarchivedefinition).filter_by(
-            formId=form_id
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingPaperArchiveDefinition(
-            _("Failed to delete paper archive definition.")
-        )
+    db_session.query(models.Paperarchivedefinition).filter_by(
+        formId=form_id
+    ).delete()
+    db_session.commit()
+    return True

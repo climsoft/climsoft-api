@@ -15,43 +15,31 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: instrument_schema.CreateInstrument
 ) -> instrument_schema.Instrument:
-    try:
-        instrument = models.Instrument(**data.dict())
-        db_session.add(instrument)
-        db_session.commit()
-        return instrument_schema.Instrument.from_orm(instrument)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingInstrument(
-            _("Failed to create instrument.")
+
+    instrument = models.Instrument(**data.dict())
+    db_session.add(instrument)
+    db_session.commit()
+    return instrument_schema.Instrument.from_orm(instrument)
+
+
+def get(
+    db_session: Session,
+    instrument_id: str
+) -> instrument_schema.Instrument:
+    instrument = (
+        db_session.query(models.Instrument)
+            .filter_by(instrumentId=instrument_id)
+            .options(joinedload("station"))
+            .first()
+    )
+
+    if not instrument:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Instrument does not exist.")
         )
 
-
-def get(db_session: Session,
-        instrument_id: str) -> instrument_schema.Instrument:
-    try:
-        instrument = (
-            db_session.query(models.Instrument)
-                .filter_by(instrumentId=instrument_id)
-                .options(joinedload("station"))
-                .first()
-        )
-
-        if not instrument:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Instrument does not exist.")
-            )
-
-        return instrument_schema.InstrumentWithStation.from_orm(instrument)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrument(
-            _("Failed to get instrument.")
-        )
+    return instrument_schema.InstrumentWithStation.from_orm(instrument)
 
 
 def query(
@@ -96,61 +84,55 @@ def query(
     :param offset: skips first `offset` number of rows
     :return: list of `instrument`
     """
-    try:
-        q = db_session.query(models.Instrument)
+    q = db_session.query(models.Instrument)
 
-        if instrument_id is not None:
-            q = q.filter_by(instrumentId=instrument_id)
+    if instrument_id is not None:
+        q = q.filter_by(instrumentId=instrument_id)
 
-        if instrument_name is not None:
-            q = q.filter_by(instrumentName=instrument_name)
+    if instrument_name is not None:
+        q = q.filter_by(instrumentName=instrument_name)
 
-        if serial_number is not None:
-            q = q.filter_by(serialNumber=serial_number)
+    if serial_number is not None:
+        q = q.filter_by(serialNumber=serial_number)
 
-        if abbreviation is not None:
-            q = q.filter_by(abbreviation=abbreviation)
+    if abbreviation is not None:
+        q = q.filter_by(abbreviation=abbreviation)
 
-        if model is not None:
-            q = q.filter(models.Instrument.model.ilike(f"%{model}%"))
+    if model is not None:
+        q = q.filter(models.Instrument.model.ilike(f"%{model}%"))
 
-        if manufacturer is not None:
-            q = q.filter(
-                models.Instrument.manufacturer.ilike(f"%{manufacturer}%"))
+    if manufacturer is not None:
+        q = q.filter(
+            models.Instrument.manufacturer.ilike(f"%{manufacturer}%"))
 
-        if instrument_uncertainty is not None:
-            q = q.filter(
-                models.Instrument.instrumentUncertainty <= instrument_uncertainty
-            )
-
-        if installation_datetime is not None:
-            q = q.filter(
-                models.Instrument.installationDatetime >= installation_datetime
-            )
-
-        if uninstallation_datetime is not None:
-            q = q.filter(
-                models.Instrument.deinstallationDatetime <= uninstallation_datetime
-            )
-
-        if height is not None:
-            q = q.filter(models.Instrument.height > height)
-
-        if station_id is not None:
-            q = q.filter_by(installedAt=station_id)
-
-        return (
-            get_count(q),
-            [
-                instrument_schema.Instrument.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
+    if instrument_uncertainty is not None:
+        q = q.filter(
+            models.Instrument.instrumentUncertainty <= instrument_uncertainty
         )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentList(
-            _("Failed to get list of instruments.")
+
+    if installation_datetime is not None:
+        q = q.filter(
+            models.Instrument.installationDatetime >= installation_datetime
         )
+
+    if uninstallation_datetime is not None:
+        q = q.filter(
+            models.Instrument.deinstallationDatetime <= uninstallation_datetime
+        )
+
+    if height is not None:
+        q = q.filter(models.Instrument.height > height)
+
+    if station_id is not None:
+        q = q.filter_by(installedAt=station_id)
+
+    return (
+        get_count(q),
+        [
+            instrument_schema.Instrument.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -158,38 +140,25 @@ def update(
     instrument_id: str,
     updates: instrument_schema.UpdateInstrument
 ) -> instrument_schema.Instrument:
-    try:
-        db_session.query(models.Instrument).filter_by(
-            instrumentId=instrument_id
-        ).update(updates.dict())
-        db_session.commit()
-        updated_instrument = (
-            db_session.query(models.Instrument)
-                .filter_by(instrumentId=instrument_id)
-                .first()
-        )
-        return instrument_schema.Instrument.from_orm(updated_instrument)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingInstrument(
-            _("Failed to update instrument.")
-        )
+
+    db_session.query(models.Instrument).filter_by(
+        instrumentId=instrument_id
+    ).update(updates.dict())
+    db_session.commit()
+    updated_instrument = (
+        db_session.query(models.Instrument)
+            .filter_by(instrumentId=instrument_id)
+            .first()
+    )
+    return instrument_schema.Instrument.from_orm(updated_instrument)
 
 
 def delete(db_session: Session, instrument_id: str) -> bool:
-    try:
-        db_session.query(models.Instrument).filter_by(
-            instrumentId=instrument_id
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingInstrument(
-            _("Failed to delete instrument.")
-        )
+    db_session.query(models.Instrument).filter_by(
+        instrumentId=instrument_id
+    ).delete()
+    db_session.commit()
+    return True
 
 
 def search(
@@ -199,25 +168,18 @@ def search(
     offset: int = 0,
 ) -> Tuple[int, List[instrument_schema.Instrument]]:
 
-    try:
-        q = db_session.query(models.Instrument)
+    q = db_session.query(models.Instrument)
 
-        if _query:
-            q = q.filter(
-                models.Instrument.instrumentId.ilike(f"%{_query}%")
-                | models.Instrument.instrumentName.ilike(f"%{_query}%")
-            )
-
-        return (
-            get_count(q),
-            [
-                instrument_schema.Instrument.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingInstrumentList(
-            _("Failed to get list of instruments.")
+    if _query:
+        q = q.filter(
+            models.Instrument.instrumentId.ilike(f"%{_query}%")
+            | models.Instrument.instrumentName.ilike(f"%{_query}%")
         )
 
+    return (
+        get_count(q),
+        [
+            instrument_schema.Instrument.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )

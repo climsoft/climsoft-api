@@ -14,40 +14,25 @@ logging.basicConfig(level=logging.INFO)
 def create(
     db_session: Session, data: station_schema.CreateStation
 ) -> station_schema.Station:
-    try:
-        station = models.Station(**data.dict())
-        db_session.add(station)
-        db_session.commit()
-        return station_schema.Station.from_orm(station)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingStation(
-            _("Failed to create station.")
-        )
+    station = models.Station(**data.dict())
+    db_session.add(station)
+    db_session.commit()
+    return station_schema.Station.from_orm(station)
 
 
 def get(db_session: Session, station_id: str) -> station_schema.Station:
-    try:
-        station = (
-            db_session.query(models.Station).filter_by(
-                stationId=station_id).first()
+    station = (
+        db_session.query(models.Station).filter_by(
+            stationId=station_id).first()
+    )
+
+    if not station:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Station does not exist.")
         )
 
-        if not station:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Station does not exist.")
-            )
-
-        return station_schema.Station.from_orm(station)
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStation(
-            _("Failed to get station.")
-        )
+    return station_schema.Station.from_orm(station)
 
 
 def query(
@@ -103,82 +88,76 @@ def query(
     :param offset: describe how many to skip
     :return: list of `obselement`
     """
-    try:
-        q = db_session.query(models.Station)
+    q = db_session.query(models.Station)
 
-        if station_id is not None:
-            q = q.filter_by(stationId=station_id)
+    if station_id is not None:
+        q = q.filter_by(stationId=station_id)
 
-        if station_name is not None:
-            q = q.filter_by(stationName=station_name)
+    if station_name is not None:
+        q = q.filter_by(stationName=station_name)
 
-        if wmoid is not None:
-            q = q.filter_by(wmoid=wmoid)
+    if wmoid is not None:
+        q = q.filter_by(wmoid=wmoid)
 
-        if icaoid is not None:
-            q = q.filter_by(icaoid=icaoid)
+    if icaoid is not None:
+        q = q.filter_by(icaoid=icaoid)
 
-        if latitude is not None:
-            q = q.filter(models.Station.latitude >= latitude)
+    if latitude is not None:
+        q = q.filter(models.Station.latitude >= latitude)
 
-        if longitude is not None:
-            q = q.filter(models.Station.longitude >= longitude)
+    if longitude is not None:
+        q = q.filter(models.Station.longitude >= longitude)
 
-        if qualifier is not None:
-            q = q.filter(models.Station.qualifier.ilike(f"%{qualifier}%"))
+    if qualifier is not None:
+        q = q.filter(models.Station.qualifier.ilike(f"%{qualifier}%"))
 
-        if elevation is not None:
-            q = q.filter(models.Station.elevation.ilike(f"%{elevation}%"))
+    if elevation is not None:
+        q = q.filter(models.Station.elevation.ilike(f"%{elevation}%"))
 
-        if geolocation_accuracy is not None:
-            q = q.filter(
-                models.Station.geoLocationAccuracy >= geolocation_accuracy)
+    if geolocation_accuracy is not None:
+        q = q.filter(
+            models.Station.geoLocationAccuracy >= geolocation_accuracy)
 
-        if geolocation_method is not None:
-            q = q.filter(
-                models.Station.geoLocationMethod.ilike(
-                    f"%{geolocation_method}%")
-            )
-
-        if opening_datetime is not None:
-            q = q.filter(models.Station.openingDatetime >= opening_datetime)
-
-        if closing_datetime is not None:
-            q = q.filter(models.Station.closingDatetime <= closing_datetime)
-
-        if country is not None:
-            q = q.filter_by(contry=country)
-
-        if authority is not None:
-            q = q.filter_by(authority=authority)
-
-        if admin_region is not None:
-            q = q.filter_by(adminRegion=admin_region)
-
-        if drainage_basin is not None:
-            q = q.filter_by(drainageBasin=drainage_basin)
-
-        if waca_selection is not None:
-            q = q.filter_by(wacaSelection=waca_selection)
-
-        if cpt_selection is not None:
-            q = q.filter_by(cptSelection=waca_selection)
-
-        if station_operational is not None:
-            q = q.filter_by(stationOperational=waca_selection)
-
-        return (
-            get_count(q),
-            [
-                station_schema.Station.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
+    if geolocation_method is not None:
+        q = q.filter(
+            models.Station.geoLocationMethod.ilike(
+                f"%{geolocation_method}%")
         )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationList(
-            _("Failed to get list of stations.")
-        )
+
+    if opening_datetime is not None:
+        q = q.filter(models.Station.openingDatetime >= opening_datetime)
+
+    if closing_datetime is not None:
+        q = q.filter(models.Station.closingDatetime <= closing_datetime)
+
+    if country is not None:
+        q = q.filter_by(contry=country)
+
+    if authority is not None:
+        q = q.filter_by(authority=authority)
+
+    if admin_region is not None:
+        q = q.filter_by(adminRegion=admin_region)
+
+    if drainage_basin is not None:
+        q = q.filter_by(drainageBasin=drainage_basin)
+
+    if waca_selection is not None:
+        q = q.filter_by(wacaSelection=waca_selection)
+
+    if cpt_selection is not None:
+        q = q.filter_by(cptSelection=waca_selection)
+
+    if station_operational is not None:
+        q = q.filter_by(stationOperational=waca_selection)
+
+    return (
+        get_count(q),
+        [
+            station_schema.Station.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -186,36 +165,24 @@ def update(
     station_id: str,
     updates: station_schema.UpdateStation
 ) -> station_schema.Station:
-    try:
-        db_session.query(models.Station).filter_by(stationId=station_id).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_station = (
-            db_session.query(models.Station).filter_by(
-                stationId=station_id
-            ).first()
-        )
-        return station_schema.Station.from_orm(updated_station)
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingStation(_("Failed to update station."))
+    db_session.query(models.Station).filter_by(stationId=station_id).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_station = (
+        db_session.query(models.Station).filter_by(
+            stationId=station_id
+        ).first()
+    )
+    return station_schema.Station.from_orm(updated_station)
 
 
 def delete(db_session: Session, station_id: str) -> bool:
-    try:
-        db_session.query(
-            models.Station
-        ).filter_by(stationId=station_id).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingStation(
-            _("Failed to delete station.")
-        )
+    db_session.query(
+        models.Station
+    ).filter_by(stationId=station_id).delete()
+    db_session.commit()
+    return True
 
 
 def search(
@@ -224,26 +191,18 @@ def search(
     limit: int = 25,
     offset: int = 0,
 ) -> Tuple[int, List[station_schema.Station]]:
+    q = db_session.query(models.Station)
 
-    try:
-        q = db_session.query(models.Station)
-
-        if _query:
-            q = q.filter(
-                models.Station.stationId.ilike(f"%{_query}%")
-                | models.Station.stationName.ilike(f"%{_query}%")
-            )
-
-        return (
-            get_count(q),
-            [
-                station_schema.Station.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
-        )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingStationList(
-            _("Failed to get list of stations.")
+    if _query:
+        q = q.filter(
+            models.Station.stationId.ilike(f"%{_query}%")
+            | models.Station.stationName.ilike(f"%{_query}%")
         )
 
+    return (
+        get_count(q),
+        [
+            station_schema.Station.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )

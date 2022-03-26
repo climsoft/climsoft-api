@@ -17,20 +17,13 @@ def create(
     db_session: Session,
     data: observationinitial_schema.CreateObservationInitial
 ) -> observationinitial_schema.ObservationInitial:
-    try:
-        observation_initial = models.Observationinitial(**data.dict())
-        db_session.add(observation_initial)
-        db_session.commit()
+    observation_initial = models.Observationinitial(**data.dict())
+    db_session.add(observation_initial)
+    db_session.commit()
 
-        return observationinitial_schema.ObservationInitial.from_orm(
-            observation_initial
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedCreatingObservationInitial(
-            _("Failed to create observation initial.")
-        )
+    return observationinitial_schema.ObservationInitial.from_orm(
+        observation_initial
+    )
 
 
 def get(
@@ -41,34 +34,26 @@ def get(
     qc_status: int,
     acquisition_type: int,
 ) -> observationinitial_schema.ObservationInitialWithChildren:
-    try:
-        observation_initial = (
-            db_session.query(models.Observationinitial)
-                .filter_by(recordedFrom=recorded_from)
-                .filter_by(describedBy=described_by)
-                .filter_by(obsDatetime=obs_datetime)
-                .filter_by(qcStatus=qc_status)
-                .filter_by(acquisitionType=acquisition_type)
-                .options(joinedload("obselement"), joinedload("station"))
-                .first()
+    observation_initial = (
+        db_session.query(models.Observationinitial)
+            .filter_by(recordedFrom=recorded_from)
+            .filter_by(describedBy=described_by)
+            .filter_by(obsDatetime=obs_datetime)
+            .filter_by(qcStatus=qc_status)
+            .filter_by(acquisitionType=acquisition_type)
+            .options(joinedload("obselement"), joinedload("station"))
+            .first()
+    )
+
+    if not observation_initial:
+        raise HTTPException(
+            status_code=404,
+            detail=_("Observation initial does not exist.")
         )
 
-        if not observation_initial:
-            raise HTTPException(
-                status_code=404,
-                detail=_("Observation initial does not exist.")
-            )
-
-        return observationinitial_schema.ObservationInitialWithChildren \
-            .from_orm(
+    return observationinitial_schema.ObservationInitialWithChildren \
+        .from_orm(
             observation_initial
-        )
-    except HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingObservationInitial(
-            _("Failed to get observation initial.")
         )
 
 
@@ -122,93 +107,87 @@ def query(
     :param offset:
     :return:
     """
-    try:
-        q = db_session.query(models.Observationinitial)
+    q = db_session.query(models.Observationinitial)
 
-        if recorded_from is not None:
-            q = q.filter_by(recordedFrom=recorded_from)
+    if recorded_from is not None:
+        q = q.filter_by(recordedFrom=recorded_from)
 
-        if described_by is not None:
-            q = q.filter_by(describedBy=described_by)
+    if described_by is not None:
+        q = q.filter_by(describedBy=described_by)
 
-        if obs_datetime is not None:
-            q = q.filter_by(obsDatetime=obs_datetime)
+    if obs_datetime is not None:
+        q = q.filter_by(obsDatetime=obs_datetime)
 
-        if qc_status is not None:
-            q = q.filter_by(qcStatus=qc_status)
+    if qc_status is not None:
+        q = q.filter_by(qcStatus=qc_status)
 
-        if acquisition_type is not None:
-            q = q.filter_by(acquisitionType=acquisition_type)
+    if acquisition_type is not None:
+        q = q.filter_by(acquisitionType=acquisition_type)
 
-        if obs_level is not None:
-            q = q.filter_by(obsLevel=obs_level)
+    if obs_level is not None:
+        q = q.filter_by(obsLevel=obs_level)
 
-        if obs_value is not None:
-            q = q.filter_by(obsValue=obs_value)
+    if obs_value is not None:
+        q = q.filter_by(obsValue=obs_value)
 
-        if flag is not None:
-            q = q.filter_by(flag=flag)
+    if flag is not None:
+        q = q.filter_by(flag=flag)
 
-        if period is not None:
-            q = q.filter(models.Observationinitial.period >= period)
+    if period is not None:
+        q = q.filter(models.Observationinitial.period >= period)
 
-        if qc_type_log is not None:
-            q = q.filter(
-                models.Observationinitial.qcTypeLog.ilike(f"%{qc_type_log}%")
-            )
-
-        if data_form is not None:
-            q = q.filter(
-                models.Observationinitial.dataForm.ilike(f"%{data_form}%")
-            )
-
-        if captured_by is not None:
-            q = q.filter_by(capturedBy=captured_by)
-
-        if mark is not None:
-            q = q.filter_by(mark=mark)
-
-        if temperature_units is not None:
-            q = q.filter(
-                models.Observationinitial.temperatureUnits.ilike(
-                    f"%{temperature_units}%"
-                )
-            )
-
-        if precipitation_units is not None:
-            q = q.filter(
-                models.Observationinitial.precipitationUnits.ilike(
-                    f"%{precipitation_units}%"
-                )
-            )
-
-        if cloud_height_units is not None:
-            q = q.filter(
-                models.Observationinitial.cloudHeightUnits.ilike(
-                    f"%{cloud_height_units}%"
-                )
-            )
-
-        if vis_units is not None:
-            q = q.filter_by(
-                models.Observationinitial.visUnits.ilike(f"%{vis_units}%")
-            )
-
-        if data_source_timezone is not None:
-            q = q.filter_by(dataSourceTimezone=data_source_timezone)
-
-        return (
-            get_count(q),
-            [
-                observationinitial_schema.ObservationInitial.from_orm(s)
-                for s in q.offset(offset).limit(limit).all()
-            ]
+    if qc_type_log is not None:
+        q = q.filter(
+            models.Observationinitial.qcTypeLog.ilike(f"%{qc_type_log}%")
         )
-    except Exception as e:
-        logger.exception(e)
-        raise FailedGettingObservationInitialList(
-            _("Failed to get list of observation initials.")
+
+    if data_form is not None:
+        q = q.filter(
+            models.Observationinitial.dataForm.ilike(f"%{data_form}%")
         )
+
+    if captured_by is not None:
+        q = q.filter_by(capturedBy=captured_by)
+
+    if mark is not None:
+        q = q.filter_by(mark=mark)
+
+    if temperature_units is not None:
+        q = q.filter(
+            models.Observationinitial.temperatureUnits.ilike(
+                f"%{temperature_units}%"
+            )
+        )
+
+    if precipitation_units is not None:
+        q = q.filter(
+            models.Observationinitial.precipitationUnits.ilike(
+                f"%{precipitation_units}%"
+            )
+        )
+
+    if cloud_height_units is not None:
+        q = q.filter(
+            models.Observationinitial.cloudHeightUnits.ilike(
+                f"%{cloud_height_units}%"
+            )
+        )
+
+    if vis_units is not None:
+        q = q.filter_by(
+            models.Observationinitial.visUnits.ilike(f"%{vis_units}%")
+        )
+
+    if data_source_timezone is not None:
+        q = q.filter_by(dataSourceTimezone=data_source_timezone)
+
+    return (
+        get_count(q),
+        [
+            observationinitial_schema.ObservationInitial.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
 
 
 def update(
@@ -220,37 +199,30 @@ def update(
     acquisition_type: int,
     updates: observationinitial_schema.UpdateObservationInitial,
 ) -> observationinitial_schema.ObservationInitial:
-    try:
-        db_session.query(models.Observationinitial).filter_by(
-            recordedFrom=recorded_from
-        ).filter_by(describedBy=described_by).filter_by(
-            obsDatetime=obs_datetime
-        ).filter_by(
-            qcStatus=qc_status
-        ).filter_by(
-            acquisitionType=acquisition_type
-        ).update(
-            updates.dict()
-        )
-        db_session.commit()
-        updated_instrument = (
-            db_session.query(models.Observationinitial)
-                .filter_by(recordedFrom=recorded_from)
-                .filter_by(describedBy=described_by)
-                .filter_by(obsDatetime=obs_datetime)
-                .filter_by(qcStatus=qc_status)
-                .filter_by(acquisitionType=acquisition_type)
-                .first()
-        )
-        return observationinitial_schema.ObservationInitial.from_orm(
-            updated_instrument
-        )
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedUpdatingObservationInitial(
-            _("Failed to update observation initial.")
-        )
+    db_session.query(models.Observationinitial).filter_by(
+        recordedFrom=recorded_from
+    ).filter_by(describedBy=described_by).filter_by(
+        obsDatetime=obs_datetime
+    ).filter_by(
+        qcStatus=qc_status
+    ).filter_by(
+        acquisitionType=acquisition_type
+    ).update(
+        updates.dict()
+    )
+    db_session.commit()
+    updated_instrument = (
+        db_session.query(models.Observationinitial)
+            .filter_by(recordedFrom=recorded_from)
+            .filter_by(describedBy=described_by)
+            .filter_by(obsDatetime=obs_datetime)
+            .filter_by(qcStatus=qc_status)
+            .filter_by(acquisitionType=acquisition_type)
+            .first()
+    )
+    return observationinitial_schema.ObservationInitial.from_orm(
+        updated_instrument
+    )
 
 
 def delete(
@@ -261,21 +233,14 @@ def delete(
     qc_status: int,
     acquisition_type: int,
 ) -> bool:
-    try:
-        db_session.query(models.Observationinitial).filter_by(
-            recordedFrom=recorded_from
-        ).filter_by(describedBy=described_by).filter_by(
-            obsDatetime=obs_datetime
-        ).filter_by(
-            qcStatus=qc_status
-        ).filter_by(
-            acquisitionType=acquisition_type
-        ).delete()
-        db_session.commit()
-        return True
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        raise FailedDeletingObservationInitial(
-            _("Failed to delete observation initial.")
-        )
+    db_session.query(models.Observationinitial).filter_by(
+        recordedFrom=recorded_from
+    ).filter_by(describedBy=described_by).filter_by(
+        obsDatetime=obs_datetime
+    ).filter_by(
+        qcStatus=qc_status
+    ).filter_by(
+        acquisitionType=acquisition_type
+    ).delete()
+    db_session.commit()
+    return True

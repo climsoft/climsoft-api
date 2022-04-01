@@ -86,7 +86,7 @@ def test_should_create_a_feature_geographical_position(
         by_alias=True
     )
     response = client.post(
-        "/v1/feature-geographical-positions/",
+        "/v1/feature-geographical-positions",
         data=json.dumps(feature_geographical_position_data, default=str),
     )
     assert response.status_code == 200
@@ -99,7 +99,7 @@ def test_should_raise_validation_error(
     get_synop_feature: climsoft_models.Synopfeature,
 ):
     response = client.post(
-        "/v1/feature-geographical-positions/",
+        "/v1/feature-geographical-positions",
         data=json.dumps({"belongs_to": get_synop_feature.abbreviation}, default=str),
     )
     assert response.status_code == 422

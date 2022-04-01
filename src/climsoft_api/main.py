@@ -66,106 +66,106 @@ def get_app():
     app = FastAPI(docs_url="/")
     app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
     app.include_router(climsoft_stat_router, prefix="/v1", tags=["Table Stats"])
-    app.include_router(file_upload_router, prefix="/v1/file-upload",
+    app.include_router(file_upload_router, prefix="/v1",
                        tags=["File Upload"])
-    app.include_router(s3_files_router, prefix="/v1/s3", tags=["S3 Files"])
-    app.include_router(climsoft_user_router, prefix="/v1/climsoft-users",
+    app.include_router(s3_files_router, prefix="/v1", tags=["S3 Files"])
+    app.include_router(climsoft_user_router, prefix="/v1",
                        tags=["Climsoft Users"])
     app.include_router(
         acquisition_type_router,
-        prefix="/v1/acquisition-types",
+        prefix="/v1",
         tags=["Acquisition Type"],
     )
-    app.include_router(data_form_router, prefix="/v1/data-forms",
+    app.include_router(data_form_router, prefix="/v1",
                        tags=["Data Forms"])
     app.include_router(
         faultresolution_router,
-        prefix="/v1/fault-resolutions",
+        prefix="/v1",
         tags=["Fault Resolutions"],
     )
     app.include_router(
         featuregeographicalposition_router,
-        prefix="/v1/feature-geographical-positions",
+        prefix="/v1",
         tags=["Feature Geographical Positions"],
     )
-    app.include_router(flag_router, prefix="/v1/flags", tags=["Flags"])
+    app.include_router(flag_router, prefix="/v1", tags=["Flags"])
     app.include_router(
-        instrument_router, prefix="/v1/instruments", tags=["Instruments"]
+        instrument_router, prefix="/v1", tags=["Instruments"]
     )
     app.include_router(
         instrumentfaultreport_router,
-        prefix="/v1/instrument-fault-reports",
+        prefix="/v1",
         tags=["Instrument Fault Reports"],
     )
     app.include_router(
         instrumentinspection_router,
-        prefix="/v1/instrument-inspections",
+        prefix="/v1",
         tags=["Instruments Inspections"],
     )
     app.include_router(
-        obselement_router, prefix="/v1/obselements", tags=["Obselements"]
+        obselement_router, prefix="/v1", tags=["Obselements"]
     )
     app.include_router(
         observationfinal_router,
-        prefix="/v1/observation-finals",
+        prefix="/v1",
         tags=["Observation Finals"],
     )
     app.include_router(
         observationinitial_router,
-        prefix="/v1/observation-initials",
+        prefix="/v1",
         tags=["Observation Initials"],
     )
     app.include_router(
         obsscheduleclass_router,
-        prefix="/v1/obs-schedule-class",
+        prefix="/v1",
         tags=["Obs Schedule Class"],
     )
     app.include_router(
         paperarchive_router,
-        prefix="/v1/paper-archives",
+        prefix="/v1",
         tags=["Paper Archives"]
     )
     app.include_router(
         paperarchivedefinition_router,
-        prefix="/v1/paper-archive-definitions",
+        prefix="/v1",
         tags=["Paper Archive Definitions"],
     )
     app.include_router(
         physicalfeature_router,
-        prefix="/v1/physical-features",
+        prefix="/v1",
         tags=["Physical Features"],
     )
     app.include_router(
         physicalfeatureclass_router,
-        prefix="/v1/physical-feature-class",
+        prefix="/v1",
         tags=["Physical Feature Class"],
     )
     app.include_router(
         qcstatusdefinition_router,
-        prefix="/v1/qc-status-definitions",
+        prefix="/v1",
         tags=["QC Status Definitions"],
     )
-    app.include_router(qctype_router, prefix="/v1/qc-types", tags=["QC Types"])
-    app.include_router(regkey_router, prefix="/v1/reg-keys", tags=["Reg Keys"])
-    app.include_router(station_router, prefix="/v1/stations", tags=["Stations"])
+    app.include_router(qctype_router, prefix="/v1", tags=["QC Types"])
+    app.include_router(regkey_router, prefix="/v1", tags=["Reg Keys"])
+    app.include_router(station_router, prefix="/v1", tags=["Stations"])
     app.include_router(
         stationelement_router,
-        prefix="/v1/station-elements",
+        prefix="/v1",
         tags=["Station Elements"]
     )
     app.include_router(
         stationlocationhistory_router,
-        prefix="/v1/station-location-histories",
+        prefix="/v1",
         tags=["Station Location Histories"],
     )
     app.include_router(
         stationqualifier_router,
-        prefix="/v1/station-qualifiers",
+        prefix="/v1",
         tags=["Station Qualifiers"],
     )
     app.include_router(
         synopfeature_router,
-        prefix="/v1/synop-features",
+        prefix="/v1",
         tags=["Synop Features"]
     )
 

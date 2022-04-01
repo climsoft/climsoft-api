@@ -33,7 +33,7 @@ def test_should_return_first_five_synop_features(
     client: TestClient, get_synop_features
 ):
     response = client.get(
-        "/v1/synop-features/",
+        "/v1/synop-features",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -58,7 +58,7 @@ def test_should_create_a_synop_feature(client: TestClient, get_synop_features):
         by_alias=True
     )
     response = client.post(
-        "/v1/synop-features/",
+        "/v1/synop-features",
         data=json.dumps(synop_feature_data, default=str),
     )
     assert response.status_code == 200
@@ -69,7 +69,7 @@ def test_should_create_a_synop_feature(client: TestClient, get_synop_features):
 def test_should_raise_validation_error(client: TestClient, get_synop_features):
     synop_feature_data = {"aaa": "bbbbbbb"}
     response = client.post(
-        "/v1/synop-features/",
+        "/v1/synop-features",
         data=json.dumps(synop_feature_data, default=str),
     )
     assert response.status_code == 422

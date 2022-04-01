@@ -60,7 +60,7 @@ def test_should_create_a_climsoft_user(client: TestClient):
         climsoft_climsoft_user.get_valid_climsoft_user_input().dict(by_alias=True)
     )
     response = client.post(
-        "/v1/climsoft-users/",
+        "/v1/climsoft-users",
         data=json.dumps(climsoft_user_data, default=str),
     )
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_should_create_a_climsoft_user(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     climsoft_user_data = {"code": "asd", "description": "aa aa a"}
     response = client.post(
-        "/v1/climsoft-users/", data=json.dumps(climsoft_user_data, default=str)
+        "/v1/climsoft-users", data=json.dumps(climsoft_user_data, default=str)
     )
     assert response.status_code == 422
 

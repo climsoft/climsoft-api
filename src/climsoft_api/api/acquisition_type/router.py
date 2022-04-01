@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/",
+    "/acquisition-types",
 )
 def get_acquisition_types(
     code: str = None,
@@ -54,7 +54,7 @@ def get_acquisition_types(
 
 
 @router.get(
-    "/{code}"
+    "/acquisition-types/{code}"
 )
 def get_acquisition_type_by_id(
     code: str,
@@ -82,7 +82,7 @@ def get_acquisition_type_by_id(
 
 
 @router.post(
-    "/"
+    "/acquisition-types"
 )
 def create_acquisition_type(
     data: acquisitiontype_schema.CreateAcquisitionType,
@@ -110,7 +110,7 @@ def create_acquisition_type(
 
 
 @router.put(
-    "/{code}"
+    "/acquisition-types/{code}"
 )
 def update_acquisition_type(
     code: str,
@@ -140,7 +140,7 @@ def update_acquisition_type(
 
 
 @router.delete(
-    "/{code}"
+    "/acquisition-types/{code}"
 )
 def delete_acquisition_type(
     code: str,

@@ -55,7 +55,7 @@ def test_should_return_first_five_obs_schedule_classs(
     client: TestClient, get_obs_schedule_classes
 ):
     response = client.get(
-        "/v1/obs-schedule-class/",
+        "/v1/obs-schedule-class",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -88,7 +88,7 @@ def test_should_create_a_obs_schedule_class(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/obs-schedule-class/",
+        "/v1/obs-schedule-class",
         data=json.dumps(obs_schedule_class_data, default=str),
     )
     assert response.status_code == 200
@@ -102,7 +102,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/v1/obs-schedule-class/",
+        "/v1/obs-schedule-class",
         data=json.dumps({"refers_to": 4}, default=str),
     )
     assert response.status_code == 422

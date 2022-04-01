@@ -132,7 +132,7 @@ def test_should_return_first_five_station_elements(
     client: TestClient, get_station_elements
 ):
     response = client.get(
-        "/v1/station-elements/",
+        "/v1/station-elements",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -170,7 +170,7 @@ def test_should_create_a_station_element(
         instrument_id=get_instrument.instrumentId,
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/station-elements/",
+        "/v1/station-elements",
         data=json.dumps(station_element_data, default=str),
     )
     assert response.status_code == 200
@@ -188,7 +188,7 @@ def test_should_raise_validation_error(
     get_obs_schedule_class,
 ):
     response = client.post(
-        "/v1/station-elements/",
+        "/v1/station-elements",
         data=json.dumps({"end_date": datetime.utcnow()}, default=str),
     )
     assert response.status_code == 422

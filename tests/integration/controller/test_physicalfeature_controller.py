@@ -87,7 +87,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_physical_features
 ):
     response = client.get(
-        "/v1/physical-features/",
+        "/v1/physical-features",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -117,7 +117,7 @@ def test_should_create_a_physical_feature(
         feature_class=get_physical_feature_class.featureClass,
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/physical-features/",
+        "/v1/physical-features",
         data=json.dumps(physical_feature_data, default=str),
     )
     assert response.status_code == 200
@@ -131,7 +131,7 @@ def test_should_raise_validation_error(
     get_physical_feature_class: climsoft_models.Physicalfeatureclas,
 ):
     response = client.post(
-        "/v1/physical-features/",
+        "/v1/physical-features",
         data=json.dumps({"featuer_class": "fail"}, default=str),
     )
     assert response.status_code == 422

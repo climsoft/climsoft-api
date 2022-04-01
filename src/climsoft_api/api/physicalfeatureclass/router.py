@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/physical-feature-class"
 )
 def get_physical_feature_class(
     feature_class: str = None,
@@ -58,7 +58,7 @@ def get_physical_feature_class(
 
 
 @router.get(
-    "/{feature_class}"
+    "/physical-feature-class/{feature_class}"
 )
 def get_physical_feature_class_by_id(
     feature_class: str, db_session: Session = Depends(deps.get_session)
@@ -86,7 +86,7 @@ def get_physical_feature_class_by_id(
 
 
 @router.post(
-    "/",
+    "/physical-feature-class",
 )
 def create_physical_feature_class(
     data: physicalfeatureclass_schema.CreatePhysicalFeatureClass,
@@ -117,7 +117,7 @@ def create_physical_feature_class(
 
 
 @router.put(
-    "/{feature_class}"
+    "/physical-feature-class/{feature_class}"
 )
 def update_physical_feature_class(
     feature_class: str,
@@ -150,7 +150,7 @@ def update_physical_feature_class(
 
 
 @router.delete(
-    "/{feature_class}"
+    "/physical-feature-class/{feature_class}"
 )
 def delete_physical_feature_class(
     feature_class: str, db_session: Session = Depends(deps.get_session)

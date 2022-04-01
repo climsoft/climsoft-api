@@ -33,7 +33,7 @@ def test_should_return_first_five_qc_status_definitions(
     client: TestClient, get_qc_status_definitions
 ):
     response = client.get(
-        "/v1/qc-status-definitions/",
+        "/v1/qc-status-definitions",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -62,7 +62,7 @@ def test_should_create_a_qc_status_definition(
         )
     )
     response = client.post(
-        "/v1/qc-status-definitions/",
+        "/v1/qc-status-definitions",
         data=json.dumps(qc_status_definition_data, default=str),
     )
     assert response.status_code == 200
@@ -75,7 +75,7 @@ def test_should_raise_validation_error(
 ):
     qc_status_definition_data = {"aaa": "bbbbbbb"}
     response = client.post(
-        "/v1/qc-status-definitions/",
+        "/v1/qc-status-definitions",
         data=json.dumps(qc_status_definition_data, default=str),
     )
     assert response.status_code == 422

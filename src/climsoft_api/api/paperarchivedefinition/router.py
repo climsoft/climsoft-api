@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/",
+    "/paper-archive-definitions",
 )
 def get_paper_archive_definitions(
     form_id: str = None,
@@ -57,7 +57,7 @@ def get_paper_archive_definitions(
 
 
 @router.get(
-    "/{form_id}",
+    "/paper-archive-definitions/{form_id}",
 )
 def get_paper_archive_definition_by_id(
     form_id: str, db_session: Session = Depends(deps.get_session)
@@ -85,7 +85,7 @@ def get_paper_archive_definition_by_id(
 
 
 @router.post(
-    "/",
+    "/paper-archive-definitions",
 )
 def create_paper_archive_definition(
     data: paperarchivedefinition_schema.CreatePaperArchiveDefinition,
@@ -116,7 +116,7 @@ def create_paper_archive_definition(
 
 
 @router.put(
-    "/{form_id}"
+    "/paper-archive-definitions/{form_id}"
 )
 def update_paper_archive_definition(
     form_id: str,
@@ -147,7 +147,7 @@ def update_paper_archive_definition(
 
 
 @router.delete(
-    "/{form_id}"
+    "/paper-archive-definitions/{form_id}"
 )
 def delete_paper_archive_definition(
     form_id: str, db_session: Session = Depends(deps.get_session)

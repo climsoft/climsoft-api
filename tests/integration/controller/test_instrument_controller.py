@@ -42,7 +42,7 @@ def get_instruments(get_station: climsoft_models.Station, session: Session):
 
 
 def test_should_return_first_five_instruments(client: TestClient, get_instruments):
-    response = client.get("/v1/instruments/", params={"limit": 5}, headers={})
+    response = client.get("/v1/instruments", params={"limit": 5}, headers={})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -64,7 +64,7 @@ def test_should_create_a_instrument(
         station_id=get_station.stationId
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/instruments/", data=json.dumps(instrument_data, default=str), headers={}
+        "/v1/instruments", data=json.dumps(instrument_data, default=str), headers={}
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -75,7 +75,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/v1/instruments/",
+        "/v1/instruments",
         data=json.dumps({"instrument_name": "some name"}, default=str),
         headers={},
     )

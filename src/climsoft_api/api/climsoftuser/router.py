@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/climsoft-users"
 )
 def get_climsoft_users(
     username: str = None,
@@ -55,7 +55,7 @@ def get_climsoft_users(
         )
 
 
-@router.get("/{username}")
+@router.get("/climsoft-users/{username}")
 def get_climsoft_user_by_username(
     username: str,
     db_session: Session = Depends(deps.get_session)
@@ -81,7 +81,7 @@ def get_climsoft_user_by_username(
         )
 
 
-@router.post("/")
+@router.post("/climsoft-users")
 def create_climsoft_user(
     data: climsoft_user_schema.CreateClimsoftUser,
     db_session: Session = Depends(deps.get_session),
@@ -109,7 +109,7 @@ def create_climsoft_user(
 
 
 @router.put(
-    "/{username}/update-role/{role}"
+    "/climsoft-users/{username}/update-role/{role}"
 )
 def update_climsoft_user(
     username: str,
@@ -140,7 +140,7 @@ def update_climsoft_user(
 
 
 @router.delete(
-    "/{username}"
+    "/climsoft-users/{username}"
 )
 def delete_climsoft_user(
     username: str,

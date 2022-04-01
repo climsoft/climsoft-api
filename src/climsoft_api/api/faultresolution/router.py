@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/fault-resolutions"
 )
 def get_instrument_inspection(
     resolved_datetime: str = None,
@@ -59,7 +59,7 @@ def get_instrument_inspection(
 
 
 @router.get(
-    "/{resolved_datetime}/{associated_with}"
+    "/fault-resolutions/{resolved_datetime}/{associated_with}"
 )
 def get_instrument_inspection_by_id(
     resolved_datetime: str,
@@ -91,7 +91,7 @@ def get_instrument_inspection_by_id(
 
 
 @router.post(
-    "/"
+    "/fault-resolutions"
 )
 def create_instrument_inspection(
     data: faultresolution_schema.CreateFaultResolution,
@@ -120,7 +120,7 @@ def create_instrument_inspection(
 
 
 @router.put(
-    "/{resolved_datetime}/{associated_with}"
+    "/fault-resolutions/{resolved_datetime}/{associated_with}"
 )
 def update_instrument_inspection(
     resolved_datetime: str,
@@ -155,7 +155,7 @@ def update_instrument_inspection(
 
 
 @router.delete(
-    "/{resolved_datetime}/{associated_with}"
+    "/fault-resolutions/{resolved_datetime}/{associated_with}"
 )
 def delete_instrument_inspection(
     resolved_datetime: str,

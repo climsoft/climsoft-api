@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/",
+    "/station-location-histories",
 )
 def get_station_location_history(
     belongs_to: str = None,
@@ -77,7 +77,7 @@ def get_station_location_history(
 
 
 @router.get(
-    "/{belongs_to}/{opening_datetime}"
+    "/station-location-histories/{belongs_to}/{opening_datetime}"
 )
 def get_station_location_history_by_id(
     belongs_to: str,
@@ -109,7 +109,7 @@ def get_station_location_history_by_id(
 
 
 @router.post(
-    "/",
+    "/station-location-histories",
 )
 def create_station_location_history(
     data: stationlocationhistory_schema.CreateStationLocationHistory,
@@ -138,7 +138,7 @@ def create_station_location_history(
 
 
 @router.put(
-    "/{belongs_to}/{opening_datetime}"
+    "/station-location-histories/{belongs_to}/{opening_datetime}"
 )
 def update_station_location_history(
     belongs_to: str,
@@ -146,7 +146,6 @@ def update_station_location_history(
     data: stationlocationhistory_schema.UpdateStationLocationHistory,
     db_session: Session = Depends(deps.get_session),
 ):
-    print(belongs_to, opening_datetime)
     try:
         return get_success_response(
             result=[
@@ -174,7 +173,7 @@ def update_station_location_history(
 
 
 @router.delete(
-    "/{belongs_to}/{opening_datetime}"
+    "/station-location-histories/{belongs_to}/{opening_datetime}"
 )
 def delete_station_location_history(
     belongs_to: str,

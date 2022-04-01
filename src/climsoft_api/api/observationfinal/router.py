@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/observation-finals"
 )
 def get_observation_finals(
     recorded_from: str = None,
@@ -87,7 +87,7 @@ def get_observation_finals(
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{obs_datetime}"
+    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def get_observation_final_by_id(
     recorded_from: str,
@@ -121,7 +121,7 @@ def get_observation_final_by_id(
 
 
 @router.post(
-    "/",
+    "/observation-finals",
 )
 def create_observation_final(
     data: observationfinal_schema.CreateObservationFinal,
@@ -150,7 +150,7 @@ def create_observation_final(
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{obs_datetime}"
+    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def update_observation_final(
     recorded_from: str,
@@ -187,7 +187,7 @@ def update_observation_final(
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{obs_datetime}"
+    "/observation-finals/{recorded_from}/{described_by}/{obs_datetime}"
 )
 def delete_observation_final(
     recorded_from: str,

@@ -16,7 +16,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/reg-keys")
 def get_reg_keys(
     key_name: str = None,
     key_value: str = None,
@@ -55,7 +55,7 @@ def get_reg_keys(
         )
 
 
-@router.get("/{key_name}")
+@router.get("/reg-keys/{key_name}")
 def get_reg_key_by_id(
     key_name: str,
     db_session: Session = Depends(deps.get_session)
@@ -83,7 +83,7 @@ def get_reg_key_by_id(
         )
 
 
-@router.post("/")
+@router.post("/reg-keys")
 def create_reg_key(
     data: regkey_schema.CreateRegKey,
     db_session: Session = Depends(deps.get_session)
@@ -107,7 +107,7 @@ def create_reg_key(
         )
 
 
-@router.put("/{key_name}")
+@router.put("/reg-keys/{key_name}")
 def update_reg_key(
     key_name: str,
     data: regkey_schema.UpdateRegKey,
@@ -136,7 +136,7 @@ def update_reg_key(
         )
 
 
-@router.delete("/{key_name}")
+@router.delete("/reg-keys/{key_name}")
 def delete_reg_key(
     key_name: str,
     db_session: Session = Depends(deps.get_session)

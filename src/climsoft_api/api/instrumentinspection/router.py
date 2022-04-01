@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/",
+    "/instrument-inspections",
 )
 def get_instrument_inspection(
     performed_on: str = None,
@@ -64,7 +64,7 @@ def get_instrument_inspection(
 
 
 @router.get(
-    "/{performed_on}/{inspection_datetime}",
+    "/instrument-inspections/{performed_on}/{inspection_datetime}",
 )
 def get_instrument_inspection_by_id(
     performed_on: str,
@@ -96,7 +96,7 @@ def get_instrument_inspection_by_id(
 
 
 @router.post(
-    "/"
+    "/instrument-inspections"
 )
 def create_instrument_inspection(
     data: instrumentinspection_schema.CreateInstrumentInspection,
@@ -124,7 +124,7 @@ def create_instrument_inspection(
 
 
 @router.put(
-    "/{performed_on}/{inspection_datetime}"
+    "/instrument-inspections/{performed_on}/{inspection_datetime}"
 )
 def update_instrument_inspection(
     performed_on: str,
@@ -158,7 +158,7 @@ def update_instrument_inspection(
 
 
 @router.delete(
-    "/{performed_on}/{inspection_datetime}"
+    "/instrument-inspections/{performed_on}/{inspection_datetime}"
 )
 def delete_instrument_inspection(
     performed_on: str,

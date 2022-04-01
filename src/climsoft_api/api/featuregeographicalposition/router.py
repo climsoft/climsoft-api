@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/feature-geographical-positions"
 )
 def get_feature_geographical_positions(
     belongs_to: str = None,
@@ -60,7 +60,7 @@ def get_feature_geographical_positions(
 
 
 @router.get(
-    "/{belongs_to}",
+    "/feature-geographical-positions/{belongs_to}",
 )
 def get_feature_geographical_position_by_id(
     belongs_to: str,
@@ -89,7 +89,7 @@ def get_feature_geographical_position_by_id(
 
 
 @router.post(
-    "/"
+    "/feature-geographical-positions"
 )
 def create_feature_geographical_position(
     data: featuregeographicalposition_schema.CreateFeatureGeographicalPosition,
@@ -119,7 +119,7 @@ def create_feature_geographical_position(
 
 
 @router.put(
-    "/{belongs_to}"
+    "/feature-geographical-positions/{belongs_to}"
 )
 def update_feature_geographical_position(
     belongs_to: str,
@@ -152,7 +152,7 @@ def update_feature_geographical_position(
 
 
 @router.delete(
-    "/{belongs_to}"
+    "/feature-geographical-positions/{belongs_to}"
 )
 def delete_feature_geographical_position(
     belongs_to: str, db_session: Session = Depends(deps.get_session)

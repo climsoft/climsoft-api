@@ -1,6 +1,4 @@
 import logging
-from typing import Union
-
 from climsoft_api.api.upload.schema import (
     FileUploadedToDiskResponse,
     FileUploadedToS3Response
@@ -19,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.post(
-    "/image"
+    "/file-upload/image"
 )
 async def upload_image(file: UploadFile = File(...)):
     try:

@@ -16,7 +16,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/obselements")
 def get_obselements(
     element_id: str = None,
     element_name: str = None,
@@ -72,7 +72,7 @@ def get_obselements(
 
 
 @router.get(
-    "/search"
+    "/obselements/search"
 )
 def search_obselements(
     query: str,
@@ -110,7 +110,7 @@ def search_obselements(
 
 
 @router.get(
-    "/{element_id}"
+    "/obselements/{element_id}"
 )
 def get_obs_element_by_id(
     element_id: str,
@@ -139,7 +139,7 @@ def get_obs_element_by_id(
         )
 
 
-@router.post("/")
+@router.post("/obselements")
 def create_obs_element(
     data: obselement_schema.CreateObsElement,
     db_session: Session = Depends(deps.get_session),
@@ -167,7 +167,7 @@ def create_obs_element(
 
 
 @router.put(
-    "/{element_id}"
+    "/obselements/{element_id}"
 )
 def update_obs_element(
     element_id: str,
@@ -200,7 +200,7 @@ def update_obs_element(
 
 
 @router.delete(
-    "/{element_id}"
+    "/obselements/{element_id}"
 )
 def delete_obs_element(
     element_id: str,

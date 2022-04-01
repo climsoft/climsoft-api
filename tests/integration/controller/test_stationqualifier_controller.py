@@ -58,7 +58,7 @@ def test_should_return_first_five_station_qualifiers(
     client: TestClient, get_station_qualifiers
 ):
     response = client.get(
-        "/v1/station-qualifiers/",
+        "/v1/station-qualifiers",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -87,7 +87,7 @@ def test_should_create_a_station_qualifier(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/station-qualifiers/",
+        "/v1/station-qualifiers",
         data=json.dumps(station_qualifier_data, default=str),
     )
     assert response.status_code == 200
@@ -99,7 +99,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/v1/station-qualifiers/",
+        "/v1/station-qualifiers",
         data=json.dumps({"station_time_zone": 3}, default=str),
     )
     assert response.status_code == 422

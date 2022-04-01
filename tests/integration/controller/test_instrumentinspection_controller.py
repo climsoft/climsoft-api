@@ -82,7 +82,7 @@ def test_should_return_first_five_instrument_inspections(
     client: TestClient, get_instrument_inspections
 ):
     response = client.get(
-        "/v1/instrument-inspections/",
+        "/v1/instrument-inspections",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -113,7 +113,7 @@ def test_should_create_a_instrument_inspection(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/instrument-inspections/",
+        "/v1/instrument-inspections",
         data=json.dumps(instrument_inspection_data, default=str),
     )
     assert response.status_code == 200
@@ -127,7 +127,7 @@ def test_should_raise_validation_error(
     get_instrument: climsoft_models.Instrument,
 ):
     response = client.post(
-        "/v1/instrument-inspections/",
+        "/v1/instrument-inspections",
         data=json.dumps({"performed_by": "John"}, default=str),
     )
     assert response.status_code == 422

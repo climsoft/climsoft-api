@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/paper-archives")
 def get_paper_archives(
     belongs_to: str = None,
     form_datetime: str = None,
@@ -57,7 +57,7 @@ def get_paper_archives(
 
 
 @router.get(
-    "/{belongs_to}/{form_datetime}/{classified_into}"
+    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def get_paper_archive_by_id(
     belongs_to: str,
@@ -90,7 +90,7 @@ def get_paper_archive_by_id(
         )
 
 
-@router.post("/")
+@router.post("/paper-archives")
 def create_paper_archive(
     data: paperarchive_schema.CreatePaperArchive,
     db_session: Session = Depends(deps.get_session),
@@ -116,7 +116,7 @@ def create_paper_archive(
 
 
 @router.put(
-    "/{belongs_to}/{form_datetime}/{classified_into}"
+    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def update_paper_archive(
     belongs_to: str,
@@ -153,7 +153,7 @@ def update_paper_archive(
 
 
 @router.delete(
-    "/{belongs_to}/{form_datetime}/{classified_into}"
+    "/paper-archives/{belongs_to}/{form_datetime}/{classified_into}"
 )
 def delete_paper_archive(
     belongs_to: str,

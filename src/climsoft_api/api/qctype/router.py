@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/qc-types")
 def get_qc_types(
     code: str = None,
     description: str = None,
@@ -52,7 +52,7 @@ def get_qc_types(
         )
 
 
-@router.get("/{code}")
+@router.get("/qc-types/{code}")
 def get_qc_type_by_id(
     code: str,
     db_session: Session = Depends(deps.get_session)
@@ -75,7 +75,7 @@ def get_qc_type_by_id(
         )
 
 
-@router.post("/")
+@router.post("/qc-types")
 def create_qc_type(
     data: qctype_schema.CreateQCType,
     db_session: Session = Depends(deps.get_session)
@@ -99,7 +99,7 @@ def create_qc_type(
         )
 
 
-@router.put("/{code}")
+@router.put("/qc-types/{code}")
 def update_qc_type(
     code: str,
     data: qctype_schema.UpdateQCType,
@@ -130,7 +130,7 @@ def update_qc_type(
         )
 
 
-@router.delete("/{code}", response_model=qctype_schema.QCTypeResponse)
+@router.delete("/qc-types/{code}", response_model=qctype_schema.QCTypeResponse)
 def delete_qc_type(code: str, db_session: Session = Depends(deps.get_session)):
     try:
         qctype_service.delete(db_session=db_session, code=code)

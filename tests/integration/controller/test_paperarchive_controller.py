@@ -89,7 +89,7 @@ def test_should_return_first_five_paper_archives(
     client: TestClient, get_paper_archives
 ):
     response = client.get(
-        "/v1/paper-archives/",
+        "/v1/paper-archives",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -123,7 +123,7 @@ def test_should_create_a_paper_archive(
         paper_archive_definition_id=get_paper_archive_definition.formId,
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/paper-archives/",
+        "/v1/paper-archives",
         data=json.dumps(paper_archive_data, default=str),
     )
     assert response.status_code == 200
@@ -139,7 +139,7 @@ def test_should_raise_validation_error(
     get_paper_archive_definition: climsoft_models.Paperarchivedefinition,
 ):
     response = client.post(
-        "/v1/paper-archives/",
+        "/v1/paper-archives",
         data=json.dumps({"form_datetime": datetime.utcnow()}, default=str),
     )
     assert response.status_code == 422

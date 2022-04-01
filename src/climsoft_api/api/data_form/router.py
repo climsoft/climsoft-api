@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/data-forms"
 )
 def get_data_forms(
     order_num: int = None,
@@ -71,7 +71,7 @@ def get_data_forms(
 
 
 @router.get(
-    "/{form_name}"
+    "/data-forms/{form_name}"
 )
 def get_data_form_by_id(
     form_name: str,
@@ -99,7 +99,7 @@ def get_data_form_by_id(
 
 
 @router.post(
-    "/"
+    "/data-forms"
 )
 def create_data_form(
     data: data_form_schema.CreateDataForm,
@@ -124,7 +124,7 @@ def create_data_form(
         )
 
 
-@router.put("/{form_name}")
+@router.put("/data-forms/{form_name}")
 def update_data_form(
     form_name: str,
     data: data_form_schema.UpdateDataForm,
@@ -156,7 +156,7 @@ def update_data_form(
 
 
 @router.delete(
-    "/{form_name}"
+    "/data-forms/{form_name}"
 )
 def delete_data_form(
     form_name: str,

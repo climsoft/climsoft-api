@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/instruments")
 def get_instruments(
     instrument_id: str = None,
     instrument_name: str = None,
@@ -71,7 +71,7 @@ def get_instruments(
 
 
 @router.get(
-    "/search"
+    "/instruments/search"
 )
 def search_instruments(
     query: str,
@@ -107,7 +107,7 @@ def search_instruments(
 
 
 @router.get(
-    "/{instrument_id}"
+    "/instruments/{instrument_id}"
 )
 def get_instrument_by_id(
     instrument_id: str,
@@ -135,7 +135,7 @@ def get_instrument_by_id(
         )
 
 
-@router.post("/")
+@router.post("/instruments")
 def create_instrument(
     data: instrument_schema.CreateInstrument,
     db_session: Session = Depends(deps.get_session),
@@ -163,7 +163,7 @@ def create_instrument(
 
 
 @router.put(
-    "/{instrument_id}"
+    "/instruments/{instrument_id}"
 )
 def update_instrument(
     instrument_id: str,
@@ -196,7 +196,7 @@ def update_instrument(
 
 
 @router.delete(
-    "/{instrument_id}"
+    "/instruments/{instrument_id}"
 )
 def delete_instrument(
     instrument_id: str, db_session: Session = Depends(deps.get_session)

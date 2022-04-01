@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/obs-schedule-class"
 )
 def get_obs_schedule_class(
     schedule_class: str = None,
@@ -57,7 +57,7 @@ def get_obs_schedule_class(
 
 
 @router.get(
-    "/{schedule_class}"
+    "/obs-schedule-class/{schedule_class}"
 )
 def get_instrument_by_id(
     schedule_class: str,
@@ -86,7 +86,7 @@ def get_instrument_by_id(
 
 
 @router.post(
-    "/",
+    "/obs-schedule-class",
 )
 def create_instrument(
     data: obsscheduleclass_schema.CreateObsScheduleClass,
@@ -115,7 +115,7 @@ def create_instrument(
 
 
 @router.put(
-    "/{schedule_class}",
+    "/obs-schedule-class/{schedule_class}",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def update_instrument(
@@ -148,7 +148,7 @@ def update_instrument(
 
 
 @router.delete(
-    "/{schedule_class}",
+    "/obs-schedule-class/{schedule_class}",
     response_model=obsscheduleclass_schema.ObsScheduleClassResponse,
 )
 def delete_instrument(

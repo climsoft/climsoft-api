@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/observation-initials")
 def get_observation_initials(
     recorded_from: str = None,
     described_by: int = None,
@@ -85,7 +85,7 @@ def get_observation_initials(
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
+    "/observation-initials/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def get_observation_initial_by_id(
     recorded_from: str,
@@ -123,7 +123,7 @@ def get_observation_initial_by_id(
 
 
 @router.post(
-    "/"
+    "/observation-initials"
 )
 def create_observation_initial(
     data: observationinitial_schema.CreateObservationInitial,
@@ -154,7 +154,7 @@ def create_observation_initial(
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
+    "/observation-initials/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def update_observation_initial(
     recorded_from: str,
@@ -195,7 +195,7 @@ def update_observation_initial(
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
+    "/observation-initials/{recorded_from}/{described_by}/{obs_datetime}/{qc_status}/{acquisition_type}"
 )
 def delete_observation_initial(
     recorded_from: str,

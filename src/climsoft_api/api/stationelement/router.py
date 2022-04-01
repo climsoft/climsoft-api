@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/station-elements"
 )
 def get_station_elements(
     recorded_from: str = None,
@@ -67,7 +67,7 @@ def get_station_elements(
 
 
 @router.get(
-    "/search"
+    "/station-elements/search"
 )
 def search_station_elements(
     query: str,
@@ -103,7 +103,7 @@ def search_station_elements(
 
 
 @router.get(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
+    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def get_station_element_by_id(
     recorded_from: str,
@@ -138,7 +138,7 @@ def get_station_element_by_id(
         )
 
 
-@router.post("/")
+@router.post("/station-elements")
 def create_station_element(
     data: stationelement_schema.CreateStationElement,
     db_session: Session = Depends(deps.get_session),
@@ -164,7 +164,7 @@ def create_station_element(
 
 
 @router.put(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
+    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def update_station_element(
     recorded_from: str,
@@ -203,7 +203,7 @@ def update_station_element(
 
 
 @router.delete(
-    "/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
+    "/station-elements/{recorded_from}/{described_by}/{recorded_with}/{begin_date}"
 )
 def delete_station_element(
     recorded_from: str,

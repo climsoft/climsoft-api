@@ -63,7 +63,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_station_location_histories
 ):
     response = client.get(
-        "/v1/station-location-histories/",
+        "/v1/station-location-histories",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -92,7 +92,7 @@ def test_should_create_a_station_location_history(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/station-location-histories/",
+        "/v1/station-location-histories",
         data=json.dumps(station_location_history_data, default=str),
     )
     assert response.status_code == 200
@@ -104,7 +104,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/v1/station-location-histories/",
+        "/v1/station-location-histories",
         data=json.dumps({"geo_location_history": "fail"}, default=str),
     )
     assert response.status_code == 422

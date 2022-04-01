@@ -2,13 +2,12 @@ from climsoft_api.config import settings
 from climsoft_api.utils.s3 import get_s3_client
 from fastapi import APIRouter
 from fastapi.responses import Response
-from climsoft_api.utils.response import translate_schema
 
 
 router = APIRouter()
 
 
-@router.get("/image/{object_key}")
+@router.get("/s3/image/{object_key}")
 def get_s3_object(object_key):
     s3_client = get_s3_client()
     response = s3_client.get_object(

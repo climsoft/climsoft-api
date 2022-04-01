@@ -15,7 +15,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/flags")
 def get_flags(
     character_symbol: str = None,
     num_symbol: int = None,
@@ -54,7 +54,7 @@ def get_flags(
         )
 
 
-@router.get("/{character_symbol}")
+@router.get("/flags/{character_symbol}")
 def get_flag_by_id(
     character_symbol: str, db_session: Session = Depends(deps.get_session)
 ):
@@ -81,7 +81,7 @@ def get_flag_by_id(
         )
 
 
-@router.post("/")
+@router.post("/flags")
 def create_flag(
     data: flag_schema.CreateFlag,
     db_session: Session = Depends(deps.get_session)
@@ -105,7 +105,7 @@ def create_flag(
         )
 
 
-@router.put("/{character_symbol}")
+@router.put("/flags/{character_symbol}")
 def update_flag(
     character_symbol: str,
     data: flag_schema.UpdateFlag,
@@ -136,7 +136,7 @@ def update_flag(
         )
 
 
-@router.delete("/{character_symbol}")
+@router.delete("/flags/{character_symbol}")
 def delete_flag(
     character_symbol: str,
     db_session: Session = Depends(deps.get_session)

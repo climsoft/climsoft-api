@@ -16,7 +16,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/synop-features")
 def get_qc_types(
     abbreviation: str = None,
     description: str = None,
@@ -53,7 +53,7 @@ def get_qc_types(
         )
 
 
-@router.get("/{abbreviation}")
+@router.get("/synop-features/{abbreviation}")
 def get_qc_type_by_id(
     abbreviation: str, db_session: Session = Depends(deps.get_session)
 ):
@@ -79,7 +79,7 @@ def get_qc_type_by_id(
         )
 
 
-@router.post("/")
+@router.post("/synop-features")
 def create_qc_type(
     data: synopfeature_schema.CreateSynopFeature,
     db_session: Session = Depends(deps.get_session),
@@ -104,7 +104,7 @@ def create_qc_type(
         )
 
 
-@router.put("/{abbreviation}")
+@router.put("/synop-features/{abbreviation}")
 def update_qc_type(
     abbreviation: str,
     data: synopfeature_schema.UpdateSynopFeature,
@@ -136,7 +136,7 @@ def update_qc_type(
 
 
 @router.delete(
-    "/{abbreviation}"
+    "/synop-features/{abbreviation}"
 )
 def delete_qc_type(abbreviation: str,
                    db_session: Session = Depends(deps.get_session)):

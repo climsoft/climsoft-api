@@ -58,7 +58,7 @@ def test_should_create_a_acquisition_type(client: TestClient):
         climsoft_acquisition_type.get_valid_acquisition_type_input().dict(by_alias=True)
     )
     response = client.post(
-        "/v1/acquisition-types/",
+        "/v1/acquisition-types",
         data=json.dumps(acquisition_type_data, default=str),
     )
     assert response.status_code == 200
@@ -71,7 +71,7 @@ def test_should_create_a_acquisition_type(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     acquisition_type_data = {"code": "asd", "description": "aa aa a"}
     response = client.post(
-        "/v1/acquisition-types/", data=json.dumps(acquisition_type_data, default=str)
+        "/v1/acquisition-types", data=json.dumps(acquisition_type_data, default=str)
     )
     assert response.status_code == 422
 

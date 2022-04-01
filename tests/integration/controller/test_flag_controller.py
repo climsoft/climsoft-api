@@ -45,7 +45,7 @@ def test_should_return_single_flag(client: TestClient, get_flag: climsoft_models
 def test_should_create_a_flag(client: TestClient):
     flag_data = climsoft_flag.get_valid_flag_input().dict(by_alias=True)
     response = client.post(
-        "/v1/flags/",
+        "/v1/flags",
         data=json.dumps(flag_data, default=str),
     )
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_should_create_a_flag(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/v1/flags/",
+        "/v1/flags",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422

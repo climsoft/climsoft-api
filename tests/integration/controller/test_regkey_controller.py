@@ -27,7 +27,7 @@ def get_reg_keys(session: Session):
 
 def test_should_return_first_five_reg_keys(client: TestClient, get_reg_keys):
     response = client.get(
-        "/v1/reg-keys/",
+        "/v1/reg-keys",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -49,7 +49,7 @@ def test_should_return_single_reg_key(
 def test_should_create_a_reg_key(client: TestClient):
     reg_key_data = climsoft_regkey.get_valid_reg_key_input().dict(by_alias=True)
     response = client.post(
-        "/v1/reg-keys/",
+        "/v1/reg-keys",
         data=json.dumps(reg_key_data, default=str),
     )
     assert response.status_code == 200
@@ -60,7 +60,7 @@ def test_should_create_a_reg_key(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     reg_key_data = {"aaa": "bbbbbbb"}
     response = client.post(
-        "/v1/reg-keys/",
+        "/v1/reg-keys",
         data=json.dumps(reg_key_data, default=str),
     )
     assert response.status_code == 422

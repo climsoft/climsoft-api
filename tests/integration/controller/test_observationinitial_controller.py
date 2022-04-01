@@ -78,7 +78,7 @@ def test_should_return_first_five_observation_initials(
     client: TestClient, get_observation_initials
 ):
     response = client.get(
-        "/v1/observation-initials/",
+        "/v1/observation-initials",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -113,7 +113,7 @@ def test_should_create_a_observation_initial(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/observation-initials/",
+        "/v1/observation-initials",
         data=json.dumps(
             observation_initial_data, default=lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         ),
@@ -132,7 +132,7 @@ def test_should_raise_validation_error(
     get_obselement: climsoft_models.Obselement,
 ):
     response = client.post(
-        "/v1/observation-initials/",
+        "/v1/observation-initials",
         data=json.dumps({"obs_value": 5}, default=str),
     )
     assert response.status_code == 422

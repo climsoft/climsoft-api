@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/physical-features"
 )
 def get_physical_feature(
     associated_with: str = None,
@@ -63,7 +63,7 @@ def get_physical_feature(
 
 
 @router.get(
-    "/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
 )
 def get_physical_feature_by_id(
     associated_with: str,
@@ -98,7 +98,7 @@ def get_physical_feature_by_id(
         )
 
 
-@router.post("/")
+@router.post("/physical-features")
 def create_physical_feature(
     data: physicalfeature_schema.CreatePhysicalFeature,
     db_session: Session = Depends(deps.get_session),
@@ -126,7 +126,7 @@ def create_physical_feature(
 
 
 @router.put(
-    "/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
 )
 def update_physical_feature(
     associated_with: str,
@@ -165,7 +165,7 @@ def update_physical_feature(
 
 
 @router.delete(
-    "/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
 )
 def delete_physical_feature(
     associated_with: str,

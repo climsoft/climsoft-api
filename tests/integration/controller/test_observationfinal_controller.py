@@ -78,7 +78,7 @@ def test_should_return_first_five_observation_finals(
     client: TestClient, get_observation_finals, session: Session
 ):
     response = client.get(
-        "/v1/observation-finals/",
+        "/v1/observation-finals",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -113,7 +113,7 @@ def test_should_create_a_observation_final(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/observation-finals/",
+        "/v1/observation-finals",
         data=json.dumps(
             observation_final_data, default=lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         ),
@@ -131,7 +131,7 @@ def test_should_raise_validation_error(
     get_obselement: climsoft_models.Obselement,
 ):
     response = client.post(
-        "/v1/observation-finals/",
+        "/v1/observation-finals",
         data=json.dumps({"qc_status": 3}, default=str),
     )
     assert response.status_code == 422

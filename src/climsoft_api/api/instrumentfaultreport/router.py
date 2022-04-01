@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/instrument-fault-reports"
 )
 def get_instrument_fault_report(
     refers_to: str = None,
@@ -68,7 +68,7 @@ def get_instrument_fault_report(
 
 
 @router.get(
-    "/{report_id}"
+    "/instrument-fault-reports/{report_id}"
 )
 def get_instrument_fault_report_by_id(
     report_id: int,
@@ -98,7 +98,7 @@ def get_instrument_fault_report_by_id(
 
 
 @router.post(
-    "/"
+    "/instrument-fault-reports"
 )
 def create_instrument_fault_report(
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport,
@@ -129,7 +129,7 @@ def create_instrument_fault_report(
 
 
 @router.put(
-    "/{report_id}"
+    "/instrument-fault-reports/{report_id}"
 )
 def update_instrument_fault_report(
     report_id: int,
@@ -162,7 +162,7 @@ def update_instrument_fault_report(
 
 
 @router.delete(
-    "/{report_id}",
+    "/instrument-fault-reports/{report_id}",
 )
 def delete_instrument_fault_report(
     report_id: int, db_session: Session = Depends(deps.get_session)

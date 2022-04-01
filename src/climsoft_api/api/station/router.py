@@ -26,7 +26,7 @@ logger = logging.getLogger(__file__)
 logging.basicConfig(level=logging.INFO)
 
 
-@router.get("/")
+@router.get("/stations")
 def get_stations(
     request: Request,
     station_id: str = None,
@@ -100,7 +100,7 @@ def get_stations(
 
 
 @router.get(
-    "/search"
+    "/stations/search"
 )
 def search_stations(
     query: str,
@@ -135,7 +135,7 @@ def search_stations(
         )
 
 
-@router.get("/{station_id}")
+@router.get("/stations/{station_id}")
 def get_station_by_id(
     station_id: str,
     db_session: Session = Depends(deps.get_session)
@@ -159,7 +159,7 @@ def get_station_by_id(
         )
 
 
-@router.post("/")
+@router.post("/stations")
 def create_station(
     data: station_schema.CreateStation,
     db_session: Session = Depends(deps.get_session)
@@ -183,7 +183,7 @@ def create_station(
         )
 
 
-@router.put("/{station_id}")
+@router.put("/stations/{station_id}")
 def update_station(
     station_id: str,
     data: station_schema.UpdateStation,
@@ -212,7 +212,7 @@ def update_station(
         )
 
 
-@router.delete("/{station_id}")
+@router.delete("/stations/{station_id}")
 def delete_station(
     station_id: str,
     db_session: Session = Depends(deps.get_session)
@@ -238,7 +238,7 @@ def delete_station(
 
 
 @router.get(
-    "/{station_id}/station-elements"
+    "/stations/{station_id}/station-elements"
 )
 def get_station_with_elements(
     station_id: str,

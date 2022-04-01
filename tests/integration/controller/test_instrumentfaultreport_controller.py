@@ -74,7 +74,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_instrument_fault_reports
 ):
     response = client.get(
-        "/v1/instrument-fault-reports/",
+        "/v1/instrument-fault-reports",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -105,7 +105,7 @@ def test_should_create_a_instrument_fault_report(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/instrument-fault-reports/",
+        "/v1/instrument-fault-reports",
         data=json.dumps(instrument_fault_report_data, default=str),
     )
     assert response.status_code == 200
@@ -119,7 +119,7 @@ def test_should_raise_validation_error(
     get_instrument: climsoft_models.Instrument,
 ):
     response = client.post(
-        "/v1/instrument-fault-reports/",
+        "/v1/instrument-fault-reports",
         data=json.dumps({"fault_description": "failed"}, default=str),
     )
     assert response.status_code == 422

@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/"
+    "/qc-status-definitions"
 )
 def get_qc_status_definitions(
     code: str = None,
@@ -55,7 +55,7 @@ def get_qc_status_definitions(
 
 
 @router.get(
-    "/{code}",
+    "/qc-status-definitions/{code}",
 )
 def get_qc_status_definition_by_id(
     code: str, db_session: Session = Depends(deps.get_session)
@@ -82,7 +82,7 @@ def get_qc_status_definition_by_id(
 
 
 @router.post(
-    "/"
+    "/qc-status-definitions"
 )
 def create_qc_status_definition(
     data: qcstatusdefinition_schema.CreateQCStatusDefinition,
@@ -113,7 +113,7 @@ def create_qc_status_definition(
 
 
 @router.put(
-    "/{code}",
+    "/qc-status-definitions/{code}",
 )
 def update_qc_status_definition(
     code: str,
@@ -144,7 +144,7 @@ def update_qc_status_definition(
 
 
 @router.delete(
-    "/{code}",
+    "/qc-status-definitions/{code}",
 )
 def delete_qc_status_definition(
     code: str, db_session: Session = Depends(deps.get_session)

@@ -17,7 +17,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get(
-    "/",
+    "/station-qualifiers",
 )
 def get_station_qualifier(
     qualifier: str = None,
@@ -64,7 +64,7 @@ def get_station_qualifier(
 
 
 @router.get(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
+    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def get_station_qualifier_by_id(
     qualifier: str,
@@ -100,7 +100,7 @@ def get_station_qualifier_by_id(
 
 
 @router.post(
-    "/"
+    "/station-qualifiers"
 )
 def create_station_qualifier(
     data: stationqualifier_schema.CreateStationQualifier,
@@ -127,7 +127,7 @@ def create_station_qualifier(
 
 
 @router.put(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
+    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def update_station_qualifier(
     qualifier: str,
@@ -166,7 +166,7 @@ def update_station_qualifier(
 
 
 @router.delete(
-    "/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
+    "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
 def delete_station_qualifier(
     qualifier: str,

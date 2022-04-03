@@ -1,20 +1,24 @@
 import logging
-from typing import Union, Any
-
 import fastapi
 from climsoft_api.api import deps
 from climsoft_api.api.station import (
     schema as station_schema,
 )
+from climsoft_api.api.stationqualifier import (
+    schema as station_qualifier_schema
+)
 from climsoft_api.api.stationelement import (
     station_element_with_children as station_element_with_children_schema
 )
-from climsoft_api.services import station_service, stationelement_service
+from climsoft_api.services import (
+    station_service,
+    stationelement_service,
+    stationqualifier_service
+)
 from climsoft_api.utils.response import (
     get_success_response,
     get_error_response,
-    get_success_response_for_query,
-    get_current_and_total_pages
+    get_success_response_for_query
 )
 from fastapi import APIRouter, Depends, Request, HTTPException
 from sqlalchemy.orm.session import Session
@@ -265,6 +269,43 @@ def get_station_with_elements(
             total=total,
             limit=limit,
             message=_("Successfully fetched station elements."),
+            offset=offset
+        )
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.getLogger(__file__).exception(e)
+        return get_error_response(message=str(e))
+
+
+@router.get(
+    "/stations/{station_id}/station-qualifiers"
+)
+def get_station_qualifiers(
+    station_id: str,
+    limit: int = 25,
+    offset: int = 0,
+    db_session: Session = Depends(deps.get_session)
+):
+    try:
+        total, qualifiers = stationqualifier_service \
+            .query(
+                db_session=db_session,
+                belongs_to=station_id,
+                limit=limit,
+                offset=offset
+            )
+
+        return get_success_response_for_query(
+            schema=translate_schema(
+                _,
+                station_qualifier_schema
+                .StationQualifierQueryResponse.schema()
+            ),
+            result=qualifiers,
+            total=total,
+            limit=limit,
+            message=_("Successfully fetched station qualifiers."),
             offset=offset
         )
     except HTTPException:

@@ -31,7 +31,6 @@ def get_or_404(
     return obs_schedule_class
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: obsscheduleclass_schema.CreateObsScheduleClass
 ) -> obsscheduleclass_schema.ObsScheduleClass:
@@ -43,7 +42,6 @@ def create(
         obs_schedule_class)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, schedule_class: str
 ) -> obsscheduleclass_schema.ObsScheduleClass:
@@ -65,7 +63,6 @@ def get(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     schedule_class: str = None,
@@ -108,7 +105,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     schedule_class: str,
@@ -129,7 +125,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, schedule_class: str) -> bool:
     get_or_404(db_session, schedule_class)
     db_session.query(models.Obsscheduleclas).filter_by(

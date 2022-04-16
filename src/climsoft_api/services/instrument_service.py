@@ -29,7 +29,6 @@ def get_or_404(db_session: Session, instrument_id):
     return instrument
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: instrument_schema.CreateInstrument
 ) -> instrument_schema.Instrument:
@@ -40,7 +39,6 @@ def create(
     return instrument_schema.Instrument.from_orm(instrument)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     instrument_id: str
@@ -61,7 +59,6 @@ def get(
     return instrument_schema.InstrumentWithStation.from_orm(instrument)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     instrument_id: str = None,
@@ -155,7 +152,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     instrument_id: str,
@@ -174,7 +170,6 @@ def update(
     return instrument_schema.Instrument.from_orm(updated_instrument)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, instrument_id: str) -> bool:
     get_or_404(db_session, instrument_id)
     db_session.query(models.Instrument).filter_by(
@@ -184,7 +179,6 @@ def delete(db_session: Session, instrument_id: str) -> bool:
     return True
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,

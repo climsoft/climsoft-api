@@ -35,7 +35,6 @@ def get_or_404(
     return station_location_history
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: stationlocationhistory_schema.CreateStationLocationHistory,
@@ -48,7 +47,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, belongs_to: str, opening_datetime: str
 ) -> stationlocationhistory_schema.StationLocationHistory:
@@ -72,7 +70,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     belongs_to: str = None,
@@ -142,7 +139,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     belongs_to: str,
@@ -167,7 +163,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, belongs_to: str, opening_datetime: str) -> bool:
     get_or_404(db_session, belongs_to, opening_datetime)
     db_session.query(models.Stationlocationhistory).filter_by(

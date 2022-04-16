@@ -36,7 +36,6 @@ def get_or_404(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: instrumentinspection_schema.CreateInstrumentInspection
@@ -49,7 +48,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, performed_on: str, inspection_datetime: str
 ) -> instrumentinspection_schema.InstrumentInspection:
@@ -75,7 +73,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     performed_on: str = None,
@@ -121,7 +118,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     performed_on: str,
@@ -146,7 +142,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session,
     performed_on: str,

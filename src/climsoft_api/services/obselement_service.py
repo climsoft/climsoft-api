@@ -35,7 +35,6 @@ def get_or_404(
     return obs_element
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: obselement_schema.CreateObsElement
 ) -> obselement_schema.ObsElement:
@@ -45,14 +44,12 @@ def create(
     return obselement_schema.ObsElement.from_orm(obs_element)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, element_id: str) -> obselement_schema.ObsElement:
     obs_element = get_or_404(db_session, element_id)
 
     return obselement_schema.ObsElement.from_orm(obs_element)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     element_id: str = None,
@@ -138,7 +135,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     element_id: str,
@@ -157,7 +153,6 @@ def update(
     return obselement_schema.ObsElement.from_orm(updated_obs_element)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, element_id: str) -> bool:
     get_or_404(db_session, element_id)
     db_session.query(models.Obselement).filter_by(
@@ -167,7 +162,6 @@ def delete(db_session: Session, element_id: str) -> bool:
     return True
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,

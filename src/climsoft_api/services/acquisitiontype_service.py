@@ -24,7 +24,6 @@ def get_or_not_found_acquisition_type(db_session: Session, code: str):
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: acquisitiontype_schema.CreateAcquisitionType
 ) -> acquisitiontype_schema.AcquisitionType:
@@ -34,7 +33,6 @@ def create(
     return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     code: str
@@ -53,7 +51,6 @@ def get(
     return acquisitiontype_schema.AcquisitionType.from_orm(acquisition_type)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -92,7 +89,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     code: str,
@@ -113,7 +109,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
     get_or_not_found_acquisition_type(db_session, code)
     db_session.query(models.Acquisitiontype).filter_by(code=code).delete()

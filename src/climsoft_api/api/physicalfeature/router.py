@@ -1,5 +1,7 @@
 import climsoft_api.api.physicalfeature.schema as physicalfeature_schema
 import fastapi
+import backoff
+import sqlalchemy.exc
 from climsoft_api.api import deps
 from climsoft_api.services import physicalfeature_service
 from climsoft_api.utils.response import get_success_response, \
@@ -99,30 +101,22 @@ def get_physical_feature_by_id(
 
 
 @router.post("/physical-features")
+@handle_exceptions
 def create_physical_feature(
     data: physicalfeature_schema.CreatePhysicalFeature,
-    db_session: Session = Depends(deps.get_session),
+    db_session: Session = Depends(deps.get_session)
 ):
-    try:
-        return get_success_response(
-            result=[physicalfeature_service.create(
-                db_session=db_session,
-                data=data
-            )],
-            message=_("Successfully created physical feature."),
-            schema=translate_schema(
-                _,
-                physicalfeature_schema.PhysicalFeatureResponse.schema()
-            )
+    return get_success_response(
+        result=[physicalfeature_service.create(
+            db_session=db_session,
+            data=data
+        )],
+        message=_("Successfully created physical feature."),
+        schema=translate_schema(
+            _,
+            physicalfeature_schema.PhysicalFeatureResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.put(

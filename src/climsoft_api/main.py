@@ -183,12 +183,11 @@ def get_app():
 
     @app.middleware("http")
     async def db_session_middleware(request: Request, call_next):
-        response = Response("Internal server error", status_code=500)
         try:
-            request.state.db = SessionLocal()
+            request.state.get_session = SessionLocal
             response = await call_next(request)
-        finally:
-            request.state.db.close()
+        except: # noqa
+            return Response("Internal server error", status_code=500)
         return response
 
     return app

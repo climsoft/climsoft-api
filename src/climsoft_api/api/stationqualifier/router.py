@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
 import logging
+from climsoft_api.utils.exception import handle_exceptions
 
 
 router = APIRouter()
@@ -19,6 +20,7 @@ logging.basicConfig(level=logging.INFO)
 @router.get(
     "/station-qualifiers",
 )
+@handle_exceptions
 def get_station_qualifier(
     qualifier: str = None,
     qualifier_begin_date: str = None,
@@ -30,42 +32,35 @@ def get_station_qualifier(
     offset: int = 0,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        total, station_qualifier = stationqualifier_service.query(
-            db_session=db_session,
-            belongs_to=belongs_to,
-            qualifier=qualifier,
-            qualifier_begin_date=qualifier_begin_date,
-            qualifier_end_date=qualifier_end_date,
-            station_timezone=station_timezone,
-            station_network_type=station_network_type,
-            limit=limit,
-            offset=offset,
-        )
+    total, station_qualifier = stationqualifier_service.query(
+        db_session=db_session,
+        belongs_to=belongs_to,
+        qualifier=qualifier,
+        qualifier_begin_date=qualifier_begin_date,
+        qualifier_end_date=qualifier_end_date,
+        station_timezone=station_timezone,
+        station_network_type=station_network_type,
+        limit=limit,
+        offset=offset,
+    )
 
-        return get_success_response_for_query(
-            limit=limit,
-            total=total,
-            offset=offset,
-            result=station_qualifier,
-            message=_("Successfully fetched station qualifier."),
-            schema=translate_schema(
-                _,
-                stationqualifier_schema.StationQualifierQueryResponse.schema()
-            )
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=station_qualifier,
+        message=_("Successfully fetched station qualifier."),
+        schema=translate_schema(
+            _,
+            stationqualifier_schema.StationQualifierQueryResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.get(
     "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
+@handle_exceptions
 def get_station_qualifier_by_id(
     qualifier: str,
     qualifier_begin_date: str,
@@ -73,62 +68,47 @@ def get_station_qualifier_by_id(
     belongs_to: str,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[
-                stationqualifier_service.get(
-                    db_session=db_session,
-                    qualifier=qualifier,
-                    qualifier_begin_date=qualifier_begin_date,
-                    qualifier_end_date=qualifier_end_date,
-                    belongs_to=belongs_to,
-                )
-            ],
-            message=_("Successfully fetched station qualifier."),
-            schema=translate_schema(
-                _,
-                stationqualifier_schema.StationQualifierWithStationResponse.schema()
+    return get_success_response(
+        result=[
+            stationqualifier_service.get(
+                db_session=db_session,
+                qualifier=qualifier,
+                qualifier_begin_date=qualifier_begin_date,
+                qualifier_end_date=qualifier_end_date,
+                belongs_to=belongs_to,
             )
+        ],
+        message=_("Successfully fetched station qualifier."),
+        schema=translate_schema(
+            _,
+            stationqualifier_schema.StationQualifierWithStationResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.post(
     "/station-qualifiers"
 )
+@handle_exceptions
 def create_station_qualifier(
     data: stationqualifier_schema.CreateStationQualifier,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[stationqualifier_service.create(db_session=db_session,
-                                                    data=data)],
-            message=_("Successfully created station qualifier."),
-            schema=translate_schema(
-                _,
-                stationqualifier_schema.StationQualifierResponse.schema()
-            )
+    return get_success_response(
+        result=[stationqualifier_service.create(db_session=db_session,
+                                                data=data)],
+        message=_("Successfully created station qualifier."),
+        schema=translate_schema(
+            _,
+            stationqualifier_schema.StationQualifierResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.put(
     "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
+@handle_exceptions
 def update_station_qualifier(
     qualifier: str,
     qualifier_begin_date: str,
@@ -137,37 +117,29 @@ def update_station_qualifier(
     data: stationqualifier_schema.UpdateStationQualifier,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[
-                stationqualifier_service.update(
-                    db_session=db_session,
-                    qualifier=qualifier,
-                    qualifier_begin_date=qualifier_begin_date,
-                    qualifier_end_date=qualifier_end_date,
-                    belongs_to=belongs_to,
-                    updates=data,
-                )
-            ],
-            message=_("Successfully updated station qualifier."),
-            schema=translate_schema(
-                _,
-                stationqualifier_schema.StationQualifierResponse.schema()
+    return get_success_response(
+        result=[
+            stationqualifier_service.update(
+                db_session=db_session,
+                qualifier=qualifier,
+                qualifier_begin_date=qualifier_begin_date,
+                qualifier_end_date=qualifier_end_date,
+                belongs_to=belongs_to,
+                updates=data,
             )
+        ],
+        message=_("Successfully updated station qualifier."),
+        schema=translate_schema(
+            _,
+            stationqualifier_schema.StationQualifierResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.delete(
     "/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}"
 )
+@handle_exceptions
 def delete_station_qualifier(
     qualifier: str,
     qualifier_begin_date: str,
@@ -175,27 +147,18 @@ def delete_station_qualifier(
     belongs_to: str,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        stationqualifier_service.delete(
-            db_session=db_session,
-            qualifier=qualifier,
-            qualifier_begin_date=qualifier_begin_date,
-            qualifier_end_date=qualifier_end_date,
-            belongs_to=belongs_to,
+    stationqualifier_service.delete(
+        db_session=db_session,
+        qualifier=qualifier,
+        qualifier_begin_date=qualifier_begin_date,
+        qualifier_end_date=qualifier_end_date,
+        belongs_to=belongs_to,
+    )
+    return get_success_response(
+        result=[],
+        message=_("Successfully deleted station qualifier."),
+        schema=translate_schema(
+            _,
+            stationqualifier_schema.StationQualifierResponse.schema()
         )
-        return get_success_response(
-            result=[],
-            message=_("Successfully deleted station qualifier."),
-            schema=translate_schema(
-                _,
-                stationqualifier_schema.StationQualifierResponse.schema()
-            )
-        )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )

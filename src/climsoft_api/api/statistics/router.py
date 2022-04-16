@@ -6,7 +6,6 @@ from climsoft_api.utils.response import get_error_response
 from fastapi import APIRouter
 from opencdms.models.climsoft.v4_1_1_core import TARGET_TABLES
 from sqlalchemy import text
-from climsoft_api.utils.response import translate_schema
 
 
 router = APIRouter()

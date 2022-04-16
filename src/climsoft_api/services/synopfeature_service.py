@@ -31,7 +31,6 @@ def get_or_404(
     return synop_feature
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: synopfeature_schema.CreateSynopFeature
 ) -> synopfeature_schema.SynopFeature:
@@ -42,7 +41,6 @@ def create(
     return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     abbreviation: str
@@ -62,7 +60,6 @@ def get(
     return synopfeature_schema.SynopFeature.from_orm(synop_feature)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     abbreviation: str = None,
@@ -95,7 +92,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     abbreviation: str,
@@ -114,7 +110,6 @@ def update(
     return synopfeature_schema.SynopFeature.from_orm(updated_synop_feature)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, abbreviation: str) -> bool:
     get_or_404(db_session, abbreviation)
     db_session.query(models.Synopfeature).filter_by(

@@ -28,7 +28,6 @@ def get_or_404(db_session: Session, form_name: str):
     return data_form
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: data_form_schema.CreateDataForm
 ) -> data_form_schema.DataForm:
@@ -38,14 +37,12 @@ def create(
     return data_form_schema.DataForm.from_orm(data_form)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, form_name: str) -> data_form_schema.DataForm:
     data_form = get_or_404(db_session, form_name)
 
     return data_form_schema.DataForm.from_orm(data_form)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     order_num: int = None,
@@ -108,7 +105,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     form_name: str,
@@ -127,7 +123,6 @@ def update(
     return data_form_schema.DataForm.from_orm(updated_data_form)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, form_name: str) -> bool:
     get_or_404(db_session, form_name)
     db_session.query(models.DataForm).filter_by(

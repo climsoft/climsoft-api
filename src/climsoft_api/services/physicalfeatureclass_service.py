@@ -34,7 +34,6 @@ def get_or_404(
     return physical_feature_class
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: physicalfeatureclass_schema.CreatePhysicalFeatureClass
@@ -47,7 +46,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, feature_class: str
 ) -> physicalfeatureclass_schema.PhysicalFeatureClass:
@@ -70,7 +68,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     feature_class: str = None,
@@ -106,7 +103,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     feature_class: str,
@@ -127,7 +123,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, feature_class: str) -> bool:
     get_or_404(db_session, feature_class)
     db_session.query(models.Physicalfeatureclas).filter_by(

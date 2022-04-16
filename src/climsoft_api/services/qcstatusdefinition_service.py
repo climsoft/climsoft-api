@@ -32,7 +32,6 @@ def get_or_404(
     return qc_status_definition
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: qcstatusdefinition_schema.CreateQCStatusDefinition
@@ -45,7 +44,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     code: str
@@ -57,7 +55,6 @@ def get(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -90,7 +87,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     code: str,
@@ -111,7 +107,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
     get_or_404(db_session, code)
     db_session.query(models.Qcstatusdefinition).filter_by(

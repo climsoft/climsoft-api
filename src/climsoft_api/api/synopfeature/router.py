@@ -8,6 +8,7 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+from climsoft_api.utils.exception import handle_exceptions
 
 
 router = APIRouter()
@@ -17,6 +18,7 @@ logging.basicConfig(level=logging.INFO)
 
 
 @router.get("/synop-features")
+@handle_exceptions
 def get_qc_types(
     abbreviation: str = None,
     description: str = None,
@@ -24,140 +26,101 @@ def get_qc_types(
     offset: int = 0,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        total, qc_types = synopfeature_service.query(
-            db_session=db_session,
-            abbreviation=abbreviation,
-            description=description,
-            limit=limit,
-            offset=offset,
-        )
+    total, qc_types = synopfeature_service.query(
+        db_session=db_session,
+        abbreviation=abbreviation,
+        description=description,
+        limit=limit,
+        offset=offset,
+    )
 
-        return get_success_response_for_query(
-            limit=limit,
-            total=total,
-            offset=offset,
-            result=qc_types,
-            message=_("Successfully fetched synop features."),
-            schema=translate_schema(
-                _,
-                synopfeature_schema.SynopFeatureQueryResponse.schema()
-            )
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=qc_types,
+        message=_("Successfully fetched synop features."),
+        schema=translate_schema(
+            _,
+            synopfeature_schema.SynopFeatureQueryResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.get("/synop-features/{abbreviation}")
+@handle_exceptions
 def get_qc_type_by_id(
     abbreviation: str, db_session: Session = Depends(deps.get_session)
 ):
-    try:
-        return get_success_response(
-            result=[
-                synopfeature_service.get(
-                    db_session=db_session, abbreviation=abbreviation
-                )
-            ],
-            message=_("Successfully fetched synop feature."),
-            schema=translate_schema(
-                _,
-                synopfeature_schema.SynopFeatureResponse.schema()
+    return get_success_response(
+        result=[
+            synopfeature_service.get(
+                db_session=db_session, abbreviation=abbreviation
             )
+        ],
+        message=_("Successfully fetched synop feature."),
+        schema=translate_schema(
+            _,
+            synopfeature_schema.SynopFeatureResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.post("/synop-features")
+@handle_exceptions
 def create_qc_type(
     data: synopfeature_schema.CreateSynopFeature,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[
-                synopfeature_service.create(db_session=db_session, data=data)],
-            message=_("Successfully created synop feature."),
-            schema=translate_schema(
-                _,
-                synopfeature_schema.SynopFeatureResponse.schema()
-            )
+    return get_success_response(
+        result=[
+            synopfeature_service.create(db_session=db_session, data=data)],
+        message=_("Successfully created synop feature."),
+        schema=translate_schema(
+            _,
+            synopfeature_schema.SynopFeatureResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.put("/synop-features/{abbreviation}")
+@handle_exceptions
 def update_qc_type(
     abbreviation: str,
     data: synopfeature_schema.UpdateSynopFeature,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[
-                synopfeature_service.update(
-                    db_session=db_session,
-                    abbreviation=abbreviation,
-                    updates=data
-                )
-            ],
-            message=_("Successfully updated synop feature."),
-            schema=translate_schema(
-                _,
-                synopfeature_schema.SynopFeatureResponse.schema()
+    return get_success_response(
+        result=[
+            synopfeature_service.update(
+                db_session=db_session,
+                abbreviation=abbreviation,
+                updates=data
             )
+        ],
+        message=_("Successfully updated synop feature."),
+        schema=translate_schema(
+            _,
+            synopfeature_schema.SynopFeatureResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.delete(
     "/synop-features/{abbreviation}"
 )
+@handle_exceptions
 def delete_qc_type(abbreviation: str,
                    db_session: Session = Depends(deps.get_session)):
-    try:
-        synopfeature_service.delete(
-            db_session=db_session,
-            abbreviation=abbreviation
+    synopfeature_service.delete(
+        db_session=db_session,
+        abbreviation=abbreviation
+    )
+    return get_success_response(
+        result=[],
+        message=_("Successfully deleted synop feature."),
+        schema=translate_schema(
+            _,
+            synopfeature_schema.SynopFeatureResponse.schema()
         )
-        return get_success_response(
-            result=[],
-            message=_("Successfully deleted synop feature."),
-            schema=translate_schema(
-                _,
-                synopfeature_schema.SynopFeatureResponse.schema()
-            )
-        )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )

@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
-
+from climsoft_api.db import SessionLocal
+from fastapi import Response, Request
 from climsoft_api.api.acquisition_type.router import \
     router as acquisition_type_router
 from climsoft_api.api.climsoftuser.router import router as climsoft_user_router
@@ -179,6 +180,16 @@ def get_app():
             )
         except PermissionError as e:
             logging.getLogger(__file__).error(e)
+
+    @app.middleware("http")
+    async def db_session_middleware(request: Request, call_next):
+        response = Response("Internal server error", status_code=500)
+        try:
+            request.state.db = SessionLocal()
+            response = await call_next(request)
+        finally:
+            request.state.db.close()
+        return response
 
     return app
 

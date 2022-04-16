@@ -7,6 +7,7 @@ from climsoft_api.utils.response import get_success_response, \
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
 from climsoft_api.utils.response import translate_schema
+from climsoft_api.utils.exception import handle_exceptions
 import logging
 
 router = APIRouter()
@@ -18,6 +19,7 @@ logging.basicConfig(level=logging.INFO)
 @router.get(
     "/data-forms"
 )
+@handle_exceptions
 def get_data_forms(
     order_num: int = None,
     table_name: str = None,
@@ -33,150 +35,111 @@ def get_data_forms(
     offset: int = 0,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        total, data_forms = data_form_service.query(
-            db_session=db_session,
-            order_num=order_num,
-            table_name=table_name,
-            form_name=form_name,
-            description=description,
-            selected=selected,
-            val_start_position=val_start_position,
-            val_end_position=val_end_position,
-            elem_code_location=elem_code_location,
-            sequencer=sequencer,
-            entry_mode=entry_mode,
-            limit=limit,
-            offset=offset,
-        )
+    total, data_forms = data_form_service.query(
+        db_session=db_session,
+        order_num=order_num,
+        table_name=table_name,
+        form_name=form_name,
+        description=description,
+        selected=selected,
+        val_start_position=val_start_position,
+        val_end_position=val_end_position,
+        elem_code_location=elem_code_location,
+        sequencer=sequencer,
+        entry_mode=entry_mode,
+        limit=limit,
+        offset=offset,
+    )
 
-        return get_success_response_for_query(
-            limit=limit,
-            total=total,
-            offset=offset,
-            result=data_forms,
-            message=_("Successfully fetched data forms."),
-            schema=translate_schema(
-                _,
-                data_form_schema.DataFormQueryResponse.schema()
-            )
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=data_forms,
+        message=_("Successfully fetched data forms."),
+        schema=translate_schema(
+            _,
+            data_form_schema.DataFormQueryResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.get(
     "/data-forms/{form_name}"
 )
+@handle_exceptions
 def get_data_form_by_id(
     form_name: str,
     db_session: Session = Depends(deps.get_session)
 ):
-    try:
-        return get_success_response(
-            result=[data_form_service.get(
-                db_session=db_session,
-                form_name=form_name
-            )],
-            message=_("Successfully fetched data form."),
-            schema=translate_schema(
-                _,
-                data_form_schema.DataFormResponse.schema()
-            )
+    return get_success_response(
+        result=[data_form_service.get(
+            db_session=db_session,
+            form_name=form_name
+        )],
+        message=_("Successfully fetched data form."),
+        schema=translate_schema(
+            _,
+            data_form_schema.DataFormResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.post(
     "/data-forms"
 )
+@handle_exceptions
 def create_data_form(
     data: data_form_schema.CreateDataForm,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[data_form_service.create(db_session=db_session, data=data)],
-            message=_("Successfully created data form."),
-            schema=translate_schema(
-                _,
-                data_form_schema.DataFormResponse.schema()
-            )
+    return get_success_response(
+        result=[data_form_service.create(db_session=db_session, data=data)],
+        message=_("Successfully created data form."),
+        schema=translate_schema(
+            _,
+            data_form_schema.DataFormResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.put("/data-forms/{form_name}")
+@handle_exceptions
 def update_data_form(
     form_name: str,
     data: data_form_schema.UpdateDataForm,
     db_session: Session = Depends(deps.get_session),
 ):
-    try:
-        return get_success_response(
-            result=[
-                data_form_service.update(
-                    db_session=db_session,
-                    form_name=form_name,
-                    updates=data
-                )
-            ],
-            message=_("Successfully updated data form."),
-            schema=translate_schema(
-                _,
-                data_form_schema.DataFormResponse.schema()
+    return get_success_response(
+        result=[
+            data_form_service.update(
+                db_session=db_session,
+                form_name=form_name,
+                updates=data
             )
+        ],
+        message=_("Successfully updated data form."),
+        schema=translate_schema(
+            _,
+            data_form_schema.DataFormResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )
 
 
 @router.delete(
     "/data-forms/{form_name}"
 )
+@handle_exceptions
 def delete_data_form(
     form_name: str,
     db_session: Session = Depends(deps.get_session)
 ):
-    try:
-        data_form_service.delete(db_session=db_session, form_name=form_name)
-        return get_success_response(
-            result=[],
-            message=_("Successfully deleted data form."),
-            schema=translate_schema(
-                _,
-                data_form_schema.DataFormResponse.schema()
-            )
+    data_form_service.delete(db_session=db_session, form_name=form_name)
+    return get_success_response(
+        result=[],
+        message=_("Successfully deleted data form."),
+        schema=translate_schema(
+            _,
+            data_form_schema.DataFormResponse.schema()
         )
-    except fastapi.HTTPException:
-        raise
-    except Exception as e:
-        db_session.rollback()
-        logger.exception(e)
-        return get_error_response(
-            message=str(e)
-        )
+    )

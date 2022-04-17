@@ -36,7 +36,6 @@ def get_or_404(
     return observation_final
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: observationfinal_schema.CreateObservationFinal
 ) -> observationfinal_schema.ObservationFinal:
@@ -47,7 +46,6 @@ def create(
         observation_final)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     recorded_from: str,
@@ -74,7 +72,6 @@ def get(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     recorded_from: str = None,
@@ -208,7 +205,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     recorded_from: str,
@@ -237,7 +233,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session, recorded_from: str, described_by: int,
     obs_datetime: str

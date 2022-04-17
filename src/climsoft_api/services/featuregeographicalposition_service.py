@@ -30,7 +30,6 @@ def get_or_404(db_session: Session, belongs_to: str):
     return feature_geographical_position
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: featuregeographicalposition_schema.CreateFeatureGeographicalPosition,
@@ -46,7 +45,6 @@ def create(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, belongs_to: str
 ) -> featuregeographicalposition_schema.FeatureGeographicalPosition:
@@ -70,7 +68,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     belongs_to: str = None,
@@ -113,7 +110,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     belongs_to: str,
@@ -136,7 +132,6 @@ def update(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, belongs_to: str) -> bool:
     get_or_404(db_session, belongs_to)
     db_session.query(models.Featuregeographicalposition).filter_by(

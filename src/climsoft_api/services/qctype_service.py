@@ -27,7 +27,6 @@ def get_or_404(
     return qc_type
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: qctype_schema.CreateQCType
 ) -> qctype_schema.QCType:
@@ -37,14 +36,12 @@ def create(
     return qctype_schema.QCType.from_orm(qc_type)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, code: str) -> qctype_schema.QCType:
     qc_type = get_or_404(db_session, code)
 
     return qctype_schema.QCType.from_orm(qc_type)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     code: str = None,
@@ -75,7 +72,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session, code: str, updates: qctype_schema.UpdateQCType
 ) -> qctype_schema.QCType:
@@ -88,7 +84,6 @@ def update(
     return qctype_schema.QCType.from_orm(updated_qc_type)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, code: str) -> bool:
     get_or_404(db_session, code)
     db_session.query(models.Qctype).filter_by(code=code).delete()

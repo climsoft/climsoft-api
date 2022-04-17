@@ -35,7 +35,6 @@ def get_or_404(
     return fault_resolution
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: faultresolution_schema.CreateFaultResolution
 ) -> faultresolution_schema.FaultResolution:
@@ -45,7 +44,6 @@ def create(
     return faultresolution_schema.FaultResolution.from_orm(fault_resolution)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, resolved_datetime: str, associated_with: str
 ) -> faultresolution_schema.FaultResolution:
@@ -70,7 +68,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     resolved_datetime: str = None,
@@ -109,7 +106,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     resolved_datetime: str,
@@ -135,7 +131,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session,
     resolved_datetime: str,

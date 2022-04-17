@@ -31,7 +31,6 @@ def get_or_404(db_session: Session, report_id):
     return instrument_fault_report
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: instrumentfaultreport_schema.CreateInstrumentFaultReport
@@ -44,7 +43,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, report_id: int
 ) -> instrumentfaultreport_schema.InstrumentFaultReport:
@@ -68,7 +66,6 @@ def get(
         )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     refers_to: str = None,
@@ -122,7 +119,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     report_id: int,
@@ -143,7 +139,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, report_id: int) -> bool:
     get_or_404(db_session, report_id)
     db_session.query(models.Instrumentfaultreport).filter_by(

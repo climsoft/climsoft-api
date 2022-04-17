@@ -32,7 +32,6 @@ def get_or_404(
     return paper_archive_definition
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session,
     data: paperarchivedefinition_schema.CreatePaperArchiveDefinition,
@@ -45,7 +44,6 @@ def create(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session, form_id: str
 ) -> paperarchivedefinition_schema.PaperArchiveDefinition:
@@ -56,7 +54,6 @@ def get(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     form_id: str = None,
@@ -91,7 +88,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     form_id: str,
@@ -112,7 +108,6 @@ def update(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, form_id: str) -> bool:
     get_or_404(db_session, form_id)
     db_session.query(models.Paperarchivedefinition).filter_by(

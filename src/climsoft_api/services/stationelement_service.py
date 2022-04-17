@@ -41,7 +41,6 @@ def get_or_404(
     return station_element
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: stationelement_schema.CreateStationElement
 ) -> stationelement_schema.StationElement:
@@ -51,7 +50,6 @@ def create(
     return stationelement_schema.StationElement.from_orm(station_element)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(
     db_session: Session,
     recorded_from: str,
@@ -85,7 +83,6 @@ def get(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     recorded_from: str = None,
@@ -151,7 +148,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def search(
     db_session: Session,
     _query: str = None,
@@ -178,7 +174,6 @@ def search(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session,
     recorded_from: str,
@@ -215,7 +210,6 @@ def update(
     return stationelement_schema.StationElement.from_orm(updated_instrument)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(
     db_session: Session,
     recorded_from: str,
@@ -241,7 +235,6 @@ def delete(
     return True
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get_station_elements_with_obs_element(
     db_session: Session,
     recorded_from: str,

@@ -29,7 +29,6 @@ def get_or_404(
     return reg_key
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def create(
     db_session: Session, data: regkey_schema.CreateRegKey
 ) -> regkey_schema.RegKey:
@@ -39,14 +38,12 @@ def create(
     return regkey_schema.RegKey.from_orm(reg_key)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def get(db_session: Session, key_name: str) -> regkey_schema.RegKey:
     reg_key = get_or_404(db_session, key_name)
 
     return regkey_schema.RegKey.from_orm(reg_key)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def query(
     db_session: Session,
     key_name: str = None,
@@ -83,7 +80,6 @@ def query(
     )
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def update(
     db_session: Session, key_name: str, updates: regkey_schema.UpdateRegKey
 ) -> regkey_schema.RegKey:
@@ -98,7 +94,6 @@ def update(
     return regkey_schema.RegKey.from_orm(updated_reg_key)
 
 
-@backoff.on_exception(backoff.expo, sqlalchemy.exc.OperationalError)
 def delete(db_session: Session, key_name: str) -> bool:
     get_or_404(db_session, key_name)
     db_session.query(models.Regkey).filter_by(keyName=key_name).delete()

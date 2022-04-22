@@ -50,6 +50,35 @@ def get_paper_archive_definitions(
     )
 
 
+@router.get("/paper-archive-definitions/search")
+@handle_exceptions
+def search_paper_archive_definition(
+    query: str,
+    limit: int = 25,
+    offset: int = 0,
+    db_session: Session = Depends(deps.get_session)
+):
+
+    total, paper_archive_definitions = paperarchivedefinition_service.search(
+        db_session=db_session,
+        _query=query,
+        limit=limit,
+        offset=offset,
+    )
+
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=paper_archive_definitions,
+        message=_("Successfully fetched paper archive definitions."),
+        schema=translate_schema(
+            _,
+            paperarchivedefinition_schema.PaperArchiveDefinitionQueryResponse.schema()
+        )
+    )
+
+
 @router.get(
     "/paper-archive-definitions/{form_id}",
 )

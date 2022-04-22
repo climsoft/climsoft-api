@@ -1,5 +1,6 @@
-from pydantic import BaseModel, constr
-from typing import Optional
+from pydantic import BaseModel, constr, Field
+from typing import Optional, List
+from climsoft_api.api.schema import Response
 
 field_mapping = {
     "stationId": "station_id",
@@ -236,3 +237,13 @@ class FormDaily2(CreateFormDaily2):
         orm_mode = True
         allow_population_by_field_name = True
         fields = field_mapping
+
+
+class FormDaily2Response(Response):
+    result: List[FormDaily2] = Field(title="Result")
+
+
+class FormDaily2QueryResponse(FormDaily2Response):
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

@@ -88,6 +88,26 @@ def query(
     )
 
 
+def search(
+    db_session: Session,
+    _query: str = None,
+    limit: int = 25,
+    offset: int = 0,
+) -> Tuple[int, List[paperarchivedefinition_schema.PaperArchiveDefinition]]:
+    q = db_session.query(models.Paperarchivedefinition)
+
+    if _query is not None:
+        q = q.filter(models.Paperarchivedefinition.formId.ilike(f"%{_query}%"))
+
+    return (
+        get_count(q),
+        [
+            paperarchivedefinition_schema.PaperArchiveDefinition.from_orm(s)
+            for s in q.offset(offset).limit(limit).all()
+        ]
+    )
+
+
 def update(
     db_session: Session,
     form_id: str,

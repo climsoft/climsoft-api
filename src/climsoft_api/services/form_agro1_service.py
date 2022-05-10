@@ -49,7 +49,6 @@ def create(
 def get(
     db_session: Session,
     station_id: str,
-    element_id: int,
     yyyy: int,
     mm: int,
     dd: int

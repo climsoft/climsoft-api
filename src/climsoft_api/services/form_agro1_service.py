@@ -57,7 +57,6 @@ def get(
     form_agro1 = get_or_404(
         db_session,
         station_id,
-        element_id,
         yyyy,
         mm,
         dd
@@ -424,7 +423,6 @@ def delete(
     get_or_404(
         db_session,
         station_id,
-        element_id,
         yyyy,
         mm,
         dd

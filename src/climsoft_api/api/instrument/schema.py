@@ -42,9 +42,9 @@ class UpdateInstrument(BaseSchema):
     manufacturer: constr(max_length=255) = Field(title="Manufacturer")
     instrumentUncertainty: float = Field(title="Instrument Uncertainty")
     installationDatetime: constr(max_length=50) = Field(title="Installation Datetime")
-    deinstallationDatetime: constr(max_length=50) = Field(title="Uninstallation Datetime")
+    deinstallationDatetime: Optional[constr(max_length=50)] = Field(title="Uninstallation Datetime")
     height: constr(max_length=255) = Field(title="Height")
-    instrumentPicture: constr(max_length=255) = Field(title="Instrument Picture")
+    instrumentPicture: Optional[constr(max_length=255)] = Field(title="Instrument Picture")
     installedAt: constr(max_length=255) = Field(title="Installed At")
 
     class Config:

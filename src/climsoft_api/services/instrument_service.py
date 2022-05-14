@@ -8,6 +8,7 @@ from fastapi.exceptions import HTTPException
 from opencdms.models.climsoft import v4_1_1_core as models
 from sqlalchemy.orm import joinedload
 from sqlalchemy.orm.session import Session
+from climsoft_api.utils.common import remove_nulls_from_dict
 
 logger = logging.getLogger("ClimsoftInstrumentService")
 logging.basicConfig(level=logging.INFO)
@@ -160,7 +161,7 @@ def update(
     get_or_404(db_session, instrument_id)
     db_session.query(models.Instrument).filter_by(
         instrumentId=instrument_id
-    ).update(updates.dict())
+    ).update(remove_nulls_from_dict(updates.dict()))
     db_session.commit()
     updated_instrument = (
         db_session.query(models.Instrument)

@@ -414,7 +414,6 @@ def update(
 def delete(
     db_session: Session,
     station_id: str,
-    element_id: int,
     yyyy: int,
     mm: int,
     dd: int,
@@ -428,8 +427,6 @@ def delete(
     )
     db_session.query(models.FormAgro1).filter_by(
         stationId=station_id
-    ).filter_by(
-        elementId=element_id
     ).filter_by(
         yyyy=yyyy
     ).filter_by(

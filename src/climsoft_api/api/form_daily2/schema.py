@@ -253,20 +253,10 @@ class FormDaily2(CreateFormDaily2):
 
 
 class FormDaily2Response(Response):
-
-    @validator("entryDatetime")
-    def validate_time(cls, value: Any) -> Any:
-        return str(value)
-
     result: List[FormDaily2] = Field(title="Result")
 
 
 class FormDaily2QueryResponse(FormDaily2Response):
-
-    @validator("entryDatetime")
-    def validate_time(cls, value: Any) -> Any:
-        return str(value)
-
     limit: int = Field(title="Limit")
     page: int = Field(title="Page")
     pages: int = Field(title="Pages")

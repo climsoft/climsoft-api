@@ -1,5 +1,5 @@
-from pydantic import BaseModel, constr, Field
-from typing import Optional, List
+from pydantic import BaseModel, constr, Field, validator
+from typing import Optional, List, Any
 from climsoft_api.api.schema import Response
 
 field_mapping = {
@@ -120,6 +120,10 @@ class CreateFormDaily2(BaseModel):
     cloudHeightUnits: Optional[constr(max_length=45)]
     visUnits: Optional[constr(max_length=45)]
 
+    @validator("entryDatetime")
+    def validate_time(cls, value: Any) -> Any:
+        return str(value)
+
     class Config:
         allow_population_by_field_name = True
         fields = field_mapping
@@ -227,12 +231,21 @@ class UpdateFormDaily2(BaseModel):
     cloudHeightUnits: Optional[constr(max_length=45)]
     visUnits: Optional[constr(max_length=45)]
 
+    @validator("entryDatetime")
+    def validate_time(cls, value: Any) -> Any:
+        return str(value)
+
     class Config:
         allow_population_by_field_name = True
         fields = field_mapping
 
 
 class FormDaily2(CreateFormDaily2):
+
+    @validator("entryDatetime")
+    def validate_time(cls, value: Any) -> Any:
+        return str(value)
+
     class Config:
         orm_mode = True
         allow_population_by_field_name = True
@@ -240,10 +253,20 @@ class FormDaily2(CreateFormDaily2):
 
 
 class FormDaily2Response(Response):
+
+    @validator("entryDatetime")
+    def validate_time(cls, value: Any) -> Any:
+        return str(value)
+
     result: List[FormDaily2] = Field(title="Result")
 
 
 class FormDaily2QueryResponse(FormDaily2Response):
+
+    @validator("entryDatetime")
+    def validate_time(cls, value: Any) -> Any:
+        return str(value)
+
     limit: int = Field(title="Limit")
     page: int = Field(title="Page")
     pages: int = Field(title="Pages")

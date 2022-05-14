@@ -120,7 +120,7 @@ class CreateFormDaily2(BaseModel):
     cloudHeightUnits: Optional[constr(max_length=45)]
     visUnits: Optional[constr(max_length=45)]
 
-    @validator("entryDatetime")
+    @validator("entryDatetime", pre=True)
     def validate_time(cls, value: Any) -> Any:
         return str(value)
 
@@ -231,7 +231,7 @@ class UpdateFormDaily2(BaseModel):
     cloudHeightUnits: Optional[constr(max_length=45)]
     visUnits: Optional[constr(max_length=45)]
 
-    @validator("entryDatetime")
+    @validator("entryDatetime", pre=True)
     def validate_time(cls, value: Any) -> Any:
         return str(value)
 
@@ -242,7 +242,7 @@ class UpdateFormDaily2(BaseModel):
 
 class FormDaily2(CreateFormDaily2):
 
-    @validator("entryDatetime")
+    @validator("entryDatetime", pre=True)
     def validate_time(cls, value: Any) -> Any:
         return str(value)
 

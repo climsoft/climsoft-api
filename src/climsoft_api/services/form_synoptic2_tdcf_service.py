@@ -1,7 +1,7 @@
 import datetime
 import logging
 from typing import List, Tuple
-from climsoft_api.api.form_monthly import schema as form_monthly_schema
+from climsoft_api.api.form_synoptic_2_tdcf import schema as form_synoptic_2_tdcf_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
 from opencdms.models.climsoft import v4_1_1_core as models
@@ -10,7 +10,7 @@ from climsoft_api.utils.common import remove_nulls_from_dict
 from typing import Optional
 from pydantic import constr
 
-logger = logging.getLogger("ClimsoftFormMonthlyService")
+logger = logging.getLogger("ClimsoftFormSynoptic2TdcfService")
 logging.basicConfig(level=logging.INFO)
 
 
@@ -21,8 +21,8 @@ def get_or_404(
     dd: int,
     hh: int
 ):
-    form_monthly = (
-        db_session.query(models.FormMonthly)
+    form_synoptic_2_tdcf = (
+        db_session.query(models.FormSynoptic2Tdcf)
         .filter_by(stationId=station_id)
         .filter_by(yyyy=yyyy)
         .filter_by(dd=dd)
@@ -30,23 +30,23 @@ def get_or_404(
         .first()
     )
 
-    if not form_monthly:
+    if not form_synoptic_2_tdcf:
         raise HTTPException(
             status_code=404,
-            detail=_("FormMonthly does not exist.")
+            detail=_("FormSynoptic2Tdcf does not exist.")
         )
 
-    return form_monthly
+    return form_synoptic_2_tdcf
 
 
 def create(
     db_session: Session,
-    data: form_monthly_schema.CreateFormMonthly
-) -> form_monthly_schema.FormMonthly:
-    form_monthly = models.FormMonthly(**remove_nulls_from_dict(data.dict()))
-    db_session.add(form_monthly)
+    data: form_synoptic_2_tdcf_schema.CreateFormSynoptic2Tdcf
+) -> form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf:
+    form_synoptic_2_tdcf = models.FormSynoptic2Tdcf(**remove_nulls_from_dict(data.dict()))
+    db_session.add(form_synoptic_2_tdcf)
     db_session.commit()
-    return form_monthly_schema.FormMonthly.from_orm(form_monthly)
+    return form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf.from_orm(form_synoptic_2_tdcf)
 
 
 def get(
@@ -55,15 +55,15 @@ def get(
     yyyy: int,
     dd: int,
     hh: int
-) -> form_monthly_schema.FormMonthly:
-    form_monthly = get_or_404(
+) -> form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf:
+    form_synoptic_2_tdcf = get_or_404(
         db_session,
         station_id,
         yyyy,
         dd,
         hh
     )
-    return form_monthly_schema.FormMonthly.from_orm(form_monthly)
+    return form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf.from_orm(form_synoptic_2_tdcf)
 
 
 def query(
@@ -166,13 +166,13 @@ def query(
     entry_datetime: Optional[str] = None,
     limit: int = 25,
     offset: int = 0,
-) -> Tuple[int, List[form_monthly_schema.FormMonthly]]:
+) -> Tuple[int, List[form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf]]:
     """
     This function builds a query based on the given parameter and returns
-    `limit` numbers of `form_monthly` row skipping
+    `limit` numbers of `form_synoptic_2_tdcf` row skipping
     `offset` number of rows
     """
-    q = db_session.query(models.FormMonthly)
+    q = db_session.query(models.FormSynoptic2Tdcf)
 
     if station_id is not None:
         q = q.filter_by(stationId=station_id)
@@ -185,15 +185,6 @@ def query(
 
     if hh is not None:
         q = q.filter_by(hh=hh)
-
-    if _106 is not None:
-        q = q.filter_by(_106=_106)
-
-    if _106 is not None:
-        q = q.filter_by(_106=_106)
-
-    if _106 is not None:
-        q = q.filter_by(_106=_106)
 
     if _106 is not None:
         q = q.filter_by(_106=_106)
@@ -489,7 +480,7 @@ def query(
     return (
         get_count(q),
         [
-            form_monthly_schema.FormMonthly.from_orm(s) for s in q.offset(
+            form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf.from_orm(s) for s in q.offset(
                 offset
             ).limit(limit).all()
         ]
@@ -502,10 +493,10 @@ def update(
     yyyy: int,
     dd: int,
     hh: int,
-    updates: form_monthly_schema.UpdateFormMonthly
-) -> form_monthly_schema.FormMonthly:
+    updates: form_synoptic_2_tdcf_schema.UpdateFormSynoptic2Tdcf
+) -> form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf:
     get_or_404(db_session, station_id, yyyy, dd, hh)
-    db_session.query(models.FormMonthly).filter_by(
+    db_session.query(models.FormSynoptic2Tdcf).filter_by(
         station_id=station_id
     ).filter_by(
         yyyy=yyyy
@@ -515,8 +506,8 @@ def update(
         hh=hh
     ).update(updates.dict())
     db_session.commit()
-    updated_form_monthly = (
-        db_session.query(models.FormMonthly)
+    updated_form_synoptic_2_tdcf = (
+        db_session.query(models.FormSynoptic2Tdcf)
         .filter_by(
             station_id=station_id
         ).filter_by(
@@ -527,7 +518,7 @@ def update(
             hh=hh
         ).first()
     )
-    return form_monthly_schema.FormMonthly.from_orm(updated_form_monthly)
+    return form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf.from_orm(updated_form_synoptic_2_tdcf)
 
 
 def delete(
@@ -544,7 +535,7 @@ def delete(
         dd,
         hh
     )
-    db_session.query(models.FormMonthly).filter_by(
+    db_session.query(models.FormSynoptic2Tdcf).filter_by(
         station_id=station_id
     ).filter_by(
         yyyy=yyyy

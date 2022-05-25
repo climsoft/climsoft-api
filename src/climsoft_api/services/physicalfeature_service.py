@@ -29,27 +29,26 @@ def get_or_404(
         .options(joinedload("station"))
         .all()
     )
-    has_same_description = False
+
     all_descriptions = set()
-
-    if len(physical_features) > 1:
-        for pf in physical_features:
-            all_descriptions.add(pf.description)
-        has_same_description = len(all_descriptions) <= 1
-
-    if not has_same_description:
-        raise ValueError(f"All physical feature description should be equal for"
-                         f" "
-                         f"associated_with: {associated_with}"
-                         f"begin_date: {begin_date}"
-                         f"classified_into: {classified_into}. "
-                         f"Found unequal values: {all_descriptions}")
 
     if not physical_features:
         raise HTTPException(
             status_code=404,
             detail=_("Physical feature does not exist.")
         )
+
+    if len(physical_features) > 1:
+        for pf in physical_features:
+            all_descriptions.add(pf.description)
+
+        if not len(all_descriptions) <= 1:
+            raise ValueError(f"All physical feature description "
+                             f"should be equal for "
+                             f"associated_with: {associated_with}, "
+                             f"begin_date: {begin_date}, "
+                             f"classified_into: {classified_into}. "
+                             f"Found unequal values: {all_descriptions}")
 
     return physical_features[0]
 

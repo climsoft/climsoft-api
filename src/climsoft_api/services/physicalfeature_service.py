@@ -17,26 +17,41 @@ def get_or_404(
     db_session: Session,
     associated_with: str,
     begin_date: str,
-    classified_into: str,
-    description: str,
+    classified_into: str
 ):
-    physical_feature = (
+    physical_features: List[models.Physicalfeature] = (
         db_session.query(models.Physicalfeature)
         .filter_by(
             associatedWith=associated_with,
             beginDate=begin_date,
-            classifiedInto=classified_into,
-            description=description,
+            classifiedInto=classified_into
         )
         .options(joinedload("station"))
-        .first()
+        .all()
     )
+    has_same_description = False
+    all_descriptions = set()
 
-    if not physical_feature:
+    if len(physical_features) > 1:
+        for pf in physical_features:
+            all_descriptions.add(pf.description)
+        has_same_description = len(all_descriptions) <= 1
+
+    if not has_same_description:
+        raise ValueError(f"All physical feature description should be equal for"
+                         f" "
+                         f"associated_with: {associated_with}"
+                         f"begin_date: {begin_date}"
+                         f"classified_into: {classified_into}. "
+                         f"Found unequal values: {all_descriptions}")
+
+    if not physical_features:
         raise HTTPException(
             status_code=404,
             detail=_("Physical feature does not exist.")
         )
+
+    return physical_features[0]
 
 
 def create(

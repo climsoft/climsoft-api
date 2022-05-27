@@ -1,4 +1,5 @@
 import json
+import logging
 import uuid
 import pytest
 from sqlalchemy.orm.session import Session
@@ -186,12 +187,13 @@ def test_should_fail_for_different_description(
     get_station: climsoft_models.Station,
     get_physical_feature_class: climsoft_models.Physicalfeatureclas,
     session: Session,
+    caplog
 ):
     pf_input_data = climsoft_physical_feature.get_valid_physical_feature_input(
         station_id=get_station.stationId,
         feature_class=get_physical_feature_class.featureClass,
     ).dict()
-
+    print(pf_input_data)
     pf_input_data["description"] = "test description"
     physical_feature1 = climsoft_models.Physicalfeature(
         **pf_input_data
@@ -207,7 +209,7 @@ def test_should_fail_for_different_description(
 
     session.close()
 
-    with pytest.raises(Exception):
+    with caplog.at_level(logging.ERROR):
         client.get(
-            f"/v1/physical-features/{pf_input_data['associated_with']}/{pf_input_data['begin_date']}/{pf_input_data['classified_into']}",
+            f"/v1/physical-features/{pf_input_data['associatedWith']}/{pf_input_data['beginDate']}/{pf_input_data['classifiedInto']}",
         )

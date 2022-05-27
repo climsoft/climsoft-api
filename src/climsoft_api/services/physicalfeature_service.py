@@ -43,12 +43,14 @@ def get_or_404(
             all_descriptions.add(pf.description)
 
         if not len(all_descriptions) <= 1:
-            raise ValueError(f"All physical feature description "
-                             f"should be equal for "
-                             f"associated_with: {associated_with}, "
-                             f"begin_date: {begin_date}, "
-                             f"classified_into: {classified_into}. "
-                             f"Found unequal values: {all_descriptions}")
+            logger.error(
+                f"All physical feature description "
+                f"should be equal for "
+                f"associated_with: {associated_with}, "
+                f"begin_date: {begin_date}, "
+                f"classified_into: {classified_into}. "
+                f"Found unequal values: {all_descriptions}"
+            )
 
     return physical_features[0]
 

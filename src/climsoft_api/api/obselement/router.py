@@ -1,7 +1,8 @@
 import climsoft_api.api.obselement.schema as obselement_schema
+from climsoft_api.api.stationelement import schema as stationelement_schema
 import fastapi
 from climsoft_api.api import deps
-from climsoft_api.services import obselement_service
+from climsoft_api.services import obselement_service, stationelement_service
 from climsoft_api.utils.response import get_success_response, \
     get_error_response, get_success_response_for_query
 from fastapi import APIRouter, Depends
@@ -72,10 +73,30 @@ def get_obselements(
 def search_obselements(
     query: str,
     time_period: str = None,
+    station_id: str = None,
     db_session: Session = Depends(deps.get_session),
     limit: int = 25,
     offset: int = 0
 ):
+    if station_id is not None:
+        total, station_elements = stationelement_service.query(
+            db_session=db_session,
+            recorded_from=station_id,
+            limit=limit,
+            offset=offset
+        )
+        return get_success_response_for_query(
+            limit=limit,
+            total=total,
+            offset=offset,
+            result=station_elements,
+            message=_("Successfully fetched station elements."),
+            schema=translate_schema(
+                _,
+                stationelement_schema.StationElementQueryResponse.schema()
+            )
+        )
+
     total, obs_elements = obselement_service.search(
         db_session=db_session,
         _query=query,

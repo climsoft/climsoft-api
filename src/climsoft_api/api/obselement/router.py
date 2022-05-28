@@ -67,11 +67,12 @@ def get_obselements(
 
 
 @router.get(
-    "/obselements/search"
+    "/elements/search",
+    tags=["Elements", "Obselements", "Station Elements"]
 )
 @handle_exceptions
-def search_obselements(
-    query: str,
+def search_elements(
+    query: str = None,
     time_period: str = None,
     station_id: str = None,
     db_session: Session = Depends(deps.get_session),

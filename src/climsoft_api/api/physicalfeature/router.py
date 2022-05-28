@@ -1,16 +1,14 @@
+import logging
+
 import climsoft_api.api.physicalfeature.schema as physicalfeature_schema
-import fastapi
-import backoff
-import sqlalchemy.exc
 from climsoft_api.api import deps
 from climsoft_api.services import physicalfeature_service
+from climsoft_api.utils.exception import handle_exceptions
 from climsoft_api.utils.response import get_success_response, \
-    get_error_response, get_success_response_for_query
+    get_success_response_for_query
+from climsoft_api.utils.response import translate_schema
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm.session import Session
-from climsoft_api.utils.response import translate_schema
-import logging
-from climsoft_api.utils.exception import handle_exceptions
 
 router = APIRouter()
 
@@ -59,14 +57,13 @@ def get_physical_feature(
 
 
 @router.get(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}"
 )
 @handle_exceptions
 def get_physical_feature_by_id(
     associated_with: str,
     begin_date: str,
     classified_into: str,
-    description: str,
     db_session: Session = Depends(deps.get_session),
 ):
     return get_success_response(
@@ -76,7 +73,6 @@ def get_physical_feature_by_id(
                 associated_with=associated_with,
                 begin_date=begin_date,
                 classified_into=classified_into,
-                description=description,
             )
         ],
         message=_("Successfully fetched physical feature."),
@@ -107,14 +103,13 @@ def create_physical_feature(
 
 
 @router.put(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}"
 )
 @handle_exceptions
 def update_physical_feature(
     associated_with: str,
     begin_date: str,
     classified_into: str,
-    description: str,
     data: physicalfeature_schema.UpdatePhysicalFeature,
     db_session: Session = Depends(deps.get_session),
 ):
@@ -125,7 +120,6 @@ def update_physical_feature(
                 associated_with=associated_with,
                 begin_date=begin_date,
                 classified_into=classified_into,
-                description=description,
                 updates=data,
             )
         ],
@@ -138,14 +132,13 @@ def update_physical_feature(
 
 
 @router.delete(
-    "/physical-features/{associated_with}/{begin_date}/{classified_into}/{description}"
+    "/physical-features/{associated_with}/{begin_date}/{classified_into}"
 )
 @handle_exceptions
 def delete_physical_feature(
     associated_with: str,
     begin_date: str,
     classified_into: str,
-    description: str,
     db_session: Session = Depends(deps.get_session),
 ):
     physicalfeature_service.delete(
@@ -153,7 +146,6 @@ def delete_physical_feature(
         associated_with=associated_with,
         begin_date=begin_date,
         classified_into=classified_into,
-        description=description,
     )
     return get_success_response(
         result=[],

@@ -70,6 +70,18 @@ if the storage is disk, you will get the image at
 https://serveraddress/climsoft_uploads/ddd77aa358c946aea925fcaee40ae8d9.png
 ```
 
+
+### Design Exceptions
+
+Climsoft tables often has composite primary keys. In that case, we usually 
+receive all the primary keys as path parameters and then use them to make distinction
+between rows. But there is some exceptions. Such as - 
+
+- Physical Feature model has a column named `description`, but we are not using
+it in path parameters. Instead, we are raising an exception where other primary keys
+are same but description is different.
+
+
 ### Swagger docs
 Go to http://localhost:5080 for swagger doc
 

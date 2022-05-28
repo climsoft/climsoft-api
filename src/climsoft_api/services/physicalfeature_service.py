@@ -17,26 +17,42 @@ def get_or_404(
     db_session: Session,
     associated_with: str,
     begin_date: str,
-    classified_into: str,
-    description: str,
+    classified_into: str
 ):
-    physical_feature = (
+    physical_features: List[models.Physicalfeature] = (
         db_session.query(models.Physicalfeature)
         .filter_by(
             associatedWith=associated_with,
             beginDate=begin_date,
-            classifiedInto=classified_into,
-            description=description,
+            classifiedInto=classified_into
         )
         .options(joinedload("station"))
-        .first()
+        .all()
     )
 
-    if not physical_feature:
+    all_descriptions = set()
+
+    if not physical_features:
         raise HTTPException(
             status_code=404,
             detail=_("Physical feature does not exist.")
         )
+
+    if len(physical_features) > 1:
+        for pf in physical_features:
+            all_descriptions.add(pf.description)
+
+        if not len(all_descriptions) <= 1:
+            logger.error(
+                f"All physical feature description "
+                f"should be equal for "
+                f"associated_with: {associated_with}, "
+                f"begin_date: {begin_date}, "
+                f"classified_into: {classified_into}. "
+                f"Found unequal values: {all_descriptions}"
+            )
+
+    return physical_features[0]
 
 
 def create(
@@ -52,19 +68,13 @@ def get(
     db_session: Session,
     associated_with: str,
     begin_date: str,
-    classified_into: str,
-    description: str,
+    classified_into: str
 ) -> physicalfeature_schema.PhysicalFeature:
-    physical_feature = (
-        db_session.query(models.Physicalfeature)
-        .filter_by(
-            associatedWith=associated_with,
-            beginDate=begin_date,
-            classifiedInto=classified_into,
-            description=description,
-        )
-        .options(joinedload("station"))
-        .first()
+    physical_feature = get_or_404(
+        db_session,
+        associated_with,
+        begin_date,
+        classified_into
     )
 
     if not physical_feature:
@@ -129,7 +139,6 @@ def update(
     associated_with: str,
     begin_date: str,
     classified_into: str,
-    description: str,
     updates: physicalfeature_schema.UpdatePhysicalFeature,
 ) -> physicalfeature_schema.PhysicalFeature:
     get_or_404(
@@ -137,13 +146,11 @@ def update(
         associated_with,
         begin_date,
         classified_into,
-        description
     )
     db_session.query(models.Physicalfeature).filter_by(
         associatedWith=associated_with,
         beginDate=begin_date,
         classifiedInto=classified_into,
-        description=description,
     ).update(updates.dict())
     db_session.commit()
     updated_physical_feature = (
@@ -152,7 +159,6 @@ def update(
             associatedWith=associated_with,
             beginDate=begin_date,
             classifiedInto=classified_into,
-            description=description,
         )
         .first()
     )
@@ -166,20 +172,17 @@ def delete(
     associated_with: str,
     begin_date: str,
     classified_into: str,
-    description: str,
 ) -> bool:
     get_or_404(
         db_session,
         associated_with,
         begin_date,
         classified_into,
-        description
     )
     db_session.query(models.Physicalfeature).filter_by(
         associatedWith=associated_with,
         beginDate=begin_date,
         classifiedInto=classified_into,
-        description=description,
     ).delete()
     db_session.commit()
     return True

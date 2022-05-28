@@ -1,7 +1,8 @@
 import datetime
 
-from pydantic import BaseModel, constr
-from typing import Optional
+from pydantic import BaseModel, constr, Field
+from typing import Optional, List
+from climsoft_api.api.schema import Response
 
 
 field_mapping = {
@@ -239,3 +240,13 @@ class FormAgro1(CreateFormAgro1):
         fields = field_mapping
         allow_population_by_field_name = True
         orm_mode = True
+
+
+class FormAgro1Response(Response):
+    result: List[FormAgro1] = Field(title="Result")
+
+
+class FormAgro1QueryResponse(FormAgro1Response):
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

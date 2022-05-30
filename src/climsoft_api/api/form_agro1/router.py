@@ -178,7 +178,7 @@ def get_form_agro1s(
         total=total,
         offset=offset,
         result=form_agro1s,
-        message=_("Successfully fetched form_agro1s."),
+        message=_("Successfully fetched form agro1s."),
         schema=translate_schema(
             _,
             form_agro1_schema.FormAgro1QueryResponse.schema()

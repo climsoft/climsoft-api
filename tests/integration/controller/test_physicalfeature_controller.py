@@ -193,7 +193,6 @@ def test_should_fail_for_different_description(
         station_id=get_station.stationId,
         feature_class=get_physical_feature_class.featureClass,
     ).dict()
-    print(pf_input_data)
     pf_input_data["description"] = "test description"
     physical_feature1 = climsoft_models.Physicalfeature(
         **pf_input_data

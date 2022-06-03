@@ -9,7 +9,8 @@ class CreateStationLocationHistory(BaseSchema):
     belongsTo: constr(max_length=255) = Field(title="Belongs To")
     openingDatetime: str = Field(title="Opening Datetime")
     stationType: constr(max_length=255) = Field(title="Station Type")
-    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationMethod: constr(max_length=255) = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
     closingDatetime: str = Field(title="Closing Datetime")
     latitude: float = Field(title="Latitude")
@@ -30,10 +31,17 @@ class CreateStationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
 
+        json_encoders = {
+            datetime.datetime: lambda dt: str(dt).replace(
+                "T", " "
+            ).replace("Z", "")
+        }
+
 
 class UpdateStationLocationHistory(BaseSchema):
     stationType: constr(max_length=255) = Field(title="Station Type")
-    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationMethod: constr(max_length=255) = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
     closingDatetime: str = Field(title="Closing Datetime")
     latitude: float = Field(title="Latitude")
@@ -52,20 +60,30 @@ class UpdateStationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
 
+        json_encoders = {
+            datetime.datetime: lambda dt: str(dt).replace(
+                "T", " "
+            ).replace("Z", "")
+        }
+
 
 class StationLocationHistory(BaseSchema):
     belongsTo: Optional[constr(max_length=255)] = Field(title="Belongs To")
-    openingDatetime: Optional[datetime.datetime] = Field(title="Opening Datetime")
+    openingDatetime: Optional[datetime.datetime] = Field(
+        title="Opening Datetime")
     stationType: Optional[constr(max_length=255)] = Field(title="Station Type")
-    geoLocationMethod: Optional[constr(max_length=255)] = Field(title="Geolocation Method")
+    geoLocationMethod: Optional[constr(max_length=255)] = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: Optional[float] = Field(title="Geolocation History")
-    closingDatetime: Optional[datetime.datetime] = Field(title="Closing Datetime")
+    closingDatetime: Optional[datetime.datetime] = Field(
+        title="Closing Datetime")
     latitude: Optional[float] = Field(title="Latitude")
     longitude: Optional[float] = Field(title="Longitude")
     elevation: Optional[int] = Field(title="Elevation")
     authority: Optional[constr(max_length=255)] = Field(title="Authority")
     adminRegion: Optional[constr(max_length=255)] = Field(title="Admin Region")
-    drainageBasin: Optional[constr(max_length=255)] = Field(title="Drainage Basin")
+    drainageBasin: Optional[constr(max_length=255)] = Field(
+        title="Drainage Basin")
 
     class Config:
         orm_mode = True
@@ -81,7 +99,9 @@ class StationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
         json_encoders = {
-            datetime.datetime: lambda dt: str(dt).replace("T", " ")
+            datetime.datetime: lambda dt: str(dt).replace(
+                "T", " "
+            ).replace("Z", "")
         }
 
 

@@ -1,8 +1,7 @@
-import datetime
 from typing import List, Optional
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr, Field
+from pydantic import constr, Field, validator
 
 
 class CreateStationLocationHistory(BaseSchema):
@@ -19,6 +18,14 @@ class CreateStationLocationHistory(BaseSchema):
     authority: constr(max_length=255) = Field(title="Authority")
     adminRegion: constr(max_length=255) = Field(title="Admin Region")
     drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
+
+    @validator('openingDatetime', pre=True)
+    def opening_datetime_must_be_str(cls, v):
+        return str(v)
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         fields = {
@@ -44,6 +51,10 @@ class UpdateStationLocationHistory(BaseSchema):
     authority: constr(max_length=255) = Field(title="Authority")
     adminRegion: constr(max_length=255) = Field(title="Admin Region")
     drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         fields = {
@@ -72,6 +83,14 @@ class StationLocationHistory(BaseSchema):
     adminRegion: Optional[constr(max_length=255)] = Field(title="Admin Region")
     drainageBasin: Optional[constr(max_length=255)] = Field(
         title="Drainage Basin")
+
+    @validator('openingDatetime', pre=True)
+    def opening_datetime_must_be_str(cls, v):
+        return str(v)
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         orm_mode = True

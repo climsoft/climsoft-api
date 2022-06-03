@@ -31,12 +31,6 @@ class CreateStationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
 
-        json_encoders = {
-            datetime.datetime: lambda dt: str(dt).replace(
-                "T", " "
-            ).replace("Z", "")
-        }
-
 
 class UpdateStationLocationHistory(BaseSchema):
     stationType: constr(max_length=255) = Field(title="Station Type")
@@ -60,22 +54,16 @@ class UpdateStationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
 
-        json_encoders = {
-            datetime.datetime: lambda dt: str(dt).replace(
-                "T", " "
-            ).replace("Z", "")
-        }
-
 
 class StationLocationHistory(BaseSchema):
     belongsTo: Optional[constr(max_length=255)] = Field(title="Belongs To")
-    openingDatetime: Optional[datetime.datetime] = Field(
+    openingDatetime: Optional[str] = Field(
         title="Opening Datetime")
     stationType: Optional[constr(max_length=255)] = Field(title="Station Type")
     geoLocationMethod: Optional[constr(max_length=255)] = Field(
         title="Geolocation Method")
     geoLocationAccuracy: Optional[float] = Field(title="Geolocation History")
-    closingDatetime: Optional[datetime.datetime] = Field(
+    closingDatetime: Optional[str] = Field(
         title="Closing Datetime")
     latitude: Optional[float] = Field(title="Latitude")
     longitude: Optional[float] = Field(title="Longitude")
@@ -97,11 +85,6 @@ class StationLocationHistory(BaseSchema):
             "closingDatetime": "closing_datetime",
             "adminRegion": "admin_region",
             "drainageBasin": "drainage_basin",
-        }
-        json_encoders = {
-            datetime.datetime: lambda dt: str(dt).replace(
-                "T", " "
-            ).replace("Z", "")
         }
 
 

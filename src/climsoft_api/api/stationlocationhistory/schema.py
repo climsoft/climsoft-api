@@ -81,7 +81,7 @@ class StationLocationHistory(BaseSchema):
             "drainageBasin": "drainage_basin",
         }
         json_encoders = {
-            datetime.datetime: lambda dt: dt.strftime("%Y-%m-%d %H:%M:%S")
+            datetime.datetime: lambda dt: str(dt).replace("T", " ")
         }
 
 

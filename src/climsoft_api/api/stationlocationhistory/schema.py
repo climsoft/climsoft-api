@@ -1,15 +1,15 @@
-import datetime
 from typing import List, Optional
 import climsoft_api.api.station.schema as station_schema
 from climsoft_api.api.schema import BaseSchema, Response
-from pydantic import constr, Field
+from pydantic import constr, Field, validator
 
 
 class CreateStationLocationHistory(BaseSchema):
     belongsTo: constr(max_length=255) = Field(title="Belongs To")
     openingDatetime: str = Field(title="Opening Datetime")
     stationType: constr(max_length=255) = Field(title="Station Type")
-    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationMethod: constr(max_length=255) = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
     closingDatetime: str = Field(title="Closing Datetime")
     latitude: float = Field(title="Latitude")
@@ -18,6 +18,14 @@ class CreateStationLocationHistory(BaseSchema):
     authority: constr(max_length=255) = Field(title="Authority")
     adminRegion: constr(max_length=255) = Field(title="Admin Region")
     drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
+
+    @validator('openingDatetime', pre=True)
+    def opening_datetime_must_be_str(cls, v):
+        return str(v)
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         fields = {
@@ -33,7 +41,8 @@ class CreateStationLocationHistory(BaseSchema):
 
 class UpdateStationLocationHistory(BaseSchema):
     stationType: constr(max_length=255) = Field(title="Station Type")
-    geoLocationMethod: constr(max_length=255) = Field(title="Geolocation Method")
+    geoLocationMethod: constr(max_length=255) = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: float = Field(title="Geolocation Accuracy")
     closingDatetime: str = Field(title="Closing Datetime")
     latitude: float = Field(title="Latitude")
@@ -42,6 +51,10 @@ class UpdateStationLocationHistory(BaseSchema):
     authority: constr(max_length=255) = Field(title="Authority")
     adminRegion: constr(max_length=255) = Field(title="Admin Region")
     drainageBasin: constr(max_length=255) = Field(title="Drainage Basin")
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         fields = {
@@ -55,17 +68,29 @@ class UpdateStationLocationHistory(BaseSchema):
 
 class StationLocationHistory(BaseSchema):
     belongsTo: Optional[constr(max_length=255)] = Field(title="Belongs To")
-    openingDatetime: Optional[datetime.datetime] = Field(title="Opening Datetime")
+    openingDatetime: Optional[str] = Field(
+        title="Opening Datetime")
     stationType: Optional[constr(max_length=255)] = Field(title="Station Type")
-    geoLocationMethod: Optional[constr(max_length=255)] = Field(title="Geolocation Method")
+    geoLocationMethod: Optional[constr(max_length=255)] = Field(
+        title="Geolocation Method")
     geoLocationAccuracy: Optional[float] = Field(title="Geolocation History")
-    closingDatetime: Optional[datetime.datetime] = Field(title="Closing Datetime")
+    closingDatetime: Optional[str] = Field(
+        title="Closing Datetime")
     latitude: Optional[float] = Field(title="Latitude")
     longitude: Optional[float] = Field(title="Longitude")
     elevation: Optional[int] = Field(title="Elevation")
     authority: Optional[constr(max_length=255)] = Field(title="Authority")
     adminRegion: Optional[constr(max_length=255)] = Field(title="Admin Region")
-    drainageBasin: Optional[constr(max_length=255)] = Field(title="Drainage Basin")
+    drainageBasin: Optional[constr(max_length=255)] = Field(
+        title="Drainage Basin")
+
+    @validator('openingDatetime', pre=True)
+    def opening_datetime_must_be_str(cls, v):
+        return str(v)
+
+    @validator('closingDatetime', pre=True)
+    def closing_datetime_must_be_str(cls, v):
+        return str(v)
 
     class Config:
         orm_mode = True
@@ -79,9 +104,6 @@ class StationLocationHistory(BaseSchema):
             "closingDatetime": "closing_datetime",
             "adminRegion": "admin_region",
             "drainageBasin": "drainage_basin",
-        }
-        json_encoders = {
-            datetime.datetime: lambda dt: str(dt).replace("T", " ")
         }
 
 

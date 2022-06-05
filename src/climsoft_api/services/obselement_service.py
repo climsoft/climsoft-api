@@ -2,6 +2,7 @@ import logging
 from typing import List, Tuple
 import backoff
 import sqlalchemy.exc
+from sqlalchemy.orm.query import Query
 from climsoft_api.api.obselement import schema as obselement_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
@@ -19,7 +20,6 @@ def get_or_404(
     db_session: Session,
     element_id: str
 ):
-
     obs_element = (
         db_session.query(
             models.Obselement
@@ -165,11 +165,11 @@ def delete(db_session: Session, element_id: str) -> bool:
 def search(
     db_session: Session,
     _query: str = None,
+    station_id: str = None,
     time_period: str = None,
     limit: int = 25,
     offset: int = 0,
 ) -> Tuple[int, List[obselement_schema.ObsElement]]:
-
     q = db_session.query(models.Obselement)
 
     if _query:
@@ -177,6 +177,15 @@ def search(
             models.Obselement.elementId.ilike(f"%{_query}%")
             | models.Obselement.elementName.ilike(f"%{_query}%")
         )
+
+    if station_id:
+        q = q.join(
+            models.Stationelement
+        ).filter(
+            models.Stationelement.recordedFrom == station_id and
+            models.Obselement.elementId == models.Stationelement.describedBy
+        )
+
     if time_period:
         abbreviations = get_element_abbreviation_by_time_period(time_period)
         q = q.filter(models.Obselement.abbreviation.in_(

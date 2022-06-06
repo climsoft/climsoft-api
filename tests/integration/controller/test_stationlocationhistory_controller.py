@@ -127,6 +127,7 @@ def test_should_update_station_location_history(
         f"/v1/station-location-histories/{belongs_to}/{opening_datetime}",
         data=json.dumps(updates, default=str),
     )
+    print(response.text)
     response_data = response.json()
 
     assert response.status_code == 200

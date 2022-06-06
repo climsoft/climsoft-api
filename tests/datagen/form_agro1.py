@@ -8,7 +8,7 @@ from climsoft_api.api.form_agro1 import schema as form_agro1_schema
 fake = Faker()
 
 
-def get_valid_form_daily2_input():
+def get_valid_form_agro1_input():
     return form_agro1_schema.CreateFormAgro1(
         stationId=uuid.uuid4().hex,
         yyyy=random.randint(1900, 2022),

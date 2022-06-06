@@ -186,7 +186,7 @@ def get_form_agro1s(
     )
 
 
-@router.get("/form_agro1s/{station_id}/{element_id}/{yyyy}/{mm}/{hh}")
+@router.get("/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}")
 @handle_exceptions
 def get_form_agro1_by_id(
     station_id: str,
@@ -229,14 +229,13 @@ def create_form_agro1(
     )
 
 
-@router.put("/form_agro1s/{station_id}/{element_id}/{yyyy}/{mm}/{hh}")
+@router.put("/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}")
 @handle_exceptions
 def update_form_agro1(
     station_id: str,
-    element_id: int,
     yyyy: int,
     mm: int,
-    hh: int,
+    dd: int,
     data: form_agro1_schema.UpdateFormAgro1,
     db_session: Session = Depends(deps.get_session),
 ):
@@ -245,10 +244,9 @@ def update_form_agro1(
             form_agro1_service.update(
                 db_session=db_session,
                 station_id=station_id,
-                element_id=element_id,
                 yyyy=yyyy,
                 mm=mm,
-                hh=hh,
+                dd=dd,
                 updates=data,
             )
         ],
@@ -260,23 +258,21 @@ def update_form_agro1(
     )
 
 
-@router.delete("/form_agro1s/{station_id}/{element_id}/{yyyy}/{mm}/{hh}")
+@router.delete("/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}")
 @handle_exceptions
 def delete_form_agro1(
     station_id: str,
-    element_id: int,
     yyyy: int,
     mm: int,
-    hh: int,
+    dd: int,
     db_session: Session = Depends(deps.get_session)
 ):
     form_agro1_service.delete(
         db_session=db_session,
         station_id=station_id,
-        element_id=element_id,
         yyyy=yyyy,
         mm=mm,
-        hh=hh
+        dd=dd
     )
     return get_success_response(
         result=[],

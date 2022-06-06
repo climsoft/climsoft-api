@@ -54,6 +54,8 @@ from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
 from climsoft_api.api.form_daily2.router import router as form_daily2_router
+from climsoft_api.api.form_agro1.router import router as form_agro1_router
+
 from climsoft_api.config import settings
 from climsoft_api.middlewares.localization import LocalizationMiddleware
 from fastapi import FastAPI
@@ -175,6 +177,12 @@ def get_app():
         form_daily2_router,
         prefix="/v1",
         tags=["Form Daily 2"]
+    )
+
+    app.include_router(
+        form_agro1_router,
+        prefix="/v1",
+        tags=["Form Agro1 2"]
     )
 
     if settings.MOUNT_STATIC:

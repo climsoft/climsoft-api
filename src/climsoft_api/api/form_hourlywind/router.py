@@ -243,7 +243,7 @@ def create_form_hourlywind(
     )
 
 
-@router.put("/form_hourlywinds/{station_id}/{element_id}/{yyyy}/{mm}/{dd}")
+@router.put("/form_hourlywinds/{station_id}/{yyyy}/{mm}/{dd}")
 @handle_exceptions
 def update_form_hourlywind(
     station_id: str,

@@ -59,6 +59,7 @@ from climsoft_api.api.form_hourly.router import router as form_hourly_router
 from climsoft_api.api.form_hourly_time_selection.router import router as form_hourly_time_selection_router
 from climsoft_api.api.form_hourlywind.router import router as form_hourlywind_router
 from climsoft_api.api.form_monthly.router import router as form_monthly_router
+from climsoft_api.api.form_synoptic2_tdcf.router import router as form_synoptic2_tdcf_router
 
 from climsoft_api.config import settings
 from climsoft_api.middlewares.localization import LocalizationMiddleware
@@ -212,6 +213,13 @@ def get_app():
         prefix="/v1",
         tags=["Form Monthly"]
     )
+
+    app.include_router(
+        form_synoptic2_tdcf_router,
+        prefix="/v1",
+        tags=["Form Monthly"]
+    )
+
     if settings.MOUNT_STATIC:
         try:
             Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)

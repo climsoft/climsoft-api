@@ -21,6 +21,7 @@ logging.basicConfig(level=logging.INFO)
 def get_form_synoptic2_tdcfs(
     station_id: str = None,
     yyyy: int = None,
+    mm: int = None,
     dd: int = None,
     hh: int = None,
     _106: str = None,
@@ -123,6 +124,7 @@ def get_form_synoptic2_tdcfs(
         db_session=db_session,
         station_id=station_id,
         yyyy=yyyy,
+        mm=mm,
         dd=dd,
         hh=hh,
         signature=signature,
@@ -234,11 +236,12 @@ def get_form_synoptic2_tdcfs(
     )
 
 
-@router.get("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{dd}/{hh}")
+@router.get("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}")
 @handle_exceptions
 def get_form_synoptic2_tdcf_by_id(
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int,
     db_session: Session = Depends(deps.get_session)
@@ -249,6 +252,7 @@ def get_form_synoptic2_tdcf_by_id(
                 db_session=db_session,
                 station_id=station_id,
                 yyyy=yyyy,
+                mm=mm,
                 dd=dd,
                 hh=hh,
             )
@@ -277,11 +281,12 @@ def create_form_synoptic2_tdcf(
     )
 
 
-@router.put("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{dd}/{hh}")
+@router.put("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}")
 @handle_exceptions
 def update_form_synoptic2_tdcf(
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int,
     data: form_synoptic2_tdcf_schema.UpdateFormSynoptic2Tdcf,
@@ -293,6 +298,7 @@ def update_form_synoptic2_tdcf(
                 db_session=db_session,
                 station_id=station_id,
                 yyyy=yyyy,
+                mm=mm,
                 dd=dd,
                 hh=hh,
                 updates=data,
@@ -306,11 +312,12 @@ def update_form_synoptic2_tdcf(
     )
 
 
-@router.delete("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{dd}/{hh}")
+@router.delete("/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}")
 @handle_exceptions
 def delete_form_synoptic2_tdcf(
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int,
     db_session: Session = Depends(deps.get_session)
@@ -320,6 +327,7 @@ def delete_form_synoptic2_tdcf(
         station_id=station_id,
         yyyy=yyyy,
         dd=dd,
+        mm=mm,
         hh=hh,
     )
     return get_success_response(

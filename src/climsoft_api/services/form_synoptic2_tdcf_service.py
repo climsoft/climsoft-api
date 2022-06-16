@@ -1,7 +1,7 @@
 import datetime
 import logging
 from typing import List, Tuple
-from climsoft_api.api.form_synoptic_2_tdcf import schema as form_synoptic_2_tdcf_schema
+from climsoft_api.api.form_synoptic2_tdcf import schema as form_synoptic_2_tdcf_schema
 from climsoft_api.utils.query import get_count
 from fastapi.exceptions import HTTPException
 from opencdms.models.climsoft import v4_1_1_core as models
@@ -18,6 +18,7 @@ def get_or_404(
     db_session: Session,
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int
 ):
@@ -25,6 +26,7 @@ def get_or_404(
         db_session.query(models.FormSynoptic2Tdcf)
         .filter_by(stationId=station_id)
         .filter_by(yyyy=yyyy)
+        .filter_by(mm=mm)
         .filter_by(dd=dd)
         .filter_by(hh=hh)
         .first()
@@ -53,6 +55,7 @@ def get(
     db_session: Session,
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int
 ) -> form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf:
@@ -60,6 +63,7 @@ def get(
         db_session,
         station_id,
         yyyy,
+        mm,
         dd,
         hh
     )
@@ -70,6 +74,7 @@ def query(
     db_session: Session,
     station_id: str = None,
     yyyy: int = None,
+    mm: int = None,
     dd: int = None,
     hh: int = None,
     _106: Optional[constr(max_length=6)] = None,
@@ -179,6 +184,9 @@ def query(
 
     if yyyy is not None:
         q = q.filter_by(yyyy=yyyy)
+
+    if mm is not None:
+        q = q.filter_by(mm=mm)
 
     if dd is not None:
         q = q.filter_by(dd=dd)
@@ -491,15 +499,18 @@ def update(
     db_session: Session,
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int,
     updates: form_synoptic_2_tdcf_schema.UpdateFormSynoptic2Tdcf
 ) -> form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf:
-    get_or_404(db_session, station_id, yyyy, dd, hh)
+    get_or_404(db_session, station_id, yyyy, mm, dd, hh)
     db_session.query(models.FormSynoptic2Tdcf).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
         yyyy=yyyy
+    ).filter_by(
+        mm=mm
     ).filter_by(
         dd=dd
     ).filter_by(
@@ -509,9 +520,11 @@ def update(
     updated_form_synoptic_2_tdcf = (
         db_session.query(models.FormSynoptic2Tdcf)
         .filter_by(
-            station_id=station_id
+            stationId=station_id
         ).filter_by(
             yyyy=yyyy
+        ).filter_by(
+            mm=mm
         ).filter_by(
             dd=dd
         ).filter_by(
@@ -525,6 +538,7 @@ def delete(
     db_session: Session,
     station_id: str,
     yyyy: int,
+    mm: int,
     dd: int,
     hh: int
 ) -> bool:
@@ -532,13 +546,16 @@ def delete(
         db_session,
         station_id,
         yyyy,
+        mm,
         dd,
         hh
     )
     db_session.query(models.FormSynoptic2Tdcf).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
         yyyy=yyyy
+    ).filter_by(
+        mm=mm
     ).filter_by(
         dd=dd
     ).filter_by(

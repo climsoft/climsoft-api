@@ -11,7 +11,7 @@ field_mapping = {
 }
 
 
-class CreateSynoptic2Tdcf(BaseModel):
+class CreateFormSynoptic2Tdcf(BaseModel):
     stationId: constr(max_length=10)
     yyyy: int
     dd: int
@@ -114,7 +114,7 @@ class CreateSynoptic2Tdcf(BaseModel):
         fields = field_mapping
 
 
-class UpdateSynoptic2Tdcf(BaseModel):
+class UpdateFormSynoptic2Tdcf(BaseModel):
     _106: Optional[constr(max_length=6)]
     _107: Optional[constr(max_length=6)]
     _399: Optional[constr(max_length=5)]
@@ -213,7 +213,7 @@ class UpdateSynoptic2Tdcf(BaseModel):
         fields = field_mapping
 
 
-class FormSynoptic2Tdcf(CreateSynoptic2Tdcf):
+class FormSynoptic2Tdcf(CreateFormSynoptic2Tdcf):
 
     class Config:
         allow_population_by_field_name = True

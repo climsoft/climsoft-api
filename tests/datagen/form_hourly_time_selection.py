@@ -8,7 +8,11 @@ fake = Faker()
 
 
 def get_valid_form_hourly_time_selection_input():
-    return form_hourly_time_selection_schema.CreateFormHourlyTimeSelection(
-        hh=random.randint(1, 10),
-        hh_selection=random.randint(1, 4)
-    )
+    choices = [
+        form_hourly_time_selection_schema.CreateFormHourlyTimeSelection(
+            hh=i,
+            hh_selection=i%5
+        ) for i in range(1, 100000)]
+
+    return random.choice(choices)
+

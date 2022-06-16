@@ -37,7 +37,7 @@ def test_should_return_first_five_form_hourly_time_selections(client: TestClient
 
 def test_should_return_single_form_hourly_time_selection(client: TestClient, get_form_hourly_time_selection: climsoft_models.FormHourlyTimeSelection):
     response = client.get(
-        f"/v1/form_hourly_time_selections/{get_form_hourly_time_selection.stationId}/{get_form_hourly_time_selection.elementId}/{get_form_hourly_time_selection.yyyy}/{get_form_hourly_time_selection.mm}/{get_form_hourly_time_selection.dd}",
+        f"/v1/form_hourly_time_selections/{get_form_hourly_time_selection.hh}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -66,7 +66,7 @@ def test_should_raise_validation_error(client: TestClient):
 def test_should_update_form_hourly_time_selection(client: TestClient, get_form_hourly_time_selection):
     form_hourly_time_selection_data = form_hourly_time_selection_schema.FormHourlyTimeSelection.from_orm(get_form_hourly_time_selection).dict(by_alias=True)
     hh = form_hourly_time_selection_data.pop("hh")
-    updates = {**form_hourly_time_selection_data, "hh": random.randint(10, 20)}
+    updates = {"hh_selection": random.randint(10, 20)}
 
     response = client.put(
         f"/v1/form_hourly_time_selections/{hh}",
@@ -74,10 +74,8 @@ def test_should_update_form_hourly_time_selection(client: TestClient, get_form_h
     )
     response_data = response.json()
 
-    print(response_data)
-
     assert response.status_code == 200
-    assert response_data["result"][0]["hh"] == updates["hh"]
+    assert response_data["result"][0]["hh_selection"] == updates["hh_selection"]
 
 
 def test_should_delete_form_hourly_time_selection(client: TestClient, get_form_hourly_time_selection):

@@ -8,8 +8,8 @@ class CreateFormHourlyTimeSelection(BaseModel):
     hh_selection: int
 
 
-class UpdateFormHourlyTimeSelection(CreateFormHourlyTimeSelection):
-    pass
+class UpdateFormHourlyTimeSelection(BaseModel):
+    hh_selection: int
 
 
 class FormHourlyTimeSelection(CreateFormHourlyTimeSelection):

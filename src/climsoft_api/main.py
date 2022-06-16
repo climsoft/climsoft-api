@@ -56,6 +56,7 @@ from climsoft_api.api.upload.router import router as file_upload_router
 from climsoft_api.api.form_daily2.router import router as form_daily2_router
 from climsoft_api.api.form_agro1.router import router as form_agro1_router
 from climsoft_api.api.form_hourly.router import router as form_hourly_router
+from climsoft_api.api.form_hourly_time_selection.router import router as form_hourly_time_selection_router
 
 from climsoft_api.config import settings
 from climsoft_api.middlewares.localization import LocalizationMiddleware
@@ -190,6 +191,12 @@ def get_app():
         form_hourly_router,
         prefix="/v1",
         tags=["Form Hourly"]
+    )
+
+    app.include_router(
+        form_hourly_time_selection_router,
+        prefix="/v1",
+        tags=["Form Hourly Time Selection"]
     )
     if settings.MOUNT_STATIC:
         try:

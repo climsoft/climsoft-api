@@ -13,16 +13,18 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_hourly_wind_schema.FormHourlyWind]:
     results = (
         db_session.query(models.FormHourlywind)
         .filter(
-            models.FormHourlywind.stationId.ilike(f"%{query}%")
-            | models.FormHourlywind.yyyy == int(query)
-            | models.FormHourlywind.mm == int(query)
-            | models.FormHourlywind.dd == int(query)
-        ).limit(50).all()
+            models.FormHourlywind.stationId.ilike(f"%{_query}%")
+            | models.FormHourlywind.yyyy == int(_query)
+            | models.FormHourlywind.mm == int(_query)
+            | models.FormHourlywind.dd == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_hourly_wind_schema.FormHourlyWind.from_orm(r) for r in results]

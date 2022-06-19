@@ -14,15 +14,17 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_monthly_schema.FormMonthly]:
     results = (
         db_session.query(models.FormMonthly)
         .filter(
-            models.FormMonthly.stationId.ilike(f"%{query}%")
-            | models.FormMonthly.elementId == int(query)
-            | models.FormMonthly.yyyy == int(query)
-        ).limit(50).all()
+            models.FormMonthly.stationId.ilike(f"%{_query}%")
+            | models.FormMonthly.elementId == int(_query)
+            | models.FormMonthly.yyyy == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_monthly_schema.FormMonthly.from_orm(r) for r in results]

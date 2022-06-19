@@ -13,16 +13,18 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_agro1_schema.FormAgro1]:
     results = (
         db_session.query(models.FormAgro1)
         .filter(
-            models.FormAgro1.stationId.ilike(f"%{query}%")
-            | models.FormAgro1.yyyy == int(query)
-            | models.FormAgro1.mm == int(query)
-            | models.FormAgro1.dd == int(query)
-        ).limit(50).all()
+            models.FormAgro1.stationId.ilike(f"%{_query}%")
+            | models.FormAgro1.yyyy == int(_query)
+            | models.FormAgro1.mm == int(_query)
+            | models.FormAgro1.dd == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_agro1_schema.FormAgro1.from_orm(r) for r in results]

@@ -13,17 +13,19 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_hourly_schema.FormHourly]:
     results = (
         db_session.query(models.FormHourly)
         .filter(
-            models.FormHourly.stationId.ilike(f"%{query}%")
-            | models.FormHourly.elementId == int(query)
-            | models.FormHourly.yyyy == int(query)
-            | models.FormHourly.mm == int(query)
-            | models.FormHourly.dd == int(query)
-        ).limit(50).all()
+            models.FormHourly.stationId.ilike(f"%{_query}%")
+            | models.FormHourly.elementId == int(_query)
+            | models.FormHourly.yyyy == int(_query)
+            | models.FormHourly.mm == int(_query)
+            | models.FormHourly.dd == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_hourly_schema.FormHourly.from_orm(r) for r in results]

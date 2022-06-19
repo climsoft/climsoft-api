@@ -12,17 +12,19 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_daily2_schema.FormDaily2]:
     results = (
         db_session.query(models.FormDaily2)
         .filter(
-            models.FormDaily2.stationId.ilike(f"%{query}%")
-            | models.FormDaily2.elementId == int(query)
-            | models.FormDaily2.yyyy == int(query)
-            | models.FormDaily2.mm == int(query)
-            | models.FormDaily2.hh == int(query)
-        ).limit(50).all()
+            models.FormDaily2.stationId.ilike(f"%{_query}%")
+            | models.FormDaily2.elementId == int(_query)
+            | models.FormDaily2.yyyy == int(_query)
+            | models.FormDaily2.mm == int(_query)
+            | models.FormDaily2.hh == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_daily2_schema.FormDaily2.from_orm(r) for r in results]

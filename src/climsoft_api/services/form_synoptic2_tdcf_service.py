@@ -16,17 +16,19 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf]:
     results = (
         db_session.query(models.FormSynoptic2Tdcf)
         .filter(
-            models.FormSynoptic2Tdcf.stationId.ilike(f"%{query}%")
-            | models.FormSynoptic2Tdcf.yyyy == int(query)
-            | models.FormSynoptic2Tdcf.mm == int(query)
-            | models.FormSynoptic2Tdcf.dd == int(query)
-            | models.FormSynoptic2Tdcf.hh == int(query)
-        ).limit(50).all()
+            models.FormSynoptic2Tdcf.stationId.ilike(f"%{_query}%")
+            | models.FormSynoptic2Tdcf.yyyy == int(_query)
+            | models.FormSynoptic2Tdcf.mm == int(_query)
+            | models.FormSynoptic2Tdcf.dd == int(_query)
+            | models.FormSynoptic2Tdcf.hh == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [form_synoptic_2_tdcf_schema.FormSynoptic2Tdcf.from_orm(r) for r in results]

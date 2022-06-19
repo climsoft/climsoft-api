@@ -13,13 +13,15 @@ logging.basicConfig(level=logging.INFO)
 
 def search(
     db_session: Session,
-    query: str
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
 ) -> List[form_hourly_time_selection_schema.FormHourlyTimeSelection]:
     results = (
         db_session.query(models.FormHourlyTimeSelection)
         .filter(
-            models.FormHourlyTimeSelection.hh == int(query)
-        ).limit(50).all()
+            models.FormHourlyTimeSelection.hh == int(_query)
+        ).offset(offset).limit(limit).all()
     )
 
     return [

@@ -295,6 +295,35 @@ def create_form_synoptic_2_ra1(
     )
 
 
+@router.get(
+    "/form_synoptic_2_ra1s/search"
+)
+@handle_exceptions
+def search_elements(
+    query: str = None,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    total, form_synoptic_2_ra1s = form_synoptic_2_ra1_service.search(
+        db_session=db_session,
+        _query=query,
+        limit=limit,
+        offset=offset
+    )
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=form_synoptic_2_ra1s,
+        message=_("Successfully fetched forms."),
+        schema=translate_schema(
+            _,
+            form_synoptic_2_ra1_schema.FormSynoptic2Ra1QueryResponse.schema()
+        )
+    )
+
+
 @router.put("/form_synoptic_2_ra1s/{station_id}/{yyyy}/{mm}/{dd}/{hh}")
 @handle_exceptions
 def update_form_synoptic_2_ra1(

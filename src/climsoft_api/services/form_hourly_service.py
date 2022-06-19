@@ -11,6 +11,24 @@ logger = logging.getLogger("ClimsoftFormHourlyService")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    query: str
+) -> List[form_hourly_schema.FormHourly]:
+    results = (
+        db_session.query(models.FormHourly)
+        .filter(
+            models.FormHourly.stationId.ilike(f"%{query}%")
+            | models.FormHourly.elementId == int(query)
+            | models.FormHourly.yyyy == int(query)
+            | models.FormHourly.mm == int(query)
+            | models.FormHourly.dd == int(query)
+        ).limit(50).all()
+    )
+
+    return [form_hourly_schema.FormHourly.from_orm(r) for r in results]
+
+
 def get_or_404(
     db_session: Session, 
     station_id: str,

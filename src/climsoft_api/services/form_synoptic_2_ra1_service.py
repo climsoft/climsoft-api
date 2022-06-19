@@ -14,6 +14,24 @@ logger = logging.getLogger("ClimsoftFormSynoptic2Ra1Service")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    query: str
+) -> List[form_synoptic_2_ra1_schema.FormSynoptic2Ra1]:
+    results = (
+        db_session.query(models.FormSynoptic2Ra1)
+        .filter(
+            models.FormSynoptic2Ra1.stationId.ilike(f"%{query}%")
+            | models.FormSynoptic2Ra1.yyyy == int(query)
+            | models.FormSynoptic2Ra1.mm == int(query)
+            | models.FormSynoptic2Ra1.dd == int(query)
+            | models.FormSynoptic2Ra1.hh == int(query)
+        ).limit(50).all()
+    )
+
+    return [form_synoptic_2_ra1_schema.FormSynoptic2Ra1.from_orm(r) for r in results]
+
+
 def get_or_404(
     db_session: Session,
     station_id: str,

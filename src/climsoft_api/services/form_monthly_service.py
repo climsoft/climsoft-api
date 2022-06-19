@@ -12,6 +12,22 @@ logger = logging.getLogger("ClimsoftFormMonthlyService")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    query: str
+) -> List[form_monthly_schema.FormMonthly]:
+    results = (
+        db_session.query(models.FormMonthly)
+        .filter(
+            models.FormMonthly.stationId.ilike(f"%{query}%")
+            | models.FormMonthly.elementId == int(query)
+            | models.FormMonthly.yyyy == int(query)
+        ).limit(50).all()
+    )
+
+    return [form_monthly_schema.FormMonthly.from_orm(r) for r in results]
+
+
 def get_or_404(
     db_session: Session, 
     station_id: str,

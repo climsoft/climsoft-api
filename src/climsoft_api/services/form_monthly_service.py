@@ -255,9 +255,9 @@ def update(
 ) -> form_monthly_schema.FormMonthly:
     get_or_404(db_session, station_id, element_id, yyyy)
     db_session.query(models.FormMonthly).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
-        element_id=element_id
+        elementId=element_id
     ).filter_by(
         yyyy=yyyy
     ).update(updates.dict())
@@ -265,9 +265,9 @@ def update(
     updated_form_monthly = (
         db_session.query(models.FormMonthly)
         .filter_by(
-            station_id=station_id
+            stationId=station_id
         ).filter_by(
-            element_id=element_id
+            elementId=element_id
         ).filter_by(
             yyyy=yyyy
         ).first()
@@ -288,9 +288,9 @@ def delete(
         yyyy
     )
     db_session.query(models.FormMonthly).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
-        element_id=element_id
+        elementId=element_id
     ).filter_by(
         yyyy=yyyy
     ).delete()

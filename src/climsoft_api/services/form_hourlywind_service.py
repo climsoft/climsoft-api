@@ -11,6 +11,25 @@ logger = logging.getLogger("ClimsoftFormHourlyWindService")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
+) -> List[form_hourly_wind_schema.FormHourlyWind]:
+    results = (
+        db_session.query(models.FormHourlywind)
+        .filter(
+            models.FormHourlywind.stationId.ilike(f"%{_query}%")
+            | models.FormHourlywind.yyyy == int(_query)
+            | models.FormHourlywind.mm == int(_query)
+            | models.FormHourlywind.dd == int(_query)
+        ).offset(offset).limit(limit).all()
+    )
+
+    return [form_hourly_wind_schema.FormHourlyWind.from_orm(r) for r in results]
+
+
 def get_or_404(
     db_session: Session, 
     station_id: str,

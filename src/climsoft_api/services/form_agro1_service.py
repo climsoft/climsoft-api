@@ -11,11 +11,30 @@ logger = logging.getLogger("ClimsoftFormAgro1Service")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
+) -> List[form_agro1_schema.FormAgro1]:
+    results = (
+        db_session.query(models.FormAgro1)
+        .filter(
+            models.FormAgro1.stationId.ilike(f"%{_query}%")
+            | models.FormAgro1.yyyy == int(_query)
+            | models.FormAgro1.mm == int(_query)
+            | models.FormAgro1.dd == int(_query)
+        ).offset(offset).limit(limit).all()
+    )
+
+    return [form_agro1_schema.FormAgro1.from_orm(r) for r in results]
+
+
 def get_or_404(
-    db_session: Session, 
+    db_session: Session,
     station_id: str,
-    yyyy: int, 
-    mm: int, 
+    yyyy: int,
+    mm: int,
     dd: int
 ):
     form_agro1 = (
@@ -371,8 +390,8 @@ def query(
         get_count(q),
         [
             form_agro1_schema.FormAgro1.from_orm(s) for s in q.offset(
-                offset
-            ).limit(limit).all()
+            offset
+        ).limit(limit).all()
         ]
     )
 

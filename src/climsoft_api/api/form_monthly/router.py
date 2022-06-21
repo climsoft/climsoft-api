@@ -149,6 +149,35 @@ def get_form_monthly_by_id(
     )
 
 
+@router.get(
+    "/form_monthlys/search"
+)
+@handle_exceptions
+def search_elements(
+    query: str = None,
+    db_session: Session = Depends(deps.get_session),
+    limit: int = 25,
+    offset: int = 0
+):
+    total, form_monthlys = form_monthly_service.search(
+        db_session=db_session,
+        _query=query,
+        limit=limit,
+        offset=offset
+    )
+    return get_success_response_for_query(
+        limit=limit,
+        total=total,
+        offset=offset,
+        result=form_monthlys,
+        message=_("Successfully fetched forms."),
+        schema=translate_schema(
+            _,
+            form_monthly_schema.FormMonthlyQueryResponse.schema()
+        )
+    )
+
+
 @router.post("/form_monthlys")
 @handle_exceptions
 def create_form_monthly(

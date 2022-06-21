@@ -322,7 +322,7 @@ def update(
     dd: int,
     updates: form_hourly_schema.UpdateFormHourly
 ) -> form_hourly_schema.FormHourly:
-    get_or_404(db_session, station_id, yyyy, mm, dd)
+    get_or_404(db_session, station_id, element_id, yyyy, mm, dd)
     db_session.query(models.FormHourly).filter_by(
         stationId=station_id
     ).filter_by(

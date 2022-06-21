@@ -55,6 +55,8 @@ from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
 from climsoft_api.api.form_daily2.router import router as form_daily2_router
 from climsoft_api.api.form_agro1.router import router as form_agro1_router
+from climsoft_api.api.form_hourly.router import router as form_hourly_router
+from climsoft_api.api.form_hourly_time_selection.router import router as form_hourly_time_selection_router
 
 from climsoft_api.config import settings
 from climsoft_api.middlewares.localization import LocalizationMiddleware
@@ -174,17 +176,28 @@ def get_app():
     )
 
     app.include_router(
+        form_agro1_router,
+        prefix="/v1",
+        tags=["Form Agro1 2"]
+    )
+
+    app.include_router(
         form_daily2_router,
         prefix="/v1",
         tags=["Form Daily 2"]
     )
 
     app.include_router(
-        form_agro1_router,
+        form_hourly_router,
         prefix="/v1",
-        tags=["Form Agro1 2"]
+        tags=["Form Hourly"]
     )
 
+    app.include_router(
+        form_hourly_time_selection_router,
+        prefix="/v1",
+        tags=["Form Hourly Time Selection"]
+    )
     if settings.MOUNT_STATIC:
         try:
             Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)

@@ -58,6 +58,7 @@ from climsoft_api.api.form_hourly_time_selection.router import router as form_ho
 from climsoft_api.api.form_monthly.router import router as form_monthly_router
 from climsoft_api.api.form_synoptic2_tdcf.router import router as form_synoptic2_tdcf_router
 from climsoft_api.api.form_synoptic_2_ra1.router import router as form_synoptic_2_ra1_router
+from climsoft_api.api.form_agro1.router import router as form_agro1_router
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -195,6 +196,11 @@ api_routers: List[ClimsoftAPIRouter] = [
         router=form_daily2_router,
         prefix="/v1",
         tags=["Form Daily 2"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_agro1_router,
+        prefix="/v1",
+        tags=["Form Agro 1"]
     ),
     ClimsoftAPIRouter(
         router=form_hourly_router,

@@ -81,6 +81,7 @@ def get_form_hourlys(
     total, form_hourlys = form_hourly_service.query(
         db_session=db_session,
         station_id=station_id,
+        element_id=element_id,
         yyyy=yyyy,
         mm=mm,
         entry_datetime=entry_datetime,

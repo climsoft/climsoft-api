@@ -2,13 +2,13 @@ from fastapi.applications import FastAPI
 import pytest
 from sqlalchemy.orm.session import Session
 from climsoft_api.db import SessionLocal
-from climsoft_api.main import get_app
+from climsoft_api.main import get_app_with_routers
 from fastapi.testclient import TestClient
 
 
 @pytest.fixture
 def app() -> FastAPI:
-    return get_app()
+    return get_app_with_routers()
 
 
 @pytest.fixture

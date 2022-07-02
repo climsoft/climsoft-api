@@ -52,6 +52,12 @@ from climsoft_api.api.stationqualifier.router import \
 from climsoft_api.api.statistics.router import router as climsoft_stat_router
 from climsoft_api.api.synopfeature.router import router as synopfeature_router
 from climsoft_api.api.upload.router import router as file_upload_router
+from climsoft_api.api.form_hourly.router import router as form_hourly_router
+from climsoft_api.api.form_hourlywind.router import router as form_hourlywind_router
+from climsoft_api.api.form_hourly_time_selection.router import router as form_hourly_time_selection_router
+from climsoft_api.api.form_monthly.router import router as form_monthly_router
+from climsoft_api.api.form_synoptic2_tdcf.router import router as form_synoptic2_tdcf_router
+from climsoft_api.api.form_synoptic_2_ra1.router import router as form_synoptic_2_ra1_router
 from fastapi import APIRouter
 from pydantic import BaseModel
 
@@ -190,5 +196,35 @@ api_routers: List[ClimsoftAPIRouter] = [
         prefix="/v1",
         tags=["Form Daily 2"]
     ),
+    ClimsoftAPIRouter(
+        router=form_hourly_router,
+        prefix="/v1",
+        tags=["Form Hourly"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_hourly_time_selection_router,
+        prefix="/v1",
+        tags=["Form Hourly Time Selection"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_hourlywind_router,
+        prefix="/v1",
+        tags=["Form Hourly Wind"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_monthly_router,
+        prefix="/v1",
+        tags=["Form Monthly"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_synoptic2_tdcf_router,
+        prefix="/v1",
+        tags=["Form Synoptic2 Tdcf"]
+    ),
+    ClimsoftAPIRouter(
+        router=form_synoptic_2_ra1_router,
+        prefix="/v1",
+        tags=["Form Synoptic2 Ra1"]
+    )
 
 ]

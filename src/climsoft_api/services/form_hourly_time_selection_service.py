@@ -11,15 +11,32 @@ logger = logging.getLogger("ClimsoftFormHourlyTimeSelectionService")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
+) -> List[form_hourly_time_selection_schema.FormHourlyTimeSelection]:
+    results = (
+        db_session.query(models.FormHourlyTimeSelection)
+        .filter(
+            models.FormHourlyTimeSelection.hh == int(_query)
+        ).offset(offset).limit(limit).all()
+    )
+
+    return [
+        form_hourly_time_selection_schema.FormHourlyTimeSelection.from_orm(r)
+        for r in results
+    ]
+
+
 def get_or_404(
     db_session: Session, 
-    hh: int,
-    hh_selection: int,
+    hh: int
 ):
     form_hourly_time_selection = (
         db_session.query(models.FormHourlyTimeSelection)
         .filter_by(hh=hh)
-        .filter_by(hh_selection=hh_selection)
         .first()
     )
 
@@ -44,13 +61,11 @@ def create(
 
 def get(
     db_session: Session,
-    hh: int,
-    hh_selection: int,
+    hh: int
 ) -> form_hourly_time_selection_schema.FormHourlyTimeSelection:
     form_hourly_time_selection = get_or_404(
         db_session,
-        hh,
-        hh_selection
+        hh
     )
     return form_hourly_time_selection_schema.FormHourlyTimeSelection.from_orm(form_hourly_time_selection)
 
@@ -88,22 +103,17 @@ def query(
 def update(
     db_session: Session,
     hh: int,
-    hh_selection: int,
     updates: form_hourly_time_selection_schema.UpdateFormHourlyTimeSelection
 ) -> form_hourly_time_selection_schema.FormHourlyTimeSelection:
-    get_or_404(db_session, hh, hh_selection)
+    get_or_404(db_session, hh)
     db_session.query(models.FormHourlyTimeSelection).filter_by(
         hh=hh
-    ).filter_by(
-        hh_selection=hh_selection
     ).update(updates.dict())
     db_session.commit()
     updated_form_hourly_time_selection = (
         db_session.query(models.FormHourlyTimeSelection)
         .filter_by(
             hh=hh
-        ).filter_by(
-            hh_selection=hh_selection
         ).first()
     )
     return form_hourly_time_selection_schema.FormHourlyTimeSelection.from_orm(updated_form_hourly_time_selection)
@@ -111,18 +121,14 @@ def update(
 
 def delete(
     db_session: Session,
-    hh: int,
-    hh_selection: int,
+    hh: int
 ) -> bool:
     get_or_404(
         db_session,
-        hh,
-        hh_selection
+        hh
     )
     db_session.query(models.FormHourlyTimeSelection).filter_by(
         hh=hh
-    ).filter_by(
-        hh_selection=hh_selection
     ).delete()
     db_session.commit()
     return True

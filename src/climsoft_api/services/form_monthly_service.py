@@ -12,6 +12,24 @@ logger = logging.getLogger("ClimsoftFormMonthlyService")
 logging.basicConfig(level=logging.INFO)
 
 
+def search(
+    db_session: Session,
+    _query: str,
+    offset: int = 0,
+    limit: int = 50
+) -> List[form_monthly_schema.FormMonthly]:
+    results = (
+        db_session.query(models.FormMonthly)
+        .filter(
+            models.FormMonthly.stationId.ilike(f"%{_query}%")
+            | models.FormMonthly.elementId == int(_query)
+            | models.FormMonthly.yyyy == int(_query)
+        ).offset(offset).limit(limit).all()
+    )
+
+    return [form_monthly_schema.FormMonthly.from_orm(r) for r in results]
+
+
 def get_or_404(
     db_session: Session, 
     station_id: str,
@@ -255,9 +273,9 @@ def update(
 ) -> form_monthly_schema.FormMonthly:
     get_or_404(db_session, station_id, element_id, yyyy)
     db_session.query(models.FormMonthly).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
-        element_id=element_id
+        elementId=element_id
     ).filter_by(
         yyyy=yyyy
     ).update(updates.dict())
@@ -265,9 +283,9 @@ def update(
     updated_form_monthly = (
         db_session.query(models.FormMonthly)
         .filter_by(
-            station_id=station_id
+            stationId=station_id
         ).filter_by(
-            element_id=element_id
+            elementId=element_id
         ).filter_by(
             yyyy=yyyy
         ).first()
@@ -288,9 +306,9 @@ def delete(
         yyyy
     )
     db_session.query(models.FormMonthly).filter_by(
-        station_id=station_id
+        stationId=station_id
     ).filter_by(
-        element_id=element_id
+        elementId=element_id
     ).filter_by(
         yyyy=yyyy
     ).delete()

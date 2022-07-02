@@ -15,7 +15,6 @@ from climsoft_api.api import api_routers
 def get_app():
     app = FastAPI(docs_url="/")
     app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
-
     if settings.MOUNT_STATIC:
         try:
             Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)

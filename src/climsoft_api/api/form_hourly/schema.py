@@ -1,7 +1,8 @@
 import datetime
+from climsoft_api.api.schema import Response
+from pydantic import BaseModel, constr, Field
+from typing import Optional, List
 
-from pydantic import BaseModel, constr
-from typing import Optional
 
 field_mapping = {
     "stationId": "station_id",
@@ -141,3 +142,11 @@ class FormHourly(CreateFormHourly):
         fields = field_mapping
 
 
+class FormHourlyResponse(Response):
+    result: List[FormHourly] = Field(title="Result")
+
+
+class FormHourlyQueryResponse(FormHourlyResponse):
+    limit: int = Field(title="Limit")
+    page: int = Field(title="Page")
+    pages: int = Field(title="Pages")

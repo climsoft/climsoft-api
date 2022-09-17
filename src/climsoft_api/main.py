@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 from climsoft_api.db import SessionLocal
 from fastapi import Response, Request
-from climsoft_api.config import settings, Settings
+from climsoft_api.config import settings
 from climsoft_api.middlewares.localization import LocalizationMiddleware
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -17,8 +17,6 @@ from sqlalchemy.orm import sessionmaker
 def get_app(config=None):
     app = FastAPI(docs_url="/")
     app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
-    if config:
-        settings = Settings(**config)
     if settings.MOUNT_STATIC:
         try:
             Path(settings.UPLOAD_DIR).mkdir(parents=True, exist_ok=True)
@@ -35,7 +33,6 @@ def get_app(config=None):
         if config.get("DATABASE_URI"):
             engine: Engine = create_engine(config.get("DATABASE_URI"))
             SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-
         try:
             request.state.get_session = SessionLocal
             response = await call_next(request)
@@ -46,8 +43,8 @@ def get_app(config=None):
     return app
 
 
-def get_app_with_routers():
-    app = get_app()
+def get_app_with_routers(config=None):
+    app = get_app(config)
     for router in api_routers:
         app.include_router(**router.dict())
 

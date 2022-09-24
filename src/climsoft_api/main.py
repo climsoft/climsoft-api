@@ -30,7 +30,7 @@ def get_app(config=None):
 
     @app.middleware("http")
     async def db_session_middleware(request: Request, call_next):
-        if config.get("DATABASE_URI"):
+        if config is not None and config.get("DATABASE_URI"):
             engine: Engine = create_engine(config.get("DATABASE_URI"))
             SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
         try:

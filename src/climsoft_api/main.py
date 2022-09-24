@@ -8,11 +8,13 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from climsoft_api.api import api_routers
-
+from sqlalchemy import create_engine
+from sqlalchemy.engine import Engine
+from sqlalchemy.orm import sessionmaker
 # load controllers
 
 
-def get_app():
+def get_app(config=None):
     app = FastAPI(docs_url="/")
     app.add_middleware(BaseHTTPMiddleware, dispatch=LocalizationMiddleware())
     if settings.MOUNT_STATIC:
@@ -28,6 +30,9 @@ def get_app():
 
     @app.middleware("http")
     async def db_session_middleware(request: Request, call_next):
+        if config is not None and config.get("DATABASE_URI"):
+            engine: Engine = create_engine(config.get("DATABASE_URI"))
+            SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
         try:
             request.state.get_session = SessionLocal
             response = await call_next(request)
@@ -38,8 +43,8 @@ def get_app():
     return app
 
 
-def get_app_with_routers():
-    app = get_app()
+def get_app_with_routers(config=None):
+    app = get_app(config)
     for router in api_routers:
         app.include_router(**router.dict())
 

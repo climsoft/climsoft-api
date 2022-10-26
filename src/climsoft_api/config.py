@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     AWS_SECRET_ACCESS_KEY: str = "replace it"
     S3_SIGNED_URL_VALIDITY: int = 6
     MOUNT_STATIC: bool = True
+    MYSQL_DEFAULT_USER: str = "root"
 
     class Config:
         env_prefix = "CLIMSOFT_"

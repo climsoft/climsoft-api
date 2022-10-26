@@ -11,3 +11,7 @@ class Response(BaseSchema):
     message: str = Field(title="Message")
     status: str = Field(title="Status")
     _schema: str = None
+
+
+class CurrentUser(BaseModel):
+    username: str

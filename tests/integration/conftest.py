@@ -19,10 +19,3 @@ def setup_db():
     metadata.create_all(engine)
 
     yield
-    #
-    # for table in TARGET_TABLES:
-    #     engine.execute(text(f"""
-    #         SET FOREIGN_KEY_CHECKS=0;
-    #         DROP TABLE IF EXISTS {table};
-    #         SET FOREIGN_KEY_CHECKS=1;
-    #     """))

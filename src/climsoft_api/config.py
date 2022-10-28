@@ -8,7 +8,7 @@ BASE_DIR: str = os.path.dirname(os.path.abspath(__file__))
 
 class Settings(BaseSettings):
     SECRET_KEY: str = "some-random-unique-secret-key"
-    DATABASE_URI: AnyUrl = "mysql+mysqldb://root:password@mariadb:3306/climsoft"
+    DATABASE_URI: AnyUrl = "mysql+mysqldb://root:password@mariadb/climsoft"
     FILE_STORAGE: str = "disk"
     UPLOAD_DIR: str = "/climsoft_uploads"
     S3_BUCKET: str = "climsoft-paper-archive"

@@ -1,6 +1,4 @@
 import logging
-from fastapi.security.oauth2 import OAuth2PasswordBearer
-from climsoft_api.db import SessionLocal
 from fastapi.exceptions import HTTPException
 from fastapi import Request
 from fastapi.security.utils import get_authorization_scheme_param
@@ -8,15 +6,26 @@ from jose.exceptions import JWTError
 from starlette.types import Scope, Receive, Send, ASGIApp
 from jose import jwt
 from climsoft_api.config import settings
+from climsoft_api.db import get_session_local
 from climsoft_api.middlewares import rbac_config
 from climsoft_api.api.schema import CurrentUser
 from opencdms.models.climsoft import v4_1_1_core as climsoft_models
 from fastapi import Depends
+from fastapi.security import OAuth2PasswordBearer
+from climsoft_api.utils.deployment import load_deployment_configs
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/token")
+
+oauth2_scheme = OAuth2PasswordBearer(
+    tokenUrl="/token",
+    scopes={
+        f"deployment_key:{key}": f"DB access to deployment key: {key}"
+        for key in load_deployment_configs()
+    },
+)
 
 
-def get_climsoft_role_for_username(username: str):
+def get_role_for_username(username: str, deployment_key: str = None):
+    SessionLocal = get_session_local(deployment_key)
     session = SessionLocal()
 
     role = None
@@ -37,8 +46,8 @@ def get_climsoft_role_for_username(username: str):
     return role
 
 
-def has_required_climsoft_role(username, required_role):
-    return get_climsoft_role_for_username(username) in required_role
+def has_required_climsoft_role(username, required_role, deployment_key=None):
+    return get_role_for_username(username, deployment_key) in required_role
 
 
 def extract_resource_from_path(string, sep, start, end):
@@ -46,9 +55,9 @@ def extract_resource_from_path(string, sep, start, end):
     return sep.join(string[start:end])
 
 
-class ClimsoftRBACMiddleware():
+class ClimsoftRBACMiddleware:
     def __init__(self, app: ASGIApp):
-        self.app = app
+        super().__init__(app)
 
     def authenticate_request(self, request: Request):
         user = None
@@ -64,7 +73,9 @@ class ClimsoftRBACMiddleware():
             raise HTTPException(401, "Unauthorized request")
         username = claims["sub"]
         if claims.get("deployment_key"):
-            user = CurrentUser(username=username)
+            user = CurrentUser(
+                username=username, deployment_key=claims.get("deployment_key")
+            )
         if user is None:
             raise HTTPException(401, "Unauthorized request")
         return user
@@ -84,25 +95,28 @@ class ClimsoftRBACMiddleware():
             resource_url, {}
         ).get(request.method.lower())
 
-        if (not required_role) or has_required_climsoft_role(user.username, required_role):
+        if (not required_role) or has_required_climsoft_role(
+            user.username, required_role, user.deployment_key
+        ):
             await self.app(scope, receive, send)
         else:
             raise HTTPException(status_code=403)
 
 
-def get_authorized_climsoft_user(
+def get_authorized_user(
     request: Request, token: str = Depends(oauth2_scheme)
 ):
     user = None
     try:
-        claims = jwt.decode(token, settings.SURFACE_SECRET_KEY)
+        claims = jwt.decode(token, settings.SECRET_KEY)
     except JWTError:
         raise HTTPException(401, "Unauthorized request")
 
     username = claims["sub"]
 
-    if claims.get("deployment_key"):
-        user = CurrentUser(username=username)
+    user = CurrentUser(
+        username=username, deployment_key=claims.get("deployment_key")
+    )
 
     if user is None:
         raise HTTPException(401, "Unauthorized request")
@@ -112,7 +126,9 @@ def get_authorized_climsoft_user(
         request.method.lower()
     )
 
-    if required_role and not has_required_climsoft_role(user.username, required_role):
+    if required_role and not has_required_climsoft_role(
+        user.username, required_role, user.deployment_key
+    ):
         raise HTTPException(status_code=403)
 
     return user

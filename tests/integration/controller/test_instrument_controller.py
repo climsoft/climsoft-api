@@ -42,7 +42,7 @@ def get_instruments(get_station: climsoft_models.Station, session: Session):
 
 
 def test_should_return_first_five_instruments(client: TestClient, get_instruments):
-    response = client.get("/v1/instruments", params={"limit": 5}, headers={})
+    response = client.get("/test/climsoft/v1/instruments", params={"limit": 5}, headers={})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -51,7 +51,7 @@ def test_should_return_first_five_instruments(client: TestClient, get_instrument
 def test_should_return_single_instrument(
     client: TestClient, get_instrument: climsoft_models.Instrument
 ):
-    response = client.get(f"/v1/instruments/{get_instrument.instrumentId}", headers={})
+    response = client.get(f"/test/climsoft/v1/instruments/{get_instrument.instrumentId}", headers={})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 1
@@ -64,7 +64,7 @@ def test_should_create_a_instrument(
         station_id=get_station.stationId
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/instruments", data=json.dumps(instrument_data, default=str), headers={}
+        "/test/climsoft/v1/instruments", data=json.dumps(instrument_data, default=str), headers={}
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -75,7 +75,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/v1/instruments",
+        "/test/climsoft/v1/instruments",
         data=json.dumps({"instrument_name": "some name"}, default=str),
         headers={},
     )
@@ -92,7 +92,7 @@ def test_should_update_instrument(
     updates = {**instrument_data, "instrument_name": "updated name"}
 
     response = client.put(
-        f"/v1/instruments/{instrument_id}",
+        f"/test/climsoft/v1/instruments/{instrument_id}",
         data=json.dumps(updates, default=str),
         headers={},
     )
@@ -108,9 +108,9 @@ def test_should_delete_instrument(client: TestClient, get_instrument):
     )
     instrument_id = instrument_data.pop("instrument_id")
 
-    response = client.delete(f"/v1/instruments/{instrument_id}", headers={})
+    response = client.delete(f"/test/climsoft/v1/instruments/{instrument_id}", headers={})
     assert response.status_code == 200
 
-    response = client.get(f"/v1/instruments/{instrument_id}", headers={})
+    response = client.get(f"/test/climsoft/v1/instruments/{instrument_id}", headers={})
 
     assert response.status_code == 404

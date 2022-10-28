@@ -82,7 +82,7 @@ def test_should_return_first_five_instrument_inspections(
     client: TestClient, get_instrument_inspections
 ):
     response = client.get(
-        "/v1/instrument-inspections",
+        "/test/climsoft/v1/instrument-inspections",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -95,7 +95,7 @@ def test_should_return_single_instrument_inspection(
     get_instrument_inspection: climsoft_models.Instrumentinspection,
 ):
     response = client.get(
-        f"/v1/instrument-inspections/{get_instrument_inspection.performedOn}/{get_instrument_inspection.inspectionDatetime}",
+        f"/test/climsoft/v1/instrument-inspections/{get_instrument_inspection.performedOn}/{get_instrument_inspection.inspectionDatetime}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -113,7 +113,7 @@ def test_should_create_a_instrument_inspection(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/instrument-inspections",
+        "/test/climsoft/v1/instrument-inspections",
         data=json.dumps(instrument_inspection_data, default=str),
     )
     assert response.status_code == 200
@@ -127,7 +127,7 @@ def test_should_raise_validation_error(
     get_instrument: climsoft_models.Instrument,
 ):
     response = client.post(
-        "/v1/instrument-inspections",
+        "/test/climsoft/v1/instrument-inspections",
         data=json.dumps({"performed_by": "John"}, default=str),
     )
     assert response.status_code == 422
@@ -149,7 +149,7 @@ def test_should_update_instrument_inspection(
     updates = {**instrument_inspection_data, "status": uuid.uuid4().hex}
 
     response = client.put(
-        f"/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
+        f"/test/climsoft/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -171,12 +171,12 @@ def test_should_delete_instrument_inspection(
     inspection_datetime = instrument_inspection_data.pop("inspection_datetime")
 
     response = client.delete(
-        f"/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
+        f"/test/climsoft/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
+        f"/test/climsoft/v1/instrument-inspections/{performed_on}/{inspection_datetime}",
     )
 
     assert response.status_code == 404

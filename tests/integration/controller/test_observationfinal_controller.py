@@ -78,7 +78,7 @@ def test_should_return_first_five_observation_finals(
     client: TestClient, get_observation_finals, session: Session
 ):
     response = client.get(
-        "/v1/observation-finals",
+        "/test/climsoft/v1/observation-finals",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -93,7 +93,7 @@ def test_should_return_single_observation_final(
     get_observation_final: climsoft_models.Observationfinal,
 ):
     response = client.get(
-        f"/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
+        f"/test/climsoft/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -113,7 +113,7 @@ def test_should_create_a_observation_final(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/v1/observation-finals",
+        "/test/climsoft/v1/observation-finals",
         data=json.dumps(
             observation_final_data, default=lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         ),
@@ -131,7 +131,7 @@ def test_should_raise_validation_error(
     get_obselement: climsoft_models.Obselement,
 ):
     response = client.post(
-        "/v1/observation-finals",
+        "/test/climsoft/v1/observation-finals",
         data=json.dumps({"qc_status": 3}, default=str),
     )
     assert response.status_code == 422
@@ -153,7 +153,7 @@ def test_should_update_observation_final(
 
     updates = {**observation_final_data, "period": 100}
     response = client.put(
-        f"/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
+        f"/test/climsoft/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -167,12 +167,12 @@ def test_should_delete_observation_final(
     get_observation_final: climsoft_models.Observationfinal,
 ):
     response = client.delete(
-        f"/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
+        f"/test/climsoft/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
+        f"/test/climsoft/v1/observation-finals/{get_observation_final.recordedFrom}/{get_observation_final.describedBy}/{get_observation_final.obsDatetime}",
     )
 
     assert response.status_code == 404

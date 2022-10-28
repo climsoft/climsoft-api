@@ -44,7 +44,7 @@ def test_should_return_single_acquisition_type(
     client: TestClient, get_acquisition_type: climsoft_models.Acquisitiontype
 ):
     response = client.get(
-        f"/v1/acquisition-types/{get_acquisition_type.code}",
+        f"/test/climsoft/v1/acquisition-types/{get_acquisition_type.code}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -58,7 +58,7 @@ def test_should_create_a_acquisition_type(client: TestClient):
         climsoft_acquisition_type.get_valid_acquisition_type_input().dict(by_alias=True)
     )
     response = client.post(
-        "/v1/acquisition-types",
+        "/test/climsoft/v1/acquisition-types",
         data=json.dumps(acquisition_type_data, default=str),
     )
     assert response.status_code == 200
@@ -71,7 +71,7 @@ def test_should_create_a_acquisition_type(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     acquisition_type_data = {"code": "asd", "description": "aa aa a"}
     response = client.post(
-        "/v1/acquisition-types", data=json.dumps(acquisition_type_data, default=str)
+        "/test/climsoft/v1/acquisition-types", data=json.dumps(acquisition_type_data, default=str)
     )
     assert response.status_code == 422
 
@@ -84,7 +84,7 @@ def test_should_update_acquisition_type(client: TestClient, get_acquisition_type
     updates = {**acquisition_type_data, "description": "updated description"}
 
     response = client.put(
-        f"/v1/acquisition-types/{code}", data=json.dumps(updates, default=str)
+        f"/test/climsoft/v1/acquisition-types/{code}", data=json.dumps(updates, default=str)
     )
     response_data = response.json()
 
@@ -98,8 +98,8 @@ def test_should_delete_acquisition_type(client: TestClient, get_acquisition_type
     ).dict(by_alias=True)
     code = acquisition_type_data.pop("code")
 
-    response = client.delete(f"/v1/acquisition-types/{code}")
+    response = client.delete(f"/test/climsoft/v1/acquisition-types/{code}")
     assert response.status_code == 200
 
-    response = client.get(f"/v1/acquisition-types/{code}")
+    response = client.get(f"/test/climsoft/v1/acquisition-types/{code}")
     assert response.status_code == 404

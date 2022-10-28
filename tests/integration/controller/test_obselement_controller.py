@@ -30,7 +30,7 @@ def get_obselements(session: Session):
 
 def test_should_return_first_five_obselements(client: TestClient, get_obselements):
     response = client.get(
-        "/v1/obselements",
+        "/test/climsoft/v1/obselements",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -45,7 +45,7 @@ def test_should_return_single_obselement(
     get_obselement: climsoft_models.Obselement,
 ):
     response = client.get(
-        f"/v1/obselements/{get_obselement.elementId}",
+        f"/test/climsoft/v1/obselements/{get_obselement.elementId}",
     )
 
     assert response.status_code == 200
@@ -60,7 +60,7 @@ def test_should_create_a_obselement(client: TestClient):
         by_alias=True
     )
     response = client.post(
-        "/v1/obselements",
+        "/test/climsoft/v1/obselements",
         data=json.dumps(obselement_data, default=str),
     )
     assert response.status_code == 200
@@ -72,7 +72,7 @@ def test_should_create_a_obselement(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/v1/obselements",
+        "/test/climsoft/v1/obselements",
         data=json.dumps({"element_name": "element name"}, default=str),
     )
     assert response.status_code == 422
@@ -85,7 +85,7 @@ def test_should_update_obselement(client: TestClient, get_obselement):
     element_id = obselement_data.pop("element_id")
     updates = {**obselement_data, "element_name": "updated name"}
     response = client.put(
-        f"/v1/obselements/{element_id}",
+        f"/test/climsoft/v1/obselements/{element_id}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -101,12 +101,12 @@ def test_should_delete_obselement(client: TestClient, get_obselement):
     element_id = obselement_data.pop("element_id")
 
     response = client.delete(
-        f"/v1/obselements/{element_id}",
+        f"/test/climsoft/v1/obselements/{element_id}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/obselements/{element_id}",
+        f"/test/climsoft/v1/obselements/{element_id}",
     )
 
     assert response.status_code == 404

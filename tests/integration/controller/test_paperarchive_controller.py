@@ -89,7 +89,7 @@ def test_should_return_first_five_paper_archives(
     client: TestClient, get_paper_archives
 ):
     response = client.get(
-        "/v1/paper-archives",
+        "/test/climsoft/v1/paper-archives",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -104,7 +104,7 @@ def test_should_return_single_paper_archive(
     get_paper_archive: climsoft_models.Paperarchive,
 ):
     response = client.get(
-        f"/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
+        f"/test/climsoft/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -123,7 +123,7 @@ def test_should_create_a_paper_archive(
         paper_archive_definition_id=get_paper_archive_definition.formId,
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/paper-archives",
+        "/test/climsoft/v1/paper-archives",
         data=json.dumps(paper_archive_data, default=str),
     )
     assert response.status_code == 200
@@ -139,7 +139,7 @@ def test_should_raise_validation_error(
     get_paper_archive_definition: climsoft_models.Paperarchivedefinition,
 ):
     response = client.post(
-        "/v1/paper-archives",
+        "/test/climsoft/v1/paper-archives",
         data=json.dumps({"form_datetime": datetime.utcnow()}, default=str),
     )
     assert response.status_code == 422
@@ -152,7 +152,7 @@ def test_should_update_paper_archive(
     updates = {"image": uuid.uuid4().hex}
 
     response = client.put(
-        f"/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
+        f"/test/climsoft/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -166,12 +166,12 @@ def test_should_delete_paper_archive(
     get_paper_archive: climsoft_models.Paperarchive,
 ):
     response = client.delete(
-        f"/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
+        f"/test/climsoft/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
     )
 
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
+        f"/test/climsoft/v1/paper-archives/{get_paper_archive.belongsTo}/{get_paper_archive.formDatetime}/{get_paper_archive.classifiedInto}",
     )
     assert response.status_code == 404

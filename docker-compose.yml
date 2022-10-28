@@ -11,11 +11,11 @@ services:
       - "5080:5000"
     environment:
       - CLIMSOFT_SECRET_KEY=*93uuasdjfojalsdf832or;aljfpo2upo
-      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@climsoftdb:3306/mariadb_climsoft_test_db_v4
+      - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@mariadb:3306/climsoft
     env_file:
       - .env
     depends_on:
-      - climsoftdb
+      - mariadb
     volumes:
       - ./src/climsoft_api:/app/climsoft_api
       - ./climsoft_uploads:/climsoft_uploads
@@ -33,11 +33,9 @@ services:
         "--use-colors",
       ]
 
-  climsoftdb:
-    build:
-      context: .
-      dockerfile: Dockerfile.mariadb
-    container_name: climsoftdb
+  mariadb:
+    image: mariadb:10.1
+    container_name: mariadb
     ports:
       - "23306:3306"
     environment:

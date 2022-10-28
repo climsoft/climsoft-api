@@ -22,6 +22,7 @@ CLIMSOFT_AWS_ACCESS_KEY_ID
 CLIMSOFT_AWS_SECRET_ACCESS_KEY
 CLIMSOFT_UPLOAD_DIR
 CLIMSOFT_S3_SIGNED_URL_VALIDITY [in hours as integer]
+CLIMSOFT_AUTH_ENABLED [true, false]
 ```
 There is also an `.env.example` file. You can copy/rename this to `.env` and put correct
 values. This will automatically be loaded when you run `docker-compose up -d --build`
@@ -59,6 +60,20 @@ When you upload an image via `/v1/file-upload/image` you get a response either l
     }
   ]
 }
+```
+
+### Multi Deployments
+There is a deployment.yml file in the repository root that you can use to deploy multiple instance at once. You have to 
+provide correct database uri and mention if the auth should be enabled.
+
+Here is an example `deployment.yml` file for you:
+
+```yaml
+test:
+  NAME: Climsoft Test
+  DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
+  AUTH_ENABLED: false
+
 ```
 
 To retrieve the images, if the storage is s3, you will get the image at 

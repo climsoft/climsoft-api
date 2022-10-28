@@ -60,9 +60,12 @@ def get_app_with_routers():
         ]
     )
     app.include_router(auth_router.router)
-    dependencies = [Depends(get_authorized_user)]
     if deployment_configs:
         for key, config in deployment_configs.items():
+            if config.get("AUTH_ENABLED"):
+                dependencies = [Depends(get_authorized_user)]
+            else:
+                dependencies = []
             climsoft_app = get_app(key)
 
             for r in api_routers:
@@ -73,6 +76,10 @@ def get_app_with_routers():
             app.mount(f"/{key}/climsoft", climsoft_app)
     else:
         climsoft_app = get_app()
+        if settings.AUTH_ENABLED:
+            dependencies = [Depends(get_authorized_user)]
+        else:
+            dependencies = []
         for r in api_routers:
             climsoft_app.include_router(
                 **r.dict(), dependencies=dependencies

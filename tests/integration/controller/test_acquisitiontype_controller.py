@@ -32,7 +32,7 @@ def get_acquisition_types(session: Session):
 def test_should_return_first_five_acquisition_types(
     client: TestClient, session: Session, get_acquisition_types
 ):
-    response = client.get("/v1/acquisition-types", params={"limit": 5})
+    response = client.get("/test/climsoft/v1/acquisition-types", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5

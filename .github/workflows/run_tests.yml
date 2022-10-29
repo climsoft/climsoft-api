@@ -32,4 +32,5 @@ jobs:
       - name: Run tests
         run: |
           mv deployment.yml deployment_bk.yml
+          export CLIMSOFT_AUTH_ENABLED=false
           pytest tests/integration

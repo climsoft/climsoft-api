@@ -82,12 +82,37 @@ Here is an example `deployment.yml` file for you:
 test:
   NAME: Climsoft Test
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
-  AUTH_ENABLED: false
-
 ```
 
-By default `AUTH_ENABLED` is false, for the ease of automated tests in CI pipeline. When `AUTH_ENABLED` is set to `true`,
+#### Selecting database
+Whe you are on a server where multiple instances of climsoft were deployed, you need to choose a database when you authenticate.
+This choice is stored in your access token and used later for making queries.
 
+Look at the following screenshot,
+
+![login form modal](./screenshots/login-form-modal.png)
+
+When you are using multi-deployment, all the deployment keys will be listed as scopes.
+You can choose any of the scopes and that database will be used to authenticate you.
+
+Keep in mind that,
+- if you choose multiple scopes, only the first one will be used
+- if you choose none, database uri configured by `CLIMSOFT_DATABSE_URI` will be used.
+
+When you are using the swagger doc located in `http(s)://domain.tld/docs#/default/authenticate_token_post`
+(see the following screenshot),
+
+![login form](./screenshots/login-form.png)
+
+you have to put the scope yourself as, `deployment_key:{key}` (omit the curly braces), such that for the following config;
+
+```yaml
+test:
+  NAME: Climsoft Test
+  DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
+```
+if you want to choose database uri for `test` deployment, you have to put
+`deployment_key:test` in scope (marked in screenshot)
 
 ### Design Exceptions
 

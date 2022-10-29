@@ -62,9 +62,19 @@ When you upload an image via `/v1/file-upload/image` you get a response either l
 }
 ```
 
+To retrieve the images, if the storage is s3, you will get the image at 
+```
+https://serveraddress/v1/s3/image/ddd77aa358c946aea925fcaee40ae8d9.png
+```
+if the storage is disk, you will get the image at
+```
+https://serveraddress/climsoft_uploads/ddd77aa358c946aea925fcaee40ae8d9.png
+```
+
 ### Multi Deployments
-There is a deployment.yml file in the repository root that you can use to deploy multiple instance at once. You have to 
-provide correct database uri and mention if the auth should be enabled.
+There is a deployment.yml file in the repository root that you can use to deploy multiple instance at once. This will 
+run one independent instance for each deployment of Climsoft API on this root URL: `http://domain.tld/{deployment_key}/climsoft`.
+You can configure database uri and server name for each deployment.
 
 Here is an example `deployment.yml` file for you:
 
@@ -76,14 +86,7 @@ test:
 
 ```
 
-To retrieve the images, if the storage is s3, you will get the image at 
-```
-https://serveraddress/v1/s3/image/ddd77aa358c946aea925fcaee40ae8d9.png
-```
-if the storage is disk, you will get the image at
-```
-https://serveraddress/climsoft_uploads/ddd77aa358c946aea925fcaee40ae8d9.png
-```
+By default `AUTH_ENABLED` is false, for the ease of automated tests in CI pipeline. When `AUTH_ENABLED` is set to `true`,
 
 
 ### Design Exceptions

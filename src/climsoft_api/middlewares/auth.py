@@ -68,7 +68,7 @@ class ClimsoftRBACMiddleware:
         if scheme.lower() != "bearer":
             raise HTTPException(401, "Invalid authorization header scheme")
         try:
-            claims = jwt.decode(token, settings.SURFACE_SECRET_KEY)
+            claims = jwt.decode(token, settings.SECRET_KEY)
         except JWTError:
             raise HTTPException(401, "Unauthorized request")
         username = claims["sub"]

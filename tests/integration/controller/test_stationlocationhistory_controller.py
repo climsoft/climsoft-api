@@ -63,7 +63,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_station_location_histories
 ):
     response = client.get(
-        "/test/climsoft/v1/station-location-histories",
+        "/v1/station-location-histories",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -76,7 +76,7 @@ def test_should_return_single_station_location_history(
     get_station_location_history: climsoft_models.Stationlocationhistory,
 ):
     response = client.get(
-        f"/test/climsoft/v1/station-location-histories/{get_station_location_history.belongsTo}/{get_station_location_history.openingDatetime}",
+        f"/v1/station-location-histories/{get_station_location_history.belongsTo}/{get_station_location_history.openingDatetime}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -92,7 +92,7 @@ def test_should_create_a_station_location_history(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/test/climsoft/v1/station-location-histories",
+        "/v1/station-location-histories",
         data=json.dumps(station_location_history_data, default=str),
     )
     assert response.status_code == 200
@@ -104,7 +104,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/test/climsoft/v1/station-location-histories",
+        "/v1/station-location-histories",
         data=json.dumps({"geo_location_history": "fail"}, default=str),
     )
     assert response.status_code == 422
@@ -124,7 +124,7 @@ def test_should_update_station_location_history(
     updates = {**station_location_history_data, "authority": uuid.uuid4().hex}
 
     response = client.put(
-        f"/test/climsoft/v1/station-location-histories/{belongs_to}/{opening_datetime}",
+        f"/v1/station-location-histories/{belongs_to}/{opening_datetime}",
         data=json.dumps(updates, default=str),
     )
     print(response.text)
@@ -146,12 +146,12 @@ def test_should_delete_station_location_history(
     opening_datetime = station_location_history_data.pop("opening_datetime")
 
     response = client.delete(
-        f"/test/climsoft/v1/station-location-histories/{belongs_to}/{opening_datetime}",
+        f"/v1/station-location-histories/{belongs_to}/{opening_datetime}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/station-location-histories/{belongs_to}/{opening_datetime}",
+        f"/v1/station-location-histories/{belongs_to}/{opening_datetime}",
     )
 
     assert response.status_code == 404

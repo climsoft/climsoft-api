@@ -25,7 +25,7 @@ def get_form_synoptic2_tdcfs(session: Session):
 
 def test_should_return_first_five_form_synoptic2_tdcfs(client: TestClient, get_form_synoptic2_tdcfs):
     response = client.get(
-        "/test/climsoft/v1/form_synoptic2_tdcfs",
+        "/v1/form_synoptic2_tdcfs",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -35,7 +35,7 @@ def test_should_return_first_five_form_synoptic2_tdcfs(client: TestClient, get_f
 
 def test_should_return_single_form_synoptic2_tdcf(client: TestClient, get_form_synoptic2_tdcf: climsoft_models.FormSynoptic2Tdcf):
     response = client.get(
-        f"/test/climsoft/v1/form_synoptic2_tdcfs/{get_form_synoptic2_tdcf.stationId}/{get_form_synoptic2_tdcf.yyyy}/{get_form_synoptic2_tdcf.mm}/{get_form_synoptic2_tdcf.dd}/{get_form_synoptic2_tdcf.hh}",
+        f"/v1/form_synoptic2_tdcfs/{get_form_synoptic2_tdcf.stationId}/{get_form_synoptic2_tdcf.yyyy}/{get_form_synoptic2_tdcf.mm}/{get_form_synoptic2_tdcf.dd}/{get_form_synoptic2_tdcf.hh}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -45,7 +45,7 @@ def test_should_return_single_form_synoptic2_tdcf(client: TestClient, get_form_s
 def test_should_create_a_form_synoptic2_tdcf(client: TestClient):
     form_synoptic2_tdcf_data = climsoft_form_synoptic2_tdcf.get_valid_form_synoptic2_tdcf_input().dict(by_alias=True)
     response = client.post(
-        "/test/climsoft/v1/form_synoptic2_tdcfs",
+        "/v1/form_synoptic2_tdcfs",
         data=json.dumps(form_synoptic2_tdcf_data, default=str),
     )
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_should_create_a_form_synoptic2_tdcf(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/test/climsoft/v1/form_synoptic2_tdcfs",
+        "/v1/form_synoptic2_tdcfs",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422
@@ -71,7 +71,7 @@ def test_should_update_form_synoptic2_tdcf(client: TestClient, get_form_synoptic
     updates = {**form_synoptic2_tdcf_data, "flag1": "B"}
 
     response = client.put(
-        f"/test/climsoft/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
+        f"/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -88,11 +88,11 @@ def test_should_delete_form_synoptic2_tdcf(client: TestClient, get_form_synoptic
     hh = form_synoptic2_tdcf_data.pop("hh")
 
     response = client.delete(
-        f"/test/climsoft/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
+        f"/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
+        f"/v1/form_synoptic2_tdcfs/{station_id}/{yyyy}/{mm}/{dd}/{hh}",
     )
     assert response.status_code == 404

@@ -58,7 +58,7 @@ def test_should_return_first_five_station_qualifiers(
     client: TestClient, get_station_qualifiers
 ):
     response = client.get(
-        "/test/climsoft/v1/station-qualifiers",
+        "/v1/station-qualifiers",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -71,7 +71,7 @@ def test_should_return_single_station_qualifier(
     get_station_qualifier: climsoft_models.Stationqualifier,
 ):
     response = client.get(
-        f"/test/climsoft/v1/station-qualifiers/{get_station_qualifier.qualifier}/{get_station_qualifier.qualifierBeginDate}/{get_station_qualifier.qualifierEndDate}/{get_station_qualifier.belongsTo}",
+        f"/v1/station-qualifiers/{get_station_qualifier.qualifier}/{get_station_qualifier.qualifierBeginDate}/{get_station_qualifier.qualifierEndDate}/{get_station_qualifier.belongsTo}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -87,7 +87,7 @@ def test_should_create_a_station_qualifier(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/test/climsoft/v1/station-qualifiers",
+        "/v1/station-qualifiers",
         data=json.dumps(station_qualifier_data, default=str),
     )
     assert response.status_code == 200
@@ -99,7 +99,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/test/climsoft/v1/station-qualifiers",
+        "/v1/station-qualifiers",
         data=json.dumps({"station_time_zone": 3}, default=str),
     )
     assert response.status_code == 422
@@ -119,7 +119,7 @@ def test_should_update_station_qualifier(
     updates = {**station_qualifier_data, "station_timezone": 1}
 
     response = client.put(
-        f"/test/climsoft/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+        f"/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -140,12 +140,12 @@ def test_should_delete_station_qualifier(
     qualifier_end_date = station_qualifier_data.pop("qualifier_end_date")
     qualifier = station_qualifier_data.pop("qualifier")
     response = client.delete(
-        f"/test/climsoft/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+        f"/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
+        f"/v1/station-qualifiers/{qualifier}/{qualifier_begin_date}/{qualifier_end_date}/{belongs_to}",
     )
 
     assert response.status_code == 404

@@ -57,7 +57,7 @@ def test_should_return_first_five_physical_feature_class(
     client: TestClient, get_physical_feature_classes
 ):
     response = client.get(
-        "/test/climsoft/v1/physical-feature-class",
+        "/v1/physical-feature-class",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -70,7 +70,7 @@ def test_should_return_single_physical_feature_class(
     get_physical_feature_class: climsoft_models.Physicalfeatureclas,
 ):
     response = client.get(
-        f"/test/climsoft/v1/physical-feature-class/{get_physical_feature_class.featureClass}",
+        f"/v1/physical-feature-class/{get_physical_feature_class.featureClass}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -86,7 +86,7 @@ def test_should_create_a_physical_feature_class(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/test/climsoft/v1/physical-feature-class",
+        "/v1/physical-feature-class",
         data=json.dumps(physical_feature_class_data, default=str),
     )
     assert response.status_code == 200
@@ -98,7 +98,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/test/climsoft/v1/physical-feature-class",
+        "/v1/physical-feature-class",
         data=json.dumps({"feature_class": "fail"}, default=str),
     )
     assert response.status_code == 422
@@ -117,7 +117,7 @@ def test_should_update_physical_feature_class(
     updates = {**physical_feature_class_data, "description": "updated description"}
 
     response = client.put(
-        f"/test/climsoft/v1/physical-feature-class/{feature_class}",
+        f"/v1/physical-feature-class/{feature_class}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -137,12 +137,12 @@ def test_should_delete_physical_feature_class(
     feature_class = physical_feature_class_data.pop("feature_class")
 
     response = client.delete(
-        f"/test/climsoft/v1/physical-feature-class/{feature_class}",
+        f"/v1/physical-feature-class/{feature_class}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/physical-feature-class/{feature_class}",
+        f"/v1/physical-feature-class/{feature_class}",
     )
 
     assert response.status_code == 404

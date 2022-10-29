@@ -28,7 +28,7 @@ def get_stations(session: Session):
 
 
 def test_should_return_first_five_stations(client: TestClient, get_stations):
-    response = client.get("/test/climsoft/v1/stations", params={"limit": 5})
+    response = client.get("/v1/stations", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -40,7 +40,7 @@ def test_should_return_single_station(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.get(
-        f"/test/climsoft/v1/stations/{get_station.stationId}",
+        f"/v1/stations/{get_station.stationId}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -52,7 +52,7 @@ def test_should_return_single_station(
 def test_should_create_a_station(client: TestClient):
     station_data = climsoft_station.get_valid_station_input().dict(by_alias=True)
     response = client.post(
-        "/test/climsoft/v1/stations",
+        "/v1/stations",
         data=json.dumps(station_data, default=str),
     )
     assert response.status_code == 200
@@ -64,7 +64,7 @@ def test_should_create_a_station(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/test/climsoft/v1/stations",
+        "/v1/stations",
         data=json.dumps({"station_name": "fail"}, default=str),
     )
     assert response.status_code == 422
@@ -76,7 +76,7 @@ def test_should_update_station(client: TestClient, get_station):
     updates = {**station_data, "station_name": "updated name"}
 
     response = client.put(
-        f"/test/climsoft/v1/stations/{station_id}",
+        f"/v1/stations/{station_id}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -90,11 +90,11 @@ def test_should_delete_station(client: TestClient, get_station):
     station_id = station_data.pop("station_id")
 
     response = client.delete(
-        f"/test/climsoft/v1/stations/{station_id}",
+        f"/v1/stations/{station_id}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/stations/{station_id}",
+        f"/v1/stations/{station_id}",
     )
     assert response.status_code == 404

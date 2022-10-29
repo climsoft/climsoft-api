@@ -78,7 +78,7 @@ def test_should_return_first_five_observation_initials(
     client: TestClient, get_observation_initials
 ):
     response = client.get(
-        "/test/climsoft/v1/observation-initials",
+        "/v1/observation-initials",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -93,7 +93,7 @@ def test_should_return_single_observation_initial(
     get_observation_initial: climsoft_models.Observationinitial,
 ):
     response = client.get(
-        f"/test/climsoft/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
+        f"/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -113,7 +113,7 @@ def test_should_create_a_observation_initial(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/test/climsoft/v1/observation-initials",
+        "/v1/observation-initials",
         data=json.dumps(
             observation_initial_data, default=lambda x: x.strftime("%Y-%m-%d %H:%M:%S")
         ),
@@ -132,7 +132,7 @@ def test_should_raise_validation_error(
     get_obselement: climsoft_models.Obselement,
 ):
     response = client.post(
-        "/test/climsoft/v1/observation-initials",
+        "/v1/observation-initials",
         data=json.dumps({"obs_value": 5}, default=str),
     )
     assert response.status_code == 422
@@ -164,7 +164,7 @@ def test_should_update_observation_initial(
     updates = {**observation_initial_data, "period": 100}
 
     response = client.put(
-        f"/test/climsoft/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
+        f"/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -178,11 +178,11 @@ def test_should_delete_observation_initial(
     get_observation_initial: climsoft_models.Observationinitial,
 ):
     response = client.delete(
-        f"/test/climsoft/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
+        f"/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
+        f"/v1/observation-initials/{get_observation_initial.recordedFrom}/{get_observation_initial.describedBy}/{get_observation_initial.obsDatetime}/{get_observation_initial.qcStatus}/{get_observation_initial.acquisitionType}",
     )
     assert response.status_code == 404

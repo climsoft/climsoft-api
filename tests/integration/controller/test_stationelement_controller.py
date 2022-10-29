@@ -132,7 +132,7 @@ def test_should_return_first_five_station_elements(
     client: TestClient, get_station_elements
 ):
     response = client.get(
-        "/test/climsoft/v1/station-elements",
+        "/v1/station-elements",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -147,7 +147,7 @@ def test_should_return_single_station_element(
     get_station_element: climsoft_models.Stationelement,
 ):
     response = client.get(
-        f"/test/climsoft/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
+        f"/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -170,7 +170,7 @@ def test_should_create_a_station_element(
         instrument_id=get_instrument.instrumentId,
     ).dict(by_alias=True)
     response = client.post(
-        "/test/climsoft/v1/station-elements",
+        "/v1/station-elements",
         data=json.dumps(station_element_data, default=str),
     )
     assert response.status_code == 200
@@ -188,7 +188,7 @@ def test_should_raise_validation_error(
     get_obs_schedule_class,
 ):
     response = client.post(
-        "/test/climsoft/v1/station-elements",
+        "/v1/station-elements",
         data=json.dumps({"end_date": datetime.utcnow()}, default=str),
     )
     assert response.status_code == 422
@@ -211,7 +211,7 @@ def test_should_update_station_element(
     updates = {**station_element_data, "height": 100}
 
     response = client.put(
-        f"/test/climsoft/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
+        f"/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -226,11 +226,11 @@ def test_should_delete_station_element(
 ):
 
     response = client.delete(
-        f"/test/climsoft/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
+        f"/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
+        f"/v1/station-elements/{get_station_element.recordedFrom}/{get_station_element.describedBy}/{get_station_element.recordedWith}/{get_station_element.beginDate}",
     )
     assert response.status_code == 404

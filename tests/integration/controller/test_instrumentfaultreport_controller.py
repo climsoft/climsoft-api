@@ -74,7 +74,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_instrument_fault_reports
 ):
     response = client.get(
-        "/test/climsoft/v1/instrument-fault-reports",
+        "/v1/instrument-fault-reports",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -87,7 +87,7 @@ def test_should_return_single_instrument_fault_report(
     get_instrument_fault_report: climsoft_models.Instrumentfaultreport,
 ):
     response = client.get(
-        f"/test/climsoft/v1/instrument-fault-reports/{get_instrument_fault_report.reportId}",
+        f"/v1/instrument-fault-reports/{get_instrument_fault_report.reportId}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -105,7 +105,7 @@ def test_should_create_a_instrument_fault_report(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/test/climsoft/v1/instrument-fault-reports",
+        "/v1/instrument-fault-reports",
         data=json.dumps(instrument_fault_report_data, default=str),
     )
     assert response.status_code == 200
@@ -119,7 +119,7 @@ def test_should_raise_validation_error(
     get_instrument: climsoft_models.Instrument,
 ):
     response = client.post(
-        "/test/climsoft/v1/instrument-fault-reports",
+        "/v1/instrument-fault-reports",
         data=json.dumps({"fault_description": "failed"}, default=str),
     )
     assert response.status_code == 422
@@ -139,7 +139,7 @@ def test_should_update_instrument_fault_report(
     updates = {**instrument_fault_report_data, "reported_by": uuid.uuid4().hex}
 
     response = client.put(
-        f"/test/climsoft/v1/instrument-fault-reports/{report_id}",
+        f"/v1/instrument-fault-reports/{report_id}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -159,12 +159,12 @@ def test_should_delete_instrument_fault_report(
     report_id = instrument_fault_report_data.pop("report_id")
 
     response = client.delete(
-        f"/test/climsoft/v1/instrument-fault-reports/{report_id}",
+        f"/v1/instrument-fault-reports/{report_id}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/instrument-fault-reports/{report_id}",
+        f"/v1/instrument-fault-reports/{report_id}",
     )
 
     assert response.status_code == 404

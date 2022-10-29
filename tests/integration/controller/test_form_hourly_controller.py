@@ -25,7 +25,7 @@ def get_form_hourlys(session: Session):
 
 def test_should_return_first_five_form_hourlys(client: TestClient, get_form_hourlys):
     response = client.get(
-        "/test/climsoft/v1/form_hourlys",
+        "/v1/form_hourlys",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -35,7 +35,7 @@ def test_should_return_first_five_form_hourlys(client: TestClient, get_form_hour
 
 def test_should_return_single_form_hourly(client: TestClient, get_form_hourly: climsoft_models.FormHourly):
     response = client.get(
-        f"/test/climsoft/v1/form_hourlys/{get_form_hourly.stationId}/{get_form_hourly.elementId}/{get_form_hourly.yyyy}/{get_form_hourly.mm}/{get_form_hourly.dd}",
+        f"/v1/form_hourlys/{get_form_hourly.stationId}/{get_form_hourly.elementId}/{get_form_hourly.yyyy}/{get_form_hourly.mm}/{get_form_hourly.dd}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -45,7 +45,7 @@ def test_should_return_single_form_hourly(client: TestClient, get_form_hourly: c
 def test_should_create_a_form_hourly(client: TestClient):
     form_hourly_data = climsoft_form_hourly.get_valid_form_hourly_input().dict(by_alias=True)
     response = client.post(
-        "/test/climsoft/v1/form_hourlys",
+        "/v1/form_hourlys",
         data=json.dumps(form_hourly_data, default=str),
     )
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_should_create_a_form_hourly(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/test/climsoft/v1/form_hourlys",
+        "/v1/form_hourlys",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422
@@ -71,7 +71,7 @@ def test_should_update_form_hourly(client: TestClient, get_form_hourly):
     updates = {**form_hourly_data, "hh_01": "updated hh_01"}
 
     response = client.put(
-        f"/test/climsoft/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
+        f"/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -91,11 +91,11 @@ def test_should_delete_form_hourly(client: TestClient, get_form_hourly):
     dd = form_hourly_data.pop("dd")
 
     response = client.delete(
-        f"/test/climsoft/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
+        f"/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/test/climsoft/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
+        f"/v1/form_hourlys/{station_id}/{element_id}/{yyyy}/{mm}/{dd}",
     )
     assert response.status_code == 404

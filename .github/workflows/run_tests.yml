@@ -33,4 +33,3 @@ jobs:
         run: |
           mv deployment.yml deployment_bk.yml
           pytest tests/integration
-          

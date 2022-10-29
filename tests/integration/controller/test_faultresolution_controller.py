@@ -84,7 +84,7 @@ def test_should_return_first_five_station_location_histories(
     client: TestClient, get_fault_resolutions
 ):
     response = client.get(
-        "/v1/fault-resolutions",
+        "/climsoft/v1/fault-resolutions",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -97,7 +97,7 @@ def test_should_return_single_fault_resolution(
     get_fault_resolution: climsoft_models.Faultresolution,
 ):
     response = client.get(
-        f"/v1/fault-resolutions/{get_fault_resolution.resolvedDatetime}/{get_fault_resolution.associatedWith}",
+        f"/climsoft/v1/fault-resolutions/{get_fault_resolution.resolvedDatetime}/{get_fault_resolution.associatedWith}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -112,7 +112,7 @@ def test_should_create_a_fault_resolution(
         instrument_fault_report_id=get_instrument_fault_report.reportId
     ).dict(by_alias=True)
     response = client.post(
-        "/v1/fault-resolutions",
+        "/climsoft/v1/fault-resolutions",
         data=json.dumps(fault_resolution_data, default=str),
     )
     assert response.status_code == 200
@@ -125,7 +125,7 @@ def test_should_raise_validation_error(
     get_instrument_fault_report: climsoft_models.Instrumentfaultreport,
 ):
     response = client.post(
-        "/v1/fault-resolutions",
+        "/climsoft/v1/fault-resolutions",
         data=json.dumps(
             {"report_id": get_instrument_fault_report.reportId}, default=str
         ),
@@ -147,7 +147,7 @@ def test_should_update_fault_resolution(
     updates = {**fault_resolution_data, "remarks": uuid.uuid4().hex}
 
     response = client.put(
-        f"/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
+        f"/climsoft/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -165,12 +165,12 @@ def test_should_delete_fault_resolution(client: TestClient, get_fault_resolution
     associated_with = fault_resolution_data.pop("associated_with")
 
     response = client.delete(
-        f"/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
+        f"/climsoft/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
+        f"/climsoft/v1/fault-resolutions/{resolved_datetime}/{associated_with}",
     )
 
     assert response.status_code == 404

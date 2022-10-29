@@ -25,7 +25,7 @@ def get_form_agro1s(session: Session):
 
 def test_should_return_first_five_form_agro1s(client: TestClient, get_form_agro1s):
     response = client.get(
-        "/v1/form_agro1s",
+        "/climsoft/v1/form_agro1s",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -35,7 +35,7 @@ def test_should_return_first_five_form_agro1s(client: TestClient, get_form_agro1
 
 def test_should_return_single_form_agro1(client: TestClient, get_form_agro1: climsoft_models.FormAgro1):
     response = client.get(
-        f"/v1/form_agro1s/{get_form_agro1.stationId}/{get_form_agro1.yyyy}/{get_form_agro1.mm}/{get_form_agro1.dd}",
+        f"/climsoft/v1/form_agro1s/{get_form_agro1.stationId}/{get_form_agro1.yyyy}/{get_form_agro1.mm}/{get_form_agro1.dd}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -45,7 +45,7 @@ def test_should_return_single_form_agro1(client: TestClient, get_form_agro1: cli
 def test_should_create_a_form_agro1(client: TestClient):
     form_agro1_data = climsoft_form_agro1.get_valid_form_agro1_input().dict(by_alias=True)
     response = client.post(
-        "/v1/form_agro1s",
+        "/climsoft/v1/form_agro1s",
         data=json.dumps(form_agro1_data, default=str),
     )
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_should_create_a_form_agro1(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/v1/form_agro1s",
+        "/climsoft/v1/form_agro1s",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422
@@ -70,7 +70,7 @@ def test_should_update_form_agro1(client: TestClient, get_form_agro1):
     updates = {**form_agro1_data, "flag513": "B"}
 
     response = client.put(
-        f"/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
+        f"/climsoft/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -87,11 +87,11 @@ def test_should_delete_form_agro1(client: TestClient, get_form_agro1):
     dd = form_agro1_data.pop("dd")
 
     response = client.delete(
-        f"/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
+        f"/climsoft/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
+        f"/climsoft/v1/form_agro1s/{station_id}/{yyyy}/{mm}/{dd}",
     )
     assert response.status_code == 404

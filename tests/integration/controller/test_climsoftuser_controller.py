@@ -34,7 +34,7 @@ def get_climsoft_users(session: Session):
 def test_should_return_first_five_climsoft_users(
     client: TestClient, session: Session, get_climsoft_users
 ):
-    response = client.get("/v1/climsoft-users", params={"limit": 5})
+    response = client.get("/climsoft/v1/climsoft-users", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -46,7 +46,7 @@ def test_should_return_single_climsoft_user(
     client: TestClient, get_climsoft_user: climsoft_models.ClimsoftUser
 ):
     response = client.get(
-        f"/v1/climsoft-users/{get_climsoft_user.userName}",
+        f"/climsoft/v1/climsoft-users/{get_climsoft_user.userName}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -60,7 +60,7 @@ def test_should_create_a_climsoft_user(client: TestClient):
         climsoft_climsoft_user.get_valid_climsoft_user_input().dict(by_alias=True)
     )
     response = client.post(
-        "/v1/climsoft-users",
+        "/climsoft/v1/climsoft-users",
         data=json.dumps(climsoft_user_data, default=str),
     )
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_should_create_a_climsoft_user(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     climsoft_user_data = {"code": "asd", "description": "aa aa a"}
     response = client.post(
-        "/v1/climsoft-users", data=json.dumps(climsoft_user_data, default=str)
+        "/climsoft/v1/climsoft-users", data=json.dumps(climsoft_user_data, default=str)
     )
     assert response.status_code == 422
 
@@ -81,7 +81,7 @@ def test_should_raise_validation_error(client: TestClient):
 def test_should_update_climsoft_user(client: TestClient, get_climsoft_user):
     target_role = random.choice([role.value for role in climsoftuser_schema.ClimsoftUserRole])
     response = client.put(
-        f"/v1/climsoft-users/{get_climsoft_user.userName}/update-role/{target_role}"
+        f"/climsoft/v1/climsoft-users/{get_climsoft_user.userName}/update-role/{target_role}"
     )
     response_data = response.json()
 
@@ -90,8 +90,8 @@ def test_should_update_climsoft_user(client: TestClient, get_climsoft_user):
 
 
 def test_should_delete_climsoft_user(client: TestClient, get_climsoft_user):
-    response = client.delete(f"/v1/climsoft-users/{get_climsoft_user.userName}")
+    response = client.delete(f"/climsoft/v1/climsoft-users/{get_climsoft_user.userName}")
     assert response.status_code == 200
 
-    response = client.get(f"/v1/climsoft-users/{get_climsoft_user.userName}")
+    response = client.get(f"/climsoft/v1/climsoft-users/{get_climsoft_user.userName}")
     assert response.status_code == 404

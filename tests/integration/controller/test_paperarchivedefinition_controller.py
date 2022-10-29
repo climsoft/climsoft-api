@@ -35,7 +35,7 @@ def test_should_return_first_five_paper_archive_definitions(
     client: TestClient, get_paper_archive_definitions
 ):
     response = client.get(
-        "/v1/paper-archive-definitions",
+        "/climsoft/v1/paper-archive-definitions",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -48,7 +48,7 @@ def test_should_return_single_paper_archive_definition(
     get_paper_archive_definition: climsoft_models.Paperarchivedefinition,
 ):
     response = client.get(
-        f"/v1/paper-archive-definitions/{get_paper_archive_definition.formId}",
+        f"/climsoft/v1/paper-archive-definitions/{get_paper_archive_definition.formId}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -62,7 +62,7 @@ def test_should_create_a_paper_archive_definition(client: TestClient):
         )
     )
     response = client.post(
-        "/v1/paper-archive-definitions",
+        "/climsoft/v1/paper-archive-definitions",
         data=json.dumps(paper_archive_definition_data, default=str),
     )
     assert response.status_code == 200
@@ -73,7 +73,7 @@ def test_should_create_a_paper_archive_definition(client: TestClient):
 def test_should_raise_validation_error(client: TestClient):
     paper_archive_definition_data = {"form_id": "bbbbbbb"}
     response = client.post(
-        "/v1/paper-archive-definitions",
+        "/climsoft/v1/paper-archive-definitions",
         data=json.dumps(paper_archive_definition_data, default=str),
     )
     assert response.status_code == 422
@@ -91,7 +91,7 @@ def test_should_update_paper_archive_definition(
     updates = {**paper_archive_definition_data, "description": "updated name"}
 
     response = client.put(
-        f"/v1/paper-archive-definitions/{form_id}",
+        f"/climsoft/v1/paper-archive-definitions/{form_id}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -111,11 +111,11 @@ def test_should_delete_paper_archive_definition(
     form_id = paper_archive_definition_data.pop("form_id")
 
     response = client.delete(
-        f"/v1/paper-archive-definitions/{form_id}",
+        f"/climsoft/v1/paper-archive-definitions/{form_id}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/paper-archive-definitions/{form_id}",
+        f"/climsoft/v1/paper-archive-definitions/{form_id}",
     )
     assert response.status_code == 404

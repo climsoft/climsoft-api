@@ -39,7 +39,7 @@ def get_app(config=None):
     async def db_session_middleware(request: Request, call_next):
         try:
             request.state.get_session = get_session_local(config)
-            request.state.settings_override = deployment_configs[config]
+            request.state.settings_override = deployment_configs.get(config)
             response = await call_next(request)
         except Exception as exc:
             logging.exception(exc)

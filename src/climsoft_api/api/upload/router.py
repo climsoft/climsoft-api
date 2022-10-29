@@ -9,6 +9,7 @@ from climsoft_api.utils.response import get_success_response, get_error_response
 from fastapi import APIRouter, UploadFile, File, Request
 from climsoft_api.utils.response import translate_schema
 from climsoft_api.utils.deployment import override_settings
+from climsoft_api.config import settings
 
 router = APIRouter()
 
@@ -20,7 +21,10 @@ logging.basicConfig(level=logging.INFO)
     "/file-upload/image"
 )
 async def upload_image(request: Request, file: UploadFile = File(...)):
-    _settings = override_settings(request.state.settings_override)
+    try:
+        _settings = override_settings(request.state.settings_override)
+    except AttributeError:
+        _settings = settings
     try:
         contents = await file.read()
         file_type = file.content_type

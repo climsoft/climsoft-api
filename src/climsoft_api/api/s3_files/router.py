@@ -11,7 +11,11 @@ router = APIRouter()
 @router.get("/s3/image/{object_key}")
 @handle_exceptions
 def get_s3_object(object_key, request: Request):
-    _settings = override_settings(request.state.settings_override)
+    try:
+        _settings = override_settings(request.state.settings_override)
+    except AttributeError:
+        _settings = settings
+
     s3_client = get_s3_client(_settings)
     response = s3_client.get_object(
         Bucket=_settings.S3_BUCKET,

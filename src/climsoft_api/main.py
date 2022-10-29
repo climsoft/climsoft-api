@@ -15,6 +15,7 @@ from climsoft_api.db import get_session_local
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware import Middleware
 from climsoft_api.api.auth import router as auth_router
+from climsoft_api.api.config import router as config_router
 # load controllers
 
 deployment_configs = load_deployment_configs()
@@ -60,6 +61,7 @@ def get_app_with_routers():
         ]
     )
     app.include_router(auth_router.router)
+    app.include_router(config_router.router)
 
     if deployment_configs:
         for key, config in deployment_configs.items():

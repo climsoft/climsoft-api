@@ -25,5 +25,6 @@ COPY ./tests ./tests
 COPY ./src ./
 COPY ./entrypoint.sh ./entrypoint.sh
 COPY ./initdb.py ./initdb.py
+COPY ./deployment.yml ./deployment.yml
 
 ENTRYPOINT [ "/bin/sh", "entrypoint.sh" ]

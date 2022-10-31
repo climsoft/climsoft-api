@@ -1,0 +1,4 @@
+test:
+  NAME: Climsoft Test
+  DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
+  AUTH_ENABLED: false

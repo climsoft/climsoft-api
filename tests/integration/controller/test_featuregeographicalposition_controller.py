@@ -56,7 +56,7 @@ def test_should_return_first_five_feature_geographical_positions(
     client: TestClient, get_feature_geographical_positions
 ):
     response = client.get(
-        "/v1/feature-geographical-positions",
+        "/climsoft/v1/feature-geographical-positions",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -69,7 +69,7 @@ def test_should_return_single_feature_geographical_position(
     get_feature_geographical_position: climsoft_models.Featuregeographicalposition,
 ):
     response = client.get(
-        f"/v1/feature-geographical-positions/{get_feature_geographical_position.belongsTo}",
+        f"/climsoft/v1/feature-geographical-positions/{get_feature_geographical_position.belongsTo}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -86,7 +86,7 @@ def test_should_create_a_feature_geographical_position(
         by_alias=True
     )
     response = client.post(
-        "/v1/feature-geographical-positions",
+        "/climsoft/v1/feature-geographical-positions",
         data=json.dumps(feature_geographical_position_data, default=str),
     )
     assert response.status_code == 200
@@ -99,7 +99,7 @@ def test_should_raise_validation_error(
     get_synop_feature: climsoft_models.Synopfeature,
 ):
     response = client.post(
-        "/v1/feature-geographical-positions",
+        "/climsoft/v1/feature-geographical-positions",
         data=json.dumps({"belongs_to": get_synop_feature.abbreviation}, default=str),
     )
     assert response.status_code == 422
@@ -121,7 +121,7 @@ def test_should_update_feature_geographical_position(
     }
 
     response = client.put(
-        f"/v1/feature-geographical-positions/{belongs_to}",
+        f"/climsoft/v1/feature-geographical-positions/{belongs_to}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -141,12 +141,12 @@ def test_should_delete_feature_geographical_position(
     belongs_to = feature_geographical_position_data.pop("belongs_to")
 
     response = client.delete(
-        f"/v1/feature-geographical-positions/{belongs_to}",
+        f"/climsoft/v1/feature-geographical-positions/{belongs_to}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/v1/feature-geographical-positions/{belongs_to}",
+        f"/climsoft/v1/feature-geographical-positions/{belongs_to}",
     )
 
     assert response.status_code == 404

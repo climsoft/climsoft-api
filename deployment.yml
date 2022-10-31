@@ -1,4 +1,4 @@
-TestBlankDB:
+empty-database:
   NAME: Climsoft Deployment With Blank DB
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
   S3_BUCKET: climsoft-paper-archive
@@ -6,7 +6,7 @@ TestBlankDB:
   AWS_ACCESS_KEY_ID: ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
 
-TestSeededDB:
+test-database:
   NAME: Climsoft Deployment With Test Data
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/mariadb_climsoft_test_db_v4"
   S3_BUCKET: climsoft-paper-archive

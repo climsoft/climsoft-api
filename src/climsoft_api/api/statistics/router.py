@@ -1,12 +1,12 @@
 import enum
 import logging
 
-from climsoft_api.db import engine
 from climsoft_api.utils.response import get_error_response
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from opencdms.models.climsoft.v4_1_1_core import TARGET_TABLES
 from sqlalchemy import text
-
+from climsoft_api.api import deps
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -47,15 +47,16 @@ class ClimsoftTables(str, enum.Enum):
     "/statistics",
 )
 # async def get_statistics_for_all_climsoft_tables(table: ClimsoftTables):
-async def get_statistics_for_all_climsoft_tables():
+async def get_statistics_for_all_climsoft_tables(
+    db_session: Session = Depends(deps.get_session),
+):
     try:
         stats = {}
         for _table in TARGET_TABLES:
-            with engine.connect() as connection:
-                result = connection.execute(
-                    text(f"SELECT COUNT(*) as count FROM {_table};")
-                )
-                count = [row['count'] for row in result][0]
+            result = db_session.execute(
+                text(f"SELECT COUNT(*) as count FROM {_table};")
+            )
+            count = [row['count'] for row in result][0]
             stats[_table] = count
         return stats
     except TypeError:

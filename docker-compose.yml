@@ -34,7 +34,9 @@ services:
       ]
 
   mariadb:
-    image: mariadb:10.1
+    build:
+      context: .
+      dockerfile: Dockerfile.mariadb
     container_name: mariadb
     ports:
       - "23306:3306"

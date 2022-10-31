@@ -46,7 +46,6 @@ class ClimsoftTables(str, enum.Enum):
 @router.get(
     "/statistics",
 )
-# async def get_statistics_for_all_climsoft_tables(table: ClimsoftTables):
 async def get_statistics_for_all_climsoft_tables(
     db_session: Session = Depends(deps.get_session),
 ):

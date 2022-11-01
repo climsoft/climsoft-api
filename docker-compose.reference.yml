@@ -52,6 +52,15 @@ services:
       retries: 10
       interval: 10s
 
+  traefik:
+    image: traefik:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "$PWD/traefik/traefik.toml:/etc/traefik/traefik.toml"
+
 volumes:
   climsoftdb_data:
 

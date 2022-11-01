@@ -1,5 +1,5 @@
 empty-database:
-  NAME: Climsoft Deployment With Blank DB
+  NAME: Climsoft Deployment With Empty DB
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
   S3_BUCKET: climsoft-paper-archive
   AWS_REGION: eu-west-2

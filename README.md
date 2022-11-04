@@ -160,7 +160,8 @@ $ chmod +x install-docker-compose.sh
 $ ./install-docker.sh
 $ newgrp docker
 $ ./install-docker-compose.sh
-$ docker-compose -f docker-compose-reference.yml up -d --build
+$ cd ..
+$ docker-compose -f docker-compose.reference.yml up -d --build
 ```
 
 If you want to restore database and other volumes each hour,

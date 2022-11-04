@@ -65,6 +65,8 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "$PWD/traefik/traefik.toml:/etc/traefik/traefik.toml"
+    networks:
+      - climsoft_api_dev_network
 
 volumes:
   climsoftdb_data:

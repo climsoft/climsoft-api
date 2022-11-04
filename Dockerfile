@@ -26,5 +26,8 @@ COPY ./src ./
 COPY ./entrypoint.sh ./entrypoint.sh
 COPY ./initdb.py ./initdb.py
 COPY ./deployment.yml ./deployment.yml
+COPY ./setup.cfg ./setup.cfg
+COPY ./setup.py ./setup.py
+RUN python setup.py compile_catalog --domain climsoft_messages --directory climsoft_api/locale
 
 ENTRYPOINT [ "/bin/sh", "entrypoint.sh" ]

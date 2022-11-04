@@ -33,7 +33,7 @@ def test_should_return_first_five_qc_status_definitions(
     client: TestClient, get_qc_status_definitions
 ):
     response = client.get(
-        "/climsoft/v1/qc-status-definitions",
+        "/v1/qc-status-definitions",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -46,7 +46,7 @@ def test_should_return_single_qc_status_definition(
     get_qc_status_definition: climsoft_models.Qcstatusdefinition,
 ):
     response = client.get(
-        f"/climsoft/v1/qc-status-definitions/{get_qc_status_definition.code}",
+        f"/v1/qc-status-definitions/{get_qc_status_definition.code}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -62,7 +62,7 @@ def test_should_create_a_qc_status_definition(
         )
     )
     response = client.post(
-        "/climsoft/v1/qc-status-definitions",
+        "/v1/qc-status-definitions",
         data=json.dumps(qc_status_definition_data, default=str),
     )
     assert response.status_code == 200
@@ -75,7 +75,7 @@ def test_should_raise_validation_error(
 ):
     qc_status_definition_data = {"aaa": "bbbbbbb"}
     response = client.post(
-        "/climsoft/v1/qc-status-definitions",
+        "/v1/qc-status-definitions",
         data=json.dumps(qc_status_definition_data, default=str),
     )
     assert response.status_code == 422
@@ -92,7 +92,7 @@ def test_should_update_qc_status_definition(
     updates = {**qc_status_definition_data, "description": "updated name"}
 
     response = client.put(
-        f"/climsoft/v1/qc-status-definitions/{code}",
+        f"/v1/qc-status-definitions/{code}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -111,11 +111,11 @@ def test_should_delete_qc_status_definition(
     code = qc_status_definition_data.pop("code")
 
     response = client.delete(
-        f"/climsoft/v1/qc-status-definitions/{code}",
+        f"/v1/qc-status-definitions/{code}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/climsoft/v1/qc-status-definitions/{code}",
+        f"/v1/qc-status-definitions/{code}",
     )
     assert response.status_code == 404

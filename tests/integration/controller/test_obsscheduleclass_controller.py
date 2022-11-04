@@ -55,7 +55,7 @@ def test_should_return_first_five_obs_schedule_classs(
     client: TestClient, get_obs_schedule_classes
 ):
     response = client.get(
-        "/climsoft/v1/obs-schedule-class",
+        "/v1/obs-schedule-class",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -70,7 +70,7 @@ def test_should_return_single_obs_schedule_class(
     get_obs_schedule_class: climsoft_models.Obsscheduleclas,
 ):
     response = client.get(
-        f"/climsoft/v1/obs-schedule-class/{get_obs_schedule_class.scheduleClass}",
+        f"/v1/obs-schedule-class/{get_obs_schedule_class.scheduleClass}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -88,7 +88,7 @@ def test_should_create_a_obs_schedule_class(
         ).dict(by_alias=True)
     )
     response = client.post(
-        "/climsoft/v1/obs-schedule-class",
+        "/v1/obs-schedule-class",
         data=json.dumps(obs_schedule_class_data, default=str),
     )
     assert response.status_code == 200
@@ -102,7 +102,7 @@ def test_should_raise_validation_error(
     client: TestClient, get_station: climsoft_models.Station
 ):
     response = client.post(
-        "/climsoft/v1/obs-schedule-class",
+        "/v1/obs-schedule-class",
         data=json.dumps({"refers_to": 4}, default=str),
     )
     assert response.status_code == 422
@@ -118,7 +118,7 @@ def test_should_update_obs_schedule_class(
     obs_schedule_class_id = obs_schedule_class_data.pop("schedule_class")
     updates = {**obs_schedule_class_data, "description": "updated description"}
     response = client.put(
-        f"/climsoft/v1/obs-schedule-class/{obs_schedule_class_id}",
+        f"/v1/obs-schedule-class/{obs_schedule_class_id}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -134,12 +134,12 @@ def test_should_delete_obs_schedule_class(client: TestClient, get_obs_schedule_c
     obs_schedule_class_id = obs_schedule_class_data.pop("schedule_class")
 
     response = client.delete(
-        f"/climsoft/v1/obs-schedule-class/{obs_schedule_class_id}",
+        f"/v1/obs-schedule-class/{obs_schedule_class_id}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/climsoft/v1/obs-schedule-class/{obs_schedule_class_id}",
+        f"/v1/obs-schedule-class/{obs_schedule_class_id}",
     )
 
     assert response.status_code == 404

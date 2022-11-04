@@ -26,7 +26,7 @@ def get_qc_types(session: Session):
 
 
 def test_should_return_first_five_qc_types(client: TestClient, get_qc_types):
-    response = client.get("/climsoft/v1/qc-types", params={"limit": 5})
+    response = client.get("/v1/qc-types", params={"limit": 5})
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 5
@@ -35,7 +35,7 @@ def test_should_return_first_five_qc_types(client: TestClient, get_qc_types):
 def test_should_return_single_qc_type(
     client: TestClient, get_qc_type: climsoft_models.Qctype
 ):
-    response = client.get(f"/climsoft/v1/qc-types/{get_qc_type.code}")
+    response = client.get(f"/v1/qc-types/{get_qc_type.code}")
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 1
@@ -43,7 +43,7 @@ def test_should_return_single_qc_type(
 
 def test_should_create_a_qc_type(client: TestClient):
     qc_type_data = climsoft_qctype.get_valid_qc_type_input().dict(by_alias=True)
-    response = client.post("/climsoft/v1/qc-types", data=json.dumps(qc_type_data, default=str))
+    response = client.post("/v1/qc-types", data=json.dumps(qc_type_data, default=str))
     assert response.status_code == 200
     response_data = response.json()
     assert len(response_data["result"]) == 1
@@ -51,7 +51,7 @@ def test_should_create_a_qc_type(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     qc_type_data = {"aaa": "bbbbbbb"}
-    response = client.post("/climsoft/v1/qc-types", data=json.dumps(qc_type_data, default=str))
+    response = client.post("/v1/qc-types", data=json.dumps(qc_type_data, default=str))
     assert response.status_code == 422
 
 
@@ -60,7 +60,7 @@ def test_should_update_qc_type(client: TestClient, get_qc_type):
     code = qc_type_data.pop("code")
     updates = {**qc_type_data, "description": "updated name"}
 
-    response = client.put(f"/climsoft/v1/qc-types/{code}", data=json.dumps(updates, default=str))
+    response = client.put(f"/v1/qc-types/{code}", data=json.dumps(updates, default=str))
     response_data = response.json()
 
     assert response.status_code == 200
@@ -71,8 +71,8 @@ def test_should_delete_qc_type(client: TestClient, get_qc_type):
     qc_type_data = qctype_schema.QCType.from_orm(get_qc_type).dict(by_alias=True)
     code = qc_type_data.pop("code")
 
-    response = client.delete(f"/climsoft/v1/qc-types/{code}")
+    response = client.delete(f"/v1/qc-types/{code}")
     assert response.status_code == 200
 
-    response = client.get(f"/climsoft/v1/qc-types/{code}")
+    response = client.get(f"/v1/qc-types/{code}")
     assert response.status_code == 404

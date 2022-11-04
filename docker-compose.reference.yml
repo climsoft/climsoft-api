@@ -21,6 +21,11 @@ services:
       - ./climsoft_uploads:/climsoft_uploads
     networks:
       - climsoft_api_dev_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fastapi.rule=Host(`$HOST_FQDN`)"
+      - "traefik.http.routers.fastapi.tls=true"
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
     command:
       [
         "uvicorn",

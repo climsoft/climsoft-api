@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# mysqldump --column-statistics=0 --host 127.0.0.1 --port 23306 --protocol=tcp --user root --password --flush-privileges --all-databases >| all-db.sql
+
 #==============================================================================
 #TITLE:            mysql_backup.sh
 #DESCRIPTION:      script for automating the daily mysql backups on development computer
@@ -51,9 +54,9 @@ function delete_old_backups()
 function mysql_login() {
   local mysql_login="-u $MYSQL_UNAME"
   if [ -n "$MYSQL_PWORD" ]; then
-    local mysql_login+=" -p$MYSQL_PWORD"
+    local mysql_login+=" -p $MYSQL_PWORD"
   fi
-  echo $mysql_login
+  echo "$mysql_login"
 }
 
 function database_list() {
@@ -77,14 +80,14 @@ function backup_database(){
 
 function backup_databases(){
   local databases=$(database_list)
-  local total=$(echo $databases | wc -w | xargs)
+  local total=$(echo "$databases" | wc -w | xargs)
   local output=""
   local count=1
   for database in $databases; do
     backup_database
     local count=$((count+1))
   done
-  echo -ne $output | column -t
+  echo -ne "$output" | column -t
 }
 
 function hr(){

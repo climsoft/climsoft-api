@@ -1,14 +1,15 @@
+import json
 import logging
 from climsoft_api.api.upload.schema import (
     FileUploadedToDiskResponse,
     FileUploadedToS3Response
 )
-from climsoft_api.config import settings
 from climsoft_api.services import file_upload_service
 from climsoft_api.utils.response import get_success_response, get_error_response
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Request
 from climsoft_api.utils.response import translate_schema
-
+from climsoft_api.utils.deployment import override_settings
+from climsoft_api.config import settings
 
 router = APIRouter()
 
@@ -19,7 +20,11 @@ logging.basicConfig(level=logging.INFO)
 @router.post(
     "/file-upload/image"
 )
-async def upload_image(file: UploadFile = File(...)):
+async def upload_image(request: Request, file: UploadFile = File(...)):
+    try:
+        _settings = override_settings(request.state.settings_override)
+    except AttributeError:
+        _settings = settings
     try:
         contents = await file.read()
         file_type = file.content_type
@@ -27,7 +32,7 @@ async def upload_image(file: UploadFile = File(...)):
             raise TypeError(_("Only image files are supported."))
 
         filepath = file_upload_service.save_file(
-            settings.FILE_STORAGE,
+            _settings,
             contents,
             file_type
         )

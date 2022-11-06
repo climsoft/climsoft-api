@@ -1,18 +1,24 @@
 from climsoft_api.config import settings
-from climsoft_api.utils.s3 import get_s3_client
-from fastapi import APIRouter
+from climsoft_api.utils.s3 import get_minio_client
+from fastapi import APIRouter, Request
 from fastapi.responses import Response
 from climsoft_api.utils.exception import handle_exceptions
+from climsoft_api.utils.deployment import override_settings
 
 router = APIRouter()
 
 
 @router.get("/s3/image/{object_key}")
 @handle_exceptions
-def get_s3_object(object_key):
-    s3_client = get_s3_client()
+def get_s3_object(object_key, request: Request):
+    try:
+        _settings = override_settings(request.state.settings_override)
+    except AttributeError:
+        _settings = settings
+
+    s3_client = get_minio_client(_settings)
     response = s3_client.get_object(
-        Bucket=settings.S3_BUCKET,
+        Bucket=_settings.S3_BUCKET,
         Key=object_key
     )
     return Response(response["Body"].read(),

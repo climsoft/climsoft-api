@@ -10,7 +10,7 @@ services:
     ports:
       - "5080:5000"
     environment:
-      - CLIMSOFT_SECRET_KEY=*93uuasdjfojalsdf832or;aljfpo2upo
+      - CLIMSOFT_SECRET_KEY=change-me
       - CLIMSOFT_DATABASE_URI=mysql+mysqldb://root:password@mariadb:3306/climsoft
     env_file:
       - .env

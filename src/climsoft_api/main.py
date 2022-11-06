@@ -73,7 +73,7 @@ def get_app_with_routers():
                     **r.dict(), dependencies=dependencies
                 )
 
-            app.mount(f"/{key}/climsoft", climsoft_app)
+            app.mount(f"/{key}", climsoft_app)
     else:
         climsoft_app = get_app()
         if settings.AUTH_ENABLED:
@@ -85,7 +85,7 @@ def get_app_with_routers():
                 **r.dict(), dependencies=dependencies
             )
 
-        app.mount("/climsoft", climsoft_app)
+        app.mount("/", climsoft_app)
 
     return app
 

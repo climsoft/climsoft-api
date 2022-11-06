@@ -25,7 +25,7 @@ def get_form_monthlys(session: Session):
 
 def test_should_return_first_five_form_monthlys(client: TestClient, get_form_monthlys):
     response = client.get(
-        "/climsoft/v1/form_monthlys",
+        "/v1/form_monthlys",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -35,7 +35,7 @@ def test_should_return_first_five_form_monthlys(client: TestClient, get_form_mon
 
 def test_should_return_single_form_monthly(client: TestClient, get_form_monthly: climsoft_models.FormMonthly):
     response = client.get(
-        f"/climsoft/v1/form_monthlys/{get_form_monthly.stationId}/{get_form_monthly.elementId}/{get_form_monthly.yyyy}",
+        f"/v1/form_monthlys/{get_form_monthly.stationId}/{get_form_monthly.elementId}/{get_form_monthly.yyyy}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -45,7 +45,7 @@ def test_should_return_single_form_monthly(client: TestClient, get_form_monthly:
 def test_should_create_a_form_monthly(client: TestClient):
     form_monthly_data = climsoft_form_monthly.get_valid_form_monthly_input().dict(by_alias=True)
     response = client.post(
-        "/climsoft/v1/form_monthlys",
+        "/v1/form_monthlys",
         data=json.dumps(form_monthly_data, default=str),
     )
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_should_create_a_form_monthly(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/climsoft/v1/form_monthlys",
+        "/v1/form_monthlys",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422
@@ -69,7 +69,7 @@ def test_should_update_form_monthly(client: TestClient, get_form_monthly):
     updates = {**form_monthly_data, "mm_02": "updated mm_02"}
 
     response = client.put(
-        f"/climsoft/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
+        f"/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -85,11 +85,11 @@ def test_should_delete_form_monthly(client: TestClient, get_form_monthly):
     yyyy = form_monthly_data.pop("yyyy")
 
     response = client.delete(
-        f"/climsoft/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
+        f"/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/climsoft/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
+        f"/v1/form_monthlys/{station_id}/{element_id}/{yyyy}",
     )
     assert response.status_code == 404

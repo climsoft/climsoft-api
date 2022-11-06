@@ -1,4 +1,15 @@
-test:
-  NAME: Climsoft Test
+empty-database:
+  NAME: Climsoft Deployment With Empty DB
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
-  AUTH_ENABLED: false
+  S3_BUCKET: climsoft-paper-archive
+  AWS_REGION: eu-west-2
+  AWS_ACCESS_KEY_ID: ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
+
+test-database:
+  NAME: Climsoft Deployment With Test Data
+  DATABASE_URI: "mysql+mysqldb://root:password@mariadb/mariadb_climsoft_test_db_v4"
+  S3_BUCKET: climsoft-paper-archive
+  AWS_REGION: eu-west-2
+  AWS_ACCESS_KEY_ID: ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: SECRET_ACCESS_KEY

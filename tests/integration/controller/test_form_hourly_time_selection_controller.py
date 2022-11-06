@@ -27,7 +27,7 @@ def get_form_hourly_time_selections(session: Session):
 
 def test_should_return_first_five_form_hourly_time_selections(client: TestClient, get_form_hourly_time_selections):
     response = client.get(
-        "/climsoft/v1/form_hourly_time_selections",
+        "/v1/form_hourly_time_selections",
         params={"limit": 5},
     )
     assert response.status_code == 200
@@ -37,7 +37,7 @@ def test_should_return_first_five_form_hourly_time_selections(client: TestClient
 
 def test_should_return_single_form_hourly_time_selection(client: TestClient, get_form_hourly_time_selection: climsoft_models.FormHourlyTimeSelection):
     response = client.get(
-        f"/climsoft/v1/form_hourly_time_selections/{get_form_hourly_time_selection.hh}",
+        f"/v1/form_hourly_time_selections/{get_form_hourly_time_selection.hh}",
     )
     assert response.status_code == 200
     response_data = response.json()
@@ -47,7 +47,7 @@ def test_should_return_single_form_hourly_time_selection(client: TestClient, get
 def test_should_create_a_form_hourly_time_selection(client: TestClient):
     form_hourly_time_selection_data = climsoft_form_hourly_time_selection.get_valid_form_hourly_time_selection_input().dict(by_alias=True)
     response = client.post(
-        "/climsoft/v1/form_hourly_time_selections",
+        "/v1/form_hourly_time_selections",
         data=json.dumps(form_hourly_time_selection_data, default=str),
     )
     assert response.status_code == 200
@@ -57,7 +57,7 @@ def test_should_create_a_form_hourly_time_selection(client: TestClient):
 
 def test_should_raise_validation_error(client: TestClient):
     response = client.post(
-        "/climsoft/v1/form_hourly_time_selections",
+        "/v1/form_hourly_time_selections",
         data=json.dumps({"num_symbol": 3}, default=str),
     )
     assert response.status_code == 422
@@ -69,7 +69,7 @@ def test_should_update_form_hourly_time_selection(client: TestClient, get_form_h
     updates = {"hh_selection": random.randint(10, 20)}
 
     response = client.put(
-        f"/climsoft/v1/form_hourly_time_selections/{hh}",
+        f"/v1/form_hourly_time_selections/{hh}",
         data=json.dumps(updates, default=str),
     )
     response_data = response.json()
@@ -83,11 +83,11 @@ def test_should_delete_form_hourly_time_selection(client: TestClient, get_form_h
     hh = form_hourly_time_selection_data.pop("hh")
 
     response = client.delete(
-        f"/climsoft/v1/form_hourly_time_selections/{hh}",
+        f"/v1/form_hourly_time_selections/{hh}",
     )
     assert response.status_code == 200
 
     response = client.get(
-        f"/climsoft/v1/form_hourly_time_selections/{hh}",
+        f"/v1/form_hourly_time_selections/{hh}",
     )
     assert response.status_code == 404

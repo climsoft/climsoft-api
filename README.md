@@ -82,16 +82,16 @@ Here is an example `deployment.yml` file for you:
 empty-database:
   NAME: Climsoft Deployment With Empty DB
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/climsoft"
-  S3_BUCKET: climsoft-paper-archive
-  AWS_REGION: eu-west-2
+  S3_BUCKET: bucket-for-empty-db
+  AWS_REGION: aws-region
   AWS_ACCESS_KEY_ID: ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
 
 test-database:
   NAME: Climsoft Deployment With Test Data
   DATABASE_URI: "mysql+mysqldb://root:password@mariadb/mariadb_climsoft_test_db_v4"
-  S3_BUCKET: climsoft-paper-archive
-  AWS_REGION: eu-west-2
+  S3_BUCKET: bucket-for-test-db
+  AWS_REGION: aws-region
   AWS_ACCESS_KEY_ID: ACCESS_KEY_ID
   AWS_SECRET_ACCESS_KEY: SECRET_ACCESS_KEY
 ```
@@ -170,7 +170,7 @@ If you want to restore database and other volumes each hour,
 $ cd scripts
 $ chmod +x restore-db.sh 
 $ crontab e
-$ 0 * * * * /path/to/this/repo/root/scripts/restore-db.sh /path/to/this/repo/root/docker-compose.reference.yml
+$ 0 0 * * * /path/to/this/repo/root/scripts/restore-db.sh /path/to/this/repo/root/docker-compose.reference.yml
 ```
 
 ### Swagger docs

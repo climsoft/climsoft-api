@@ -1,3 +1,6 @@
+import minio
+import urllib3.response
+
 from climsoft_api.config import settings
 from climsoft_api.utils.s3 import get_minio_client
 from fastapi import APIRouter, Request
@@ -8,18 +11,18 @@ from climsoft_api.utils.deployment import override_settings
 router = APIRouter()
 
 
-@router.get("/s3/image/{object_key}")
-@handle_exceptions
+@router.get("/cloud-storage/image/{object_key}")
 def get_s3_object(object_key, request: Request):
     try:
         _settings = override_settings(request.state.settings_override)
     except AttributeError:
         _settings = settings
 
-    s3_client = get_minio_client(_settings)
-    response = s3_client.get_object(
-        Bucket=_settings.S3_BUCKET,
-        Key=object_key
+    client: minio.Minio = get_minio_client(_settings)
+    response: urllib3.response.HTTPResponse = client.get_object(
+        bucket_name=_settings.S3_BUCKET,
+        object_name=object_key
     )
-    return Response(response["Body"].read(),
+
+    return Response(response.read(),
                     media_type=f"image/{object_key.split('.')[-1]}")

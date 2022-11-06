@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     DATABASE_URI: AnyUrl = "mysql+mysqldb://root:password@mariadb/climsoft"
     FILE_STORAGE: str = "disk"
     UPLOAD_DIR: str = "/climsoft_uploads"
-    S3_BUCKET: str = "climsoft-paper-archive"
+    S3_BUCKET: str = "s3-bucket-name"
     AWS_REGION: str = "eu-west-2"
     AWS_ACCESS_KEY_ID: str = "replace it"
     AWS_SECRET_ACCESS_KEY: str = "replace it"

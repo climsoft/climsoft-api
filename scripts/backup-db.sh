@@ -1,105 +1,28 @@
 #!/bin/bash
 
-# mysqldump --column-statistics=0 --host 127.0.0.1 --port 23306 --protocol=tcp --user root --password --flush-privileges --all-databases >| all-db.sql
+# USAGE: ./backup-db.sh DB_HOST DB_PORT DB_USER DB_PASS
+# This script generates a backup file named ALL_DB_BACKUP_DOW.sql
+# Where DOW could be replaced by SUN, MON, TUE, WED, THU, FRI, SAT
+# You could schedule this at midnight and you will have backup of
+# all databases on a host with all data, for last seven days.
 
-#==============================================================================
-#TITLE:            mysql_backup.sh
-#DESCRIPTION:      script for automating the daily mysql backups on development computer
-#AUTHOR:           tleish
-#DATE:             2013-12-20
-#VERSION:          0.4
-#USAGE:            ./mysql_backup.sh
-#CRON:
-  # example cron for daily db backup @ 9:15 am
-  # min  hr mday month wday command
-  # 15   9  *    *     *    /Users/[your user name]/scripts/mysql_backup.sh
+if (($# < 4)) || (($# > 4))
+then
+  echo "4 arguments required."
+  echo "Usage: ./backup-db.sh DB_HOST DB_PORT DB_USER DB_PASS"
+  echo "Example: ./backup-db.sh localhost 3306 root password"
+  exit 1
+fi
 
-#RESTORE FROM BACKUP
-  #$ gunzip < [backupfile.sql.gz] | mysql -u [uname] -p[pass] [dbname]
+DOW=$(date +%a)
 
-#==============================================================================
-# CUSTOM SETTINGS
-#==============================================================================
+DB_HOST=$1
+DB_PORT=$2
+DB_USER=$3
+DB_PASS=$4
 
-# directory to put the backup files
-BACKUP_DIR=/Users/[your user name]/backup
+BACKUP_FILENAME="ALL_DB_BACKUP_${DOW^^}.sql"
 
-# MYSQL Parameters
-MYSQL_UNAME=root
-MYSQL_PWORD=
+export MYSQL_PWD=$DB_PASS
 
-# Don't backup databases with these names
-# Example: starts with mysql (^mysql) or ends with _schema (_schema$)
-IGNORE_DB="(^mysql|_schema$)"
-
-# include mysql and mysqldump binaries for cron bash user
-PATH=$PATH:/usr/local/mysql/bin
-
-# Number of days to keep backups
-KEEP_BACKUPS_FOR=30 #days
-
-#==============================================================================
-# METHODS
-#==============================================================================
-
-# YYYY-MM-DD
-TIMESTAMP=$(date +%F)
-
-function delete_old_backups()
-{
-  echo "Deleting $BACKUP_DIR/*.sql.gz older than $KEEP_BACKUPS_FOR days"
-  find $BACKUP_DIR -type f -name "*.sql.gz" -mtime +$KEEP_BACKUPS_FOR -exec rm {} \;
-}
-
-function mysql_login() {
-  local mysql_login="-u $MYSQL_UNAME"
-  if [ -n "$MYSQL_PWORD" ]; then
-    local mysql_login+=" -p $MYSQL_PWORD"
-  fi
-  echo "$mysql_login"
-}
-
-function database_list() {
-  local show_databases_sql="SHOW DATABASES WHERE \`Database\` NOT REGEXP '$IGNORE_DB'"
-  echo $(mysql $(mysql_login) -e "$show_databases_sql"|awk -F " " '{if (NR!=1) print $1}')
-}
-
-function echo_status(){
-  printf '\r';
-  printf ' %0.s' {0..100}
-  printf '\r';
-  printf "$1"'\r'
-}
-
-function backup_database(){
-    backup_file="$BACKUP_DIR/$TIMESTAMP.$database.sql.gz"
-    output+="$database => $backup_file\n"
-    echo_status "...backing up $count of $total databases: $database"
-    $(mysqldump $(mysql_login) $database | gzip -9 > $backup_file)
-}
-
-function backup_databases(){
-  local databases=$(database_list)
-  local total=$(echo "$databases" | wc -w | xargs)
-  local output=""
-  local count=1
-  for database in $databases; do
-    backup_database
-    local count=$((count+1))
-  done
-  echo -ne "$output" | column -t
-}
-
-function hr(){
-  printf '=%.0s' {1..100}
-  printf "\n"
-}
-
-#==============================================================================
-# RUN SCRIPT
-#==============================================================================
-delete_old_backups
-hr
-backup_databases
-hr
-printf "All backed up!\n\n"
+mysqldump --column-statistics=0 --host "$DB_HOST" --port "$DB_PORT" --protocol=tcp --user "$DB_USER" --flush-privileges --all-databases >| "$BACKUP_FILENAME"

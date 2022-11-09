@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # USAGE: ./backup-db.sh DB_HOST DB_PORT DB_USER DB_PASS
+# This script generates a backup file named ALL_DB_BACKUP_DOW.sql
+# Where DOW could be replaced by SUN, MON, TUE, WED, THU, FRI, SAT
+# You could schedule this at midnight and you will have backup of
+# all databases on a host with all data, for last seven days.
 
 if (($# < 4)) || (($# > 4))
 then
